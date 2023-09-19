@@ -19,7 +19,7 @@ namespace ECS {
              * @brief unique component UID
              * 
              */
-            std::string UID;
+            int UID;
 
         protected:
         private:
