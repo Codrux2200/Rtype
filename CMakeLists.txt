@@ -9,6 +9,6 @@ find_package(asio REQUIRED)
 
 add_executable(MySFMLProject main.cpp)
 
-target_include_directories(MySFMLProject PRIVATE ${SFML_INCLUDE_DIRS} ${ASIO_INCLUDE_DIRS})
+target_include_directories(MySFMLProject PRIVATE ${SFML_INCLUDE_DIRS} ${ASIO_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs)
 
 target_link_libraries(MySFMLProject PRIVATE sfml-system sfml-window sfml-graphics asio)
