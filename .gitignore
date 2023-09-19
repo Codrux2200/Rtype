@@ -1,3 +1,4 @@
 *.cpp
 vcpkg/
 .vscode/
+build/
