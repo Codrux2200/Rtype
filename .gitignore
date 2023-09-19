@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+*.cpp
+vcpkg/
+.vscode/
+build/
