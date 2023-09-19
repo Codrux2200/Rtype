@@ -41,7 +41,7 @@ namespace ECS{
              * @return true
              * @return false
              */
-            bool initAudio(std::string const &file);
+            bool InitAudio(std::string const &file);
             /**
              * @brief Set the volume at volume %
              * 
@@ -60,7 +60,7 @@ namespace ECS{
              * 
              * @return float 
              */
-            float getMainVolume();
+            float GetMainVolume();
         protected:
             float _Volume;
             std::string _filePath;
