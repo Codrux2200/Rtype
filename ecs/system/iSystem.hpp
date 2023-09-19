@@ -23,9 +23,25 @@ namespace ECS
 
     class ISystem {
         public :
-            virtual void init(SceneManager &) = 0;
-            virtual void Update(SceneManager &, int deltaTime) = 0;
-            virtual void Destroy(SceneManager &) = 0;
+            /**
+             * @brief init Scene Manager
+             * 
+             * @param SceneManager 
+             */
+            virtual void init(SceneManager &SceneManager) = 0;
+            /**
+             * @brief update all the system
+             * 
+             * @param SceneManager 
+             * @param deltaTime 
+             */
+            virtual void Update(SceneManager &SceneManager, int deltaTime) = 0;
+            /**
+             * @brief destroy all the system
+             * 
+             * @param SceneManager 
+             */
+            virtual void Destroy(SceneManager &SceneManager) = 0;
     };
 } // namespace ECS
 
