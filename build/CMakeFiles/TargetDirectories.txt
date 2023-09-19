@@ -1,0 +1,3 @@
+/Users/saadberrada/Desktop/RtypeExperimentation/build/CMakeFiles/MySFMLProject.dir
+/Users/saadberrada/Desktop/RtypeExperimentation/build/CMakeFiles/edit_cache.dir
+/Users/saadberrada/Desktop/RtypeExperimentation/build/CMakeFiles/rebuild_cache.dir
