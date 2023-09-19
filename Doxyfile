@@ -487,15 +487,11 @@ HTML_FOOTER            =
 HTML_STYLESHEET        =
 
 
-HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
-                         doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
-                         doxygen-awesome-css/doxygen-awesome-sidebar-only-darkmode-toggle.css
+HTML_EXTRA_STYLESHEET  = doxygen-custom/doxygen-awesome.css \
+                         doxygen-custom/doxygen-awesome-sidebar-only.css \
+                         doxygen-custom/doxygen-awesome-sidebar-only-darkmode-toggle.css
 
-
-
-HTML_EXTRA_FILES       = doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js
-
-
+HTML_EXTRA_FILES       = doxygen-custom/doxygen-awesome-darkmode-toggle.js
 
 HTML_COLORSTYLE        = LIGHT
 
