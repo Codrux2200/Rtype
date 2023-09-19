@@ -4,5 +4,5 @@
 ## Lien tache Jira
 [lien du/des ticket Jira]
 
-##Changement
+## Changement
 [listes des additions / changement dans le projet ]
