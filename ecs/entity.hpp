@@ -7,7 +7,7 @@
 
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
-#include <Vector>
+#include <vector>
 #include "IComponent.hpp"
 
 namespace ECS {
@@ -21,23 +21,33 @@ namespace ECS {
 
     class Entity {
         public:
-        /**
-         * @brief Entity Id
-         * 
-         */
-            int Id;
+            /**
+             * @brief Construct a new Entity object
+             * 
+             * @param id 
+             */
+            Entity(int id);
+            /**
+             * @brief Destroy the Entity object
+             * 
+             */
+            ~Entity();
             /**
              * @brief stock component
              * 
              */
             std::vector<IComponent> Components;
         private :
-        /**
-         * @brief define the tag for the entity
-         * 
-         */
+            /**
+             * @brief define the tag for the entity
+             * 
+             */
             std::vector<Tag> _Tags;
-
+            /**
+             * @brief define the id of the entity
+             * 
+             */
+            int _id;
 
     };
 
