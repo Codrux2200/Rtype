@@ -5,8 +5,8 @@
 ** ISystem
 */
 
-#ifndef ISystem_HPP_
-#define ISystem_HPP_
+#ifndef ISYSTEM_HPP_
+#define ISYSTEM_HPP_
 #include "../SceneManager.hpp"
 
 namespace ECS

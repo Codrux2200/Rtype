@@ -5,8 +5,8 @@
 ** AComponent
 */
 
-#ifndef AComponent_HPP_
-#define AComponent_HPP_
+#ifndef ACOMPONENT_HPP_
+#define ACOMPONENT_HPP_
 #include "IComponent.hpp"
 #include <string>
 
