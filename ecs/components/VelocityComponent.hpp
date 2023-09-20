@@ -7,10 +7,14 @@
 
 #ifndef VELOCITYCOMPONENT_HPP_
 #define VELOCITYCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class VelocityComponent : public ECS::Acomponent {
+    /**
+     * @brief Velocity component
+     * 
+     */
+    class VelocityComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new velocity Component object

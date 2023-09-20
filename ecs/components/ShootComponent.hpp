@@ -7,10 +7,14 @@
 
 #ifndef SHOOTCOMPONENT_HPP_
 #define SHOOTCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class ShootComponent : public ECS::Acomponent {
+    /**
+     * @brief Shoot component
+     * 
+     */
+    class ShootComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new shoot Component object
@@ -53,12 +57,12 @@ namespace ECS {
              * @brief define the shoot speed of the entity
              * 
              */
-            int shootSpeed;
+            int _shootSpeed;
             /**
              * @brief define the shoot damage of the entity
              * 
              */
-            int shootDamage;
+            int _shootDamage;
     };
 }
 

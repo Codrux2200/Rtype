@@ -7,10 +7,14 @@
 
 #ifndef HITBOXCOMPONENT_HPP_
 #define HITBOXCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class HitboxComponent : public ECS::Acomponent {
+    /**
+     * @brief Hitbox component
+     * 
+     */
+    class HitboxComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new hitbox Component object
@@ -43,12 +47,12 @@ namespace ECS {
              * @brief define the x hitbox of the entity
              * 
              */
-            int x;
+            int _x;
             /**
              * @brief define the y hitbox of the entity
              * 
              */
-            int y;
+            int _y;
     };
 }
 

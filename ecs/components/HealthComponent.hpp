@@ -7,10 +7,14 @@
 
 #ifndef HEALTHCOMPONENT_HPP_
 #define HEALTHCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class HealthComponent : public ECS::Acomponent {
+    /**
+     * @brief Health component
+     * 
+     */
+    class HealthComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new health Component object

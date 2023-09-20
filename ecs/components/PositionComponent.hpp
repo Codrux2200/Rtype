@@ -7,10 +7,14 @@
 
 #ifndef POSITIONCOMPONENT_HPP_
 #define POSITIONCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class PostitionComponent : public ECS::Acomponent {
+    /**
+     * @brief Position component
+     * 
+     */
+    class PostitionComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new position Component object
@@ -54,12 +58,12 @@ namespace ECS {
              * @brief define the x position of the entity
              * 
              */
-            int x;
+            int _x;
             /**
              * @brief define the y position of the entity
              * 
              */
-            int y;
+            int _y;
     };
 }
 

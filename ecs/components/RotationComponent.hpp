@@ -7,9 +7,14 @@
 
 #ifndef ROTATIONCOMPONENT_HPP_
 #define ROTATIONCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
+
 namespace ECS {
-    class RotationComponent : public ECS::Acomponent {
+    /**
+     * @brief Rotation component
+     * 
+     */
+    class RotationComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new rotation Component object
@@ -39,7 +44,7 @@ namespace ECS {
              * @brief define the rotation of the entity
              * 
              */
-            float rotation;
+            float _rotation;
     };
 }
 

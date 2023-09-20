@@ -7,10 +7,14 @@
 
 #ifndef PLAYERCOMPONENT_HPP_
 #define PLAYERCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class PlayerComponent : public ECS::Acomponent {
+    /**
+     * @brief Player component
+     * 
+     */
+    class PlayerComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new player Component object

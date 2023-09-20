@@ -7,10 +7,14 @@
 
 #ifndef ENEMYCOMPONENT_HPP_
 #define ENEMYCOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class EnemyComponent : public ECS::Acomponent {
+    /**
+     * @brief Enemy component
+     * 
+     */
+    class EnemyComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new enemy Component object

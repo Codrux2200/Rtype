@@ -7,10 +7,14 @@
 
 #ifndef SCALECOMPONENT_HPP_
 #define SCALECOMPONENT_HPP_
-#include "Acomponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
-    class ScaleComponent : public ECS::Acomponent {
+    /**
+     * @brief Scale component
+     * 
+     */
+    class ScaleComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new scale Component object
@@ -55,12 +59,12 @@ namespace ECS {
              * @brief define the x scale of the entity
              * 
              */
-            int x;
+            int _x;
             /**
              * @brief define the y scale of the entity
              * 
              */
-            int y;
+            int _y;
     };
 }
 
