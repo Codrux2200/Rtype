@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2023
-** RtypeExperimentation
+** Rtype
 ** File description:
 ** ISystem
 */
 
 #ifndef ISYSTEM_HPP_
 #define ISYSTEM_HPP_
-#include "../SceneManager.hpp"
+#include "SceneManager.hpp"
 
 namespace ECS
 {

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** RtypeExperimentation
+** Rtype
 ** File description:
 ** ParticleSystem
 */
