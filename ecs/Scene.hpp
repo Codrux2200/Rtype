@@ -45,13 +45,13 @@ namespace ECS {
              * 
              * @param entityName 
              */
-            void loadEntity(std::string entityName);
+            void _loadEntity(std::string entityName);
             /**
              * @brief unload entities from the specified string
              * 
              * @param entityName 
              */
-            void unloadEntity(std::string entityName);
+            void _unloadEntity(std::string entityName);
 
 
 
