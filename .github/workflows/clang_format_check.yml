@@ -23,11 +23,11 @@ jobs:
       - name: Format Code
         run: |
           # Format all C++ files in the repository
-          find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i
+          find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 
       - name: Commit Changes
         run: |
-          git config --local user.email "your-ci-email@example.com"
+          git config --local user.email "mangasteak@gmail.com"
           git config --local user.name "CI Bot"
           git add .
           git diff-index --quiet HEAD || git commit -m "Apply clang-format"
