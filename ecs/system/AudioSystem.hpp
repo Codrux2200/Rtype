@@ -32,20 +32,20 @@ namespace ECS {
              * 
              * @param SceneManager 
              */
-            void init(SceneManager &SceneManager);
+            void init(SceneManager &SceneManager) override;
             /**
              * @brief update all the system
              * 
              * @param SceneManager 
              * @param deltaTime 
              */
-            void Update(SceneManager &SceneManager, int deltaTime);
+            void Update(SceneManager &SceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            void Destroy(SceneManager &SceneManager);
+            void Destroy(SceneManager &SceneManager) override;
             /**
              * @brief init audio from a filepath and return true if ok
              * 

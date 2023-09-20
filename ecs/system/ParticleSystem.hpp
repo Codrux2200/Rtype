@@ -16,27 +16,35 @@ namespace ECS {
      */
     class ParticleSystem : public ISystem{
         public:
+            /**
+             * @brief Construct a new Particle System object
+             * 
+             */
             ParticleSystem();
+            /**
+             * @brief Destroy the Particle System object
+             * 
+             */
             ~ParticleSystem();
              /**
              * @brief init Scene Manager
              * 
              * @param SceneManager 
              */
-            void init(SceneManager &SceneManager);
+            void init(SceneManager &SceneManager) override;
             /**
              * @brief update all the system
              * 
              * @param SceneManager 
              * @param deltaTime 
              */
-            void Update(SceneManager &SceneManager, int deltaTime);
+            void Update(SceneManager &SceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            void Destroy(SceneManager &SceneManager);
+            void Destroy(SceneManager &SceneManager) override;
         protected:
         private:
     };

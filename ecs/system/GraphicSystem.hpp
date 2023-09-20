@@ -16,27 +16,35 @@ namespace ECS {
      */
     class GraphicSystem : public ISystem{
         public:
+            /**
+             * @brief Construct a new Graphic System object
+             * 
+             */
             GraphicSystem();
+            /**
+             * @brief Destroy the Graphic System object
+             * 
+             */
             ~GraphicSystem();
              /**
              * @brief init Scene Manager
              * 
              * @param SceneManager 
              */
-            void init(SceneManager &SceneManager);
+            void init(SceneManager &SceneManager) override;
             /**
              * @brief update all the system
              * 
              * @param SceneManager 
              * @param deltaTime 
              */
-            void Update(SceneManager &SceneManager, int deltaTime);
+            void Update(SceneManager &SceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            void Destroy(SceneManager &SceneManager);
+            void Destroy(SceneManager &SceneManager) override;
         protected:
         private:
     };
