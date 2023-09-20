@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_0',['y',['../struct_r_f_c_1_1data_1_1_player_data.html#a5d0cb22f1d730dd9fbb46a8571ad3040',1,'RFC::data::PlayerData']]]
+  ['x_0',['x',['../struct_r_f_c_1_1data_1_1_player_data.html#ad5a2b1c2efbd8de7599d4be3bc2b4daa',1,'RFC::data::PlayerData']]]
 ];

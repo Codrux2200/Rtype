@@ -25,6 +25,14 @@
 var NAVTREE =
 [
   [ "R-Type", "index.html", [
+    [ "Introduction", "index.html#intro_sec", null ],
+    [ "Installation", "index.html#install_sec", null ],
+    [ "Usage", "index.html#usage_sec", null ],
+    [ "Contact", "index.html#contact_sec", null ],
+    [ "RFC", "rfc_page.html", [
+      [ "Server", "rfc_page.html#server_rfc_sec", null ],
+      [ "Client", "rfc_page.html#client_rfc_sec", null ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

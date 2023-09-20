@@ -315,7 +315,8 @@ WARN_LOGFILE           =
 
 
 
-INPUT                  = /Users/raphaelmercie/depot/RType/RFC
+INPUT                  = . \
+                        doc_pages
 
 
 INPUT_ENCODING         = UTF-8
@@ -379,7 +380,8 @@ FILE_PATTERNS          = *.c \
 RECURSIVE              = YES
 
 
-EXCLUDE                =
+EXCLUDE                = PULL_REQUEST_TEMPLATE.md \
+                        README.md
 
 
 EXCLUDE_SYMLINKS       = NO
@@ -415,7 +417,7 @@ FILTER_SOURCE_FILES    = NO
 FILTER_SOURCE_PATTERNS =
 
 
-USE_MDFILE_AS_MAINPAGE =
+USE_MDFILE_AS_MAINPAGE = doc_pages/mainpage.md
 
 
 FORTRAN_COMMENT_AFTER  = 72
@@ -491,7 +493,8 @@ HTML_EXTRA_STYLESHEET  = doxygen-custom/doxygen-awesome.css \
                          doxygen-custom/doxygen-awesome-sidebar-only.css \
                          doxygen-custom/doxygen-awesome-sidebar-only-darkmode-toggle.css
 
-HTML_EXTRA_FILES       = doxygen-custom/doxygen-awesome-darkmode-toggle.js
+HTML_EXTRA_FILES       = doxygen-custom/doxygen-awesome-darkmode-toggle.js \
+                         doxygen-custom/doxygen-awesome-interactive-toc.js
 
 HTML_COLORSTYLE        = LIGHT
 
