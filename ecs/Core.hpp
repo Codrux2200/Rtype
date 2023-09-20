@@ -9,7 +9,7 @@
 #define CORE_HPP_
 #include <iostream>
 #include <map>
-#include "./system/ISystem.hpp"
+#include "ISystem.hpp"
 #include "SceneManager.hpp"
 
 namespace ECS {
