@@ -41,7 +41,7 @@ namespace ECS {
             int getHealth() const;
         protected:
         private:
-            int health;
+            int _health;
     };
 }
 

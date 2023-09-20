@@ -41,7 +41,7 @@ namespace ECS {
             int getVelocity() const;        
         protected:
         private:
-            int velocity;
+            int _velocity;
     };
 }
 
