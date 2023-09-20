@@ -38,13 +38,13 @@ namespace ECS {
              * @param SceneManager 
              * @param deltaTime 
              */
-            void Update(SceneManager &SceneManager, int deltaTime) override;
+            void update(SceneManager &SceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            void Destroy(SceneManager &SceneManager) override;
+            void destroy(SceneManager &SceneManager) override;
         protected:
         private:
     };

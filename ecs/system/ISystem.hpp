@@ -42,13 +42,13 @@ namespace ECS
              * @param SceneManager 
              * @param deltaTime 
              */
-            virtual void Update(SceneManager &SceneManager, int deltaTime) = 0;
+            virtual void update(SceneManager &SceneManager, int deltaTime) = 0;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            virtual void Destroy(SceneManager &SceneManager) = 0;
+            virtual void destroy(SceneManager &SceneManager) = 0;
     };
 } // namespace ECS
 

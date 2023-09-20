@@ -39,13 +39,13 @@ namespace ECS {
              * @param SceneManager 
              * @param deltaTime 
              */
-            void Update(SceneManager &SceneManager, int deltaTime) override;
+            void update(SceneManager &SceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
              * @param SceneManager 
              */
-            void Destroy(SceneManager &SceneManager) override;
+            void destroy(SceneManager &SceneManager) override;
             /**
              * @brief init audio from a filepath and return true if ok
              * 
@@ -53,13 +53,13 @@ namespace ECS {
              * @return true
              * @return false
              */
-            bool InitAudio(std::string const &file);
+            bool initAudio(std::string const &file);
             /**
              * @brief Set the volume at volume %
              * 
              * @param volume 
              */
-            void SetVolume(float volume);
+            void setVolume(float volume);
             /**
              * @brief return true if it's ready to play
              * 
@@ -72,9 +72,17 @@ namespace ECS {
              * 
              * @return float 
              */
-            float GetMainVolume();
+            float getMainVolume();
         protected:
+            /**
+             * @brief the volume of the audio
+             * 
+             */
             float _Volume;
+            /**
+             * @brief the filepath of the audio
+             * 
+             */
             std::string _filePath;
         private:
     };
