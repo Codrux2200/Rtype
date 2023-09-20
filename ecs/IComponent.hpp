@@ -27,13 +27,13 @@ namespace ECS {
              * 
              * @return ComponentType
              */
-            virtual int getUid() = 0;
+            virtual int getUid(void) = 0;
             /**
              * @brief set the type of the component
              * 
              * @return ComponentType
              */
-            virtual void setUid() = 0;
+            virtual void setUid(int uid) = 0;
         protected:
         private:
             /**

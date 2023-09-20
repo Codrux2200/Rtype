@@ -22,13 +22,13 @@ namespace ECS {
              * 
              * @return the uid of the component
              */
-            int getUid();
+            int getUid() override;
             /**
              * @brief Construct a new AComponent object
              * 
              * @param uid 
              */
-            void setUid(int uid);
+            void setUid(int uid) override;
         protected:
         private:
     };
