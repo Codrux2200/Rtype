@@ -1,3 +1,12 @@
+/*
+** EPITECH PROJECT, 2023
+** Rtype
+** File description:
+** Core
+*/
+
+#ifndef CORE_HPP_
+#define CORE_HPP_
 #include <iostream>
 #include <map>
 #include "./system/ISystem.hpp"
@@ -23,3 +32,5 @@ namespace ECS {
 
 	};
 }
+
+#endif /* !CORE_HPP_ */
