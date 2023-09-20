@@ -9,7 +9,7 @@
 #define SCALECOMPONENT_HPP_
 #include "Acomponent.hpp"
 
-class scaleComponent : public ECS::Acomponent {
+class ScaleComponent : public ECS::Acomponent {
     public:
         /**
          * @brief Construct a new scale Component object
@@ -18,12 +18,12 @@ class scaleComponent : public ECS::Acomponent {
          * @param y 
          * @param uid 
          */
-        scaleComponent(int x, int y, int uid);
+        ScaleComponent(int x, int y, int uid);
         /**
          * @brief Destroy the scale Component object
          * 
          */
-        ~scaleComponent();
+        ~ScaleComponent();
         /**
          * @brief Set the X object
          * 
