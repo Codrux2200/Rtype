@@ -40,4 +40,5 @@ namespace ECS {
             int health;
     };
 }
+
 #endif /* !HEALTHCOMPONENT_HPP_ */

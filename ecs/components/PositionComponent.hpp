@@ -8,6 +8,7 @@
 #ifndef POSITIONCOMPONENT_HPP_
 #define POSITIONCOMPONENT_HPP_
 #include "Acomponent.hpp"
+
 namespace ECS {
     class PostitionComponent : public ECS::Acomponent {
         public:
@@ -61,4 +62,5 @@ namespace ECS {
             int y;
     };
 }
+
 #endif /* !POSITIONCOMPONENT_HPP_ */

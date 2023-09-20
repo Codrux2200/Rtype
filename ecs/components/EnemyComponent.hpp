@@ -27,4 +27,5 @@ namespace ECS {
         private:
     };
 }
+
 #endif /* !ENEMYCOMPONENT_HPP_ */
