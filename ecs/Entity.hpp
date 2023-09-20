@@ -42,7 +42,7 @@ namespace ECS {
              * @brief stock component
              * 
              */
-            std::vector<IComponent> Components;
+            std::vector<IComponent> components;
         private :
             /**
              * @brief define the tag for the entity
