@@ -2,25 +2,32 @@
 ** EPITECH PROJECT, 2023
 ** RtypeExperimentation
 ** File description:
-** iSystem
+** ISystem
 */
 
-#ifndef ISYSTEM_HPP_
-#define ISYSTEM_HPP_
+#ifndef ISystem_HPP_
+#define ISystem_HPP_
 #include "../SceneManager.hpp"
 
 namespace ECS
 {
+    /**
+     * @brief System Type
+     * 
+     */
     enum SystemType {
         GAME = 0,
-        GRAPHIQUE = 1,
+        GRAPHIC = 1,
         EVENT = 2,
         PARTICLE = 3,
         COLLIDE = 4,
         AUDIO = 5,
         NETWORK = 6,
     };
-
+    /**
+     * @brief ISystem class
+     * 
+     */
     class ISystem {
         public :
             /**
@@ -46,4 +53,4 @@ namespace ECS
 } // namespace ECS
 
 
-#endif /* !ISYSTEM_HPP_ */
+#endif /* !ISystem_HPP_ */

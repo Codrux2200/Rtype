@@ -8,12 +8,24 @@
 #ifndef GAMESYSTEM_HPP_
 #define GAMESYSTEM_HPP_
 
-#include "iSystem.hpp"
+#include "ISystem.hpp"
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief Game System
+     * 
+     */
     class GameSystem : public ISystem{
         public:
+            /**
+             * @brief Construct a new Game System object
+             * 
+             */
             GameSystem();
+            /**
+             * @brief Destroy the Game System object
+             * 
+             */
             ~GameSystem();
              /**
              * @brief init Scene Manager

@@ -7,9 +7,13 @@
 
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
-#include "iSystem.hpp"
+#include "ISystem.hpp"
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief Graphic System
+     * 
+     */
     class GraphicSystem : public ISystem{
         public:
             GraphicSystem();

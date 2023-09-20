@@ -7,13 +7,25 @@
 
 #ifndef AUDIOSYSTEM_HPP_
 #define AUDIOSYSTEM_HPP_
-#include "iSystem.hpp"
+#include "ISystem.hpp"
 #include <string>
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief Audio System
+     * 
+     */
     class AudioSystem : public ISystem{
         public:
+            /**
+             * @brief Construct a new Audio System object
+             * 
+             */
             AudioSystem();
+            /**
+             * @brief Destroy the Audio System object
+             * 
+             */
             ~AudioSystem();
              /**
              * @brief init Scene Manager
@@ -67,4 +79,5 @@ namespace ECS{
         private:
     };
 }
+
 #endif /* !AUDIOSYSTEM_HPP_ */

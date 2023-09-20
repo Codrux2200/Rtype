@@ -7,9 +7,13 @@
 
 #ifndef PARTICLESYSTEM_HPP_
 #define PARTICLESYSTEM_HPP_
-#include "iSystem.hpp"
+#include "ISystem.hpp"
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief Particle System
+     * 
+     */
     class ParticleSystem : public ISystem{
         public:
             ParticleSystem();

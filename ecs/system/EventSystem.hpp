@@ -7,12 +7,24 @@
 
 #ifndef PARTICLESYSTEM_HPP_
 #define PARTICLESYSTEM_HPP_
-#include "iSystem.hpp"
+#include "ISystem.hpp"
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief Event System
+     * 
+     */
     class EventSystem : public ISystem{
         public:
+            /**
+             * @brief Construct a new Event System object
+             * 
+             */
             EventSystem();
+            /**
+             * @brief Destroy the Event System object
+             * 
+             */
             ~EventSystem();
              /**
              * @brief init Scene Manager
