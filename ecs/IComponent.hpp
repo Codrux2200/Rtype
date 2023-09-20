@@ -15,8 +15,20 @@ namespace ECS {
      */
     enum ComponentType
     {
+        /**
+         * @brief Sprite component
+         * 
+        */
         SPRITE = 0,
+        /**
+         * @brief Hitbox component
+         * 
+        */
         HITBOX = 1,
+        /**
+         * @brief Sound component
+         * 
+        */
         SOUND = 2,
     };
 
@@ -36,11 +48,6 @@ namespace ECS {
             virtual void setUid(int uid) = 0;
         protected:
         private:
-            /**
-             * @brief define the type of the component
-             * 
-             */
-            int _uid;
     };
 }
 

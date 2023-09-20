@@ -22,15 +22,20 @@ namespace ECS {
              * 
              * @return the uid of the component
              */
-            int getUid() override;
+            virtual int getUid() override;
             /**
              * @brief Construct a new AComponent object
              * 
              * @param uid 
              */
-            void setUid(int uid) override;
+            virtual void setUid(int uid) override;
         protected:
         private:
+            /**
+             * @brief UID of the component
+             *  
+             */
+            int _uid;
     };
 }
 
