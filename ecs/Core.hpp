@@ -23,7 +23,7 @@ namespace ECS {
 		 * @brief a map of the system with a key string
 		 * 
 		 */
-		std::map<std::string, ISystem> System;
+		std::map<std::string, ISystem> system;
 		/**
 		 * @brief the actual Scene Manager
 		 * 
