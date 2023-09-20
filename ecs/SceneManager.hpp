@@ -8,12 +8,24 @@
 #ifndef SCENEMANAGER_HPP_
 #define SCENEMANAGER_HPP_
 #include <map>
-#include "scene.hpp"
+#include "Scene.hpp"
 
-namespace ECS{
+namespace ECS {
+    /**
+     * @brief SceneManager class
+     * 
+     */
     class SceneManager {
         public:
+            /**
+             * @brief Construct a new Scene Manager object
+             * 
+             */
             SceneManager();
+            /**
+             * @brief Destroy the Scene Manager object
+             * 
+             */
             ~SceneManager();
             
         protected:
