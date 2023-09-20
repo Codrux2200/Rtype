@@ -9,21 +9,22 @@
 #define ENEMYCOMPONENT_HPP_
 #include "Acomponent.hpp"
 
-class enemyComponent : public ECS::Acomponent {
-    public:
-        /**
-         * @brief Construct a new enemy Component object
-         * 
-         * @param uid 
-         */
-        enemyComponent(int uid);
-        /**
-         * @brief Destroy the enemy Component object
-         * 
-         */
-        ~enemyComponent();
-    protected:
-    private:
-};
-
+namespace ECS {
+    class EnemyComponent : public ECS::Acomponent {
+        public:
+            /**
+             * @brief Construct a new enemy Component object
+             * 
+             * @param uid 
+             */
+            EnemyComponent(int uid);
+            /**
+             * @brief Destroy the enemy Component object
+             * 
+             */
+            ~EnemyComponent();
+        protected:
+        private:
+    };
+}
 #endif /* !ENEMYCOMPONENT_HPP_ */
