@@ -26,7 +26,7 @@ jobs:
       - name: Check Documentation
         run: |
           # Check if the Doxygen generation produced any warnings or errors
-          if [ -n "$(grep -E '(warning|error)' path/to/doxygen/output.log)" ]; then
+          if [ -n "$(grep -E '(warning|error)' ../../doc/doxygen_warnings.log)" ]; then
             echo "Doxygen generated warnings or errors. Please check the documentation."
             exit 1
           fi
