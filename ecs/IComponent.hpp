@@ -9,8 +9,11 @@
 #define ICOMPONENT_HPP_
 
 namespace ECS {
-
-    enum Type
+    /**
+     * @brief ComponentType
+     * 
+     */
+    enum ComponentType
     {
         SPRITE = 0,
         HITBOX = 1,
@@ -19,9 +22,25 @@ namespace ECS {
 
     class IComponent {
         public:
-            IComponent();
+            /**
+             * @brief get the type of the component
+             * 
+             * @return ComponentType
+             */
+            virtual int getUid() = 0;
+            /**
+             * @brief set the type of the component
+             * 
+             * @return ComponentType
+             */
+            virtual void setUid() = 0;
         protected:
         private:
+            /**
+             * @brief define the type of the component
+             * 
+             */
+            int _uid;
     };
 }
 
