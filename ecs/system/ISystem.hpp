@@ -33,22 +33,22 @@ namespace ECS
             /**
              * @brief init Scene Manager
              * 
-             * @param SceneManager 
+             * @param sceneManager 
              */
-            virtual void init(SceneManager &SceneManager) = 0;
+            virtual void init(SceneManager &sceneManager) = 0;
             /**
              * @brief update all the system
              * 
-             * @param SceneManager 
+             * @param sceneManager 
              * @param deltaTime 
              */
-            virtual void update(SceneManager &SceneManager, int deltaTime) = 0;
+            virtual void update(SceneManager &sceneManager, int deltaTime) = 0;
             /**
              * @brief destroy all the system
              * 
-             * @param SceneManager 
+             * @param sceneManager 
              */
-            virtual void destroy(SceneManager &SceneManager) = 0;
+            virtual void destroy(SceneManager &sceneManager) = 0;
     };
 } // namespace ECS
 

@@ -32,20 +32,20 @@ namespace ECS {
              * 
              * @param SceneManager 
              */
-            void init(SceneManager &SceneManager) override;
+            void init(SceneManager &sceneManager) override;
             /**
              * @brief update all the system
              * 
-             * @param SceneManager 
+             * @param sceneManager 
              * @param deltaTime 
              */
-            void update(SceneManager &SceneManager, int deltaTime) override;
+            void update(SceneManager &sceneManager, int deltaTime) override;
             /**
              * @brief destroy all the system
              * 
-             * @param SceneManager 
+             * @param sceneManager 
              */
-            void destroy(SceneManager &SceneManager) override;
+            void destroy(SceneManager &sceneManager) override;
         protected:
         private:
     };
