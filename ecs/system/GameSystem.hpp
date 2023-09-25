@@ -8,14 +8,14 @@
 #ifndef GAMESYSTEM_HPP_
 #define GAMESYSTEM_HPP_
 
-#include "ISystem.hpp"
+#include "ASystem.hpp"
 
 namespace ECS {
     /**
      * @brief Game System
      * 
      */
-    class GameSystem : public ISystem{
+    class GameSystem : public ASystem{
         public:
             /**
              * @brief Construct a new Game System object
@@ -27,25 +27,6 @@ namespace ECS {
              * 
              */
             ~GameSystem();
-             /**
-             * @brief init Scene Manager
-             * 
-             * @param SceneManager 
-             */
-            void init(SceneManager &sceneManager) override;
-            /**
-             * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
-             */
-            void update(SceneManager &sceneManager, int deltaTime) override;
-            /**
-             * @brief destroy all the system
-             * 
-             * @param sceneManager 
-             */
-            void destroy(SceneManager &sceneManager) override;
         protected:
         private:
     };

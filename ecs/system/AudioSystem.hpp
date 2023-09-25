@@ -7,7 +7,7 @@
 
 #ifndef AUDIOSYSTEM_HPP_
 #define AUDIOSYSTEM_HPP_
-#include "ISystem.hpp"
+#include "ASystem.hpp"
 #include <string>
 
 namespace ECS {
@@ -15,7 +15,7 @@ namespace ECS {
      * @brief Audio System
      * 
      */
-    class AudioSystem : public ISystem{
+    class AudioSystem : public ASystem{
         public:
             /**
              * @brief Construct a new Audio System object
@@ -27,25 +27,6 @@ namespace ECS {
              * 
              */
             ~AudioSystem();
-             /**
-             * @brief init Scene Manager
-             * 
-             * @param sceneManager 
-             */
-            void init(SceneManager &sceneManager) override;
-            /**
-             * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
-             */
-            void update(SceneManager &sceneManager, int deltaTime) override;
-            /**
-             * @brief destroy all the system
-             * 
-             * @param sceneManager 
-             */
-            void destroy(SceneManager &sceneManager) override;
             /**
              * @brief init audio from a filepath and return true if ok
              * 

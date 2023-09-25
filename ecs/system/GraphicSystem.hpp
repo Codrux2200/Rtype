@@ -7,14 +7,14 @@
 
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
-#include "ISystem.hpp"
+#include "ASystem.hpp"
 
 namespace ECS {
     /**
      * @brief Graphic System
      * 
      */
-    class GraphicSystem : public ISystem{
+    class GraphicSystem : public ASystem{
         public:
             /**
              * @brief Construct a new Graphic System object
@@ -26,25 +26,6 @@ namespace ECS {
              * 
              */
             ~GraphicSystem();
-             /**
-             * @brief init Scene Manager
-             * 
-             * @param sceneManager 
-             */
-            void init(SceneManager &sceneManager) override;
-            /**
-             * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
-             */
-            void update(SceneManager &sceneManager, int deltaTime) override;
-            /**
-             * @brief destroy all the system
-             * 
-             * @param sceneManager 
-             */
-            void destroy(SceneManager &sceneManager) override;
         protected:
         private:
     };
