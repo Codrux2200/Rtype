@@ -8,6 +8,7 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <queue>
+#include "ThreadSafeList.hpp"
 #include <unordered_map>
 
 struct paquet_t {
@@ -37,7 +38,7 @@ namespace network {
     private:
         networkModule& parentModule_; // Reference to the parent networkModule
         boost::asio::ip::udp::socket socket_;
-        boost::array<char, 1024> rec_buffer_;
+        boost::array<char, 1024> rec_buffer_{};
         boost::asio::ip::udp::endpoint remote_endpoint_;
     };
 
@@ -50,13 +51,17 @@ namespace network {
 
         void handleData(const paquet_t &data);
 
-        std::unordered_map<networkClient, std::thread> thread_map_; // probleme ?
+        void startAsyncReceive();
+
+        std::unordered_map<networkClient, std::thread> clientThreadMap;
+        ThreadSafeList<networkClient> clients_;
     private:
         boost::asio::io_context &ioContext_;
         boost::asio::ip::udp::socket listening_socket_;
         boost::asio::ip::udp::endpoint endpoint_;
-        std::queue<networkClient> clients_;
         std::queue<paquet_t> paquet_queue_;
+        boost::array<char, 1024> rec_buffer_{};
+        boost::asio::ip::udp::endpoint remote_endpoint_;
     };
 
 } // namespace network

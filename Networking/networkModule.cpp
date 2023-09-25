@@ -8,11 +8,11 @@ namespace network {
 
 /////////////////// NetworkClient
 
-    networkClient::networkClient(networkModule &parentModule, boost::asio::ip::udp::socket socket)
-    {
-        parentModule_ = std::move(parentModule);
-        socket_ = std::move(socket);
-    }
+    networkClient::networkClient(
+        networkModule &parentModule,
+        boost::asio::ip::udp::socket socket)
+        : parentModule_(parentModule), socket_(std::move(socket))
+        {}
 
     void networkClient::start()
     {
@@ -36,8 +36,17 @@ namespace network {
     void networkClient::close()
     {
         socket_.close();
-        parentModule_.thread_map_[this].join()); // Jsp comment on use une map
+        // Find the associated thread in the map and join it
+        auto it = parentModule_.clientThreadMap.find(*this);
+        if (it != parentModule_.clientThreadMap.end()) {
+            it->second.join();
+            parentModule_.clientThreadMap.erase(it);
+        }
+
+        // Remove the client from the list
+        parentModule_.clients_.remove(*this);
     }
+
 
 /////////////////// NetworkModule
 
@@ -55,11 +64,37 @@ namespace network {
         listening_socket_ = std::move(temp);
         listening_socket_.open(endpoint_.protocol());
         listening_socket_.bind(endpoint_);
-        /// Quand le listening_socket recoit une connexion, il doit la balancer a un networkClient, dans un autre thread
+
+        startAsyncReceive();
     }
 
     void networkModule::handleData(const paquet_t &data)
     {
         /// check paquet ids, stack paquets, etc
+    }
+
+    void networkModule::startAsyncReceive()
+    {
+        boost::asio::ip::udp::socket newSocket(ioContext_);
+        listening_socket_.async_receive_from(
+            boost::asio::buffer(rec_buffer_), remote_endpoint_,
+            [this, newSocket](const boost::system::error_code& error, std::size_t bytes_received) {
+                if (!error) {
+                    networkClient client(*this, std::move(newSocket));
+                    clients_.push_back(client); // Add to the clients container
+
+                    // Start a new thread for the client
+                    std::thread clientThread([this, &client]() {
+                        client.start();
+                    });
+
+                    // Associate the thread with the client in the map
+                    clientThreadMap.emplace(std::make_pair(client, std::move(clientThread)));
+                }
+
+                // Continue listening for the next client
+                startAsyncReceive();
+            }
+        );
     }
 } // namespace network
