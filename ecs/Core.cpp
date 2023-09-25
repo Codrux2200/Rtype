@@ -19,3 +19,8 @@ ECS::Core::~Core()
     system.~map<std::string, ISystem>();
     sceneManager.~SceneManager();
 }
+
+void ECS::Core::mainLoop()
+{
+    while(1){}
+}

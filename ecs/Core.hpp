@@ -29,6 +29,11 @@ namespace ECS {
 		 * 
 		 */
 		SceneManager sceneManager;
+		/**
+		 * @brief the main loop of the ECS
+		 * 
+		 */
+		void mainLoop();
 
 	};
 }
