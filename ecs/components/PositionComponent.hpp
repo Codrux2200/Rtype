@@ -14,7 +14,7 @@ namespace ECS {
      * @brief Position component
      * 
      */
-    class PostitionComponent : public ECS::AComponent {
+    class PositionComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new position Component object
@@ -23,12 +23,12 @@ namespace ECS {
              * @param y
              * @param uid
              */
-            PostitionComponent(int x, int y, int uid);
+            PositionComponent(int x, int y, int uid);
             /**
              * @brief Destroy the position Component object
              * 
              */
-            ~PostitionComponent();
+            ~PositionComponent();
             /**
              * @brief Get the X position object
              * 
