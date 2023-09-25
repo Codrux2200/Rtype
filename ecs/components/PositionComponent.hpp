@@ -52,6 +52,7 @@ namespace ECS {
              * 
              * @param y 
              */
+            void setY(int y);
         protected:
         private:
             /**
