@@ -31,7 +31,7 @@ namespace ECS {
              * @brief Get the Rotation object
              * 
              */
-            int getRotation() const;
+            float getRotation() const;
             /**
              * @brief Set the Rotation object
              * 
