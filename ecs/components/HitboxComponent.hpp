@@ -41,6 +41,18 @@ namespace ECS {
              * @return int
              */
             int getY() const;
+            /**
+             * @brief Set the X hitbox object
+             * 
+             * @param x 
+             */
+            void setX(int x);
+            /**
+             * @brief Set the Y hitbox object
+             * 
+             * @param y 
+             */
+            void setY(int y);
         protected:
         private:
             /**
