@@ -33,7 +33,7 @@ namespace ECS {
              * 
              * @return the uid of the component
              */
-            virtual int getUid() override;
+            virtual int getUid() const override;
             /**
              * @brief Construct a new AComponent object
              * 
