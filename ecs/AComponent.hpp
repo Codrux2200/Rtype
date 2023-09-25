@@ -20,6 +20,17 @@ namespace ECS {
             /**
              * @brief Construct a new AComponent object
              * 
+             * @param uid 
+             */
+            AComponent(int uid);
+            /**
+             * @brief Destroy the AComponent object
+             * 
+             */
+            ~AComponent();
+            /**
+             * @brief Construct a new AComponent object
+             * 
              * @return the uid of the component
              */
             virtual int getUid() override;
