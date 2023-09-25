@@ -46,13 +46,13 @@ namespace ECS {
              * 
              * @return int
              */
-            int getX();
+            int getX() const;
             /**
              * @brief Get the Y object
              * 
              * @return int
              */
-            int getY();
+            int getY() const;
         protected:
         private:
             /**
