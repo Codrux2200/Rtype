@@ -7,8 +7,29 @@ find_package(SFML 2.5 COMPONENTS system window graphics REQUIRED)
 
 find_package(asio REQUIRED)
 
-add_executable(MySFMLProject main.cpp)
+add_executable(MySFMLProject
+    ecs/AComponent.cpp
+    ecs/Core.cpp
+    ecs/Entity.cpp
+    ecs/Scene.cpp
+    ecs/SceneManager.cpp
+    ecs/components/EnemyComponent.cpp
+    ecs/components/HealthComponent.cpp
+    ecs/components/PlayerComponent.cpp
+    ecs/components/PositionComponent.cpp
+    ecs/components/RotationComponent.cpp
+    ecs/components/ScaleComponent.cpp
+    ecs/components/ShootComponent.cpp
+    ecs/components/VelocityComponent.cpp
+    ecs/system/ASystem.cpp
+    ecs/system/AudioSystem.cpp
+    ecs/system/EventSystem.cpp
+    ecs/system/GameSystem.cpp
+    ecs/system/GraphicSystem.cpp
+    ecs/system/ParticleSystem.cpp
+    main.cpp
+)
 
-target_include_directories(MySFMLProject PRIVATE ${SFML_INCLUDE_DIRS} ${ASIO_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system)
+target_include_directories(MySFMLProject PRIVATE ${SFML_INCLUDE_DIRS} ${ASIO_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/)
 
 target_link_libraries(MySFMLProject PRIVATE sfml-system sfml-window sfml-graphics asio)
