@@ -8,7 +8,7 @@ struct Paquet {
     int sequence; // sequence number / tick number
     int replication; // what replication is this
     std::time_t timestamp;
-    void *data; // TO REPLACE WITH APPROPRIATE DATA STRUCTURE WHEN KNOWN
+
 };
 
 #endif // PUBRTYPE_PAQUET_HPP
