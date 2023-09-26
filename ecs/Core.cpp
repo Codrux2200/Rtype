@@ -9,18 +9,25 @@
 
 ECS::Core::Core()
 {
-    // system = std::map<std::string, ISystem>();
-    // sceneManager = SceneManager();
+    sceneManager = SceneManager();
 }
 
 ECS::Core::~Core()
 {
-    // system.clear();
-    // system.~map<std::string, ISystem>();
-    // sceneManager.~SceneManager();
+    sceneManager.~SceneManager();
 }
 
 void ECS::Core::mainLoop()
 {
-    while(1){}
+    int arrow = 0;
+
+    while(!sceneManager.shouldClose) {
+        if (arrow == 10)
+            sceneManager.shouldClose = true;
+        arrow += 1;
+        Scene firstScene = sceneManager.getScene(SceneType::MAIN_MENU);
+        firstScene.entitiesList.insert(std::pair<int, Entity>(arrow, Entity(arrow)));
+        sceneManager.getScene(SceneType::MAIN_MENU).loadEntity(arrow);
+        sceneManager.getScene(SceneType::MAIN_MENU).unloadEntity(arrow);
+    }
 }
