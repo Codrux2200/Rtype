@@ -26,6 +26,11 @@
 *.a
 *.lib
 
+cmake*
+
+CmakeCache.txt
+CmakeFiles/
+
 # Executables
 *.exe
 *.out
