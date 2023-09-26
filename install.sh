@@ -16,7 +16,7 @@ if ! [ -x "$(command -v cmake)" ]; then
 fi
 
 ./vcpkg/vcpkg install sfml
-./vcpkg/vcpkg install boost-asio
+./vcpkg/vcpkg install asio
 
 mkdir -p build
 cd build
