@@ -1,9 +1,20 @@
 cmake_minimum_required(VERSION 3.12)
 project(MySFMLProject)
+include(FetchContent)
+FetchContent_Declare(
+  SFML
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
+  GIT_TAG        2.5.1
+)
 
-set(CMAKE_TOOLCHAIN_FILE "./vcpkg/scripts/buildsystems/vcpkg.cmake")
-find_package(SFML 2.5 COMPONENTS system window graphics REQUIRED)
-find_package(Boost REQUIRED)
+FetchContent_MakeAvailable(SFML)
+FetchContent_Declare(
+  Asio
+  GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
+  GIT_TAG        master  # Vous pouvez spécifier une version spécifique si nécessaire
+)
+
+FetchContent_MakeAvailable(Asio)
 add_executable(MySFMLProject
     ecs/AComponent.cpp
     ecs/Core.cpp

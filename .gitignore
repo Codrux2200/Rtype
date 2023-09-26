@@ -25,7 +25,9 @@
 *.la
 *.a
 *.lib
-
+*.cmake
+build/
+_deps/
 cmake*
 
 CmakeCache.txt
