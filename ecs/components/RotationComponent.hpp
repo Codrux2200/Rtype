@@ -7,7 +7,7 @@
 
 #ifndef ROTATIONCOMPONENT_HPP_
 #define ROTATIONCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

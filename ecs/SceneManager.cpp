@@ -9,13 +9,13 @@
 
 ECS::SceneManager::SceneManager()
 {
-    _scenes = std::map<SceneType, Scene>();
+   // _scenes = std::map<SceneType, Scene>();
     _currentScene = SceneType::MAIN_MENU;
     _shouldClose = false;
 }
 
 ECS::SceneManager::~SceneManager()
 {
-    _scenes.clear();
-    _scenes.~map<SceneType, Scene>();
+    // _scenes.clear();
+    // _scenes.~map<SceneType, Scene>();
 }

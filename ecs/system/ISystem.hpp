@@ -31,12 +31,6 @@ namespace ECS
     class ISystem {
         public :
             /**
-             * @brief init Scene Manager
-             * 
-             * @param sceneManager 
-             */
-            virtual void init(SceneManager &sceneManager) = 0;
-            /**
              * @brief update all the system
              * 
              * @param sceneManager 

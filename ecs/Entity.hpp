@@ -8,7 +8,7 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 #include <vector>
-#include "IComponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -42,7 +42,7 @@ namespace ECS {
              * @brief stock component
              * 
              */
-            std::vector<IComponent> components;
+            std::vector<AComponent> components;
         private :
             /**
              * @brief define the tag for the entity

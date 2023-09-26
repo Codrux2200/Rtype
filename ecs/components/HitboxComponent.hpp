@@ -7,7 +7,7 @@
 
 #ifndef HITBOXCOMPONENT_HPP_
 #define HITBOXCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

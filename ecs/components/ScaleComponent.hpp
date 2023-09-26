@@ -7,7 +7,7 @@
 
 #ifndef SCALECOMPONENT_HPP_
 #define SCALECOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

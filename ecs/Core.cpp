@@ -9,15 +9,15 @@
 
 ECS::Core::Core()
 {
-    system = std::map<std::string, ISystem>();
-    sceneManager = SceneManager();
+    // system = std::map<std::string, ISystem>();
+    // sceneManager = SceneManager();
 }
 
 ECS::Core::~Core()
 {
-    system.clear();
-    system.~map<std::string, ISystem>();
-    sceneManager.~SceneManager();
+    // system.clear();
+    // system.~map<std::string, ISystem>();
+    // sceneManager.~SceneManager();
 }
 
 void ECS::Core::mainLoop()

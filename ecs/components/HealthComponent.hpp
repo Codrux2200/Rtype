@@ -7,7 +7,7 @@
 
 #ifndef HEALTHCOMPONENT_HPP_
 #define HEALTHCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

@@ -33,13 +33,13 @@ namespace ECS {
              * 
              * @return the uid of the component
              */
-            virtual int getUid() const override;
+            virtual int getUid() const;
             /**
              * @brief Construct a new AComponent object
              * 
              * @param uid 
              */
-            virtual void setUid(int uid) override;
+            virtual void setUid(int uid);
         protected:
         private:
             /**

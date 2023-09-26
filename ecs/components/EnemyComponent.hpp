@@ -7,7 +7,7 @@
 
 #ifndef ENEMYCOMPONENT_HPP_
 #define ENEMYCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

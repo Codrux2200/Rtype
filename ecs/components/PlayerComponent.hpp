@@ -7,7 +7,7 @@
 
 #ifndef PLAYERCOMPONENT_HPP_
 #define PLAYERCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

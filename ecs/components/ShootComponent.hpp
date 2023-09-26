@@ -7,7 +7,7 @@
 
 #ifndef SHOOTCOMPONENT_HPP_
 #define SHOOTCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**

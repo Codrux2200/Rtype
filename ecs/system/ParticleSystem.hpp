@@ -7,7 +7,7 @@
 
 #ifndef PARTICLESYSTEM_HPP_
 #define PARTICLESYSTEM_HPP_
-#include "ISystem.hpp"
+#include "ASystem.hpp"
 
 namespace ECS {
     /**
