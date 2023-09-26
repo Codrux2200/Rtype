@@ -26,10 +26,10 @@ The project is a rtype game with the possibility to connect multiple players and
 
 # Server
 
-Using [Asio/boost](https://www.boost.org/doc/libs/1_83_0/doc/html/boost_asio.html) the server receive the client inputs and treat the data in his different systems and re-send the actualized sprite.
+Using [Boost/Asio](https://www.boost.org/doc/libs/1_83_0/doc/html/boost_asio.html) the server receive the client inputs and treat the data in his different systems and re-send the actualized sprite.
 
 
-```for exemple a Qt message will be sent if you click on down_key on the keyboard. this same msg will be received by the server```
+```for exemple a a client thread will send movement information to the server socket who will be sending back the actualized position of this client to the other ones```
 
 
 
@@ -70,9 +70,9 @@ in the second one:
 
 ## Tech Stack
 
-**Client:** C++, Sfml, Asio/boost
+**Client:** C++, Sfml, Boost/Asio
 
-**Server:** C++, Sfml, Asio/boost
+**Server:** C++, Sfml, Boost/Asio
 
 
 ## Authors
@@ -81,4 +81,4 @@ in the second one:
 - [Raphael Mercier](https://github.com/raphaelMrci)
 - [Saad Berrada](https://github.com/Codrux2200)
 - [Christophe Chors](https://github.com/christophechr)
-- [Stephan Corbière](https://github.com/STCB)
+- [Stephane Corbière](https://github.com/STCB)
