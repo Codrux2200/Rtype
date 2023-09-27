@@ -40,3 +40,4 @@ CmakeFiles/
 vcpkg/
 .vscode/
 build/
+Makefile
