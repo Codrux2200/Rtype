@@ -1,20 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(MySFMLProject)
-include(FetchContent)
-FetchContent_Declare(
-  SFML
-  GIT_REPOSITORY https://github.com/SFML/SFML.git
-  GIT_TAG        2.5.1
-)
 
-FetchContent_MakeAvailable(SFML)
-FetchContent_Declare(
-  Asio
-  GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-  GIT_TAG        master  # Vous pouvez spécifier une version spécifique si nécessaire
-)
-
-FetchContent_MakeAvailable(Asio)
 add_executable(MySFMLProject
     ecs/AComponent.cpp
     ecs/Core.cpp
@@ -38,6 +24,5 @@ add_executable(MySFMLProject
     main.cpp
 )
 
-target_include_directories(MySFMLProject PRIVATE ${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/)
+target_include_directories(MySFMLProject PRIVATE ${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/ ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/)
 
-target_link_libraries(MySFMLProject PRIVATE sfml-system sfml-window sfml-graphics)
