@@ -55,6 +55,18 @@ namespace ECS {
              * @param y 
              */
             void setY(int y);
+            /**
+             * @brief Get the Weight hitbox object
+             * 
+             * @return int
+             */
+            int getWeight() const;
+            /**
+             * @brief Get the Height hitbox object
+             * 
+             * @return int
+             */
+            int getHeight() const;
         protected:
         private:
             /**

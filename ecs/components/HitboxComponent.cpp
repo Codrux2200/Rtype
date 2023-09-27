@@ -39,3 +39,13 @@ void ECS::HitboxComponent::setY(int y)
 {
     _y = y;
 }
+
+int ECS::HitboxComponent::getHeight() const
+{
+    return _height;
+}
+
+int ECS::HitboxComponent::getWeight() const
+{
+    return _weight;
+}
