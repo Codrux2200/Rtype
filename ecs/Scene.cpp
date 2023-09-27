@@ -22,7 +22,7 @@ ECS::Scene::~Scene()
 
 void ECS::Scene::loadEntity(int entityID)
 {
-    entitiesList.insert(std::pair<int, Entity>(entityID, Entity(entityID)));
+    entitiesList.at(entityID);
     std::cout << "loadEntity " << entityID << '\n';
 }
 
