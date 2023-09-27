@@ -41,3 +41,4 @@ vcpkg/
 .vscode/
 build/
 Makefile
+MySFMLProject
