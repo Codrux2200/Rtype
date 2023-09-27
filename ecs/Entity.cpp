@@ -6,18 +6,20 @@
 */
 
 #include "Entity.hpp"
+#include <iostream>
 
 ECS::Entity::Entity(int id)
 {
     _id = id;
-    // components = std::vector<IComponent>();
-    // _tags = std::vector<Tag>();
+    components = std::vector<AComponent>();
+    _tags = std::vector<Tag>();
+    std::cout << "Entity created with id " << id << '\n';
 }
 
 ECS::Entity::~Entity()
 {
-    // components.clear();
-    // _tags.clear();
-    // components.~vector<IComponent>();
-    // _tags.~vector<Tag>();
+    components.clear();
+    _tags.clear();
+    components.~vector<AComponent>();
+    _tags.~vector<Tag>();
 }
