@@ -17,7 +17,12 @@ ECS::SceneManager::~SceneManager()
 {
 }
 
-ECS::Scene ECS::SceneManager::getScene(SceneType sceneType)
+ECS::Scene ECS::SceneManager::getScene(SceneType sceneType) const
 {
-    return ECS::Scene(sceneType);
+    return _scenes.at(sceneType);
+}
+
+void ECS::SceneManager::setScene(SceneType sceneType, Scene scene)
+{
+    _scenes.insert(std::pair<SceneType, Scene>(sceneType, scene));
 }

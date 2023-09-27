@@ -33,7 +33,14 @@ namespace ECS {
              * @param sceneType 
              * @return Scene 
              */
-            Scene getScene(SceneType sceneType);
+            Scene getScene(SceneType sceneType) const;
+            /**
+             * @brief Set the Scene object
+             * 
+             * @param sceneType 
+             * @param scene 
+             */
+            void setScene(SceneType sceneType, Scene scene);
             /**
              * @brief a boolean to know if the window should close
              * 
