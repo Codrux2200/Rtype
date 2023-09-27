@@ -53,6 +53,31 @@ namespace ECS {
              * @param y 
              */
             void setY(int y);
+            
+            /**
+             * @brief move the entity right
+             * 
+             * @param y 
+             */
+            void moveRight(int x);
+            /**
+             * @brief move the entity left
+             * 
+             * @param x 
+             */
+            void moveLeft(int x);
+            /**
+             * @brief move the entity up
+             * 
+             * @param y 
+             */
+            void moveUp(int y);
+            /**
+             * @brief move the entity down
+             * 
+             * @param y 
+             */
+            void moveDown(int y);
         protected:
         private:
             /**

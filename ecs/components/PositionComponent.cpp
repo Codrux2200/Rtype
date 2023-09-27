@@ -37,3 +37,23 @@ void ECS::PositionComponent::setY(int y)
 {
     _y = y;
 }
+
+void ECS::PositionComponent::moveRight(int x)
+{
+    _x += x;
+}
+
+void ECS::PositionComponent::moveLeft(int x)
+{
+    _x -= x;
+}
+
+void ECS::PositionComponent::moveUp(int y)
+{
+    _y -= y;
+}
+
+void ECS::PositionComponent::moveDown(int y)
+{
+    _y += y;
+}
