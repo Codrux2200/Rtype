@@ -7,11 +7,13 @@
 
 #include "HitboxComponent.hpp"
 
-ECS::HitboxComponent::HitboxComponent(int x, int y, int uid)
+ECS::HitboxComponent::HitboxComponent(int x, int x2, int y, int y2, int uid)
     : AComponent(uid)
 {
     _x = x;
+    _x2 = x2;
     _y = y;
+    _y2 = y2;
 }
 
 ECS::HitboxComponent::~HitboxComponent()
