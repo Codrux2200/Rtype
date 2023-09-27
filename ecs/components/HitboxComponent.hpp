@@ -20,12 +20,12 @@ namespace ECS {
              * @brief Construct a new hitbox Component object
              * 
              * @param x 
-             * @param x2
              * @param y
-             * @param y2
+             * @param weight
+             * @param height
              * @param uid
              */
-            HitboxComponent(int x, int x2,int y, int y2, int uid);
+            HitboxComponent(int x, int y, int weight, int height, int uid);
             /**
              * @brief Destroy the hitbox Component object
              * 
@@ -62,21 +62,22 @@ namespace ECS {
              * 
              */
             int _x;
-            /**
-             * @brief define the x hitbox of the entity
-             * 
-             */
-            int _x2;
+
             /**
              * @brief define the y hitbox of the entity
              * 
              */
             int _y;
             /**
-             * @brief define the y hitbox of the entity
+             * @brief define the weight hitbox of the entity
              * 
              */
-            int _y2;
+            int _weight;
+            /**
+             * @brief define the height of the hitbox of the entity
+             * 
+             */
+            int _height;
     };
 }
 
