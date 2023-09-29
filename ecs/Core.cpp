@@ -35,24 +35,24 @@ void ECS::Core::mainLoop()
             tags.push_back(ECS::Tag::MOVABLE);
             tags.push_back(ECS::Tag::DESTROYABLE);
             // create the player entity
-            Entity player = Entity(1, tags);
+            Entity *player = new Entity(1, tags);
             // it's crashing here and I don't know why
-            firstScene.entitiesList.insert(std::pair<int, Entity>(1, player));
+            firstScene.entitiesList.insert(std::pair<int, Entity*>(1, player));
             // create the player component
-            firstScene.entitiesList.at(1).components.push_back(PlayerComponent(10));
+            firstScene.entitiesList.at(1)->components.push_back(PlayerComponent(10));
             // create the health component
-            firstScene.entitiesList.at(1).components.push_back(HealthComponent(11));
+            firstScene.entitiesList.at(1)->components.push_back(HealthComponent(11));
         } else {
             // update the health component casted to HealthComponent
-            HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1).components[1]);
+            HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1)->components[1]);
             health->setHealth(health->getHealth() - arrow * 10);
             health->~HealthComponent();
         }
         // close the window if the health is 0
-        HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1).components[1]);
-        if (health->getHealth() <= 0)
-            sceneManager.shouldClose = true;
-        health->~HealthComponent();
-        arrow++;
+        // HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1).components[1]);
+        // if (health->getHealth() <= 0)
+        //     sceneManager.shouldClose = true;
+        // health->~HealthComponent();
+        // arrow++;
     }
 }

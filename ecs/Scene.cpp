@@ -11,13 +11,13 @@
 ECS::Scene::Scene(SceneType sceneType)
 {
     sceneType = sceneType;
-    entitiesList = std::map<int, Entity>();
+    entitiesList = std::map<int, Entity*>();
 }
 
 ECS::Scene::~Scene()
 {
     entitiesList.clear();
-    entitiesList.~map<int, Entity>();
+    entitiesList.~map<int, Entity*>();
 }
 
 void ECS::Scene::loadEntity(int entityID)

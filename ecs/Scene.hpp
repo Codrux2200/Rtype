@@ -44,7 +44,7 @@ namespace ECS {
              * @brief stock entities with an specified key
              * 
              */
-            std::map<int, Entity> entitiesList;
+            std::map<int, Entity*> entitiesList;
             /**
              * @brief define the scene Type
              * 
