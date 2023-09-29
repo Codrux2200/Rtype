@@ -1,6 +1,0 @@
-[requires]
-sfml/2.5.0@bincrafters/stable
-asio/1.18.2
-
-[generators]
-cmake
