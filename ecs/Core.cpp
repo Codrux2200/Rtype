@@ -16,7 +16,6 @@ ECS::Core::Core()
 
 ECS::Core::~Core()
 {
-    sceneManager.~SceneManager();
 }
 
 void ECS::Core::mainLoop()
