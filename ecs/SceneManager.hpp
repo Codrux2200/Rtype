@@ -33,7 +33,7 @@ namespace ECS {
              * @param sceneType 
              * @return Scene 
              */
-            Scene getScene(SceneType sceneType) const;
+            Scene &getScene(SceneType sceneType);
             /**
              * @brief Set the Scene object
              * 

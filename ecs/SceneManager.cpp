@@ -17,7 +17,7 @@ ECS::SceneManager::~SceneManager()
 {
 }
 
-ECS::Scene ECS::SceneManager::getScene(SceneType sceneType) const
+ECS::Scene &ECS::SceneManager::getScene(SceneType sceneType)
 {
     return _scenes.at(sceneType);
 }

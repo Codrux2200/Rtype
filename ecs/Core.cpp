@@ -27,18 +27,16 @@ void ECS::Core::mainLoop()
     while(!sceneManager.shouldClose) {
         if (arrow == 10)
             sceneManager.shouldClose = true;
-        Scene firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
-        std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
+        Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
+        std::cout << "loop nb: " << arrow << " nb of entities: " << firstScene.entitiesList.size() << std::endl;
         // create the player entity if it doesn't exist
         if (firstScene.entitiesList.size() < 1) {
             // create a tag vector
             std::vector<Tag> tags;
             tags.push_back(ECS::Tag::MOVABLE);
             tags.push_back(ECS::Tag::DESTROYABLE);
-            // create the player entity
-            Entity *player = new Entity(1, tags);
             // add the player entity to the scene
-            firstScene.entitiesList.insert(std::pair<int, Entity*>(1, player));
+            firstScene.entitiesList.insert(std::pair<int, Entity*>(1, new Entity(1, tags)));
             // create the player component
             firstScene.entitiesList.at(1)->components.push_back(PlayerComponent(10));
             // create the health component
@@ -46,9 +44,8 @@ void ECS::Core::mainLoop()
             std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
         } else {
             // update the health component casted to HealthComponent
-            HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1)->components[1]);
-            health->setHealth(health->getHealth() - arrow * 10);
-            health->~HealthComponent();
+            //HealthComponent &health = dynamic_cast<HealthComponent &>(firstScene.entitiesList.at(1)->components[1]);
+            //health.setHealth(health.getHealth() - arrow * 10);
         }
         std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
         //close the window if the health is 0
