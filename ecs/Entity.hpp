@@ -42,7 +42,7 @@ namespace ECS {
              * @brief stock component
              * 
              */
-            std::vector<AComponent> components;
+            std::vector<AComponent *> components;
             /**
              * @brief Get the Id object
              * 
