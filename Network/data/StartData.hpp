@@ -7,15 +7,15 @@
 
 #pragma once
 
-namespace RFC {
+namespace Network {
     namespace data {
         extern "C"
         {
             /**
              * @brief The data for sharing number of players connected with
-             * their names. To be used with the @ref RFC::PacketType::START
+             * their names. To be used with the @ref Network::PacketType::START
              * "START" call.
-             * @see RFC::Packet
+             * @see Network::Packet
              */
             struct StartData {
                 public:
@@ -23,4 +23,4 @@ namespace RFC {
             };
         }
     } // namespace data
-} // namespace RFC
+} // namespace Network

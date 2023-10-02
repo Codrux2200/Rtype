@@ -7,21 +7,21 @@
 
 #pragma once
 
-namespace RFC {
+namespace Network {
     namespace data {
         extern "C"
         {
             /**
              * @brief The data for sharing number of players connected with
-             * their names. To be used with the @ref RFC::PacketType::CONNECT
-             * "CONNECT" and @ref RFC::PacketType::DISCONNECT "DISCONNECT"
-             * calls.
+             * their names. To be used with the @ref
+             * Network::PacketType::CONNECT "CONNECT" and @ref
+             * Network::PacketType::DISCONNECT "DISCONNECT" calls.
              *
-             * @see RFC::Packet
-             * @see RFC::PacketType::CONNECT
-             * @see RFC::PacketType::DISCONNECT
-             * @see RFC::Packet::connectData
-             * @see RFC::Packet::disconnectData
+             * @see Network::Packet
+             * @see Network::PacketType::CONNECT
+             * @see Network::PacketType::DISCONNECT
+             * @see Network::Packet::connectData
+             * @see Network::Packet::disconnectData
              */
             struct HubData {
                 public:
@@ -35,4 +35,4 @@ namespace RFC {
             };
         }
     } // namespace data
-} // namespace RFC
+} // namespace Network

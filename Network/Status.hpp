@@ -7,7 +7,7 @@
 
 #pragma once
 
-namespace RFC {
+namespace Network {
     /**
      * @brief The status of a packet
      */
@@ -19,4 +19,4 @@ namespace RFC {
         /** The packet was correctly formatted but the operation failed */
         KO = 500,
     };
-}; // namespace RFC
+}; // namespace Network

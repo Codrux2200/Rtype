@@ -13,9 +13,9 @@
 #include "Status.hpp"
 
 /**
- * @brief RFC protocol
+ * @brief Network protocol
  */
-namespace RFC {
+namespace Network {
     extern "C"
     {
         /**
@@ -26,9 +26,9 @@ namespace RFC {
         enum PacketType {
             /**
              * @brief CONNECT packet
-             * @ref RFC::Packet::data "data" is a @ref RFC::data::HubData
-             * "HubData". The server sends a CONNECT packet to all the clients
-             * when a new client is connected.
+             * @ref Network::Packet::data "data" is a @ref
+             * Network::data::HubData "HubData". The server sends a CONNECT
+             * packet to all the clients when a new client is connected.
              *
              *
              * It will receive CONNECT from a client to accept a new
@@ -36,36 +36,36 @@ namespace RFC {
              *
              * If the server can't accept a new connection, the
              * server will send back a CONNECT packet with the status set to
-             * @ref RFC::Status::KO "KO" only to the sender, with an appropriate
-             * message.
+             * @ref Network::Status::KO "KO" only to the sender, with an
+             * appropriate message.
              */
             CONNECT,
 
             /**
              * @brief DISCONNECT packet
-             * The data is stored on @red RFC::Packet::disconnectData
-             * "disconnectData" wich is of type @ref RFC::data::HubData
+             * The data is stored on @red Network::Packet::disconnectData
+             * "disconnectData" wich is of type @ref Network::data::HubData
              * "HubData". The server sends a DISCONNECT packet to all the
              * clients when a client is disconnected.
              *
              * It will receive DISCONNECT from a client to disconnect it.
              *
-             * The data contained in the @ref RFC::data::HubData "data" must be
-             * the currently connected players without the disconnected one.
+             * The data contained in the @ref Network::data::HubData "data" must
+             * be the currently connected players without the disconnected one.
              */
             DISCONNECT,
 
             /**
              * @brief START packet
-             * The data is stored on @ref RFC::Packet::startData "startData"
-             * wich is of type @ref RFC::data::StartData "StartData". The server
-             * sends a START packet to all the clients when the host starts the
-             * game.
+             * The data is stored on @ref Network::Packet::startData "startData"
+             * wich is of type @ref Network::data::StartData "StartData". The
+             * server sends a START packet to all the clients when the host
+             * starts the game.
              *
              * It will receive START from a client to start the game.
              *
-             * The data contained in the @ref RFC::data::StartData "data" must
-             * be the map to be used.
+             * The data contained in the @ref Network::data::StartData "data"
+             * must be the map to be used.
              *
              * It have to be sent by the host to the server. Then, the server
              * will send it back to all the players to tell them that the game
@@ -93,9 +93,9 @@ namespace RFC {
 
         /**
          * @brief A Packet is the structure sent by both client and server.
-         * It contains a @ref RFC::Status "Status", the @ref RFC::PacketType
-         * "type" of the packet and the associated @ref RFC::Packet::data
-         * "data".
+         * It contains a @ref Network::Status "Status", the @ref
+         * Network::PacketType "type" of the packet and the associated @ref
+         * Network::Packet::data "data".
          */
         struct Packet {
             public:
@@ -117,4 +117,4 @@ namespace RFC {
                 };
         };
     }
-} // namespace RFC
+} // namespace Network
