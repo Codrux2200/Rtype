@@ -1,6 +1,18 @@
 cmake_minimum_required(VERSION 3.12)
 project(MySFMLProject)
+include(FetchContent)
 
+FetchContent_Declare(
+  SFML
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
+)
+
+FetchContent_Declare(
+  BoostAsio
+  GIT_REPOSITORY https://github.com/boostorg/asio.git
+)
+
+# Ajoutez vos sources existantes à votre exécutable
 add_executable(MySFMLProject
     ecs/AComponent.cpp
     ecs/Core.cpp
@@ -24,5 +36,20 @@ add_executable(MySFMLProject
     main.cpp
 )
 
-target_include_directories(MySFMLProject PRIVATE ${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/ ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/)
+# Ajoutez les répertoires d'inclusion de vos composants ECS
+target_include_directories(MySFMLProject PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/
+)
+FetchContent_MakeAvailable(SFML)
+FetchContent_MakeAvailable(BoostAsio)
 
+# Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
+target_include_directories(MySFMLProject PRIVATE
+    ${SFML_SOURCE_DIR}/include
+)
+
+
+# # Liens vers les bibliothèques SFML
+target_link_libraries(MySFMLProject PRIVATE sfml-graphics sfml-audio sfml-network sfml-window sfml-system)
