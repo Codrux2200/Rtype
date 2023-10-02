@@ -32,6 +32,8 @@ cmake*
 
 CmakeCache.txt
 CmakeFiles/
+CMakeFiles/
+vgcore*
 
 # Executables
 *.exe
@@ -42,3 +44,4 @@ vcpkg/
 build/
 Makefile
 MySFMLProject
+CMakeCache.txt
