@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['server_0',['Server',['../rfc_page.html#server_rfc_sec',1,'']]],
-  ['status_1',['status',['../struct_r_f_c_1_1_packet.html#a972238ece1a85abc123a86d6660f5e35',1,'RFC::Packet::status'],['../namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c',1,'RFC::Status']]]
+  ['r_20type_0',['R-Type',['../index.html',1,'']]],
+  ['replication_1',['replication',['../struct_r_f_c_1_1_packet.html#a6caf9999b035bf89d87412da1f3dade2',1,'RFC::Packet']]],
+  ['rfc_2',['rfc',['../namespace_r_f_c.html',1,'RFC'],['../rfc_page.html',1,'RFC']]],
+  ['rfc_2emd_3',['RFC.md',['../_r_f_c_8md.html',1,'']]],
+  ['rfc_3a_3adata_4',['data',['../namespace_r_f_c_1_1data.html',1,'RFC']]]
 ];

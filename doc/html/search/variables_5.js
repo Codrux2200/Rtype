@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['status_0',['status',['../struct_r_f_c_1_1_packet.html#a972238ece1a85abc123a86d6660f5e35',1,'RFC::Packet']]]
+  ['replication_0',['replication',['../struct_r_f_c_1_1_packet.html#a6caf9999b035bf89d87412da1f3dade2',1,'RFC::Packet']]]
 ];

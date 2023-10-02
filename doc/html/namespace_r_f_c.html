@@ -128,22 +128,40 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html">Packet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains the status of the packet,...">Packet</a> is the structure sent by both client and server. It contains the status of the packet, the type of the packet and the associated data.  <a href="struct_r_f_c_1_1_packet.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains a Status, the type of the packe...">Packet</a> is the structure sent by both client and server. It contains a <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">Status</a>, the <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">type</a> of the packet and the associated data.  <a href="struct_r_f_c_1_1_packet.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:a1b1463e4c7b55d7d79654a8600673c8d" id="r_a1b1463e4c7b55d7d79654a8600673c8d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">PacketType</a> { <br />
+&#160;&#160;<a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da6a014050ac06ce05d695b07a0a58c31a">CONNECT</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dad8678fca6eb77b40fd00f1cdb099ceb0">DISCONNECT</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dad84bf39525f5f404e231bb0425544c0f">START</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dad0f3bd1d1e5a5d620f6e49dc9fc45844">DEAD</a>
+, <br />
+&#160;&#160;<a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5ec573b5eea34ba09595b8905f1322f1">MOVE</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da9ebb3cfba69fb424bf0c30ca253c4d89">SHOOT</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da7e237280896348b30aafb9b7529bd87f">HIT</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da9b13a68aa72482384d42e5e0c9589a45">SCORE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dabdd7c816949b70ad5c44d3298abccbae">ENEMY_SPAWN</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da0775d0b707523c35a9def9692f99524c">ENEMY_DEAD</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da607c0af095f6aa0062e028a25d4fbe14">ENEMY_MOVE</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dabe6253d5378f3f4c1971e165369d6860">ENEMY_SHOOT</a>
+, <br />
+&#160;&#160;<a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dad81cdf3f14a321b149c7e8b0fc3d1aca">ENEMY_LIFE</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5186e5e88d04171d8bc1860eb54e4859">MAP</a>
+, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8">END</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a1b1463e4c7b55d7d79654a8600673c8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the packet It determines the content of the packet, like the type of the data and the size of the packet.  <a href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">More...</a><br /></td></tr>
+<tr class="separator:a1b1463e4c7b55d7d79654a8600673c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8301b06c357b3143ed9e3737aec987c" id="r_ae8301b06c357b3143ed9e3737aec987c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">Status</a> { <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a">OK</a> = 200
 , <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987cac865cbbc575d8586b0017682fadff9e4">UNKNOW</a> = 400
+, <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987ca47d42aedf8af626dc611909370634218">KO</a> = 500
  }</td></tr>
-<tr class="memdesc:ae8301b06c357b3143ed9e3737aec987c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status code of the packet.  <a href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">More...</a><br /></td></tr>
+<tr class="memdesc:ae8301b06c357b3143ed9e3737aec987c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The status of a packet.  <a href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">More...</a><br /></td></tr>
 <tr class="separator:ae8301b06c357b3143ed9e3737aec987c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b1463e4c7b55d7d79654a8600673c8d" id="r_a1b1463e4c7b55d7d79654a8600673c8d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">PacketType</a> { <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da9e41a88d34f527514a5eac153da0959f">BEGIN</a>
-, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5777267b15ab7e779b84efaa2c351e13">PLAYER_MOVE</a>
-, <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8">END</a>
- }</td></tr>
-<tr class="memdesc:a1b1463e4c7b55d7d79654a8600673c8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the packet It can determine the content of the packet, like the type of the data and the size of the packet.  <a href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">More...</a><br /></td></tr>
-<tr class="separator:a1b1463e4c7b55d7d79654a8600673c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_r_f_c.html" title="RFC protocol.">RFC</a> protocol. </p>
@@ -160,13 +178,34 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Type of the packet It can determine the content of the packet, like the type of the data and the size of the packet. </p>
+<p>Type of the packet It determines the content of the packet, like the type of the data and the size of the packet. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da9e41a88d34f527514a5eac153da0959f" name="a1b1463e4c7b55d7d79654a8600673c8da9e41a88d34f527514a5eac153da0959f"></a>BEGIN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da5777267b15ab7e779b84efaa2c351e13" name="a1b1463e4c7b55d7d79654a8600673c8da5777267b15ab7e779b84efaa2c351e13"></a>PLAYER_MOVE&#160;</td><td class="fielddoc"><p>The game starts, the associated data is of type BeginData </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da6a014050ac06ce05d695b07a0a58c31a" name="a1b1463e4c7b55d7d79654a8600673c8da6a014050ac06ce05d695b07a0a58c31a"></a>CONNECT&#160;</td><td class="fielddoc"><p>CONNECT packet data is a <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">HubData</a>. The server sends a CONNECT packet to all the clients when a new client is connected. </p>
+<p>It will receive CONNECT from a client to accept a new connection.</p>
+<p>If the server can't accept a new connection, the server will send back a CONNECT packet with the status set to <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987ca47d42aedf8af626dc611909370634218">KO</a> only to the sender, with an appropriate message. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8" name="a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8"></a>END&#160;</td><td class="fielddoc"><p>The player moves, the associated data is of type PlayerMoveData </p>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dad8678fca6eb77b40fd00f1cdb099ceb0" name="a1b1463e4c7b55d7d79654a8600673c8dad8678fca6eb77b40fd00f1cdb099ceb0"></a>DISCONNECT&#160;</td><td class="fielddoc"><p>DISCONNECT packet The data is stored on @red <a class="el" href="struct_r_f_c_1_1_packet.html#a738a55c38a4c8efef716ef4fabc2242c" title="The data of the DISCONNECT packet.">RFC::Packet::disconnectData</a> "disconnectData" wich is of type <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">HubData</a>. The server sends a DISCONNECT packet to all the clients when a client is disconnected. </p>
+<p>It will receive DISCONNECT from a client to disconnect it.</p>
+<p>The data contained in the <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">data</a> must be the currently connected players without the disconnected one. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dad84bf39525f5f404e231bb0425544c0f" name="a1b1463e4c7b55d7d79654a8600673c8dad84bf39525f5f404e231bb0425544c0f"></a>START&#160;</td><td class="fielddoc"><p>START packet The data is stored on <a class="el" href="struct_r_f_c_1_1_packet.html#acaed918e924b636c4083eb39f94a3e62">startData</a> wich is of type <a class="el" href="struct_r_f_c_1_1data_1_1_start_data.html">StartData</a>. The server sends a START packet to all the clients when the host starts the game. </p>
+<p>It will receive START from a client to start the game.</p>
+<p>The data contained in the <a class="el" href="struct_r_f_c_1_1data_1_1_start_data.html">data</a> must be the map to be used.</p>
+<p>It have to be sent by the host to the server. Then, the server will send it back to all the players to tell them that the game is about to start. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dad0f3bd1d1e5a5d620f6e49dc9fc45844" name="a1b1463e4c7b55d7d79654a8600673c8dad0f3bd1d1e5a5d620f6e49dc9fc45844"></a>DEAD&#160;</td><td class="fielddoc"><p>Sent by server to all the clients when a player is dead. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da5ec573b5eea34ba09595b8905f1322f1" name="a1b1463e4c7b55d7d79654a8600673c8da5ec573b5eea34ba09595b8905f1322f1"></a>MOVE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da9ebb3cfba69fb424bf0c30ca253c4d89" name="a1b1463e4c7b55d7d79654a8600673c8da9ebb3cfba69fb424bf0c30ca253c4d89"></a>SHOOT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da7e237280896348b30aafb9b7529bd87f" name="a1b1463e4c7b55d7d79654a8600673c8da7e237280896348b30aafb9b7529bd87f"></a>HIT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da9b13a68aa72482384d42e5e0c9589a45" name="a1b1463e4c7b55d7d79654a8600673c8da9b13a68aa72482384d42e5e0c9589a45"></a>SCORE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dabdd7c816949b70ad5c44d3298abccbae" name="a1b1463e4c7b55d7d79654a8600673c8dabdd7c816949b70ad5c44d3298abccbae"></a>ENEMY_SPAWN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da0775d0b707523c35a9def9692f99524c" name="a1b1463e4c7b55d7d79654a8600673c8da0775d0b707523c35a9def9692f99524c"></a>ENEMY_DEAD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da607c0af095f6aa0062e028a25d4fbe14" name="a1b1463e4c7b55d7d79654a8600673c8da607c0af095f6aa0062e028a25d4fbe14"></a>ENEMY_MOVE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dabe6253d5378f3f4c1971e165369d6860" name="a1b1463e4c7b55d7d79654a8600673c8dabe6253d5378f3f4c1971e165369d6860"></a>ENEMY_SHOOT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8dad81cdf3f14a321b149c7e8b0fc3d1aca" name="a1b1463e4c7b55d7d79654a8600673c8dad81cdf3f14a321b149c7e8b0fc3d1aca"></a>ENEMY_LIFE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da5186e5e88d04171d8bc1860eb54e4859" name="a1b1463e4c7b55d7d79654a8600673c8da5186e5e88d04171d8bc1860eb54e4859"></a>MAP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8" name="a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8"></a>END&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -183,11 +222,13 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Status code of the packet. </p>
+<p>The status of a packet. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a" name="ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a"></a>OK&#160;</td><td class="fielddoc"><p>The packet is valid, no error </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a" name="ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a"></a>OK&#160;</td><td class="fielddoc"><p>The packet is correct, operation successfully executed </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae8301b06c357b3143ed9e3737aec987cac865cbbc575d8586b0017682fadff9e4" name="ae8301b06c357b3143ed9e3737aec987cac865cbbc575d8586b0017682fadff9e4"></a>UNKNOW&#160;</td><td class="fielddoc"><p>The packet is invalid, the data is invalid </p>
+<tr><td class="fieldname"><a id="ae8301b06c357b3143ed9e3737aec987cac865cbbc575d8586b0017682fadff9e4" name="ae8301b06c357b3143ed9e3737aec987cac865cbbc575d8586b0017682fadff9e4"></a>UNKNOW&#160;</td><td class="fielddoc"><p>The packet was not correctly formatted </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae8301b06c357b3143ed9e3737aec987ca47d42aedf8af626dc611909370634218" name="ae8301b06c357b3143ed9e3737aec987ca47d42aedf8af626dc611909370634218"></a>KO&#160;</td><td class="fielddoc"><p>The packet was correctly formatted but the operation failed </p>
 </td></tr>
 </table>
 

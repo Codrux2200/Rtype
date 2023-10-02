@@ -30,8 +30,13 @@ var NAVTREE =
     [ "Usage", "index.html#usage_sec", null ],
     [ "Contact", "index.html#contact_sec", null ],
     [ "RFC", "rfc_page.html", [
-      [ "Server", "rfc_page.html#server_rfc_sec", null ],
-      [ "Client", "rfc_page.html#client_rfc_sec", null ]
+      [ "Packet architecture", "rfc_page.html#packet_sec", null ],
+      [ "Packet types", "rfc_page.html#packet_types_sec", [
+        [ "Server", "rfc_page.html#server_rfc_sec", [
+          [ "CONNECT", "rfc_page.html#server_connect_sec", null ],
+          [ "DISCONNECT", "rfc_page.html#server_disconnect_sec", null ]
+        ] ]
+      ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -57,7 +62,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_begin_data_8hpp.html"
+"_hub_data_8hpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

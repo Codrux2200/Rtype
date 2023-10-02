@@ -116,71 +116,174 @@ $(document).ready(function(){initNavTree('struct_r_f_c_1_1_packet.html',''); ini
 </div><!--header-->
 <div class="contents">
 
-<p>A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains the status of the packet,...">Packet</a> is the structure sent by both client and server. It contains the status of the packet, the type of the packet and the associated data.  
+<p>A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains a Status, the type of the packe...">Packet</a> is the structure sent by both client and server. It contains a <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">Status</a>, the <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">type</a> of the packet and the associated data.  
  <a href="struct_r_f_c_1_1_packet.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_packet_8hpp_source.html">Packet.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a9150f31307ca4fa581181a86fc7959e9" id="r_a9150f31307ca4fa581181a86fc7959e9"><td class="memItemLeft" align="right" valign="top">long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a9150f31307ca4fa581181a86fc7959e9">id</a></td></tr>
+<tr class="memdesc:a9150f31307ca4fa581181a86fc7959e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">growing ID  <br /></td></tr>
+<tr class="separator:a9150f31307ca4fa581181a86fc7959e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a709186928fda37ea0d0f60090c3b8a22" id="r_a709186928fda37ea0d0f60090c3b8a22"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a709186928fda37ea0d0f60090c3b8a22">sequence</a></td></tr>
+<tr class="memdesc:a709186928fda37ea0d0f60090c3b8a22"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence number / tick number  <br /></td></tr>
+<tr class="separator:a709186928fda37ea0d0f60090c3b8a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6caf9999b035bf89d87412da1f3dade2" id="r_a6caf9999b035bf89d87412da1f3dade2"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a6caf9999b035bf89d87412da1f3dade2">replication</a></td></tr>
+<tr class="memdesc:a6caf9999b035bf89d87412da1f3dade2"><td class="mdescLeft">&#160;</td><td class="mdescRight">what replication is this  <br /></td></tr>
+<tr class="separator:a6caf9999b035bf89d87412da1f3dade2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31958f965f920d25260c68de181ed99b" id="r_a31958f965f920d25260c68de181ed99b"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a31958f965f920d25260c68de181ed99b">timestamp</a></td></tr>
+<tr class="memdesc:a31958f965f920d25260c68de181ed99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">timestamp of the packet  <br /></td></tr>
+<tr class="separator:a31958f965f920d25260c68de181ed99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972238ece1a85abc123a86d6660f5e35" id="r_a972238ece1a85abc123a86d6660f5e35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a972238ece1a85abc123a86d6660f5e35">status</a></td></tr>
+<tr class="memdesc:a972238ece1a85abc123a86d6660f5e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The status of the packet.  <br /></td></tr>
 <tr class="separator:a972238ece1a85abc123a86d6660f5e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a967ce47048c786556ee4831d330746c5" id="r_a967ce47048c786556ee4831d330746c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">PacketType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a967ce47048c786556ee4831d330746c5">type</a></td></tr>
+<tr class="memdesc:a967ce47048c786556ee4831d330746c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the packet.  <br /></td></tr>
 <tr class="separator:a967ce47048c786556ee4831d330746c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8ef3b6e16ba14d3b4199481fbe55eee" id="r_ab8ef3b6e16ba14d3b4199481fbe55eee"><td class="memItemLeft" >union {&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="memitem:a06c0c0b79921df8afc9e360e30ba29ff" id="r_a06c0c0b79921df8afc9e360e30ba29ff"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#a06c0c0b79921df8afc9e360e30ba29ff">message</a> [256]</td></tr>
+<tr class="memdesc:a06c0c0b79921df8afc9e360e30ba29ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">The message of the packet.  <br /></td></tr>
+<tr class="separator:a06c0c0b79921df8afc9e360e30ba29ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a792e494c419552068bd4e8568ca5fb41" id="r_a792e494c419552068bd4e8568ca5fb41"><td class="memItemLeft" >union {&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7e148e8a50cc689fc1b13bea431c2b" id="r_a3a7e148e8a50cc689fc1b13bea431c2b"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1data_1_1_player_data.html">RFC::data::PlayerData</a>&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1_packet.html#afd46eae87885e7dfa8fb8c7aa1b62416">movePlayerData</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a3a7e148e8a50cc689fc1b13bea431c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a340e0809610d47b9186686b96adbd51d" id="r_a340e0809610d47b9186686b96adbd51d"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1data_1_1_begin_data.html">RFC::data::BeginData</a>&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1_packet.html#ae877477a984288576b2910f51358d82d">beginData</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a340e0809610d47b9186686b96adbd51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8ef3b6e16ba14d3b4199481fbe55eee" id="r_ab8ef3b6e16ba14d3b4199481fbe55eee"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_f_c_1_1_packet.html#ab8ef3b6e16ba14d3b4199481fbe55eee">data</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:ab8ef3b6e16ba14d3b4199481fbe55eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b46d79fe7a277ae51b6248508452484" id="r_a8b46d79fe7a277ae51b6248508452484"><td class="memItemLeft" >&#160;&#160;&#160;struct <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">data::HubData</a>&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1_packet.html#a892cf029347d156477722f844ab9671f">connectData</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="memdesc:a8b46d79fe7a277ae51b6248508452484"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data of the CONNECT packet.  <a href="struct_r_f_c_1_1_packet.html#a892cf029347d156477722f844ab9671f">More...</a><br /></td></tr>
+<tr class="separator:a8b46d79fe7a277ae51b6248508452484"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b95d90709f4fc37543dcf709e15aca7" id="r_a2b95d90709f4fc37543dcf709e15aca7"><td class="memItemLeft" >&#160;&#160;&#160;struct <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">data::HubData</a>&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1_packet.html#a738a55c38a4c8efef716ef4fabc2242c">disconnectData</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="memdesc:a2b95d90709f4fc37543dcf709e15aca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data of the DISCONNECT packet.  <a href="struct_r_f_c_1_1_packet.html#a738a55c38a4c8efef716ef4fabc2242c">More...</a><br /></td></tr>
+<tr class="separator:a2b95d90709f4fc37543dcf709e15aca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab20c4b2cd6ef67ad7ec23cd6375e85cd" id="r_ab20c4b2cd6ef67ad7ec23cd6375e85cd"><td class="memItemLeft" >&#160;&#160;&#160;struct <a class="el" href="struct_r_f_c_1_1data_1_1_start_data.html">data::StartData</a>&#160;&#160;&#160;<a class="el" href="struct_r_f_c_1_1_packet.html#acaed918e924b636c4083eb39f94a3e62">startData</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="memdesc:ab20c4b2cd6ef67ad7ec23cd6375e85cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data of the START packet.  <a href="struct_r_f_c_1_1_packet.html#acaed918e924b636c4083eb39f94a3e62">More...</a><br /></td></tr>
+<tr class="separator:ab20c4b2cd6ef67ad7ec23cd6375e85cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a792e494c419552068bd4e8568ca5fb41" id="r_a792e494c419552068bd4e8568ca5fb41"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom">&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a792e494c419552068bd4e8568ca5fb41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains the status of the packet,...">Packet</a> is the structure sent by both client and server. It contains the status of the packet, the type of the packet and the associated data. </p>
+<div class="textblock"><p>A <a class="el" href="struct_r_f_c_1_1_packet.html" title="A Packet is the structure sent by both client and server. It contains a Status, the type of the packe...">Packet</a> is the structure sent by both client and server. It contains a <a class="el" href="namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c">Status</a>, the <a class="el" href="namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8d">type</a> of the packet and the associated data. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae877477a984288576b2910f51358d82d" name="ae877477a984288576b2910f51358d82d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae877477a984288576b2910f51358d82d">&#9670;&#160;</a></span>beginData</h2>
+<a id="a792e494c419552068bd4e8568ca5fb41" name="a792e494c419552068bd4e8568ca5fb41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a792e494c419552068bd4e8568ca5fb41">&#9670;&#160;</a></span>[union]</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_r_f_c_1_1data_1_1_begin_data.html">RFC::data::BeginData</a> RFC::Packet::beginData</td>
+          <td class="memname">union  { ... }  <a class="el" href="struct_r_f_c_1_1_packet.html">RFC::Packet</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Data to be recovered if the packet is of type BeginData </p>
 
 </div>
 </div>
-<a id="ab8ef3b6e16ba14d3b4199481fbe55eee" name="ab8ef3b6e16ba14d3b4199481fbe55eee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8ef3b6e16ba14d3b4199481fbe55eee">&#9670;&#160;</a></span>[union]</h2>
+<a id="a892cf029347d156477722f844ab9671f" name="a892cf029347d156477722f844ab9671f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892cf029347d156477722f844ab9671f">&#9670;&#160;</a></span>connectData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">union  { ... }  RFC::Packet::data</td>
+          <td class="memname">struct <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">data::HubData</a> RFC::Packet::connectData</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The associated data </p>
+
+<p>The data of the CONNECT packet. </p>
 
 </div>
 </div>
-<a id="afd46eae87885e7dfa8fb8c7aa1b62416" name="afd46eae87885e7dfa8fb8c7aa1b62416"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd46eae87885e7dfa8fb8c7aa1b62416">&#9670;&#160;</a></span>movePlayerData</h2>
+<a id="a738a55c38a4c8efef716ef4fabc2242c" name="a738a55c38a4c8efef716ef4fabc2242c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a738a55c38a4c8efef716ef4fabc2242c">&#9670;&#160;</a></span>disconnectData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_r_f_c_1_1data_1_1_player_data.html">RFC::data::PlayerData</a> RFC::Packet::movePlayerData</td>
+          <td class="memname">struct <a class="el" href="struct_r_f_c_1_1data_1_1_hub_data.html">data::HubData</a> RFC::Packet::disconnectData</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Data to be recovered if the packet is of type PlayerMoveData </p>
+
+<p>The data of the DISCONNECT packet. </p>
+
+</div>
+</div>
+<a id="a9150f31307ca4fa581181a86fc7959e9" name="a9150f31307ca4fa581181a86fc7959e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9150f31307ca4fa581181a86fc7959e9">&#9670;&#160;</a></span>id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long int RFC::Packet::id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>growing ID </p>
+
+</div>
+</div>
+<a id="a06c0c0b79921df8afc9e360e30ba29ff" name="a06c0c0b79921df8afc9e360e30ba29ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06c0c0b79921df8afc9e360e30ba29ff">&#9670;&#160;</a></span>message</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char RFC::Packet::message[256]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The message of the packet. </p>
+
+</div>
+</div>
+<a id="a6caf9999b035bf89d87412da1f3dade2" name="a6caf9999b035bf89d87412da1f3dade2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6caf9999b035bf89d87412da1f3dade2">&#9670;&#160;</a></span>replication</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short RFC::Packet::replication</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>what replication is this </p>
+
+</div>
+</div>
+<a id="a709186928fda37ea0d0f60090c3b8a22" name="a709186928fda37ea0d0f60090c3b8a22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a709186928fda37ea0d0f60090c3b8a22">&#9670;&#160;</a></span>sequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RFC::Packet::sequence</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>sequence number / tick number </p>
+
+</div>
+</div>
+<a id="acaed918e924b636c4083eb39f94a3e62" name="acaed918e924b636c4083eb39f94a3e62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaed918e924b636c4083eb39f94a3e62">&#9670;&#160;</a></span>startData</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="struct_r_f_c_1_1data_1_1_start_data.html">data::StartData</a> RFC::Packet::startData</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The data of the START packet. </p>
 
 </div>
 </div>
@@ -195,7 +298,24 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The status of the packet </p>
+
+<p>The status of the packet. </p>
+
+</div>
+</div>
+<a id="a31958f965f920d25260c68de181ed99b" name="a31958f965f920d25260c68de181ed99b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31958f965f920d25260c68de181ed99b">&#9670;&#160;</a></span>timestamp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long RFC::Packet::timestamp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>timestamp of the packet </p>
 
 </div>
 </div>
@@ -210,7 +330,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The type of the packet </p>
+
+<p>The type of the packet. </p>
 
 </div>
 </div>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['id_0',['id',['../struct_r_f_c_1_1data_1_1_player_data.html#a1ef0b2ca07d67c98f781400b9bb5a81f',1,'RFC::data::PlayerData']]],
-  ['installation_1',['Installation',['../index.html#install_sec',1,'']]],
-  ['introduction_2',['Introduction',['../index.html#intro_sec',1,'']]]
+  ['hit_0',['HIT',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da7e237280896348b30aafb9b7529bd87f',1,'RFC']]],
+  ['hubdata_1',['HubData',['../struct_r_f_c_1_1data_1_1_hub_data.html',1,'RFC::data']]],
+  ['hubdata_2ehpp_2',['HubData.hpp',['../_hub_data_8hpp.html',1,'']]]
 ];
