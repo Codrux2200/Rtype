@@ -32,41 +32,19 @@ namespace ECS {
              */
             ~HitboxComponent();
             /**
-             * @brief Get the X hitbox object
+             * @brief Get the X and Y hitbox object
              * 
-             * @return int
+             * @return std::vector<int>
              */
-            int getX() const;
+            std::vector<int> getValue() const final;
             /**
-             * @brief Get the Y hitbox object
+             * @brief Set the X and Y hitbox object
              * 
-             * @return int
+             * @param x
+             * @param y
              */
-            int getY() const;
-            /**
-             * @brief Set the X hitbox object
-             * 
-             * @param x 
-             */
-            void setX(int x);
-            /**
-             * @brief Set the Y hitbox object
-             * 
-             * @param y 
-             */
-            void setY(int y);
-            /**
-             * @brief Get the Weight hitbox object
-             * 
-             * @return int
-             */
-            int getWeight() const;
-            /**
-             * @brief Get the Height hitbox object
-             * 
-             * @return int
-             */
-            int getHeight() const;
+            void setValue(int x, int y) final;
+            
         protected:
         private:
             /**

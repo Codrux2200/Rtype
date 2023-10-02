@@ -30,54 +30,18 @@ namespace ECS {
              */
             ~PositionComponent();
             /**
-             * @brief Get the X position object
+             * @brief Get the X and Y position object
              * 
-             * @return int
+             * @return std::vector<int>
              */
-            int getX() const;
+            std::vector<int> getValue() const final;
             /**
-             * @brief Get the Y position object
-             * 
-             * @return int
-             */
-            int getY() const;
-            /**
-             * @brief Set the X position object
+             * @brief Set the X and Y position object
              * 
              * @param x 
-             */
-            void setX(int x);
-            /**
-             * @brief Set the Y position object
-             * 
              * @param y 
              */
-            void setY(int y);
-            
-            /**
-             * @brief move the entity right
-             * 
-             * @param y 
-             */
-            void moveRight(int x);
-            /**
-             * @brief move the entity left
-             * 
-             * @param x 
-             */
-            void moveLeft(int x);
-            /**
-             * @brief move the entity up
-             * 
-             * @param y 
-             */
-            void moveUp(int y);
-            /**
-             * @brief move the entity down
-             * 
-             * @param y 
-             */
-            void moveDown(int y);
+            void setValue(int x, int y) final;
         protected:
         private:
             /**

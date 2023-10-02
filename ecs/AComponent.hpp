@@ -8,7 +8,7 @@
 #ifndef ACOMPONENT_HPP_
 #define ACOMPONENT_HPP_
 #include "IComponent.hpp"
-#include <string>
+#include <vector>
 
 namespace ECS {
     /**
@@ -29,17 +29,31 @@ namespace ECS {
              */
             ~AComponent();
             /**
-             * @brief Construct a new AComponent object
+             * @brief Get the Uid object
              * 
              * @return the uid of the component
              */
-            virtual int getUid() const;
+            int getUid() const final;
             /**
-             * @brief Construct a new AComponent object
+             * @brief Set the Uid object
              * 
              * @param uid 
              */
-            virtual void setUid(int uid);
+            void setUid(int uid) final;
+            /**
+             * @brief Get the Value object
+             * 
+             * @return the value asked
+             */
+            virtual std::vector<int> getValue() const;
+            /**
+             * @brief Set the Value object
+             * 
+             * @param valueA
+             * 
+             * @param valueB
+             */
+            virtual void setValue(int valueA, int valueB);
         protected:
         private:
             /**

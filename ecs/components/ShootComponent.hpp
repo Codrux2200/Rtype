@@ -28,29 +28,18 @@ namespace ECS {
              */
             ~ShootComponent();
             /**
-             * @brief Get the Shoot Speed object
+             * @brief Get the Shoot Speed and the shoot damage of the entity
              * 
-             * @return int 
+             * @return std::vector<int>
              */
-            int getShootSpeed() const;
+            std::vector<int> getValue() const final;
             /**
-             * @brief Get the Shoot Damage object
-             * 
-             * @return int 
-             */
-            int getShootDamage() const;
-            /**
-             * @brief Set the Shoot Speed object
+             * @brief Set the Shoot Speed and the shoot damage of the entity
              * 
              * @param shootSpeed 
-             */
-            void setShootSpeed(int shootSpeed);
-            /**
-             * @brief Set the Shoot Damage object
-             * 
              * @param shootDamage 
              */
-            void setShootDamage(int shootDamage);
+            void setValue(int shootSpeed, int shootDamage) final;
         protected:
         private:
             /**

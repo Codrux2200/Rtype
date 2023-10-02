@@ -27,6 +27,18 @@ namespace ECS {
              * 
              */
             ~EnemyComponent();
+            /**
+             * @brief Set the enemy of the entity
+             * 
+             * @param enemy
+             */
+            void setValue(int enemy, int unused = 0) final;
+            /**
+             * @brief Get the enemy of the entity
+             * 
+             * @return std::vector<int>
+             */
+            std::vector<int> getValue() const final;
         protected:
         private:
     };

@@ -15,3 +15,13 @@ ECS::PlayerComponent::PlayerComponent(int uid)
 ECS::PlayerComponent::~PlayerComponent()
 {
 }
+
+void ECS::PlayerComponent::setValue(int player, int unused)
+{
+}
+
+std::vector<int> ECS::PlayerComponent::getValue() const
+{
+    std::vector<int> player = std::vector<int>();
+    return player;
+}

@@ -42,19 +42,13 @@ void ECS::Core::mainLoop()
             firstScene.entitiesList.at(1)->components.push_back(HealthComponent(11));
             std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
         } else {
-            // update the health component casted to HealthComponent
-            //HealthComponent &health = dynamic_cast<HealthComponent &>(firstScene.entitiesList.at(1)->components[1]);
-            //health.setHealth(health.getHealth() - arrow * 10);
+            HealthComponent health = static_cast<HealthComponent&>(firstScene.entitiesList.at(1)->components.at(1));
+            std::cout << "health id: " << health.getUid() << std::endl;
+            std::cout << "health value: " << health.getValue().size() << std::endl;
+            for (int i = 0; i < health.getValue().size(); i++) {
+                std::cout << "health value: " << health.getValue().at(i) << std::endl;
+            }
         }
-        std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
-        //close the window if the health is 0
-        //HealthComponent *health = dynamic_cast<HealthComponent *>(&firstScene.entitiesList.at(1)->components[1]);
-        //if (health == nullptr)
-        //    sceneManager.shouldClose = true;
-        //else if (health->getHealth() <= 0) {
-        //    sceneManager.shouldClose = true;
-        //    health->~HealthComponent();
-        //}
         arrow++;
     }   
 }

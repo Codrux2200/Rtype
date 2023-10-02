@@ -20,32 +20,18 @@ ECS::HitboxComponent::~HitboxComponent()
 {
 }
 
-int ECS::HitboxComponent::getX() const
-{
-    return _x;
-}
-
-int ECS::HitboxComponent::getY() const
-{
-    return _y;
-}
-
-void ECS::HitboxComponent::setX(int x)
+void ECS::HitboxComponent::setValue(int x, int y)
 {
     _x = x;
-}
-
-void ECS::HitboxComponent::setY(int y)
-{
     _y = y;
 }
 
-int ECS::HitboxComponent::getHeight() const
+std::vector<int> ECS::HitboxComponent::getValue() const
 {
-    return _height;
-}
-
-int ECS::HitboxComponent::getWeight() const
-{
-    return _weight;
+    std::vector<int> hitbox = std::vector<int>();
+    hitbox.push_back(_x);
+    hitbox.push_back(_y);
+    hitbox.push_back(_height);
+    hitbox.push_back(_weight);
+    return hitbox;
 }

@@ -15,3 +15,13 @@ ECS::EnemyComponent::EnemyComponent(int uid)
 ECS::EnemyComponent::~EnemyComponent()
 {
 }
+
+void ECS::EnemyComponent::setValue(int enemy, int unused)
+{
+}
+
+std::vector<int> ECS::EnemyComponent::getValue() const
+{
+    std::vector<int> enemy = std::vector<int>();
+    return enemy;
+}

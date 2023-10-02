@@ -17,12 +17,14 @@ ECS::RotationComponent::~RotationComponent()
 {
 }
 
-float ECS::RotationComponent::getRotation() const
+std::vector<int> ECS::RotationComponent::getValue() const
 {
-    return _rotation;
+    std::vector<int> rotation = std::vector<int>();
+    rotation.push_back(_rotation);
+    return rotation;
 }
 
-void ECS::RotationComponent::setRotation(float rotation)
+void ECS::RotationComponent::setValue(int rotation, int unused)
 {
     _rotation = rotation;
 }

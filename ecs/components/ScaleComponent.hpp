@@ -30,29 +30,18 @@ namespace ECS {
              */
             ~ScaleComponent();
             /**
-             * @brief Set the X object
+             * @brief Get the X and Y scale object
              * 
-             * @param x
+             * @return std::vector<int>
              */
-            void setX(int x);
+            std::vector<int> getValue() const final;
             /**
-             * @brief Set the Y object
+             * @brief Set the X and Y scale object
              * 
-             * @param y
+             * @param x 
+             * @param y 
              */
-            void setY(int y);
-            /**
-             * @brief Get the X object
-             * 
-             * @return int
-             */
-            int getX() const;
-            /**
-             * @brief Get the Y object
-             * 
-             * @return int
-             */
-            int getY() const;
+            void setValue(int x, int y) final;
         protected:
         private:
             /**

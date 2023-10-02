@@ -18,22 +18,16 @@ ECS::ShootComponent::~ShootComponent()
 {
 }
 
-void ECS::ShootComponent::setShootSpeed(int shootSpeed)
+void ECS::ShootComponent::setValue(int shootSpeed, int shootDamage)
 {
     _shootSpeed = shootSpeed;
-}
-
-void ECS::ShootComponent::setShootDamage(int shootDamage)
-{
     _shootDamage = shootDamage;
 }
 
-int ECS::ShootComponent::getShootSpeed() const
+std::vector<int> ECS::ShootComponent::getValue() const
 {
-    return _shootSpeed;
-}
-
-int ECS::ShootComponent::getShootDamage() const
-{
-    return _shootDamage;
+    std::vector<int> shoot = std::vector<int>();
+    shoot.push_back(_shootSpeed);
+    shoot.push_back(_shootDamage);
+    return shoot;
 }

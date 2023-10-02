@@ -17,12 +17,14 @@ ECS::HealthComponent::~HealthComponent()
 {
 }
 
-void ECS::HealthComponent::setHealth(int health)
+void ECS::HealthComponent::setValue(int health, int unused)
 {
     _health = health;
 }
 
-int ECS::HealthComponent::getHealth() const
+std::vector<int> ECS::HealthComponent::getValue() const
 {
-    return _health;
+    std::vector<int> health = std::vector<int>();
+    health.push_back(_health);
+    return health;
 }

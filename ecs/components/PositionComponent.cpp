@@ -18,42 +18,16 @@ ECS::PositionComponent::~PositionComponent()
 {
 }
 
-int ECS::PositionComponent::getX() const
-{
-    return _x;
-}
-
-int ECS::PositionComponent::getY() const
-{
-    return _y;
-}
-
-void ECS::PositionComponent::setX(int x)
+void ECS::PositionComponent::setValue(int x, int y)
 {
     _x = x;
-}
-
-void ECS::PositionComponent::setY(int y)
-{
     _y = y;
 }
 
-void ECS::PositionComponent::moveRight(int x)
+std::vector<int> ECS::PositionComponent::getValue() const
 {
-    _x += x;
-}
-
-void ECS::PositionComponent::moveLeft(int x)
-{
-    _x -= x;
-}
-
-void ECS::PositionComponent::moveUp(int y)
-{
-    _y -= y;
-}
-
-void ECS::PositionComponent::moveDown(int y)
-{
-    _y += y;
+    std::vector<int> position = std::vector<int>();
+    position.push_back(_x);
+    position.push_back(_y);
+    return position;
 }

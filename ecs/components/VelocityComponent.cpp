@@ -16,12 +16,14 @@ ECS::VelocityComponent::~VelocityComponent()
 {
 }
 
-void ECS::VelocityComponent::setVelocity(int velocity)
+void ECS::VelocityComponent::setValue(int velocity, int unused)
 {
     _velocity = velocity;
 }
 
-int ECS::VelocityComponent::getVelocity() const
+std::vector<int> ECS::VelocityComponent::getValue() const
 {
-    return _velocity;
+    std::vector<int> velocity = std::vector<int>();
+    velocity.push_back(_velocity);
+    return velocity;
 }

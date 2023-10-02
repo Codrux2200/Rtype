@@ -27,6 +27,18 @@ namespace ECS {
              * 
              */
             ~PlayerComponent();
+            /**
+             * @brief Set the player of the entity
+             * 
+             * @param player
+             */
+            void setValue(int player, int unused = 0) final;
+            /**
+             * @brief Get the player of the entity
+             * 
+             * @return std::vector<int>
+             */
+            std::vector<int> getValue() const final;
         protected:
         private:
     };

@@ -18,22 +18,16 @@ ECS::ScaleComponent::~ScaleComponent()
 {
 }
 
-int ECS::ScaleComponent::getX() const
-{
-    return _x;
-}
-
-int ECS::ScaleComponent::getY() const
-{
-    return _y;
-}
-
-void ECS::ScaleComponent::setX(int x)
+void ECS::ScaleComponent::setValue(int x, int y)
 {
     _x = x;
+    _y = y;
 }
 
-void ECS::ScaleComponent::setY(int y)
+std::vector<int> ECS::ScaleComponent::getValue() const
 {
-    _y = y;
+    std::vector<int> scale = std::vector<int>();
+    scale.push_back(_x);
+    scale.push_back(_y);
+    return scale;
 }
