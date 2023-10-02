@@ -27,7 +27,7 @@ void ECS::Core::mainLoop()
         if (arrow == 10)
             sceneManager.shouldClose = true;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
-        std::cout << "loop nb: " << arrow << " nb of entities: " << firstScene.entitiesList.size() << std::endl;
+        std::cout << "Loop nb: " << arrow << " | Nb of entities: " << firstScene.entitiesList.size() << std::endl;
         // create the player entity if it doesn't exist
         if (firstScene.entitiesList.size() < 1) {
             // create a tag vector
@@ -35,18 +35,22 @@ void ECS::Core::mainLoop()
             tags.push_back(ECS::Tag::MOVABLE);
             tags.push_back(ECS::Tag::DESTROYABLE);
             // add the player entity to the scene
-            firstScene.entitiesList.insert(std::pair<int, Entity*>(1, new Entity(1, tags)));
+            firstScene.entitiesList.emplace(1, new Entity(1, tags));
             // create the player component
-            firstScene.entitiesList.at(1)->components.push_back(PlayerComponent(10));
+            firstScene.entitiesList.at(1)->components.push_back(new PlayerComponent(10));
             // create the health component
-            firstScene.entitiesList.at(1)->components.push_back(HealthComponent(11));
+            firstScene.entitiesList.at(1)->components.push_back(new HealthComponent(11));
             std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
         } else {
-            HealthComponent health = static_cast<HealthComponent&>(firstScene.entitiesList.at(1)->components.at(1));
-            std::cout << "health id: " << health.getUid() << std::endl;
-            std::cout << "health value: " << health.getValue().size() << std::endl;
-            for (int i = 0; i < health.getValue().size(); i++) {
-                std::cout << "health value: " << health.getValue().at(i) << std::endl;
+            HealthComponent *health = dynamic_cast<HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
+            if (health != nullptr) {
+                health->setValue(health->getValue().at(0) - 10, 0);
+                if (health->getValue().at(0) <= 0) {
+                    std::cout << "player is dead" << std::endl;
+                    sceneManager.shouldClose = true;
+                    continue;
+                }
+                std::cout << "player health: " << health->getValue().at(0) << std::endl;
             }
         }
         arrow++;
