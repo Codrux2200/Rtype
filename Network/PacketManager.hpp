@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "Packet.hpp"
 
 namespace Network {

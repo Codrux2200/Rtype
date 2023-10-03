@@ -105,10 +105,10 @@ void RType::Server::_broadcast_message(const std::string &message)
             it = _clients.erase(it); // Remove the disconnected client
         } else {
             // Send the message to the client
-            _socket.async_send_to(boost::asio::buffer(message), client_endpoint,
-            boost::bind(&Server::_handle_send, this, message,
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred));
+//            _socket.async_send_to(boost::asio::buffer(message), client_endpoint,
+//            boost::bind(&Server::_handle_send, this, message,
+//            boost::asio::placeholders::error,
+//            boost::asio::placeholders::bytes_transferred));
             ++it;
         }
     }
