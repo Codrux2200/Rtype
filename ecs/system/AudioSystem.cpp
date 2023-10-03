@@ -8,6 +8,7 @@
 #include "AudioSystem.hpp"
 
 ECS::AudioSystem::AudioSystem()
+    : ASystem(ECS::SystemType::AUDIO)
 {
 }
 

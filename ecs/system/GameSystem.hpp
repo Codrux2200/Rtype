@@ -27,6 +27,13 @@ namespace ECS {
              * 
              */
             ~GameSystem();
+            /**
+             * @brief update the game system
+             * 
+             * @param sceneManager 
+             * @param SceneType 
+             * @param deltaTime 
+             */
         protected:
         private:
     };
