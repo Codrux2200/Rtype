@@ -6,8 +6,11 @@
 */
 
 #include "GameSystem.hpp"
+#include <iostream>
+#include "HealthComponent.hpp"
 
 ECS::GameSystem::GameSystem()
+    : ASystem(ECS::SystemType::GAME)
 {
 }
 

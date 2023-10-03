@@ -8,6 +8,7 @@
 #include "ParticleSystem.hpp"
 
 ECS::ParticleSystem::ParticleSystem()
+    : ASystem(ECS::SystemType::PARTICLE)
 {
 }
 

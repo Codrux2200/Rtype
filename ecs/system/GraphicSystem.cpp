@@ -8,6 +8,7 @@
 #include "GraphicSystem.hpp"
 
 ECS::GraphicSystem::GraphicSystem()
+    : ASystem(ECS::SystemType::GRAPHIC)
 {
 }
 
