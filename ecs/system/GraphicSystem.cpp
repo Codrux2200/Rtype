@@ -26,6 +26,8 @@ void ECS::GraphicSystem::initBackground()
 
 
 void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime){
+        sf::Vector2u screenSize = _window.getSize();
+
         while (_window.pollEvent(_event)) {
             if (_event.type == sf::Event::Closed) {
                 _window.close();
@@ -36,7 +38,7 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         _window.clear();
 
         // Update the BackgroundComponent
-        backgroundComponent.update(deltaTime);
+        backgroundComponent.update(deltaTime, screenSize);
 
         // Draw the BackgroundComponent
         backgroundComponent.draw(_window);

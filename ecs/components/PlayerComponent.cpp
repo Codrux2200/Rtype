@@ -8,7 +8,7 @@
 #include "PlayerComponent.hpp"
 
 ECS::PlayerComponent::PlayerComponent(int uid, const std::string& spritePath)
-    : AComponent(uid), spritePath("../../assets/Ship6.png")
+    : AComponent(uid), spritePath("assets/Ship6.png")
 {
 }
 

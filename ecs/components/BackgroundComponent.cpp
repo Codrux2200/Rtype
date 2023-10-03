@@ -13,7 +13,7 @@ namespace ECS
             "5Background.png",
             "6Background.png"};
 
-        backgroundSpeeds = {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
+        backgroundSpeeds = {0.0001f, 0.0002f, 0.0003f, 0.0004f, 0.0005f, 0.0006f};
         foregroundSpeed = 1.0f;
 
         for (const std::string &path : backgroundPaths)
@@ -42,25 +42,28 @@ namespace ECS
         foregroundPosition = sf::Vector2f(0.f, 0.f);
     }
 
-    void BackgroundComponent::update(float deltaTime)
-    {
-        for (size_t i = 0; i < backgroundLayers.size(); ++i)
-        {
-            backgroundPositions[i].x += backgroundSpeeds[i] * deltaTime; // Update the x-coordinate
-            if (backgroundPositions[i].x >= 800.f)                       // Change 800.f to your window width
-            {
-                backgroundPositions[i].x = 0.f - i * 800.f; // Change 800.f to your window width
-            }
-            backgroundLayers[i]->setPosition(backgroundPositions[i]);
+void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize) {
+    for (size_t i = 0; i < backgroundLayers.size(); ++i) {
+        backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
+        if (backgroundPositions[i].x + backgroundLayers[i]->getGlobalBounds().width <= 0.f) {
+            // Reset the background layer to the right of the screen
+            backgroundPositions[i].x = screenSize.x;
         }
 
-        foregroundPosition.x += foregroundSpeed * deltaTime; // Update the x-coordinate
-        if (foregroundPosition.x >= 800.f)                   // Change 800.f to your window width
-        {
-            foregroundPosition.x = 0.f; // Reset the x-coordinate
-        }
-        foreground->setPosition(foregroundPosition);
+        backgroundLayers[i]->setPosition(backgroundPositions[i]);
     }
+
+    foregroundPosition.x -= foregroundSpeed * deltaTime;
+    if (foregroundPosition.x + foreground->getGlobalBounds().width <= 0.f) {
+        // Reset the foreground layer to the right of the screen
+        foregroundPosition.x = screenSize.x;
+    }
+
+    foreground->setPosition(foregroundPosition);
+}
+
+
+
 
     void BackgroundComponent::draw(sf::RenderWindow &window)
     {

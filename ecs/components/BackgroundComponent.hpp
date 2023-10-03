@@ -12,7 +12,7 @@ namespace ECS
     public:
         BackgroundComponent();
 
-        void update(float deltaTime);
+        void update(float deltaTime, const sf::Vector2u& screenSize);
         void draw(sf::RenderWindow &window);
 
     private:
