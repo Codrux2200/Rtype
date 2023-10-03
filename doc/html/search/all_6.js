@@ -1,15 +1,20 @@
 var searchData=
 [
-  ['handledata_0',['handleData',['../classnetwork_1_1network_module.html#a23cc14f2d6810544d97642c67df38032',1,'network::networkModule']]],
-  ['handlereceive_1',['handleReceive',['../classnetwork_1_1network_client.html#a05a1b7047706dd794ff89561b1e8e324',1,'network::networkClient']]],
-  ['healthcomponent_2',['healthcomponent',['../class_e_c_s_1_1_health_component.html',1,'ECS::HealthComponent'],['../class_e_c_s_1_1_health_component.html#a0532085465118d32b3ade92cf0a65835',1,'ECS::HealthComponent::HealthComponent()']]],
-  ['healthcomponent_2ehpp_3',['HealthComponent.hpp',['../_health_component_8hpp.html',1,'']]],
-  ['help_4',['HELP',['../namespace_e_c_s.html#a953f4ef3d15a7a73cc5dba2d22ab7085af406a635b06586a18e80d50163f0963d',1,'ECS']]],
-  ['hex_5',['hex',['../_c_make_c_x_x_compiler_id_8cpp.html#a46d5d95daa1bef867bd0179594310ed5',1,'HEX:&#160;CMakeCXXCompilerId.cpp'],['../_c_make_c_compiler_id_8c.html#a46d5d95daa1bef867bd0179594310ed5',1,'HEX:&#160;CMakeCCompilerId.c']]],
-  ['hit_6',['HIT',['../namespace_network.html#adb2459998541714e86871e42d3f702a1a9224e4be8922014ac8586f6065c87695',1,'Network']]],
-  ['hitbox_7',['HITBOX',['../namespace_e_c_s.html#a50d483c058cdbb6697ca667db008c9bda4308e29da882bea11ea2fee7276b7f91',1,'ECS']]],
-  ['hitboxcomponent_8',['hitboxcomponent',['../class_e_c_s_1_1_hitbox_component.html',1,'ECS::HitboxComponent'],['../class_e_c_s_1_1_hitbox_component.html#a483efd52558d4f0bbd2c875d0c9e851f',1,'ECS::HitboxComponent::HitboxComponent()']]],
-  ['hitboxcomponent_2ehpp_9',['HitboxComponent.hpp',['../_hitbox_component_8hpp.html',1,'']]],
-  ['hubdata_10',['HubData',['../struct_network_1_1data_1_1_hub_data.html',1,'Network::data']]],
-  ['hubdata_2ehpp_11',['HubData.hpp',['../_hub_data_8hpp.html',1,'']]]
+  ['game_0',['GAME',['../namespace_e_c_s.html#a6826d4c51df55c7bfb9135d910102dabafefb32c140b627f8793b7a629ab3ba3e',1,'ECS']]],
+  ['gamesystem_1',['gamesystem',['../class_e_c_s_1_1_game_system.html',1,'ECS::GameSystem'],['../class_e_c_s_1_1_game_system.html#a5e81bdda3cf1a65632343ce33078fbcc',1,'ECS::GameSystem::GameSystem()']]],
+  ['gamesystem_2ehpp_2',['GameSystem.hpp',['../_game_system_8hpp.html',1,'']]],
+  ['getendpoint_3',['getEndpoint',['../class_r_type_1_1_client.html#aca6f48fbada27ad2b4593bd86954104f',1,'RType::Client']]],
+  ['gethealth_4',['getHealth',['../class_e_c_s_1_1_health_component.html#a71332db2588ef4c39ec97fcbd331d233',1,'ECS::HealthComponent']]],
+  ['getlastactivity_5',['getLastActivity',['../class_r_type_1_1_client.html#a0ac952809e270be7062b585b85966e3c',1,'RType::Client']]],
+  ['getmainvolume_6',['getMainVolume',['../class_e_c_s_1_1_audio_system.html#ad4220f5840e67ca3973e181c26fd3753',1,'ECS::AudioSystem']]],
+  ['getrotation_7',['getRotation',['../class_e_c_s_1_1_rotation_component.html#a5f4cd8eadd60d0a1f5ba0765663c8517',1,'ECS::RotationComponent']]],
+  ['getshootdamage_8',['getShootDamage',['../class_e_c_s_1_1_shoot_component.html#a991cb72d180e8a411d680d760029d836',1,'ECS::ShootComponent']]],
+  ['getshootspeed_9',['getShootSpeed',['../class_e_c_s_1_1_shoot_component.html#af80d5126679b2ac56194762dd46791b1',1,'ECS::ShootComponent']]],
+  ['getuid_10',['getuid',['../class_e_c_s_1_1_a_component.html#a089bf10496cc074fa5e50ce07ee1b55b',1,'ECS::AComponent::getUid()'],['../class_e_c_s_1_1_i_component.html#ad1323997aafc6b744051f7365951d98b',1,'ECS::IComponent::getUid()']]],
+  ['getvelocity_11',['getVelocity',['../class_e_c_s_1_1_velocity_component.html#ab4e0ad7553a515a955446bd1d91b5875',1,'ECS::VelocityComponent']]],
+  ['getx_12',['getx',['../class_e_c_s_1_1_postition_component.html#ae16cb68acfe558da5b338aaa2319883e',1,'ECS::PostitionComponent::getX()'],['../class_e_c_s_1_1_hitbox_component.html#a279f3365d250497fa7c74d57fa67f651',1,'ECS::HitboxComponent::getX()'],['../class_e_c_s_1_1_scale_component.html#a9e0fe02afc364fcff91bdb0671b9df00',1,'ECS::ScaleComponent::getX()']]],
+  ['gety_13',['gety',['../class_e_c_s_1_1_hitbox_component.html#ad17bb285be83d5a7343add762ed345b9',1,'ECS::HitboxComponent::getY()'],['../class_e_c_s_1_1_scale_component.html#a453e5b76f1a7fcc73a3864f4aeb4a78c',1,'ECS::ScaleComponent::getY()'],['../class_e_c_s_1_1_postition_component.html#aa2dab643cd5dd15e861663a68613c586',1,'ECS::PostitionComponent::getY()']]],
+  ['graphic_14',['GRAPHIC',['../namespace_e_c_s.html#a6826d4c51df55c7bfb9135d910102dabad94e6f17c86869571027b33870ff2094',1,'ECS']]],
+  ['graphicsystem_15',['graphicsystem',['../class_e_c_s_1_1_graphic_system.html#acf1fc8dead98207d7abfd5a8d24d6792',1,'ECS::GraphicSystem::GraphicSystem()'],['../class_e_c_s_1_1_graphic_system.html',1,'ECS::GraphicSystem']]],
+  ['graphicsystem_2ehpp_16',['GraphicSystem.hpp',['../_graphic_system_8hpp.html',1,'']]]
 ];

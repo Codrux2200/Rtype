@@ -114,11 +114,11 @@ void RType::Server::_broadcast_message(const std::string &message)
     }
 }
 
-void RType::Server::_handle_send(const std::string &message,
-const boost::system::error_code &error, std::size_t bytes_transferred)
+void RType::Server::_handle_send(std::vector<char> message,
+boost::system::error_code error, std::size_t bytes_transferred)
 {
     if (!error) {
-        std::cout << "Message : " << message << " sent" << std::endl;
+        std::cout << "Message sent" << std::endl;
     } else {
         std::cout << "Error sending message: " << error.message() << std::endl;
     }

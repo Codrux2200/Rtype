@@ -124,12 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a602b86036551ee7d400e269a03dc77ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e5bbee880b31438e2d42ce7350d99a2" id="r_a3e5bbee880b31438e2d42ce7350d99a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a3e5bbee880b31438e2d42ce7350d99a2">~PacketManager</a> ()=default</td></tr>
 <tr class="separator:a3e5bbee880b31438e2d42ce7350d99a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b309ed92c946c24132cebf34b69da5f" id="r_a2b309ed92c946c24132cebf34b69da5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_network_1_1_packet.html">Packet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a2b309ed92c946c24132cebf34b69da5f">createPacket</a> (<a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a> type, struct HubData &amp;data)</td></tr>
-<tr class="separator:a2b309ed92c946c24132cebf34b69da5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a139dea6a98a7e798eb92a867fd1a8c02" id="r_a139dea6a98a7e798eb92a867fd1a8c02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_network_1_1_packet.html">Packet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a139dea6a98a7e798eb92a867fd1a8c02">createPacket</a> (<a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a> type, struct StartData &amp;data)</td></tr>
-<tr class="separator:a139dea6a98a7e798eb92a867fd1a8c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c213302386d026ac5137997e6fb6cd1" id="r_a0c213302386d026ac5137997e6fb6cd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_network_1_1_packet.html">Packet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a0c213302386d026ac5137997e6fb6cd1">createPacket</a> (<a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a> type, struct DisconnectData &amp;data)</td></tr>
-<tr class="separator:a0c213302386d026ac5137997e6fb6cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88b4f208e26131bebe313e1ff26caa85" id="r_a88b4f208e26131bebe313e1ff26caa85"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="struct_network_1_1_packet.html">Network::Packet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a88b4f208e26131bebe313e1ff26caa85">createPacket</a> (<a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">Network::PacketType</a> type, <a class="el" href="namespace_network.html#ab454853a8cd6c20017f09b50135f1f54">Status</a> status, std::string message, void *data=nullptr)</td></tr>
+<tr class="separator:a88b4f208e26131bebe313e1ff26caa85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f9aa1922c7aed6a0b8b3e1ae146075e" id="r_a3f9aa1922c7aed6a0b8b3e1ae146075e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#a3f9aa1922c7aed6a0b8b3e1ae146075e">packetToBytes</a> (const <a class="el" href="struct_network_1_1_packet.html">Packet</a> &amp;packet)</td></tr>
+<tr class="separator:a3f9aa1922c7aed6a0b8b3e1ae146075e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea93e69a26b87ef109bdcc7611ba2df" id="r_adea93e69a26b87ef109bdcc7611ba2df"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="struct_network_1_1_packet.html">Packet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_network_1_1_packet_manager.html#adea93e69a26b87ef109bdcc7611ba2df">bytesToPacket</a> (const char *bytes, std::size_t bytes_size)</td></tr>
+<tr class="separator:adea93e69a26b87ef109bdcc7611ba2df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a602b86036551ee7d400e269a03dc77ba" name="a602b86036551ee7d400e269a03dc77ba"></a>
@@ -183,23 +183,23 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0c213302386d026ac5137997e6fb6cd1" name="a0c213302386d026ac5137997e6fb6cd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c213302386d026ac5137997e6fb6cd1">&#9670;&#160;</a></span>createPacket() <span class="overload">[1/3]</span></h2>
+<a id="adea93e69a26b87ef109bdcc7611ba2df" name="adea93e69a26b87ef109bdcc7611ba2df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea93e69a26b87ef109bdcc7611ba2df">&#9670;&#160;</a></span>bytesToPacket()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_network_1_1_packet.html">Packet</a> * Network::PacketManager::createPacket </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="struct_network_1_1_packet.html">Network::Packet</a> &gt; Network::PacketManager::bytesToPacket </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>bytes</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct DisconnectData &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>bytes_size</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -211,23 +211,35 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2b309ed92c946c24132cebf34b69da5f" name="a2b309ed92c946c24132cebf34b69da5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b309ed92c946c24132cebf34b69da5f">&#9670;&#160;</a></span>createPacket() <span class="overload">[2/3]</span></h2>
+<a id="a88b4f208e26131bebe313e1ff26caa85" name="a88b4f208e26131bebe313e1ff26caa85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88b4f208e26131bebe313e1ff26caa85">&#9670;&#160;</a></span>createPacket()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_network_1_1_packet.html">Packet</a> * Network::PacketManager::createPacket </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="struct_network_1_1_packet.html">Network::Packet</a> &gt; Network::PacketManager::createPacket </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">Network::PacketType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct HubData &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_network.html#ab454853a8cd6c20017f09b50135f1f54">Status</a>&#160;</td>
+          <td class="paramname"><em>status</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -239,28 +251,18 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a139dea6a98a7e798eb92a867fd1a8c02" name="a139dea6a98a7e798eb92a867fd1a8c02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a139dea6a98a7e798eb92a867fd1a8c02">&#9670;&#160;</a></span>createPacket() <span class="overload">[3/3]</span></h2>
+<a id="a3f9aa1922c7aed6a0b8b3e1ae146075e" name="a3f9aa1922c7aed6a0b8b3e1ae146075e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f9aa1922c7aed6a0b8b3e1ae146075e">&#9670;&#160;</a></span>packetToBytes()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_network_1_1_packet.html">Packet</a> * Network::PacketManager::createPacket </td>
+          <td class="memname">std::vector&lt; char &gt; Network::PacketManager::packetToBytes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_network.html#adb2459998541714e86871e42d3f702a1">PacketType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="struct_network_1_1_packet.html">Packet</a> &amp;&#160;</td>
+          <td class="paramname"><em>packet</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">struct StartData &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

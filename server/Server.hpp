@@ -41,9 +41,8 @@ namespace RType {
 
             void _broadcast_message(const std::string &message);
 
-            void _handle_send(const std::string &message,
-            const boost::system::error_code &error,
-            std::size_t bytes_transferred);
+            void RType::Server::_handle_send(std::vector<char> message,
+            boost::system::error_code error, std::size_t bytes_transferred);
 
             void _start_client_cleanup_timer(
             boost::asio::io_service &io_service);

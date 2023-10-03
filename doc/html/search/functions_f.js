@@ -1,24 +1,4 @@
 var searchData=
 [
-  ['_7eacomponent_0',['~AComponent',['../class_e_c_s_1_1_a_component.html#a65c5650bbb8e9c79cf620f1a6466ec75',1,'ECS::AComponent']]],
-  ['_7eaudiosystem_1',['~AudioSystem',['../class_e_c_s_1_1_audio_system.html#a4c7ffae434b081b9aba343b5675c8f8d',1,'ECS::AudioSystem']]],
-  ['_7eclient_2',['~Client',['../class_r_type_1_1_client.html#a72646694353b685a8c82bbcb086188f7',1,'RType::Client']]],
-  ['_7econnection_3',['~Connection',['../class_connection.html#a2e4352edf667bea83001569e9da8a24d',1,'Connection']]],
-  ['_7eenemycomponent_4',['~EnemyComponent',['../class_e_c_s_1_1_enemy_component.html#a6fdb4edc42df94a8fdedb8697f062cd4',1,'ECS::EnemyComponent']]],
-  ['_7eentity_5',['~Entity',['../class_e_c_s_1_1_entity.html#a4af0f00fc01ae3fb100e251d51b2297d',1,'ECS::Entity']]],
-  ['_7eeventsystem_6',['~EventSystem',['../class_e_c_s_1_1_event_system.html#ae991dd3154e17c01db6e80d165f0c727',1,'ECS::EventSystem']]],
-  ['_7egamesystem_7',['~GameSystem',['../class_e_c_s_1_1_game_system.html#a8ebe33e40d31564593c27c27c40545e7',1,'ECS::GameSystem']]],
-  ['_7egraphicsystem_8',['~GraphicSystem',['../class_e_c_s_1_1_graphic_system.html#a9f0f9c188117bae955489df7245ad14c',1,'ECS::GraphicSystem']]],
-  ['_7ehealthcomponent_9',['~HealthComponent',['../class_e_c_s_1_1_health_component.html#ae7fbf070f807869c2155de3997cce0af',1,'ECS::HealthComponent']]],
-  ['_7ehitboxcomponent_10',['~HitboxComponent',['../class_e_c_s_1_1_hitbox_component.html#a48521ffacdf33091d103d6f06ec0ae1d',1,'ECS::HitboxComponent']]],
-  ['_7epacketmanager_11',['~PacketManager',['../class_network_1_1_packet_manager.html#a3e5bbee880b31438e2d42ce7350d99a2',1,'Network::PacketManager']]],
-  ['_7eparticlesystem_12',['~ParticleSystem',['../class_e_c_s_1_1_particle_system.html#a42c57c6e26af0c421ea81f7c704ecd4b',1,'ECS::ParticleSystem']]],
-  ['_7eplayercomponent_13',['~PlayerComponent',['../class_e_c_s_1_1_player_component.html#ae976cc7473196565f1187e7ada37a051',1,'ECS::PlayerComponent']]],
-  ['_7epostitioncomponent_14',['~PostitionComponent',['../class_e_c_s_1_1_postition_component.html#af13914942abb147fb7929cff75032a98',1,'ECS::PostitionComponent']]],
-  ['_7erotationcomponent_15',['~RotationComponent',['../class_e_c_s_1_1_rotation_component.html#a70e1a0370ca2dc11f654c1f1011e22a0',1,'ECS::RotationComponent']]],
-  ['_7escalecomponent_16',['~ScaleComponent',['../class_e_c_s_1_1_scale_component.html#af8339eadb43c21a83b32057912cb40b1',1,'ECS::ScaleComponent']]],
-  ['_7escenemanager_17',['~SceneManager',['../class_e_c_s_1_1_scene_manager.html#abb52a9fb7cbff7c28a61a8dc13577a0f',1,'ECS::SceneManager']]],
-  ['_7eserver_18',['~Server',['../class_r_type_1_1_server.html#a89c99ff4626356704da330e9bf2fd60b',1,'RType::Server']]],
-  ['_7eshootcomponent_19',['~ShootComponent',['../class_e_c_s_1_1_shoot_component.html#a4b753ef943622842361d695cbea70821',1,'ECS::ShootComponent']]],
-  ['_7evelocitycomponent_20',['~VelocityComponent',['../class_e_c_s_1_1_velocity_component.html#af6aaa93c07435283dd7f50caa5c4abd4',1,'ECS::VelocityComponent']]]
+  ['velocitycomponent_0',['VelocityComponent',['../class_e_c_s_1_1_velocity_component.html#a7afd1df6d2b30304a76c2ca4e11915f7',1,'ECS::VelocityComponent']]]
 ];

@@ -139,17 +139,25 @@ $(document).ready(function(){initNavTree('_connection_8hpp_source.html',''); ini
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keyword">const</span> std::string &amp;port);</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_function" href="class_connection.html#a2e4352edf667bea83001569e9da8a24d">~Connection</a>();</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        udp::socket _socket;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        udp::resolver _resolver;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        udp::endpoint _endpoint;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_class" href="class_network_1_1_packet_manager.html">Network::PacketManager</a> _packetManager;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_connection.html#ad1730ec8ba0323103e2233f32feef2da">sendPacket</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_network_1_1_packet.html">Network::Packet</a> &amp;packet);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordtype">void</span> _listen();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        udp::socket _socket;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        udp::resolver _resolver;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        udp::endpoint _endpoint;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_class" href="class_network_1_1_packet_manager.html">Network::PacketManager</a> _packetManager;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        boost::array&lt;char, 512&gt; _recv_buffer;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        udp::endpoint _sender_endpoint;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>};</div>
 </div>
 <div class="ttc" id="a_packet_manager_8hpp_html"><div class="ttname"><a href="_packet_manager_8hpp.html">PacketManager.hpp</a></div></div>
 <div class="ttc" id="aclass_connection_html"><div class="ttname"><a href="class_connection.html">Connection</a></div><div class="ttdef"><b>Definition</b> Connection.hpp:16</div></div>
-<div class="ttc" id="aclass_connection_html_a2e4352edf667bea83001569e9da8a24d"><div class="ttname"><a href="class_connection.html#a2e4352edf667bea83001569e9da8a24d">Connection::~Connection</a></div><div class="ttdeci">~Connection()</div><div class="ttdef"><b>Definition</b> Connection.cpp:19</div></div>
-<div class="ttc" id="aclass_network_1_1_packet_manager_html"><div class="ttname"><a href="class_network_1_1_packet_manager.html">Network::PacketManager</a></div><div class="ttdef"><b>Definition</b> PacketManager.hpp:13</div></div>
+<div class="ttc" id="aclass_connection_html_a2e4352edf667bea83001569e9da8a24d"><div class="ttname"><a href="class_connection.html#a2e4352edf667bea83001569e9da8a24d">Connection::~Connection</a></div><div class="ttdeci">~Connection()</div><div class="ttdef"><b>Definition</b> Connection.cpp:31</div></div>
+<div class="ttc" id="aclass_connection_html_ad1730ec8ba0323103e2233f32feef2da"><div class="ttname"><a href="class_connection.html#ad1730ec8ba0323103e2233f32feef2da">Connection::sendPacket</a></div><div class="ttdeci">void sendPacket(const Network::Packet &amp;packet)</div><div class="ttdef"><b>Definition</b> Connection.cpp:71</div></div>
+<div class="ttc" id="aclass_network_1_1_packet_manager_html"><div class="ttname"><a href="class_network_1_1_packet_manager.html">Network::PacketManager</a></div><div class="ttdef"><b>Definition</b> PacketManager.hpp:14</div></div>
+<div class="ttc" id="astruct_network_1_1_packet_html"><div class="ttname"><a href="struct_network_1_1_packet.html">Network::Packet</a></div><div class="ttdoc">A Packet is the structure sent by both client and server. It contains a Status, the type of the packe...</div><div class="ttdef"><b>Definition</b> Packet.hpp:100</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
