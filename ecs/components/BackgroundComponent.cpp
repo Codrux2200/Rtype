@@ -1,4 +1,3 @@
-
 #include "BackgroundComponent.hpp"
 
 namespace ECS {

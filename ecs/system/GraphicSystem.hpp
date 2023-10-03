@@ -47,10 +47,11 @@ namespace ECS {
             sf::RenderWindow &getWindow();
         protected:
             sf::RenderWindow _window;
-            ECS::BackgroundComponent backgroundComponent;
             sf::Event _event;
             sf::Vector2u _modeSize;
         private:
+            ECS::BackgroundComponent backgroundComponent;
+
     };
 };
 #endif /* !GRAPHICSYSTEM_HPP_ */

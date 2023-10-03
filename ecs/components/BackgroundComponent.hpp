@@ -33,5 +33,4 @@ namespace ECS {
     };
 }
 
-
 #endif // BACKGROUND_COMPONENT_HPP
