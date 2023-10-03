@@ -10,12 +10,14 @@
 #include <iostream>
 
 ECS::GraphicSystem::GraphicSystem()
-    : ASystem(ECS::SystemType::GRAPHIC), _modeSize(800, 600)
+    : ASystem(ECS::SystemType::GRAPHIC), _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
 {
-    _window.create(sf::VideoMode(800, 600), "SFML Window", sf::Style::Default);
+
 }
 
-// ...
+ECS::GraphicSystem::~GraphicSystem()
+{
+}
 
 void ECS::GraphicSystem::initBackground()
 {
@@ -37,6 +39,7 @@ void ECS::GraphicSystem::initBackground()
     );
 }
 
+
 void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime){
         while (_window.pollEvent(_event)) {
             if (_event.type == sf::Event::Closed) {
@@ -51,7 +54,8 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         backgroundComponent.update(deltaTime);
 
         // Draw the BackgroundComponent
-        backgroundComponent.draw(_window);;
+        backgroundComponent.draw(_window);
+;
 
         // Draw stuff
         PlayerComponent *playerComponent = dynamic_cast<PlayerComponent *>(sceneManager.getScene(SceneType).entitiesList.at(1)->components.at(0));
