@@ -7,8 +7,8 @@
 
 #include "PlayerComponent.hpp"
 
-ECS::PlayerComponent::PlayerComponent(int uid)
-    : AComponent(uid)
+ECS::PlayerComponent::PlayerComponent(int uid, const std::string& spritePath)
+    : AComponent(uid), spritePath("../../assets/Ship6.png")
 {
 }
 
@@ -16,12 +16,12 @@ ECS::PlayerComponent::~PlayerComponent()
 {
 }
 
-void ECS::PlayerComponent::setValue(int player, int unused)
+void ECS::PlayerComponent::setSprite(const std::string& newSpritePath)
 {
+    spritePath = newSpritePath;
 }
 
-std::vector<int> ECS::PlayerComponent::getValue() const
+std::string ECS::PlayerComponent::getSprite() const
 {
-    std::vector<int> player = std::vector<int>();
-    return player;
+    return spritePath;
 }
