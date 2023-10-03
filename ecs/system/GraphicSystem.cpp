@@ -10,10 +10,9 @@
 #include <iostream>
 
 ECS::GraphicSystem::GraphicSystem()
-    : ASystem(ECS::SystemType::GRAPHIC), _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window"),
-    _backgroundComponent();
+    : ASystem(ECS::SystemType::GRAPHIC), _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
 {
-
+        initBackground();
 }
 
 ECS::GraphicSystem::~GraphicSystem()
@@ -22,22 +21,7 @@ ECS::GraphicSystem::~GraphicSystem()
 
 void ECS::GraphicSystem::initBackground()
 {
-    // Create a BackgroundComponent (formerly ParallaxBackgroundComponent)
-    std::vector<std::string> backgroundPaths = {
-        "firstBackground.png",
-        "secondBackground.png",
-        "thirdBackground.png",
-        "fourthBackground.png",
-        "fifthBackground.png",
-        "sixthBackground.png"
-    };
-
-    backgroundComponent = ECS::BackgroundComponent(
-        backgroundPaths,
-        "foreground.png",
-        {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f}, // Background layer speeds
-        1.0f // Foreground layer speed
-    );
+    backgroundComponent = ECS::BackgroundComponent();
 }
 
 

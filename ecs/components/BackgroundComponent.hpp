@@ -5,25 +5,22 @@
 #include "../AComponent.hpp"
 #include <vector>
 
-namespace ECS {
-    class BackgroundComponent {
+namespace ECS
+{
+    class BackgroundComponent
+    {
     public:
-        BackgroundComponent(
-            const std::vector<std::string>& backgroundPaths,
-            const std::string& foregroundPath,
-            const std::vector<float>& backgroundSpeeds,
-            float foregroundSpeed
-        );
+        BackgroundComponent();
 
         void update(float deltaTime);
-        void draw(sf::RenderWindow& window);
+        void draw(sf::RenderWindow &window);
 
     private:
         std::vector<sf::Texture> backgroundTextures;
         sf::Texture foregroundTexture;
 
-        std::vector<sf::Sprite> backgroundLayers;
-        sf::Sprite foreground;
+        std::vector<std::unique_ptr<sf::Sprite>> backgroundLayers;
+        std::unique_ptr<sf::Sprite> foreground;
 
         std::vector<float> backgroundSpeeds;
         float foregroundSpeed;

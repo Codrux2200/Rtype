@@ -27,6 +27,7 @@ add_executable(MySFMLProject
     ecs/components/ScaleComponent.cpp
     ecs/components/ShootComponent.cpp
     ecs/components/VelocityComponent.cpp
+    ecs/components/BackgroundComponent.cpp
     ecs/system/ASystem.cpp
     ecs/system/AudioSystem.cpp
     ecs/system/EventSystem.cpp
