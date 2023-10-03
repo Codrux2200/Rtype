@@ -31,7 +31,7 @@ static void initPlayer(ECS::Scene &firstScene)
         // add the player entity to the scene
         firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
         // create the player component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, ""));
+        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "../assets/Ship6.png"));
         // create the health component
         firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
         // create the position component
@@ -47,7 +47,7 @@ void ECS::Core::mainLoop()
     GraphicSystem *graphicSystem = new GraphicSystem();
     EventSystem *eventSystem = new EventSystem();
     while(!sceneManager.shouldClose) {
-        if (arrow == 100000000)
+        if (arrow == 1000)
             sceneManager.shouldClose = true;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
         initPlayer(firstScene);
