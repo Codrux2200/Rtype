@@ -2,21 +2,21 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** EnnemyDeadData
+** ENTITYDeadData
 */
 
-#ifndef ENNEMYDEADDATA_HPP_
-#define ENNEMYDEADDATA_HPP_
+#ifndef ENTITYDEADDATA_HPP_
+#define ENTITYDEADDATA_HPP_
 
 namespace RFC {
     namespace data {
         extern "C" {
             /**
-             * @brief data sent to the client when an ennemy is dead
-             * @ref RFC::PacketType::ENNEMY_DEAD
+             * @brief data sent to the client when an entity is dead
+             * @ref RFC::PacketType::ENTITY_DEAD
              * @see RFC::Packet
              */
-            struct EnnemyDeadData {
+            struct EntityDeadData {
                 int id;
                 bool isDead;
             };
@@ -24,4 +24,4 @@ namespace RFC {
     }
 }
 
-#endif /* !ENNEMYDEADDATA_HPP_ */
+#endif /* !ENTITYDEADDATA_HPP_ */

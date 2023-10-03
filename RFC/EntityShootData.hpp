@@ -2,21 +2,21 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** EnnemyMoveData
+** ENTITYShootData
 */
 
-#ifndef ENNEMYMOVEDATA_HPP_
-#define ENNEMYMOVEDATA_HPP_
+#ifndef ENTITYSHOOTDATA_HPP_
+#define ENTITYSHOOTDATA_HPP_
 
 namespace RFC {
     namespace data {
         extern "C" {
             /**
-             * @brief data sent to the client when an ennemy is moving
-             * @ref RFC::PacketType::ENNEMY_MOVE
+             * @brief data sent to the client when an entity shoot
+             * @ref RFC::PacketType::ENTITY_SHOOT
              * @see RFC::Packet
              */
-            struct EnnemyMoveData {
+            struct EntityShootData {
                 int id;
                 int x;
                 int y;
@@ -24,4 +24,5 @@ namespace RFC {
         }
     }
 }
-#endif /* !ENNEMYMOVEDATA_HPP_ */
+
+#endif /* !ENTITYSHOOTDATA_HPP_ */
