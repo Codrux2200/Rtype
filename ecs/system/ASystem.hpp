@@ -34,7 +34,7 @@ namespace ECS{
              * @param SceneType 
              * @param deltaTime 
              */
-            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime);
+            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) override;
             /**
              * @brief Type object
              * 

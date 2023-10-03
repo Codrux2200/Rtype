@@ -8,6 +8,7 @@
 #include "Core.hpp"
 #include "PlayerComponent.hpp"
 #include "HealthComponent.hpp"
+#include "GraphicSystem.hpp"
 
 ECS::Core::Core()
 {
@@ -23,9 +24,11 @@ void ECS::Core::mainLoop()
     int arrow = 0;
 
     sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
+    GraphicSystem *graphicSystem = new GraphicSystem();
     while(!sceneManager.shouldClose) {
-        if (arrow == 10)
-            sceneManager.shouldClose = true;
+        
+        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, 12);
+        
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
         std::cout << "Loop nb: " << arrow << " | Nb of entities: " << firstScene.entitiesList.size() << std::endl;
         // create the player entity if it doesn't exist
@@ -47,7 +50,6 @@ void ECS::Core::mainLoop()
                 health->setValue(health->getValue().at(0) - 10, 0);
                 if (health->getValue().at(0) <= 0) {
                     std::cout << "player is dead" << std::endl;
-                    sceneManager.shouldClose = true;
                     continue;
                 }
                 std::cout << "player health: " << health->getValue().at(0) << std::endl;

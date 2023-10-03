@@ -8,6 +8,7 @@
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
 #include "ASystem.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace ECS {
     /**
@@ -26,7 +27,12 @@ namespace ECS {
              * 
              */
             ~GraphicSystem();
+
+            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) override;
         protected:
+            sf::RenderWindow _window;
+            sf::Event _event;
+            sf::Vector2u _modeSize;
         private:
     };
 };
