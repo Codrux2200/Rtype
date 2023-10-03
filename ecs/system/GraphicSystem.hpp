@@ -49,8 +49,9 @@ namespace ECS {
             sf::RenderWindow _window;
             sf::Event _event;
             sf::Vector2u _modeSize;
+            BackgroundComponent _backgroundComponent;
         private:
-            ECS::BackgroundComponent backgroundComponent;
+            
 
     };
 };
