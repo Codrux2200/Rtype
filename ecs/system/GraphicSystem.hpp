@@ -8,7 +8,7 @@
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
 #include "ASystem.hpp"
-#include "ParallaxBackgroundComponent.hpp"
+#include "BackgroundComponent.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ECS {
@@ -47,7 +47,7 @@ namespace ECS {
             sf::RenderWindow &getWindow();
         protected:
             sf::RenderWindow _window;
-            ECS::ParallaxBackgroundComponent backgroundComponent;
+            ECS::BackgroundComponent backgroundComponent;
             sf::Event _event;
             sf::Vector2u _modeSize;
         private:
