@@ -2,21 +2,21 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** EnemySpawnData
+** ENTITYSpawnData
 */
 
-#ifndef ENEMYSPAWNDATA_HPP_
-#define ENEMYSPAWNDATA_HPP_
+#ifndef ENTITYSPAWNDATA_HPP_
+#define ENTITYSPAWNDATA_HPP_
 
 namespace RFC {
     namespace data {
         extern "C" {
             /**
-             * @brief data sent to the client to spawn an enemy.
-             * to be used see @ref RFC::PacketType::ENEMY_SPAWN
+             * @brief data sent to the client to spawn an entity.
+             * to be used see @ref RFC::PacketType::ENTITY_SPAWN
              * @see RFC::Packet
              */
-            struct EnemySpawnData {
+            struct EntitySpawnData {
                 int id;
                 int x;
                 int y;
@@ -27,4 +27,4 @@ namespace RFC {
     }
 }
 
-#endif /* !ENEMYSPAWNDATA_HPP_ */
+#endif /* !ENTITYSPAWNDATA_HPP_ */
