@@ -41,3 +41,8 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         _window.draw(sprite);
         _window.display();
 }
+
+sf::RenderWindow &ECS::GraphicSystem::getWindow()
+{
+    return _window;
+}

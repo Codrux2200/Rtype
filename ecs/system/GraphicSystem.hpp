@@ -27,8 +27,20 @@ namespace ECS {
              * 
              */
             ~GraphicSystem();
-
+            /**
+             * @brief update the Graphic System
+             * 
+             * @param sceneManager 
+             * @param SceneType 
+             * @param deltaTime 
+             */
             void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) override;
+            /**
+             * @brief Get the Window object
+             * 
+             * @return sf::RenderWindow 
+             */
+            sf::RenderWindow &getWindow();
         protected:
             sf::RenderWindow _window;
             sf::Event _event;
