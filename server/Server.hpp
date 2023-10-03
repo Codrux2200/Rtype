@@ -19,6 +19,7 @@
 
 // clang-format off
 #include "Client.hpp"
+#include "PacketManager.hpp"
 
 // clang-format on
 using boost::asio::ip::udp;
@@ -48,7 +49,7 @@ namespace RType {
             boost::asio::io_service &io_service);
 
             void _send_message_to_client(
-            const std::string &message, const udp::endpoint &client_endpoint);
+            Network::Packet &packet, const udp::endpoint &client_endpoint);
 
             void _cleanup_inactive_clients();
 
@@ -56,6 +57,7 @@ namespace RType {
             udp::endpoint _remote_endpoint;
             boost::array<char, 512> _recv_buffer;
             std::vector<std::shared_ptr<Client>> _clients;
+            Network::PacketManager _packet_manager;
             std::shared_ptr<boost::asio::steady_timer> _client_cleanup_timer;
 
             static constexpr int CLIENT_TIMEOUT_SECONDS = 10;

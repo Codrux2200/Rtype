@@ -1,21 +1,21 @@
 var _packet_8hpp =
 [
-    [ "RFC::Packet", "struct_r_f_c_1_1_packet.html", "struct_r_f_c_1_1_packet" ],
-    [ "PacketType", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8d", [
-      [ "CONNECT", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da6a014050ac06ce05d695b07a0a58c31a", null ],
-      [ "DISCONNECT", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dad8678fca6eb77b40fd00f1cdb099ceb0", null ],
-      [ "START", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dad84bf39525f5f404e231bb0425544c0f", null ],
-      [ "DEAD", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dad0f3bd1d1e5a5d620f6e49dc9fc45844", null ],
-      [ "MOVE", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da5ec573b5eea34ba09595b8905f1322f1", null ],
-      [ "SHOOT", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da9ebb3cfba69fb424bf0c30ca253c4d89", null ],
-      [ "HIT", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da7e237280896348b30aafb9b7529bd87f", null ],
-      [ "SCORE", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da9b13a68aa72482384d42e5e0c9589a45", null ],
-      [ "ENEMY_SPAWN", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dabdd7c816949b70ad5c44d3298abccbae", null ],
-      [ "ENEMY_DEAD", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da0775d0b707523c35a9def9692f99524c", null ],
-      [ "ENEMY_MOVE", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da607c0af095f6aa0062e028a25d4fbe14", null ],
-      [ "ENEMY_SHOOT", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dabe6253d5378f3f4c1971e165369d6860", null ],
-      [ "ENEMY_LIFE", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8dad81cdf3f14a321b149c7e8b0fc3d1aca", null ],
-      [ "MAP", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da5186e5e88d04171d8bc1860eb54e4859", null ],
-      [ "END", "_packet_8hpp.html#a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8", null ]
+    [ "Network::Packet", "struct_network_1_1_packet.html", "struct_network_1_1_packet" ],
+    [ "PacketType", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1", [
+      [ "CONNECT", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a000bea497e2db58e825ac1b67c2111ce", null ],
+      [ "DISCONNECT", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a3469effbbbe7d32c27352ad1f8490bea", null ],
+      [ "START", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1af22a2d21298c66c149d3d2c51f724868", null ],
+      [ "DEAD", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a475e03a3a6084be621839c458461475d", null ],
+      [ "MOVE", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a0bef5428372e05ebcc15a5d73ee35c5e", null ],
+      [ "SHOOT", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a88cb8c244ad3f3ace8c0268328326b5c", null ],
+      [ "HIT", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a9224e4be8922014ac8586f6065c87695", null ],
+      [ "SCORE", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1ac6f5fe23adea7bb5df5ff5003dfa9f31", null ],
+      [ "ENEMY_SPAWN", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a35d1b85cfc2d3ba60b8ea42a3058b237", null ],
+      [ "ENEMY_DEAD", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a842fee878b4f5ab867d9a322ab45fe56", null ],
+      [ "ENEMY_MOVE", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a84ca4cfb3739e32779bcd349f92d2780", null ],
+      [ "ENEMY_SHOOT", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a5603fb535b5967cef447b64ea2907d6b", null ],
+      [ "ENEMY_LIFE", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1ad86ab2e178bb631040dff91c9ac961d9", null ],
+      [ "MAP", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a132629dbb8e6c9b9ab217663a9b87913", null ],
+      [ "END", "_packet_8hpp.html#adb2459998541714e86871e42d3f702a1a259c0b04677cf7595f1583c5bb04d327", null ]
     ] ]
 ];

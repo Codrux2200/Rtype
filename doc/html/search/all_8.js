@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ok_0',['OK',['../namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987ca43e34c7a7ff0f39c5c495e095c2d910a',1,'RFC']]]
+  ['ko_0',['KO',['../namespace_network.html#ab454853a8cd6c20017f09b50135f1f54a9fa56f68bfc4a4be08eb32b5df223e98',1,'Network']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['status_0',['Status',['../namespace_r_f_c.html#ae8301b06c357b3143ed9e3737aec987c',1,'RFC']]]
+  ['packettype_0',['PacketType',['../namespace_network.html#adb2459998541714e86871e42d3f702a1',1,'Network']]]
 ];

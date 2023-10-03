@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['x_0',['x',['../struct_r_f_c_1_1data_1_1_player_data.html#ad5a2b1c2efbd8de7599d4be3bc2b4daa',1,'RFC::data::PlayerData']]]
+  ['timestamp_0',['timestamp',['../struct_network_1_1_packet.html#a5fe6c64a447eab15cef8fb15108e1168',1,'Network::Packet']]],
+  ['type_1',['type',['../struct_network_1_1_packet.html#a9aec2012ea7019e9e37ba66b325099a7',1,'Network::Packet']]]
 ];

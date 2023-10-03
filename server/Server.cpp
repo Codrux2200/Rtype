@@ -31,12 +31,12 @@ void RType::Server::_handle_receive(
 const boost::system::error_code &error, std::size_t bytes_transferred)
 {
     if (!error || error == boost::asio::error::message_size) {
-        boost::shared_ptr<std::string> message(
-        new std::string("Hey, I'm the server!"));
-
-        std::cout << "Received message: " << _recv_buffer.data() << std::endl;
+        std::cout << "Received message" << std::endl;
 
         std::cout << "Sent by: " << _remote_endpoint << std::endl;
+
+        std::unique_ptr<Network::Packet> packet =
+        _packet_manager.bytesToPacket(_recv_buffer.data(), bytes_transferred);
 
         if (_clients.size() >= 4) {
             std::cout << "Too many clients connected, rejecting message"
@@ -44,8 +44,8 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
 
             // Send a rejection message to the client
             // TODO: Replace CONNECT Packet rejected
-            _send_message_to_client(
-            "Server is busy, try again later", _remote_endpoint);
+            // _send_message_to_client(
+            // "Server is busy, try again later", _remote_endpoint);
         } else {
             bool client_already_connected = false;
 
@@ -66,8 +66,21 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
                 _clients.push_back(std::make_shared<Client>(_remote_endpoint));
             }
 
-            // Broadcast the message to all connected clients
-            _broadcast_message(*message);
+            switch (packet->type) {
+                case Network::PacketType::CONNECT:
+                    Network::data::HubData hubData;
+
+                    for (int i = 0; i < 4; i++) {
+                        std::strcpy(hubData.players[i], "Player");
+                        std::strcat(
+                        hubData.players[i], std::to_string(i).c_str());
+                    }
+                    std::unique_ptr<Network::Packet> connectPacket =
+                    _packet_manager.createPacket(Network::PacketType::CONNECT,
+                    Network::Status::OK, "", &hubData);
+                    _send_message_to_client(*packet, _remote_endpoint);
+                    break;
+            }
         }
         _start_receive();
     }
@@ -132,10 +145,12 @@ boost::asio::io_service &io_service)
 }
 
 void RType::Server::_send_message_to_client(
-const std::string &message, const udp::endpoint &client_endpoint)
+Network::Packet &packet, const udp::endpoint &client_endpoint)
 {
-    _socket.async_send_to(boost::asio::buffer(message), client_endpoint,
-    boost::bind(&Server::_handle_send, this, message,
+    std::vector<char> packetInBytes = _packet_manager.packetToBytes(packet);
+
+    _socket.async_send_to(boost::asio::buffer(packetInBytes), client_endpoint,
+    boost::bind(&Server::_handle_send, this, packetInBytes,
     boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }

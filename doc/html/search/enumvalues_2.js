@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['end_0',['END',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da5bd1a40b5d40bd94dbff3bc879ddb0f8',1,'RFC']]],
-  ['enemy_5fdead_1',['ENEMY_DEAD',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da0775d0b707523c35a9def9692f99524c',1,'RFC']]],
-  ['enemy_5flife_2',['ENEMY_LIFE',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dad81cdf3f14a321b149c7e8b0fc3d1aca',1,'RFC']]],
-  ['enemy_5fmove_3',['ENEMY_MOVE',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8da607c0af095f6aa0062e028a25d4fbe14',1,'RFC']]],
-  ['enemy_5fshoot_4',['ENEMY_SHOOT',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dabe6253d5378f3f4c1971e165369d6860',1,'RFC']]],
-  ['enemy_5fspawn_5',['ENEMY_SPAWN',['../namespace_r_f_c.html#a1b1463e4c7b55d7d79654a8600673c8dabdd7c816949b70ad5c44d3298abccbae',1,'RFC']]]
+  ['dead_0',['DEAD',['../namespace_network.html#adb2459998541714e86871e42d3f702a1a475e03a3a6084be621839c458461475d',1,'Network']]],
+  ['death_1',['DEATH',['../namespace_e_c_s.html#a953f4ef3d15a7a73cc5dba2d22ab7085a567c94a7f497da6aef5823a804fdeeed',1,'ECS']]],
+  ['destroyable_2',['DESTROYABLE',['../namespace_e_c_s.html#ab7c4d1f1563edc626eb861220133c851ac218a80d8d1c660d8cfcb8da93e68234',1,'ECS']]],
+  ['disconnect_3',['DISCONNECT',['../namespace_network.html#adb2459998541714e86871e42d3f702a1a3469effbbbe7d32c27352ad1f8490bea',1,'Network']]]
 ];

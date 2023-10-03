@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <vector>
 #include "Packet.hpp"
 
 namespace Network {
@@ -15,9 +16,14 @@ namespace Network {
             PacketManager() = default;
             ~PacketManager() = default;
 
-            Packet *createPacket(PacketType type, struct HubData &data);
-            Packet *createPacket(PacketType type, struct StartData &data);
-            Packet *createPacket(PacketType type, struct DisconnectData &data);
+            std::unique_ptr<Network::Packet> createPacket(
+            Network::PacketType type, Status status, std::string message,
+            void *data = nullptr);
+
+            std::vector<char> packetToBytes(const Packet &packet);
+
+            std::unique_ptr<Packet> bytesToPacket(
+            const char *bytes, std::size_t bytes_size);
 
         private:
             int _id = 0;
