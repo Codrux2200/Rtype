@@ -43,6 +43,7 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
                       << std::endl;
 
             // Send a rejection message to the client
+            // TODO: Replace CONNECT Packet rejected
             _send_message_to_client(
             "Server is busy, try again later", _remote_endpoint);
         } else {
