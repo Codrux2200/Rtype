@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** Packetmanager
+** PacketManager
 */
 
 #pragma once
