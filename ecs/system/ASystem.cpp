@@ -8,8 +8,9 @@
 #include "ASystem.hpp"
 
 
-ECS::ASystem::ASystem()
+ECS::ASystem::ASystem(SystemType type)
 {
+    typeSystem = type;
 }
 
 ECS::ASystem::~ASystem()

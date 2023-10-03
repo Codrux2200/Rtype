@@ -21,7 +21,7 @@ namespace ECS{
              * @brief Construct a new ASystem object
              * 
              */
-            ASystem();
+            ASystem(SystemType type);
             /**
              * @brief Destroy the ASystem object
              * 
@@ -34,7 +34,12 @@ namespace ECS{
              * @param SceneType 
              * @param deltaTime 
              */
-            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) final;
+            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime);
+            /**
+             * @brief Type object
+             * 
+             */
+            SystemType typeSystem;
         protected:
         private:
     };
