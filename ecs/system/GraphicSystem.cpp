@@ -21,7 +21,7 @@ ECS::GraphicSystem::~GraphicSystem()
 
 void ECS::GraphicSystem::initBackground()
 {
-    // Create a ParallaxBackgroundComponent
+    // Create a BackgroundComponent
     std::vector<std::string> backgroundPaths = {
         "firstBackground.png",
         "secondBackground.png",
@@ -31,7 +31,7 @@ void ECS::GraphicSystem::initBackground()
         "sixthBackground.png"
     };
 
-    backgroundComponent = ECS::ParallaxBackgroundComponent(
+    backgroundComponent = ECS::BackgroundComponent(
         backgroundPaths,
         "foreground.png",
         {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f}, // Background layer speeds
@@ -49,16 +49,16 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         // Clear the window
         _window.clear();
 
-        // Update the ParallaxBackgroundComponent
+        // Update the BackgroundComponent
         backgroundComponent.update(deltaTime);
 
-        // Draw the ParallaxBackgroundComponent
+        // Draw the BackgroundComponent
         backgroundComponent.draw(_window);
 
-        // Update the ParallaxBackgroundComponent
+        // Update the BackgroundComponent
         backgroundComponent.update(deltaTime);
 
-        // Draw the ParallaxBackgroundComponent
+        // Draw the BackgroundComponent
         backgroundComponent.draw(_window);
 
         // Draw stuff
