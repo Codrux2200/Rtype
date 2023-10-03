@@ -7,6 +7,7 @@
 
 #include "EventSystem.hpp"
 #include "PositionComponent.hpp"
+#include <iostream>
 
 ECS::EventSystem::EventSystem()
     : ASystem(ECS::SystemType::EVENT)
@@ -40,8 +41,9 @@ static void movePlayer(ECS::Entity *player)
 void ECS::EventSystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime)
 {
     ECS::Scene &actualScene = sceneManager.getScene(SceneType);
-    ECS::Entity *player = actualScene.entitiesList.at(0);
+    ECS::Entity *player = actualScene.entitiesList.at(1);
     std::vector<int> position;
+
     // update with a movement event
-    movePlayer(player);    
+    movePlayer(player);
 }

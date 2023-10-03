@@ -8,7 +8,9 @@
 #include "Core.hpp"
 #include "PlayerComponent.hpp"
 #include "HealthComponent.hpp"
+#include "PositionComponent.hpp"
 #include "GraphicSystem.hpp"
+#include "EventSystem.hpp"
 
 ECS::Core::Core()
 {
@@ -19,42 +21,38 @@ ECS::Core::~Core()
 {
 }
 
+static void initPlayer(ECS::Scene &firstScene)
+{
+    std::vector<ECS::Tag> tags;
+    tags.push_back(ECS::Tag::MOVABLE);
+    tags.push_back(ECS::Tag::DESTROYABLE);
+
+    if (firstScene.entitiesList.size() == 0) {
+        // add the player entity to the scene
+        firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
+        // create the player component
+        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, ""));
+        // create the health component
+        firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
+        // create the position component
+        firstScene.entitiesList.at(1)->components.push_back(new ECS::PositionComponent(0, 0, 12));
+    }
+}
+
 void ECS::Core::mainLoop()
 {
     int arrow = 0;
 
     sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
     GraphicSystem *graphicSystem = new GraphicSystem();
+    EventSystem *eventSystem = new EventSystem();
     while(!sceneManager.shouldClose) {
-        
-        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, 12);
-        
+        if (arrow == 100000000)
+            sceneManager.shouldClose = true;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
-        std::cout << "Loop nb: " << arrow << " | Nb of entities: " << firstScene.entitiesList.size() << std::endl;
-        // create the player entity if it doesn't exist
-        if (firstScene.entitiesList.size() < 1) {
-            // create a tag vector
-            std::vector<Tag> tags;
-            tags.push_back(ECS::Tag::MOVABLE);
-            tags.push_back(ECS::Tag::DESTROYABLE);
-            // add the player entity to the scene
-            firstScene.entitiesList.emplace(1, new Entity(1, tags));
-            // create the player component
-            firstScene.entitiesList.at(1)->components.push_back(new PlayerComponent(10));
-            // create the health component
-            firstScene.entitiesList.at(1)->components.push_back(new HealthComponent(11));
-            std::cout << "nb of entities: " << firstScene.entitiesList.size() << std::endl;
-        } else {
-            HealthComponent *health = dynamic_cast<HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
-            if (health != nullptr) {
-                health->setValue(health->getValue().at(0) - 10, 0);
-                if (health->getValue().at(0) <= 0) {
-                    std::cout << "player is dead" << std::endl;
-                    continue;
-                }
-                std::cout << "player health: " << health->getValue().at(0) << std::endl;
-            }
-        }
+        initPlayer(firstScene);
+        eventSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, arrow);
+        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, arrow);
         arrow++;
     }   
 }
