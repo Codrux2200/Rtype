@@ -6,15 +6,15 @@ namespace ECS
     {
         // Initialize the component's properties here
         std::vector<std::string> backgroundPaths = {
-            "1Background.png",
-            "2Background.png",
-            "3Background.png",
-            "4Background.png",
+            "6Background.png",
             "5Background.png",
-            "6Background.png"};
+            "4Background.png",
+            "3Background.png",
+            "2Background.png",
+            "1Background.png"};
 
-        backgroundSpeeds = {0.0001f, 0.0002f, 0.0003f, 0.0004f, 0.0005f, 0.0006f};
-        foregroundSpeed = 1.0f;
+        backgroundSpeeds = {0.0f, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006};
+        foregroundSpeed = 0.0f;
 
         for (const std::string &path : backgroundPaths)
         {
@@ -35,7 +35,7 @@ namespace ECS
 
         for (size_t i = 0; i < backgroundTextures.size(); ++i)
         {
-            backgroundPositions.emplace_back(0.f, 0.f - i * 600.f);
+            backgroundPositions.emplace_back(0.f, 0.f - i * 6.f);
         }
 
         foreground = std::make_unique<sf::Sprite>(foregroundTexture);
@@ -44,7 +44,10 @@ namespace ECS
 
 void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize) {
     for (size_t i = 0; i < backgroundLayers.size(); ++i) {
-        backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
+        if (deltaTime < 1000.0f)
+            backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
+        else
+            backgroundPositions[i].x -= backgroundSpeeds[i] * 1000.0f;
         if (backgroundPositions[i].x + backgroundLayers[i]->getGlobalBounds().width <= 0.f) {
             // Reset the background layer to the right of the screen
             backgroundPositions[i].x = screenSize.x;
@@ -65,12 +68,18 @@ void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize
 
 
 
-    void BackgroundComponent::draw(sf::RenderWindow &window)
+void BackgroundComponent::draw(sf::RenderWindow &window)
+{
+    for (size_t i = 0; i < backgroundLayers.size(); ++i)
     {
-        for (const std::unique_ptr<sf::Sprite> &layer : backgroundLayers)
-        {
-            window.draw(*layer);
-        }
-        window.draw(*foreground);
+        backgroundLayers[i]->setTexture(backgroundTextures[i]); // Set the texture for each background layer
+        backgroundLayers[i]->setPosition(backgroundPositions[i]); // Set the position for each background layer
+        window.draw(*backgroundLayers[i]); // Draw each background layer
     }
+    foreground->setTexture(foregroundTexture); // Set the texture for the foreground
+    foreground->setPosition(foregroundPosition); // Set the position for the foreground
+    window.draw(*foreground); // Draw the foreground
+}
+
+
 }
