@@ -11,7 +11,6 @@ set(NETWORK_SOURCES
     Network/Status.hpp
     Network/PacketManager.hpp
     Network/PacketManager.cpp
-    Network/data/HubData.hpp
     Network/data/StartData.hpp
     Network/data/JoinData.hpp
 )

@@ -8,9 +8,9 @@
 #pragma once
 
 #include <ctime>
-#include "HubData.hpp"
 #include "JoinData.hpp"
 #include "StartData.hpp"
+#include "ConnectData.hpp"
 #include "Status.hpp"
 
 /**
