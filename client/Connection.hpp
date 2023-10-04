@@ -20,6 +20,7 @@ class Connection {
         ~Connection();
 
         void sendPacket(const Network::Packet &packet);
+        void quit(void);
 
     private:
         void _listen();

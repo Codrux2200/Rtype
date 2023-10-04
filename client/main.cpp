@@ -12,10 +12,15 @@
 
 int main(void)
 {
+    time_t t = time(nullptr);
     boost::asio::io_service io_service;
     Connection connection(io_service, "127.0.0.1", "4242");
 
     io_service.run();
-    for (;;) {}
+    while (true) {
+        if (time(nullptr) - t > 15000)
+            break;
+    }
+    connection.quit();
     return 0;
 }

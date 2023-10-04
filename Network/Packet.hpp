@@ -11,6 +11,7 @@
 #include "JoinData.hpp"
 #include "StartData.hpp"
 #include "ConnectData.hpp"
+#include "DisconnectData.hpp"
 #include "Status.hpp"
 
 /**
@@ -96,6 +97,7 @@ namespace Network {
             ENEMY_LIFE,
             MAP,
             END,
+            QUIT,
         };
 
         /**
@@ -111,7 +113,7 @@ namespace Network {
                 union {
                         struct data::ConnectData
                         connectData; ///< The data of the CONNECT packet
-                        struct data::ConnectData
+                        struct data::DisconnectData
                         disconnectData; ///< The data of the DISCONNECT packet
                         struct data::StartData
                         startData; ///< The data of the START packet

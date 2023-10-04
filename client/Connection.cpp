@@ -17,10 +17,15 @@ const std::string &host, const std::string &port)
     std::cout << "Connected to " << host << ":" << port << std::endl;
     struct Network::data::JoinData joinData;
 
-    if (std::rand() % 2 == 0)
+    int choice = std::rand() % 20;
+    if (choice < 2)
         std::memcpy(joinData.name, "Guigu", 5);
-    else
+    else if (choice < 5)
         std::memcpy(joinData.name, "Sebou", 5);
+    else if (choice < 12)
+        std::memcpy(joinData.name, "Totoh", 5);
+    else if (choice <= 20)
+        std::memcpy(joinData.name, "Titie", 5);
 
     joinData.name[5] = '\0';
 
@@ -78,4 +83,12 @@ void Connection::sendPacket(const Network::Packet &packet)
                       << std::endl;
         }
     });
+}
+
+void Connection::quit(void)
+{
+    sendPacket(*_packetManager.createPacket(Network::PacketType::QUIT));
+    sleep(1);
+    std::cout << "Quited, closing socket" << std::endl;
+    _socket.close();
 }

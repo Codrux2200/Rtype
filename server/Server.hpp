@@ -53,6 +53,8 @@ namespace RType {
 
             void _sendConnectPacket(void);
 
+            void _broadcastDisconnect(char id);
+
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
             boost::array<char, PACKET_SIZE> _recvBuffer;
