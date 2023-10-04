@@ -44,10 +44,10 @@ namespace ECS
 
 void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize) {
     for (size_t i = 0; i < backgroundLayers.size(); ++i) {
-        if (deltaTime < 1000.0f)
+        if (deltaTime < 10000.0f)
             backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
         else
-            backgroundPositions[i].x -= backgroundSpeeds[i] * 1000.0f;
+            backgroundPositions[i].x -= backgroundSpeeds[i] * 10000.0f;
         if (backgroundPositions[i].x + backgroundLayers[i]->getGlobalBounds().width <= 0.f) {
             // Reset the background layer to the right of the screen
             backgroundPositions[i].x = screenSize.x;
@@ -59,12 +59,13 @@ void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize
     foregroundPosition.x -= foregroundSpeed * deltaTime;
     if (foregroundPosition.x + foreground->getGlobalBounds().width <= 0.f) {
         // Reset the foreground layer to the right of the screen
+        //place foreground to bottom
+        foregroundPosition.y = screenSize.y - foreground->getGlobalBounds().height;
         foregroundPosition.x = screenSize.x;
     }
 
     foreground->setPosition(foregroundPosition);
 }
-
 
 
 
@@ -74,12 +75,27 @@ void BackgroundComponent::draw(sf::RenderWindow &window)
     {
         backgroundLayers[i]->setTexture(backgroundTextures[i]); // Set the texture for each background layer
         backgroundLayers[i]->setPosition(backgroundPositions[i]); // Set the position for each background layer
+
+        // Calculate the scale factor
+        sf::Vector2f scale(
+            static_cast<float>(window.getSize().x) / backgroundLayers[i]->getLocalBounds().width,
+            static_cast<float>(window.getSize().y) / backgroundLayers[i]->getLocalBounds().height);
+
+        // Set the scale
+        backgroundLayers[i]->setScale(scale);
+        
         window.draw(*backgroundLayers[i]); // Draw each background layer
     }
     foreground->setTexture(foregroundTexture); // Set the texture for the foreground
-    foreground->setPosition(foregroundPosition); // Set the position for the foreground
+    foreground->setPosition(foregroundPosition); 
+    //resize foreground to fit the screen
+    sf::Vector2f scale(
+        static_cast<float>(window.getSize().x) / foreground->getLocalBounds().width,
+        static_cast<float>(window.getSize().y) / foreground->getLocalBounds().height);
+    //set foreground to bottom of the screen
     window.draw(*foreground); // Draw the foreground
 }
+
 
 
 }
