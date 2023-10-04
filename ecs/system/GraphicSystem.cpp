@@ -7,6 +7,7 @@
 
 #include "GraphicSystem.hpp"
 #include "PlayerComponent.hpp"
+#include "PositionComponent.hpp"
 #include <iostream>
 
 ECS::GraphicSystem::GraphicSystem()
@@ -42,17 +43,12 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
 
         // Draw the BackgroundComponent
         backgroundComponent.draw(_window);
-;
 
         // Draw stuff
         PlayerComponent *playerComponent = dynamic_cast<PlayerComponent *>(sceneManager.getScene(SceneType).entitiesList.at(1)->components.at(0));
-        sf::Texture texture = sf::Texture();
-        if (!texture.loadFromFile(playerComponent->getSprite()))
-            std::cout << "error" << std::endl;
-        // Display the contents of the window
-        sf::Sprite sprite = sf::Sprite(texture);
-        sprite.setTexture(texture);
-        _window.draw(sprite);
+        PositionComponent *positionComponent = dynamic_cast<PositionComponent *>(sceneManager.getScene(SceneType).entitiesList.at(1)->components.at(2));
+        playerComponent->update(positionComponent->getValue());
+        playerComponent->draw(_window);
         _window.display();
 }
 
