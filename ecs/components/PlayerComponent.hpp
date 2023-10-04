@@ -9,6 +9,7 @@
 #define PLAYERCOMPONENT_HPP_
 #include "../AComponent.hpp"
 #include <string>
+#include <SFML/Graphics.hpp>
 
 namespace ECS {
     /**
@@ -39,10 +40,23 @@ namespace ECS {
          * @return std::string
          */
         std::string getSprite() const;
-
+        /**
+         * @brief Update the component
+         * 
+         * @param positions the vector of the positions of the entity
+         */
+        void update(const std::vector<int> positions);
+        /**
+         * @brief Draw the components
+         * 
+         * @param window the renderWindow
+        */
+       void draw(sf::RenderWindow &window);
     protected:
     private:
-        std::string spritePath;
+        std::string _spritePath;
+        std::unique_ptr<sf::Sprite> _sprite;
+        sf::Texture _texture;
     };
 }
  

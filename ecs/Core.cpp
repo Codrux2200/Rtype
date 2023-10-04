@@ -31,11 +31,14 @@ static void initPlayer(ECS::Scene &firstScene)
         // add the player entity to the scene
         firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
         // create the player component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "../../assets/Ship6.png"));
+        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "assets/Ship6.png"));
         // create the health component
         firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
         // create the position component
         firstScene.entitiesList.at(1)->components.push_back(new ECS::PositionComponent(0, 0, 12));
+        // change the player default health to 1
+        ECS::HealthComponent *health = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
+        health->setValue(1);
     }
 }
 
