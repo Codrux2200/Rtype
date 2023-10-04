@@ -28,6 +28,6 @@ class Connection {
         udp::resolver _resolver;
         udp::endpoint _endpoint;
         Network::PacketManager _packetManager;
-        boost::array<char, 512> _recv_buffer;
+        boost::array<char, PACKET_SIZE> _recv_buffer;
         udp::endpoint _sender_endpoint;
 };

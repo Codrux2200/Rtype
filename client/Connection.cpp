@@ -15,16 +15,19 @@ const std::string &host, const std::string &port)
     _endpoint = *_resolver.resolve(udp::v4(), host, port).begin();
     _socket.open(udp::v4());
     std::cout << "Connected to " << host << ":" << port << std::endl;
+    struct Network::data::JoinData joinData;
+
+    if (std::rand() % 2 == 0)
+        std::memcpy(joinData.name, "Guigu", 5);
+    else
+        std::memcpy(joinData.name, "Sebou", 5);
+
+    joinData.name[5] = '\0';
+
+    std::unique_ptr<Network::Packet> packet =
+    _packetManager.createPacket(Network::PacketType::JOIN, &joinData);
+
     _listen();
-    struct Network::data::HubData hubData;
-
-    for (int i = 0; i < 4; i++) {
-        std::strcpy(hubData.players[i], "Player");
-        std::strcat(hubData.players[i], std::to_string(i).c_str());
-    }
-
-    std::unique_ptr<Network::Packet> packet = _packetManager.createPacket(
-    Network::PacketType::CONNECT, Network::Status::OK, "", &hubData);
     sendPacket(*packet);
 }
 
@@ -42,14 +45,6 @@ void Connection::_listen()
             _packetManager.bytesToPacket(_recv_buffer.data(), bytes_received);
             std::cout << "Received packet from server: " << std::endl;
             std::cout << "Packet type: " << packet->type << std::endl;
-            std::cout << "Packet id: " << packet->id << std::endl;
-            std::cout << "Packet sequence: " << packet->sequence << std::endl;
-            std::cout << "Packet replication: " << packet->replication
-                      << std::endl;
-            std::cout << "Packet status" << packet->status << std::endl;
-            std::cout << "Packet timestamp: " << packet->timestamp << std::endl;
-            std::cout << "Packet message: " << packet->message << std::endl;
-            std::cout << "Packet data: " << std::endl;
             switch (packet->type) {
                 case Network::CONNECT:
                     for (int i = 0; i < 4; i++) {
@@ -58,7 +53,9 @@ void Connection::_listen()
                                   << std::endl;
                     }
                     break;
-                default: break;
+                default:
+                    throw std::runtime_error("Invalid packet type received");
+                    break;
             }
             std::cout << std::endl;
         } else {
@@ -75,7 +72,7 @@ void Connection::sendPacket(const Network::Packet &packet)
     _socket.async_send_to(boost::asio::buffer(packetInBytes), _endpoint,
     [](const boost::system::error_code &error, std::size_t bytes_sent) {
         if (!error) {
-            std::cout << "Sent message to server." << std::endl;
+            std::cout << "Sent packet to server." << std::endl;
         } else {
             std::cerr << "Error sending message: " << error.message()
                       << std::endl;

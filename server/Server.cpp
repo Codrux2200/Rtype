@@ -6,37 +6,37 @@
 */
 
 #include "Server.hpp"
+#include "ConnectData.hpp"
 
 RType::Server::Server(boost::asio::io_service &io_service, short port)
     : _socket(io_service, udp::endpoint(udp::v4(), port))
 {
-    _start_receive();
-    _start_client_cleanup_timer(io_service);
+    _startReceive();
+    _startClientCleanupTimer(io_service);
 }
 
 RType::Server::~Server()
 {
 }
 
-void RType::Server::_start_receive()
+void RType::Server::_startReceive()
 {
-    _socket.async_receive_from(boost::asio::buffer(_recv_buffer),
-    _remote_endpoint,
-    boost::bind(&Server::_handle_receive, this,
-    boost::asio::placeholders::error,
+    _socket.async_receive_from(boost::asio::buffer(_recvBuffer),
+    _remoteEndpoint,
+    boost::bind(&Server::_handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
-void RType::Server::_handle_receive(
-const boost::system::error_code &error, std::size_t bytes_transferred)
+void RType::Server::_handleReceive(
+const boost::system::error_code &error, std::size_t bytesTransferred)
 {
     if (!error || error == boost::asio::error::message_size) {
         std::cout << "Received message" << std::endl;
 
-        std::cout << "Sent by: " << _remote_endpoint << std::endl;
+        std::cout << "Sent by: " << _remoteEndpoint << std::endl;
 
         std::unique_ptr<Network::Packet> packet =
-        _packet_manager.bytesToPacket(_recv_buffer.data(), bytes_transferred);
+        _packetManager.bytesToPacket(_recvBuffer.data(), bytesTransferred);
 
         if (_clients.size() >= 4) {
             std::cout << "Too many clients connected, rejecting message"
@@ -47,75 +47,87 @@ const boost::system::error_code &error, std::size_t bytes_transferred)
             // _send_message_to_client(
             // "Server is busy, try again later", _remote_endpoint);
         } else {
-            bool client_already_connected = false;
+            bool clientAlreadyConnected = false;
 
             for (auto client : _clients) {
-                if (client->getEndpoint() == _remote_endpoint) {
+                if (client->getEndpoint() == _remoteEndpoint) {
                     // Client already connected, update last
                     // activity time
                     client->setLastActivity(std::chrono::steady_clock::now());
-                    client_already_connected = true;
+                    clientAlreadyConnected = true;
                     break;
                 }
             }
 
-            if (!client_already_connected) {
+            if (!clientAlreadyConnected) {
                 // Store the remote endpoint (client) in a list
-                std::cout << "New client connected: " << _remote_endpoint
+                std::cout << "New client connected: " << _remoteEndpoint
                           << std::endl;
-                _clients.push_back(std::make_shared<Client>(_remote_endpoint));
+                if (packet->type != Network::PacketType::JOIN)
+                    return;
+                std::string name = packet->joinData.name;
+                _clients.push_back(
+                std::make_shared<Client>(_remoteEndpoint, name));
+                std::cout << "Client " << name << " connected" << std::endl;
+                std::cout << "Number of clients connected: " << _clients.size()
+                          << std::endl;
             }
 
             switch (packet->type) {
-                case Network::PacketType::CONNECT:
-                    Network::data::HubData hubData;
-
-                    for (int i = 0; i < 4; i++) {
-                        std::strcpy(hubData.players[i], "Player");
-                        std::strcat(
-                        hubData.players[i], std::to_string(i).c_str());
-                    }
-                    std::unique_ptr<Network::Packet> connectPacket =
-                    _packet_manager.createPacket(Network::PacketType::CONNECT,
-                    Network::Status::OK, "", &hubData);
-                    _send_message_to_client(*packet, _remote_endpoint);
-                    break;
+                case (Network::PacketType::JOIN): _sendConnectPacket(); break;
+                default: break;
             }
         }
-        _start_receive();
+        _startReceive();
     }
 }
 
-void RType::Server::_broadcast_message(const std::string &message)
+void RType::Server::_sendConnectPacket(void)
+{
+    Network::data::ConnectData connectData;
+
+    // Set all player names to empty
+    for (int i = 0; i < 4; i++) {
+        std::memset(connectData.players[i], '\0', NAME_LENGTH);
+    }
+
+    int i = 0;
+    for (auto client : _clients) {
+        std::memcpy(connectData.players[i++], client->getName().c_str(),
+        client->getName().size());
+    }
+
+    std::unique_ptr<Network::Packet> connectPacket =
+    _packetManager.createPacket(Network::PacketType::CONNECT, &connectData);
+    _sendMessageToClient(*connectPacket, _remoteEndpoint);
+}
+
+void RType::Server::_broadcastMessage(const std::string &message)
 {
     for (auto it = _clients.begin(); it != _clients.end();) {
-        auto client_endpoint = (*it)->getEndpoint();
-        auto last_activity_time = (*it)->getLastActivity();
-        auto current_time = std::chrono::steady_clock::now();
-        auto time_since_last_activity =
+        auto clientEndpoint = (*it)->getEndpoint();
+        auto lastActivityTime = (*it)->getLastActivity();
+        auto currentTime = std::chrono::steady_clock::now();
+        auto timeSinceLastActivity =
         std::chrono::duration_cast<std::chrono::seconds>(
-        current_time - last_activity_time)
+        currentTime - lastActivityTime)
         .count();
 
-        if (time_since_last_activity > CLIENT_TIMEOUT_SECONDS) {
+        if (timeSinceLastActivity > CLIENT_TIMEOUT_SECONDS) {
             // Client has not sent data for a while, consider it
             // disconnected
-            std::cout << "Client disconnected: " << client_endpoint
-                      << std::endl;
+            std::cout << "Client disconnected: " << clientEndpoint << std::endl;
             it = _clients.erase(it); // Remove the disconnected client
         } else {
             // Send the message to the client
-//            _socket.async_send_to(boost::asio::buffer(message), client_endpoint,
-//            boost::bind(&Server::_handle_send, this, message,
-//            boost::asio::placeholders::error,
-//            boost::asio::placeholders::bytes_transferred));
+            // _send_message_to_client(message, client_endpoint);
             ++it;
         }
     }
 }
 
-void RType::Server::_handle_send(std::vector<char> message,
-boost::system::error_code error, std::size_t bytes_transferred)
+void RType::Server::_handleSend(std::vector<char> message,
+boost::system::error_code error, std::size_t bytesTransferred)
 {
     if (!error) {
         std::cout << "Message sent" << std::endl;
@@ -124,50 +136,49 @@ boost::system::error_code error, std::size_t bytes_transferred)
     }
 }
 
-void RType::Server::_start_client_cleanup_timer(
-boost::asio::io_service &io_service)
+void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
 {
     // This timer will periodically check for inactive clients and
     // remove them
-    _client_cleanup_timer =
-    std::make_shared<boost::asio::steady_timer>(io_service);
+    _clientCleanupTimer =
+    std::make_shared<boost::asio::steady_timer>(ioService);
 
-    _client_cleanup_timer->expires_from_now(
+    _clientCleanupTimer->expires_from_now(
     std::chrono::seconds(CLIENT_CLEANUP_INTERVAL_SECONDS));
 
-    _client_cleanup_timer->async_wait(
-    [this, &io_service](const boost::system::error_code &ec) {
+    _clientCleanupTimer->async_wait(
+    [this, &ioService](const boost::system::error_code &ec) {
         if (!ec) {
-            _cleanup_inactive_clients();
-            _start_client_cleanup_timer(io_service);
+            _cleanupInactiveClients();
+            _startClientCleanupTimer(ioService);
         }
     });
 }
 
-void RType::Server::_send_message_to_client(
-Network::Packet &packet, const udp::endpoint &client_endpoint)
+void RType::Server::_sendMessageToClient(
+Network::Packet &packet, const udp::endpoint &clientEndpoint)
 {
-    std::vector<char> packetInBytes = _packet_manager.packetToBytes(packet);
+    std::vector<char> packetInBytes = _packetManager.packetToBytes(packet);
 
-    _socket.async_send_to(boost::asio::buffer(packetInBytes), client_endpoint,
-    boost::bind(&Server::_handle_send, this, packetInBytes,
+    _socket.async_send_to(boost::asio::buffer(packetInBytes), clientEndpoint,
+    boost::bind(&Server::_handleSend, this, packetInBytes,
     boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
-void RType::Server::_cleanup_inactive_clients()
+void RType::Server::_cleanupInactiveClients()
 {
-    auto current_time = std::chrono::steady_clock::now();
+    auto currentTime = std::chrono::steady_clock::now();
 
     std::cout << "Cleaning up inactive clients..." << std::endl;
     for (auto it = _clients.begin(); it != _clients.end();) {
-        auto last_activity_time = (*it)->getLastActivity();
-        auto time_since_last_activity =
+        auto lastActivityTime = (*it)->getLastActivity();
+        auto timeSinceLastActivity =
         std::chrono::duration_cast<std::chrono::seconds>(
-        current_time - last_activity_time)
+        currentTime - lastActivityTime)
         .count();
 
-        if (time_since_last_activity > CLIENT_TIMEOUT_SECONDS) {
+        if (timeSinceLastActivity > CLIENT_TIMEOUT_SECONDS) {
             // Client has not sent data for a while, consider it
             // disconnected
             std::cout << "Client disconnected: " << (*it)->getEndpoint()
@@ -177,4 +188,15 @@ void RType::Server::_cleanup_inactive_clients()
             ++it;
         }
     }
+}
+
+std::shared_ptr<RType::Client> RType::Server::_getClientByEndpoint(
+const udp::endpoint &endpoint)
+{
+    for (auto client : _clients) {
+        if (client->getEndpoint() == endpoint) {
+            return client;
+        }
+    }
+    return nullptr;
 }

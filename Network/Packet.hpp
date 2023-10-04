@@ -9,6 +9,7 @@
 
 #include <ctime>
 #include "HubData.hpp"
+#include "JoinData.hpp"
 #include "StartData.hpp"
 #include "Status.hpp"
 
@@ -78,6 +79,12 @@ namespace Network {
              *
              */
             DEAD,
+
+            /**
+             * @brief Sent by client to try to join a game.
+             *
+             */
+            JOIN,
             MOVE,
             SHOOT,
             HIT,
@@ -99,21 +106,17 @@ namespace Network {
          */
         struct Packet {
             public:
-                long int id;       ///< growing ID
-                int sequence;      ///< sequence number / tick number
-                short replication; ///< what replication is this
-                long timestamp;    ///< timestamp of the packet
-                Status status;     ///< The status of the packet
-                PacketType type;   ///< The type of the packet
-                char message[256]; ///< The message of the packet
+                PacketType type; ///< The type of the packet
 
                 union {
-                        struct data::HubData
+                        struct data::ConnectData
                         connectData; ///< The data of the CONNECT packet
-                        struct data::HubData
+                        struct data::ConnectData
                         disconnectData; ///< The data of the DISCONNECT packet
                         struct data::StartData
                         startData; ///< The data of the START packet
+                        struct data::JoinData
+                        joinData; ///< The data of the JOIN packet
                 };
         };
     }

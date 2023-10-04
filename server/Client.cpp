@@ -22,3 +22,8 @@ RType::Client::getLastActivity() const
 {
     return _last_activity;
 }
+
+const std::string &RType::Client::getName() const
+{
+    return _name;
+}

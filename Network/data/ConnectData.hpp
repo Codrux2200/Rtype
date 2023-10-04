@@ -7,6 +7,9 @@
 
 #pragma once
 
+#define NAME_LENGTH 7
+#define MAX_PLAYERS 4
+
 namespace Network {
     namespace data {
         extern "C"
@@ -23,15 +26,16 @@ namespace Network {
              * @see Network::Packet::connectData
              * @see Network::Packet::disconnectData
              */
-            struct HubData {
+            struct ConnectData {
                 public:
+                    char id;
                     /** @brief Players connected including the host.
                      * The first player to connect will be the host.
                      * It will be the only one to be able to start the game.
                      * If it disconnects, the next player to connect will be the
                      * host
                      */
-                    char players[4][20];
+                    char players[MAX_PLAYERS][NAME_LENGTH];
             };
         }
     } // namespace data

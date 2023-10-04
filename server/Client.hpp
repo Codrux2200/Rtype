@@ -16,9 +16,9 @@ using boost::asio::ip::udp;
 namespace RType {
     class Client {
         public:
-            Client(udp::endpoint endpoint)
+            Client(udp::endpoint endpoint, std::string &name)
                 : _last_activity(std::chrono::steady_clock::now()),
-                  _endpoint(endpoint) {};
+                  _endpoint(endpoint), _name(name) {};
             ~Client()
             {
                 std::cout << "Client " << _endpoint << " destroyed"
@@ -32,8 +32,11 @@ namespace RType {
 
             void setLastActivity(std::chrono::steady_clock::time_point time);
 
+            const std::string &getName() const;
+
         private:
             std::chrono::steady_clock::time_point _last_activity;
             udp::endpoint _endpoint;
+            std::string _name;
     };
 } // namespace RType

@@ -31,35 +31,36 @@ namespace RType {
             ~Server();
 
         private:
-            std::shared_ptr<Client> _get_client_by_endpoint(
+            std::shared_ptr<Client> _getClientByEndpoint(
             const udp::endpoint &endpoint);
 
-            void _start_receive();
+            void _startReceive();
 
-            void _handle_receive(const boost::system::error_code &error,
+            void _handleReceive(const boost::system::error_code &error,
             std::size_t bytes_transferred);
 
-            void _broadcast_message(const std::string &message);
+            void _broadcastMessage(const std::string &message);
 
-            void _handle_send(std::vector<char> message,
+            void _handleSend(std::vector<char> message,
             boost::system::error_code error, std::size_t bytes_transferred);
 
-            void _start_client_cleanup_timer(
-            boost::asio::io_service &io_service);
+            void _startClientCleanupTimer(boost::asio::io_service &io_service);
 
-            void _send_message_to_client(
+            void _sendMessageToClient(
             Network::Packet &packet, const udp::endpoint &client_endpoint);
 
-            void _cleanup_inactive_clients();
+            void _cleanupInactiveClients();
+
+            void _sendConnectPacket(void);
 
             udp::socket _socket;
-            udp::endpoint _remote_endpoint;
-            boost::array<char, 512> _recv_buffer;
+            udp::endpoint _remoteEndpoint;
+            boost::array<char, PACKET_SIZE> _recvBuffer;
             std::vector<std::shared_ptr<Client>> _clients;
-            Network::PacketManager _packet_manager;
-            std::shared_ptr<boost::asio::steady_timer> _client_cleanup_timer;
+            Network::PacketManager _packetManager;
+            std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
 
-            static constexpr int CLIENT_TIMEOUT_SECONDS = 10;
-            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 5;
+            static constexpr int CLIENT_TIMEOUT_SECONDS = 180;
+            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 60;
     };
 } // namespace RType

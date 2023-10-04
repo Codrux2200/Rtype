@@ -7,9 +7,11 @@
 
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
 #include "Packet.hpp"
+
+#define PACKET_SIZE 32
 
 namespace Network {
     class PacketManager {
@@ -17,9 +19,8 @@ namespace Network {
             PacketManager() = default;
             ~PacketManager() = default;
 
-            std::unique_ptr<Network::Packet> createPacket(
-            Network::PacketType type, Status status, std::string message,
-            void *data = nullptr);
+            std::unique_ptr<Packet> createPacket(
+            PacketType type, void *data = nullptr);
 
             std::vector<char> packetToBytes(const Packet &packet);
 
@@ -27,8 +28,5 @@ namespace Network {
             const char *bytes, std::size_t bytes_size);
 
         private:
-            int _id = 0;
-            int _sequence = 0;
-            short _replication = 0;
     };
 } // namespace Network

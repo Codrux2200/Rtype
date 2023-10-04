@@ -13,6 +13,7 @@ set(NETWORK_SOURCES
     Network/PacketManager.cpp
     Network/data/HubData.hpp
     Network/data/StartData.hpp
+    Network/data/JoinData.hpp
 )
 
 set(CLIENT_SOURCES
