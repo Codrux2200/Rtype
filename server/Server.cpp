@@ -6,11 +6,12 @@
 */
 
 #include "Server.hpp"
-#include "ConnectData.hpp"
+#include "LeaderData.hpp"
 
 RType::Server::Server(boost::asio::io_service &io_service, short port)
     : _socket(io_service, udp::endpoint(udp::v4(), port))
 {
+    _clients.fill(nullptr);
     _startReceive();
     _startClientCleanupTimer(io_service);
 }
@@ -38,7 +39,15 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
         std::unique_ptr<Network::Packet> packet =
         _packetManager.bytesToPacket(_recvBuffer.data(), bytesTransferred);
 
-        if (_clients.size() >= 4) {
+        bool isSlotAvailable = false;
+
+        for (auto client : _clients) {
+            if (client == nullptr) {
+                isSlotAvailable = true;
+                break;
+            }
+        }
+        if (isSlotAvailable == false) {
             std::cout << "Too many clients connected, rejecting message"
                       << std::endl;
 
@@ -50,6 +59,8 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
             bool clientAlreadyConnected = false;
 
             for (auto client : _clients) {
+                if (client == nullptr)
+                    continue;
                 if (client->getEndpoint() == _remoteEndpoint) {
                     // Client already connected, update last
                     // activity time
@@ -60,53 +71,87 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
             }
 
             if (!clientAlreadyConnected) {
-                // Store the remote endpoint (client) in a list
-                std::cout << "New client connected: " << _remoteEndpoint
-                          << std::endl;
+                // TODO: Check if return don't break the loop
                 if (packet->type != Network::PacketType::JOIN)
                     return;
-                std::string name = packet->joinData.name;
-                _clients.push_back(
-                std::make_shared<Client>(_remoteEndpoint, name));
-                std::cout << "Client " << name << " connected" << std::endl;
-                std::cout << "Number of clients connected: " << _clients.size()
+                std::cout << "New client connected: " << _remoteEndpoint
                           << std::endl;
+                std::string name = packet->joinData.name;
+                for (int i = 0; i < MAX_PLAYERS; i++) {
+                    if (_clients[i] == nullptr) {
+                        _clients[i] =
+                        std::make_shared<Client>(_remoteEndpoint, name);
+                        break;
+                    }
+                }
+                std::cout << "Client " << name << " connected" << std::endl;
             }
 
             switch (packet->type) {
-                case (Network::PacketType::JOIN): _sendConnectPacket(); break;
+                case (Network::PacketType::JOIN):
+                    _broadcastConnectPacket();
+                    _sendCurrentLeader(_remoteEndpoint);
+                    break;
                 default: break;
+            }
+
+            if (_getHost() == nullptr) {
+                _setNewLeader();
             }
         }
         _startReceive();
     }
 }
 
-void RType::Server::_sendConnectPacket(void)
+void RType::Server::_sendCurrentLeader(const udp::endpoint &endpoint)
+{
+    auto host = _getHost();
+    if (host == nullptr)
+        return;
+    Network::data::LeaderData leaderData;
+
+    leaderData.leaderId = _getClientId(host->getEndpoint());
+
+    std::unique_ptr<Network::Packet> leaderPacket =
+    _packetManager.createPacket(Network::PacketType::LEADER, &leaderData);
+
+    _sendMessageToClient(*leaderPacket, endpoint);
+}
+
+void RType::Server::_broadcastConnectPacket(void)
 {
     Network::data::ConnectData connectData;
 
     // Set all player names to empty
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < MAX_PLAYERS; i++) {
         std::memset(connectData.players[i], '\0', NAME_LENGTH);
     }
 
-    int i = 0;
-    for (auto client : _clients) {
-        std::memcpy(connectData.players[i++], client->getName().c_str(),
-        client->getName().size());
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (_clients[i] == nullptr)
+            continue;
+        std::memcpy(connectData.players[i], _clients[i]->getName().c_str(),
+        _clients[i]->getName().size());
     }
 
-    std::unique_ptr<Network::Packet> connectPacket =
-    _packetManager.createPacket(Network::PacketType::CONNECT, &connectData);
-    _sendMessageToClient(*connectPacket, _remoteEndpoint);
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (_clients[i] == nullptr)
+            continue;
+        connectData.id = i;
+        std::unique_ptr<Network::Packet> connectPacket =
+        _packetManager.createPacket(Network::PacketType::CONNECT, &connectData);
+        _sendMessageToClient(*connectPacket, _clients[i]->getEndpoint());
+    }
 }
 
-void RType::Server::_broadcastMessage(const std::string &message)
+void RType::Server::_broadcast(const Network::Packet &packet)
 {
-    for (auto it = _clients.begin(); it != _clients.end();) {
-        auto clientEndpoint = (*it)->getEndpoint();
-        auto lastActivityTime = (*it)->getLastActivity();
+    std::cout << "Broadcasting packet" << std::endl;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto client = _clients[i];
+        if (client == nullptr)
+            continue;
+        auto lastActivityTime = client->getLastActivity();
         auto currentTime = std::chrono::steady_clock::now();
         auto timeSinceLastActivity =
         std::chrono::duration_cast<std::chrono::seconds>(
@@ -116,14 +161,42 @@ void RType::Server::_broadcastMessage(const std::string &message)
         if (timeSinceLastActivity > CLIENT_TIMEOUT_SECONDS) {
             // Client has not sent data for a while, consider it
             // disconnected
-            std::cout << "Client disconnected: " << clientEndpoint << std::endl;
-            it = _clients.erase(it); // Remove the disconnected client
+            std::cout << "Client disconnected: " << client->getName()
+                      << std::endl;
+            bool isLeader = client->isLeader();
+            _clients[i] = nullptr; // Remove the disconnected client
+            if (isLeader)
+                _setNewLeader();
         } else {
-            // Send the message to the client
-            // _send_message_to_client(message, client_endpoint);
-            ++it;
+            std::cout << "Sending to: " << client->getName() << std::endl;
+            _sendMessageToClient(
+            const_cast<Network::Packet &>(packet), client->getEndpoint());
         }
     }
+}
+
+void RType::Server::_setNewLeader(void)
+{
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (_clients[i] == nullptr)
+            continue;
+        _clients[i]->setLeader(true);
+        std::cout << "New leader: " << _clients[i]->getName() << std::endl;
+        _broadcastNewLeader(i);
+        break;
+    }
+}
+
+void RType::Server::_broadcastNewLeader(int id)
+{
+    Network::data::LeaderData leaderData;
+
+    leaderData.leaderId = id;
+
+    std::unique_ptr<Network::Packet> leaderPacket =
+    _packetManager.createPacket(Network::PacketType::LEADER, &leaderData);
+
+    _broadcast(*leaderPacket);
 }
 
 void RType::Server::_handleSend(std::vector<char> message,
@@ -171,8 +244,11 @@ void RType::Server::_cleanupInactiveClients()
     auto currentTime = std::chrono::steady_clock::now();
 
     std::cout << "Cleaning up inactive clients..." << std::endl;
-    for (auto it = _clients.begin(); it != _clients.end();) {
-        auto lastActivityTime = (*it)->getLastActivity();
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto client = _clients[i];
+        if (client == nullptr)
+            continue;
+        auto lastActivityTime = client->getLastActivity();
         auto timeSinceLastActivity =
         std::chrono::duration_cast<std::chrono::seconds>(
         currentTime - lastActivityTime)
@@ -181,11 +257,13 @@ void RType::Server::_cleanupInactiveClients()
         if (timeSinceLastActivity > CLIENT_TIMEOUT_SECONDS) {
             // Client has not sent data for a while, consider it
             // disconnected
-            std::cout << "Client disconnected: " << (*it)->getEndpoint()
+            std::cout << "Client disconnected: " << client->getName()
                       << std::endl;
-            it = _clients.erase(it); // Remove the disconnected client
+            bool isLeader = client->isLeader();
+            _clients[i] = nullptr; // Remove the disconnected client
+            if (isLeader)
+                _setNewLeader();
         } else {
-            ++it;
         }
     }
 }
@@ -199,4 +277,27 @@ const udp::endpoint &endpoint)
         }
     }
     return nullptr;
+}
+
+std::shared_ptr<RType::Client> RType::Server::_getHost(void)
+{
+    for (auto client : _clients) {
+        if (client == nullptr)
+            continue;
+        if (client->isLeader()) {
+            return client;
+        }
+    }
+    return nullptr;
+} // namespace RType
+
+int RType::Server::_getClientId(const udp::endpoint &endpoint)
+{
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (_clients[i] == nullptr)
+            continue;
+        if (_clients[i]->getEndpoint() == endpoint)
+            return i;
+    }
+    return -1;
 }

@@ -27,3 +27,13 @@ const std::string &RType::Client::getName() const
 {
     return _name;
 }
+
+void RType::Client::setLeader(bool lead)
+{
+    _isLeader = lead;
+}
+
+bool RType::Client::isLeader(void) const
+{
+    return _isLeader;
+}

@@ -8,7 +8,9 @@
 #pragma once
 
 #include <ctime>
+#include "ConnectData.hpp"
 #include "JoinData.hpp"
+#include "LeaderData.hpp"
 #include "StartData.hpp"
 #include "ConnectData.hpp"
 #include "Status.hpp"
@@ -96,6 +98,7 @@ namespace Network {
             ENEMY_LIFE,
             MAP,
             END,
+            LEADER,
         };
 
         /**
@@ -117,6 +120,8 @@ namespace Network {
                         startData; ///< The data of the START packet
                         struct data::JoinData
                         joinData; ///< The data of the JOIN packet
+                        struct data::LeaderData
+                        leaderData; ///< The data of the LEADER packet
                 };
         };
     }

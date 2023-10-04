@@ -47,11 +47,17 @@ void Connection::_listen()
             std::cout << "Packet type: " << packet->type << std::endl;
             switch (packet->type) {
                 case Network::CONNECT:
+                    std::cout << "Your id: " << (int) packet->connectData.id
+                              << std::endl;
                     for (int i = 0; i < 4; i++) {
                         std::cout << "Player " << i << ": "
                                   << packet->connectData.players[i]
                                   << std::endl;
                     }
+                    break;
+                case Network::LEADER:
+                    std::cout << "Leader: " << (int) packet->leaderData.leaderId
+                              << std::endl;
                     break;
                 default:
                     throw std::runtime_error("Invalid packet type received");
@@ -62,6 +68,7 @@ void Connection::_listen()
             std::cerr << "Error receiving response: " << error.message()
                       << std::endl;
         }
+        _listen();
     });
 }
 

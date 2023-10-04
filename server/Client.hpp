@@ -34,9 +34,14 @@ namespace RType {
 
             const std::string &getName() const;
 
+            void setLeader(bool lead);
+
+            bool isLeader(void) const;
+
         private:
             std::chrono::steady_clock::time_point _last_activity;
             udp::endpoint _endpoint;
             std::string _name;
+            bool _isLeader = false;
     };
 } // namespace RType
