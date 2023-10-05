@@ -33,6 +33,8 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
             if (_event.type == sf::Event::Closed) {
                 _window.close();
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+                _window.close();
         }
 
         // Clear the window
