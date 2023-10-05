@@ -50,8 +50,6 @@ void ECS::Core::mainLoop()
     GraphicSystem *graphicSystem = new GraphicSystem();
     EventSystem *eventSystem = new EventSystem();
     while(!sceneManager.shouldClose) {
-        if (arrow == 100000)
-            sceneManager.shouldClose = true;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
         initPlayer(firstScene);
         eventSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, arrow);
