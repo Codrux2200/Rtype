@@ -7,14 +7,12 @@
 
 #pragma once
 
-namespace Network {
-    namespace data {
-        extern "C"
-        {
-            struct LeaderData {
-                public:
-                    char leaderId;
-            };
-        }
-    } // namespace data
-} // namespace Network
+namespace Network::data {
+    extern "C"
+    {
+        struct LeaderData {
+            public:
+                char leaderId;
+        };
+    }
+} // namespace Network::data

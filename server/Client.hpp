@@ -11,12 +11,14 @@
 #include <chrono>
 #include <iostream>
 
+#include "Client.hpp"
+
 using boost::asio::ip::udp;
 
 namespace RType {
     class Client {
         public:
-            Client(udp::endpoint endpoint, std::string &name)
+            Client(const udp::endpoint &endpoint, const std::string &name)
                 : _last_activity(std::chrono::steady_clock::now()),
                   _endpoint(endpoint), _name(name) {};
             ~Client()
@@ -38,10 +40,15 @@ namespace RType {
 
             bool isLeader(void) const;
 
+            bool operator==(const Client &rhs) const;
+
         private:
             std::chrono::steady_clock::time_point _last_activity;
             udp::endpoint _endpoint;
             std::string _name;
             bool _isLeader = false;
     };
+
+    using client_ptr = std::shared_ptr<Client>;
+
 } // namespace RType

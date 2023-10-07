@@ -29,6 +29,8 @@ set(SERVER_SOURCES
     server/main.cpp
     server/Client.hpp
     server/Client.cpp
+    server/ClientManager.hpp
+    server/ClientManager.cpp
 )
 
 add_executable(server ${NETWORK_SOURCES} ${SERVER_SOURCES})

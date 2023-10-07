@@ -37,3 +37,8 @@ bool RType::Client::isLeader(void) const
 {
     return _isLeader;
 }
+
+bool RType::Client::operator==(const Client &rhs) const
+{
+    return _endpoint == rhs._endpoint;
+}
