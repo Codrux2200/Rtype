@@ -13,6 +13,13 @@
 #include "ConnectData.hpp"
 
 namespace RType {
+
+    /**
+     * @brief A ClientManager is a class that manages the clients connected to
+     * the server.
+     * It is used to store the clients, and to get information about them.
+     * It is also used to register and unregister clients.
+     */
     class ClientManager {
         public:
             ClientManager();

@@ -8,7 +8,7 @@
 #include "Connection.hpp"
 #include <iostream>
 
-Connection::Connection(boost::asio::io_service &io_service,
+RType::Connection::Connection(boost::asio::io_service &io_service,
 const std::string &host, const std::string &port)
     : _socket(io_service), _resolver(io_service)
 {
@@ -33,21 +33,21 @@ const std::string &host, const std::string &port)
     sendPacket(*packet);
 }
 
-Connection::~Connection()
+RType::Connection::~Connection()
 {
 }
 
-void Connection::_initHandlers()
+void RType::Connection::_initHandlers()
 {
     _packetManager.REGISTER_HANDLER(
-    Network::PacketType::CONNECT, &Connection::_handlerConnect);
+    Network::PacketType::CONNECT, &RType::Connection::_handlerConnect);
     _packetManager.REGISTER_HANDLER(
-    Network::PacketType::LEADER, &Connection::_handlerLeader);
+    Network::PacketType::LEADER, &RType::Connection::_handlerLeader);
     _packetManager.REGISTER_HANDLER(
-    Network::PacketType::START, &Connection::_handlerStart);
+    Network::PacketType::START, &RType::Connection::_handlerStart);
 }
 
-void Connection::_listen()
+void RType::Connection::_listen()
 {
     _socket.async_receive_from(boost::asio::buffer(_recv_buffer),
     _sender_endpoint,
@@ -65,12 +65,12 @@ void Connection::_listen()
     });
 }
 
-void Connection::_handlerLeader(Network::Packet &packet)
+void RType::Connection::_handlerLeader(Network::Packet &packet)
 {
     std::cout << "Leader: " << (int) packet.leaderData.leaderId << std::endl;
 }
 
-void Connection::_handlerConnect(Network::Packet &packet)
+void RType::Connection::_handlerConnect(Network::Packet &packet)
 {
     static int i = 0;
 
@@ -92,12 +92,12 @@ void Connection::_handlerConnect(Network::Packet &packet)
     }
 }
 
-void Connection::_handlerStart(Network::Packet &packet)
+void RType::Connection::_handlerStart(Network::Packet &packet)
 {
     std::cout << "Game is starting" << std::endl;
 }
 
-void Connection::sendPacket(const Network::Packet &packet)
+void RType::Connection::sendPacket(const Network::Packet &packet)
 {
     std::vector<char> packetInBytes = _packetManager.packetToBytes(packet);
 

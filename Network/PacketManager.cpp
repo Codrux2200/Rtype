@@ -5,13 +5,16 @@
 ** PacketManager
 */
 
-#include "PacketManager.hpp"
 #include <cstring>
 #include <iostream>
 #include <string>
 #include <vector>
+
+// clang-format off
+#include "PacketManager.hpp"
 #include "Packet.hpp"
 
+// clang-format on
 std::vector<char> Network::PacketManager::packetToBytes(
 const Network::Packet &packet)
 {

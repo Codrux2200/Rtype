@@ -12,8 +12,6 @@
 #include "JoinData.hpp"
 #include "LeaderData.hpp"
 #include "StartData.hpp"
-#include "ConnectData.hpp"
-#include "Status.hpp"
 
 /**
  * @brief Network protocol

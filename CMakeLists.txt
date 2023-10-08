@@ -8,7 +8,6 @@ find_package(Boost REQUIRED)
 
 set(NETWORK_SOURCES
     Network/Packet.hpp
-    Network/Status.hpp
     Network/PacketManager.hpp
     Network/PacketManager.cpp
     Network/data/ConnectData.hpp

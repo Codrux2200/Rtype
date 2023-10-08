@@ -10,11 +10,10 @@
 #include <iostream>
 #include "Connection.hpp"
 
-int main(void)
+int main(int ac, char **av)
 {
     boost::asio::io_service io_service;
-    Connection connection(io_service, "127.0.0.1", "4242");
-
+    RType::Connection connection(io_service, "127.0.0.1", "4242");
     io_service.run();
     for (;;) {}
     return 0;
