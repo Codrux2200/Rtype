@@ -31,7 +31,8 @@ namespace RType {
              * @param port The port to connect to (IP port)
              */
             Connection(boost::asio::io_service &io_service,
-            const std::string &host, const std::string &port);
+            const std::string &host, const std::string &port,
+            const std::string &name);
             ~Connection();
 
             /**

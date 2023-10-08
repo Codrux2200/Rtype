@@ -13,8 +13,8 @@
 int main(int ac, char **av)
 {
     boost::asio::io_service io_service;
-    RType::Connection connection(io_service, "127.0.0.1", "4242");
+    RType::Connection connection(io_service, av[1], av[2], av[3]);
+
     io_service.run();
-    for (;;) {}
     return 0;
 }

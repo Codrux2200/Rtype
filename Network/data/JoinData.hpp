@@ -7,6 +7,7 @@
 
 #pragma once
 
+#define NAME_LENGTH 7
 namespace Network::data {
     extern "C"
     {
@@ -18,7 +19,7 @@ namespace Network::data {
                  * If it disconnects, the next player to connect will be the
                  * host
                  */
-                char name[6];
+                char name[NAME_LENGTH];
         };
     }
 } // namespace Network::data

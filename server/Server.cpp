@@ -69,15 +69,14 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
 
         RType::client_ptr client = _newClientPacket(packet);
 
-        if (client == nullptr)
-            return;
+        if (client != nullptr) {
+            _packetManager.handlePacket(*packet);
 
-        _packetManager.handlePacket(*packet);
-
-        if (_clientManager.getLeader() == nullptr) {
-            _clientManager.setNewLeader();
-            _broadcastNewLeader(_clientManager.getClientId(
-            _clientManager.getLeader()->getEndpoint()));
+            if (_clientManager.getLeader() == nullptr) {
+                _clientManager.setNewLeader();
+                _broadcastNewLeader(_clientManager.getClientId(
+                _clientManager.getLeader()->getEndpoint()));
+            }
         }
     }
     _startReceive();
@@ -97,7 +96,15 @@ std::unique_ptr<Network::Packet> &packet)
     if (packet->type != Network::PacketType::JOIN)
         return nullptr;
 
-    std::string name = std::string(packet->joinData.name);
+    for (int i = 0; i < NAME_LENGTH && (packet->joinData.name[i] || i == 0);
+         i++) {
+        if (packet->joinData.name[i] < 32 || packet->joinData.name[i] > 126) {
+            std::cout << "Invalid name" << std::endl;
+            return nullptr;
+        }
+    }
+
+    std::string name = std::string(packet->joinData.name, NAME_LENGTH);
 
     if (_clientManager.registerClient(_remoteEndpoint, name) == false) {
         std::cout << "Too many clients connected, rejecting message"

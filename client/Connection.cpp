@@ -9,7 +9,7 @@
 #include <iostream>
 
 RType::Connection::Connection(boost::asio::io_service &io_service,
-const std::string &host, const std::string &port)
+const std::string &host, const std::string &port, const std::string &name)
     : _socket(io_service), _resolver(io_service)
 {
     _endpoint = *_resolver.resolve(udp::v4(), host, port).begin();
@@ -17,12 +17,10 @@ const std::string &host, const std::string &port)
     std::cout << "Connected to " << host << ":" << port << std::endl;
     struct Network::data::JoinData joinData;
 
-    if (std::rand() % 2 == 0)
-        std::memcpy(joinData.name, "Guigu", 5);
-    else
-        std::memcpy(joinData.name, "Sebou", 5);
+    std::memset(&joinData.name, 0, sizeof(char) * NAME_LENGTH);
 
-    joinData.name[5] = '\0';
+    for (int i = 0; i < NAME_LENGTH && i < (int) name.size(); i++)
+        joinData.name[i] = name[i];
 
     std::unique_ptr<Network::Packet> packet =
     _packetManager.createPacket(Network::PacketType::JOIN, &joinData);
@@ -76,8 +74,11 @@ void RType::Connection::_handlerConnect(Network::Packet &packet)
 
     std::cout << "Your id: " << (int) packet.connectData.id << std::endl;
     for (int i = 0; i < 4; i++) {
-        std::cout << "Player " << i << ": " << packet.connectData.players[i]
-                  << std::endl;
+        std::cout << "Player " << i << ": ";
+        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
+             j++)
+            std::cout << packet.connectData.players[i][j];
+        std::cout << std::endl;
     }
     if (++i >= 4) {
         std::cout << "Game is full" << std::endl;

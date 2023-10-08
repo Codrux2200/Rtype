@@ -10,10 +10,7 @@ set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
     Network/PacketManager.cpp
-    Network/data/ConnectData.hpp
-    Network/data/StartData.hpp
-    Network/data/JoinData.hpp
-    Network/data/LeaderData.hpp
+    Network/PacketType.hpp
 )
 
 set(CLIENT_SOURCES
