@@ -24,6 +24,12 @@ class Connection {
     private:
         void _listen();
 
+        void _initHandlers();
+
+        void _handlerConnect(Network::Packet &packet);
+        void _handlerLeader(Network::Packet &packet);
+        void _handlerStart(Network::Packet &packet);
+
         udp::socket _socket;
         udp::resolver _resolver;
         udp::endpoint _endpoint;

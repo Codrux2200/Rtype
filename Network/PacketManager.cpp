@@ -63,3 +63,21 @@ Network::PacketType type, void *data)
     }
     return packet;
 }
+
+void Network::PacketManager::registerHandler(
+Network::PacketType type, std::function<void(Network::Packet &)> handler)
+{
+    _handlers[type] = handler;
+}
+
+void Network::PacketManager::handlePacket(Network::Packet &packet)
+{
+    if (_handlers.find(packet.type) == _handlers.end()) {
+        std::cerr << "No handler for packet type: "
+                  << static_cast<int>(packet.type) << std::endl;
+        return;
+    }
+    std::cout << "Handling packet type: " << static_cast<int>(packet.type)
+              << std::endl;
+    _handlers[packet.type](packet);
+}

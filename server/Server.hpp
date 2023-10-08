@@ -12,7 +12,9 @@
 #include <boost/bind/bind.hpp>
 #include <chrono>
 #include <ctime>
+#include <functional>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
@@ -33,6 +35,8 @@ namespace RType {
             ~Server();
 
         private:
+            void _loadPacketHandlers();
+
             void _startReceive();
 
             void _handleReceive(const boost::system::error_code &error,
@@ -48,17 +52,17 @@ namespace RType {
             void _sendMessageToClient(
             Network::Packet &packet, const udp::endpoint &client_endpoint);
 
-            // void _cleanupInactiveClients();
-
             void _broadcastConnectPacket(void);
-
-            // void _setNewLeader(void);
 
             void _broadcastNewLeader(int id);
 
-            // int _getClientId(const udp::endpoint &endpoint);
-
             void _sendCurrentLeader(const udp::endpoint &endpoint);
+
+            client_ptr _newClientPacket(
+            std::unique_ptr<Network::Packet> &packet);
+
+            void _handlerJoin(Network::Packet &packet);
+            void _handlerStart(Network::Packet &packet);
 
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
@@ -66,8 +70,10 @@ namespace RType {
             Network::PacketManager _packetManager;
             std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
             ClientManager _clientManager;
+            std::map<Network::PacketType, std::function<void()>>
+            _packetHandlers;
 
-            static constexpr int CLIENT_TIMEOUT_SECONDS = 15;
-            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 5;
+            static constexpr int CLIENT_TIMEOUT_SECONDS = 180;
+            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 100;
     };
 } // namespace RType

@@ -27,12 +27,24 @@ const std::string &host, const std::string &port)
     std::unique_ptr<Network::Packet> packet =
     _packetManager.createPacket(Network::PacketType::JOIN, &joinData);
 
+    _initHandlers();
+
     _listen();
     sendPacket(*packet);
 }
 
 Connection::~Connection()
 {
+}
+
+void Connection::_initHandlers()
+{
+    _packetManager.REGISTER_HANDLER(
+    Network::PacketType::CONNECT, &Connection::_handlerConnect);
+    _packetManager.REGISTER_HANDLER(
+    Network::PacketType::LEADER, &Connection::_handlerLeader);
+    _packetManager.REGISTER_HANDLER(
+    Network::PacketType::START, &Connection::_handlerStart);
 }
 
 void Connection::_listen()
@@ -44,32 +56,45 @@ void Connection::_listen()
             std::unique_ptr<Network::Packet> packet =
             _packetManager.bytesToPacket(_recv_buffer.data(), bytes_received);
             std::cout << "Received packet from server: " << std::endl;
-            std::cout << "Packet type: " << packet->type << std::endl;
-            switch (packet->type) {
-                case Network::CONNECT:
-                    std::cout << "Your id: " << (int) packet->connectData.id
-                              << std::endl;
-                    for (int i = 0; i < 4; i++) {
-                        std::cout << "Player " << i << ": "
-                                  << packet->connectData.players[i]
-                                  << std::endl;
-                    }
-                    break;
-                case Network::LEADER:
-                    std::cout << "Leader: " << (int) packet->leaderData.leaderId
-                              << std::endl;
-                    break;
-                default:
-                    throw std::runtime_error("Invalid packet type received");
-                    break;
-            }
-            std::cout << std::endl;
+            _packetManager.handlePacket(*packet);
         } else {
             std::cerr << "Error receiving response: " << error.message()
                       << std::endl;
         }
         _listen();
     });
+}
+
+void Connection::_handlerLeader(Network::Packet &packet)
+{
+    std::cout << "Leader: " << (int) packet.leaderData.leaderId << std::endl;
+}
+
+void Connection::_handlerConnect(Network::Packet &packet)
+{
+    static int i = 0;
+
+    std::cout << "Your id: " << (int) packet.connectData.id << std::endl;
+    for (int i = 0; i < 4; i++) {
+        std::cout << "Player " << i << ": " << packet.connectData.players[i]
+                  << std::endl;
+    }
+    if (++i >= 4) {
+        std::cout << "Game is full" << std::endl;
+        Network::data::StartData startData;
+
+        startData.mapId = 0;
+
+        std::unique_ptr<Network::Packet> packet =
+        _packetManager.createPacket(Network::PacketType::START, &startData);
+
+        sendPacket(*packet);
+    }
+}
+
+void Connection::_handlerStart(Network::Packet &packet)
+{
+    std::cout << "Game is starting" << std::endl;
 }
 
 void Connection::sendPacket(const Network::Packet &packet)
