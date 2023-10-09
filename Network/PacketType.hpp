@@ -76,6 +76,7 @@ namespace Network {
              *
              */
             JOIN,
+            QUIT,
             MOVE,
             SHOOT,
             HIT,

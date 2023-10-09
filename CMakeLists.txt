@@ -16,6 +16,7 @@ set(NETWORK_SOURCES
     Network/data/LeaderData.hpp
     Network/data/MoveData.hpp
     Network/data/StartData.hpp
+    Network/data/DisconnectData.hpp
 )
 
 set(NETWORK_INCLUDE
