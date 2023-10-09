@@ -8,8 +8,8 @@
 #include "RotationComponent.hpp"
 
 ECS::RotationComponent::RotationComponent(int uid)
-    : AComponent(uid)
 {
+    _uid = uid;
     _rotation = 0;
 }
 

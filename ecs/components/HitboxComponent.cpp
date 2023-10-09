@@ -8,8 +8,8 @@
 #include "HitboxComponent.hpp"
 
 ECS::HitboxComponent::HitboxComponent(int x, int y, int height, int weight, int uid)
-    : AComponent(uid)
 {
+    _uid = uid;
     _x = x;
     _y = y;
     _height = height;

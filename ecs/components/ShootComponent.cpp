@@ -8,8 +8,8 @@
 #include "ShootComponent.hpp"
 
 ECS::ShootComponent::ShootComponent(int uid, int shootSpeed, int shootDamage)
-    : AComponent(uid)
 {
+    _uid = uid;
     _shootSpeed = shootSpeed;
     _shootDamage = shootDamage;
 }

@@ -8,6 +8,8 @@
 #ifndef ICOMPONENT_HPP_
 #define ICOMPONENT_HPP_
 
+#include <vector>
+
 namespace ECS {
     /**
      * @brief ComponentType
@@ -35,17 +37,19 @@ namespace ECS {
     class IComponent {
         public:
             /**
-             * @brief get the type of the component
+             * @brief Get the Value object
              * 
-             * @return ComponentType
+             * @return the value asked
              */
-            virtual int getUid(void) const = 0;
+            virtual std::vector<int> getValue() const = 0;
             /**
-             * @brief set the type of the component
+             * @brief Set the Value object
              * 
-             * @return ComponentType
+             * @param valueA
+             * 
+             * @param valueB
              */
-            virtual void setUid(int uid) = 0;
+            virtual void setValue(int valueA, int valueB) = 0;
         protected:
         private:
     };
