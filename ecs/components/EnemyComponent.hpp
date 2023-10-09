@@ -7,7 +7,9 @@
 
 #ifndef ENEMYCOMPONENT_HPP_
 #define ENEMYCOMPONENT_HPP_
-#include "../AComponent.hpp"
+#include <SFML/Graphics.hpp>
+#include <string>
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -21,26 +23,41 @@ namespace ECS {
              * 
              * @param uid 
              */
-            EnemyComponent(int uid);
+            EnemyComponent(int uid, const std::string &spritePath);
             /**
              * @brief Destroy the enemy Component object
              * 
              */
             ~EnemyComponent();
             /**
-             * @brief Set the enemy of the entity
-             * 
-             * @param enemy
+             * @brief Set the sprite path for the player entity
+             *
+             * @param newSpritePath The path to the new sprite image
              */
-            void setValue(int enemy, int unused = 0) final;
+            void setSprite(const std::string& newSpritePath);
             /**
-             * @brief Get the enemy of the entity
-             * 
-             * @return std::vector<int>
+             * @brief Get the sprite path for the player entity
+             *
+             * @return std::string
              */
-            std::vector<int> getValue() const final;
+            std::string getSprite() const;
+            /**
+             * @brief Update the component
+             * 
+             * @param positions the vector of the positions of the entity
+             */
+            void update(const std::vector<int> positions);
+            /**
+             * @brief Draw the components
+             * 
+             * @param window the renderWindow
+            */
+            void draw(sf::RenderWindow &window);
         protected:
         private:
+            std::string _spritePath;
+            std::unique_ptr<sf::Sprite> _sprite;
+            sf::Texture _texture;
     };
 }
 

@@ -16,6 +16,7 @@ FetchContent_Declare(
 add_executable(MySFMLProject
     ecs/AComponent.cpp
     ecs/Core.cpp
+    ecs/EnemyFactory.cpp
     ecs/Entity.cpp
     ecs/Scene.cpp
     ecs/SceneManager.cpp

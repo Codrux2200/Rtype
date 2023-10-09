@@ -11,6 +11,7 @@
 #include "PositionComponent.hpp"
 #include "GraphicSystem.hpp"
 #include "EventSystem.hpp"
+#include "EnemyFactory.hpp"
 
 ECS::Core::Core()
 {
@@ -44,7 +45,8 @@ static void initPlayer(ECS::Scene &firstScene)
 
 void ECS::Core::mainLoop()
 {
-    int deltaTime = 0; 
+    int deltaTime = 0;
+    EnemyFactory enemyFactory;
 
     sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
     GraphicSystem *graphicSystem = new GraphicSystem();
@@ -54,6 +56,7 @@ void ECS::Core::mainLoop()
             deltaTime = 0;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
         initPlayer(firstScene);
+        enemyFactory.generateEnemy(firstScene);
         eventSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
         graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
         // if the window is closed, the loop is stopped

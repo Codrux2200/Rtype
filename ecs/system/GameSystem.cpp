@@ -17,3 +17,11 @@ ECS::GameSystem::GameSystem()
 ECS::GameSystem::~GameSystem()
 {
 }
+
+void ECS::GameSystem::update(
+    SceneManager &sceneManager, const SceneType &SceneType, const float &deltaTime)
+{
+    ECS::Scene &scene = sceneManager.getScene(SceneType);
+
+    
+}

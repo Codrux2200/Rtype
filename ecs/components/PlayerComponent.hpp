@@ -51,7 +51,7 @@ namespace ECS {
          * 
          * @param window the renderWindow
         */
-       void draw(sf::RenderWindow &window);
+        void draw(sf::RenderWindow &window);
     protected:
     private:
         std::string _spritePath;

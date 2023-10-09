@@ -34,6 +34,7 @@ namespace ECS {
              * @param SceneType 
              * @param deltaTime 
              */
+            void update(SceneManager &sceneManager, const SceneType &SceneType, const float &deltaTime);
         protected:
         private:
     };
