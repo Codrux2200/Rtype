@@ -11,9 +11,10 @@
 #include <iostream>
 
 ECS::GraphicSystem::GraphicSystem()
-    : ASystem(ECS::SystemType::GRAPHIC), _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
+    : _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
 {
-        initBackground();
+    typeSystem = ECS::SystemType::GRAPHIC;
+    initBackground();
 }
 
 ECS::GraphicSystem::~GraphicSystem()

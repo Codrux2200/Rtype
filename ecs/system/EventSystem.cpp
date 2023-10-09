@@ -8,8 +8,8 @@
 #include "EventSystem.hpp"
 
 ECS::EventSystem::EventSystem()
-    : ASystem(ECS::SystemType::EVENT)
 {
+    typeSystem = ECS::SystemType::EVENT;
 }
 
 ECS::EventSystem::~EventSystem()
