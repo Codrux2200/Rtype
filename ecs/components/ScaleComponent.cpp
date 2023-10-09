@@ -8,8 +8,8 @@
 #include "ScaleComponent.hpp"
 
 ECS::ScaleComponent::ScaleComponent(int x, int y, int uid)
-    : AComponent(uid)
 {
+    _uid = uid;
     _x = x;
     _y = y;
 }

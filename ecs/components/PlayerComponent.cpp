@@ -8,8 +8,9 @@
 #include "PlayerComponent.hpp"
 
 ECS::PlayerComponent::PlayerComponent(int uid, const std::string& spritePath)
-    : AComponent(uid), _spritePath(spritePath)
+    : _spritePath(spritePath)
 {
+    _uid = uid;
     _texture = sf::Texture();
     if (!_texture.loadFromFile(_spritePath))
         throw "TextureError";

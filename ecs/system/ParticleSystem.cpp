@@ -8,8 +8,8 @@
 #include "ParticleSystem.hpp"
 
 ECS::ParticleSystem::ParticleSystem()
-    : ASystem(ECS::SystemType::PARTICLE)
 {
+    typeSystem = ECS::SystemType::PARTICLE;
 }
 
 ECS::ParticleSystem::~ParticleSystem()

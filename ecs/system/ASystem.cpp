@@ -7,16 +7,6 @@
 
 #include "ASystem.hpp"
 
-
-ECS::ASystem::ASystem(SystemType type)
-{
-    typeSystem = type;
-}
-
-ECS::ASystem::~ASystem()
-{
-}
-
 void ECS::ASystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime)
 {
 }

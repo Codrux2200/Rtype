@@ -23,7 +23,7 @@ const std::string &host, const std::string &port, const std::string &name)
         joinData.name[i] = name[i];
 
     std::unique_ptr<Network::Packet> packet =
-    _packetManager.createPacket(Network::PacketType::JOIN, &joinData);
+    packetManager.createPacket(Network::PacketType::JOIN, &joinData);
 
     _initHandlers();
 
@@ -37,11 +37,11 @@ RType::Connection::~Connection()
 
 void RType::Connection::_initHandlers()
 {
-    _packetManager.REGISTER_HANDLER(
+    packetManager.REGISTER_HANDLER(
     Network::PacketType::CONNECT, &RType::Connection::_handlerConnect);
-    _packetManager.REGISTER_HANDLER(
+    packetManager.REGISTER_HANDLER(
     Network::PacketType::LEADER, &RType::Connection::_handlerLeader);
-    _packetManager.REGISTER_HANDLER(
+    packetManager.REGISTER_HANDLER(
     Network::PacketType::START, &RType::Connection::_handlerStart);
 }
 
@@ -52,9 +52,9 @@ void RType::Connection::_listen()
     [&](const boost::system::error_code &error, std::size_t bytes_received) {
         if (!error) {
             std::unique_ptr<Network::Packet> packet =
-            _packetManager.bytesToPacket(_recv_buffer.data(), bytes_received);
+            packetManager.bytesToPacket(_recv_buffer.data(), bytes_received);
             std::cout << "Received packet from server: " << std::endl;
-            _packetManager.handlePacket(*packet);
+            packetManager.handlePacket(*packet);
         } else {
             std::cerr << "Error receiving response: " << error.message()
                       << std::endl;
@@ -72,7 +72,7 @@ void RType::Connection::_handlerConnect(Network::Packet &packet)
 {
     static int i = 0;
 
-    std::cout << "Your id: " << (int) packet.connectData.id << std::endl;
+    _id = packet.connectData.id;
     for (int i = 0; i < 4; i++) {
         std::cout << "Player " << i << ": ";
         for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
@@ -87,7 +87,7 @@ void RType::Connection::_handlerConnect(Network::Packet &packet)
         startData.mapId = 0;
 
         std::unique_ptr<Network::Packet> packet =
-        _packetManager.createPacket(Network::PacketType::START, &startData);
+        packetManager.createPacket(Network::PacketType::START, &startData);
 
         sendPacket(*packet);
     }
@@ -100,7 +100,7 @@ void RType::Connection::_handlerStart(Network::Packet &packet)
 
 void RType::Connection::sendPacket(const Network::Packet &packet)
 {
-    std::vector<char> packetInBytes = _packetManager.packetToBytes(packet);
+    std::vector<char> packetInBytes = packetManager.packetToBytes(packet);
 
     _socket.async_send_to(boost::asio::buffer(packetInBytes), _endpoint,
     [](const boost::system::error_code &error, std::size_t bytes_sent) {

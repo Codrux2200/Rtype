@@ -10,8 +10,8 @@
 #include "HealthComponent.hpp"
 
 ECS::GameSystem::GameSystem()
-    : ASystem(ECS::SystemType::GAME)
 {
+    typeSystem = ECS::SystemType::GAME;
 }
 
 ECS::GameSystem::~GameSystem()

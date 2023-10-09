@@ -7,9 +7,9 @@
 
 #include "SpriteComponent.hpp"
 
-ECS::SpriteComponent::SpriteComponent()
-    : AComponent()
+ECS::SpriteComponent::SpriteComponent(int uid)
 {
+    _uid = uid;
 }
 
 ECS::SpriteComponent::~SpriteComponent()

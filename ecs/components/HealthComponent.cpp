@@ -8,8 +8,8 @@
 #include "HealthComponent.hpp"
 
 ECS::HealthComponent::HealthComponent(int uid)
-    : AComponent(uid)
 {
+    _uid = uid;
     _health = 100;
 }
 

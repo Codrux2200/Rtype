@@ -18,28 +18,10 @@ namespace ECS {
     class AComponent : public IComponent {
         public:
             /**
-             * @brief Construct a new AComponent object
-             * 
-             * @param uid 
+             * @brief UID of the component
+             *  
              */
-            AComponent(int uid);
-            /**
-             * @brief Destroy the AComponent object
-             * 
-             */
-            ~AComponent();
-            /**
-             * @brief Get the Uid object
-             * 
-             * @return the uid of the component
-             */
-            int getUid() const final;
-            /**
-             * @brief Set the Uid object
-             * 
-             * @param uid 
-             */
-            void setUid(int uid) final;
+            int _uid;
             /**
              * @brief Get the Value object
              * 
@@ -56,11 +38,7 @@ namespace ECS {
             virtual void setValue(int valueA, int valueB);
         protected:
         private:
-            /**
-             * @brief UID of the component
-             *  
-             */
-            int _uid;
+            
     };
 }
 

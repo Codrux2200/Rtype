@@ -8,8 +8,9 @@
 #include "VelocityComponent.hpp"
 
 ECS::VelocityComponent::VelocityComponent(int uid)
-    : AComponent(uid)
 {
+    _uid = uid;
+    _velocity = 0;
 }
 
 ECS::VelocityComponent::~VelocityComponent()

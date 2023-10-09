@@ -44,6 +44,11 @@ namespace RType {
              */
             void sendPacket(const Network::Packet &packet);
 
+            Network::PacketManager packetManager;
+
+            short getId() const { return _id; }
+
+
         private:
             /**
              * @brief Listen for incoming packets from the server
@@ -64,8 +69,9 @@ namespace RType {
             udp::socket _socket;
             udp::resolver _resolver;
             udp::endpoint _endpoint;
-            Network::PacketManager _packetManager;
             boost::array<char, PACKET_SIZE> _recv_buffer;
             udp::endpoint _sender_endpoint;
+
+            short _id = -1;
     };
 } // namespace RType

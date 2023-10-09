@@ -44,21 +44,23 @@ static void initPlayer(ECS::Scene &firstScene)
 
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
-    int arrow = 0;
+    int deltaTime = 0;
 
     sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
     GraphicSystem *graphicSystem = new GraphicSystem();
     EventSystem *eventSystem = new EventSystem();
 
     while(!sceneManager.shouldClose) {
+        if (deltaTime > 1000)
+            deltaTime = 0;
         Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
 
         initPlayer(firstScene);
-        eventSystem->updateEvents(sceneManager, ECS::SceneType::MAIN_MENU, arrow, connection);
-        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, arrow);
+        eventSystem->updateEvents(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime, connection);
+        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
         // if the window is closed, the loop is stopped
         if (!graphicSystem->getWindow().isOpen())
             sceneManager.shouldClose = true;
-        arrow++;
+        deltaTime++;
     }
 }

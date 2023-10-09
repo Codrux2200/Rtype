@@ -20,7 +20,7 @@ package_manager=$(detect_package_manager)
 install_apt() {
     sudo apt-get update
     sudo apt-get install libx11-dev libxrandr-dev libxcursor-dev
-    sudo apt-get install -y libvorbis0 libx11-6 libxorg1-dev libflac-dev libudev-dev libxcursor-dev libxrandr-dev
+    sudo apt-get install -y libvorbis0 libx11-6 libxorg1-dev libflac-dev libudev-dev libxcursor-dev libxrandr-dev libopenal-dev
     sudo apt-get install -y xorg x11-xserver-utils x11-utils
     sudo apt-get install 'xserver-xorg-*' 'mesa-*' 'libx*' 'libX*' 'fontconfig*'
 
@@ -29,7 +29,7 @@ install_apt() {
 # Fonction pour installer des paquets avec le gestionnaire de paquets yum
 install_yum() {
     sudo yum update
-    sudo yum install -y libvorbis libX11-devel libXorg-devel flac-devel libudev-devel libXcursor-devel libXrandr-devel
+    sudo yum install -y libvorbis libX11-devel libXorg-devel flac-devel libudev-devel libXcursor-devel libXrandr-devel libopenal-dev
     sudo yum groupinstall -y "X Window System"
     sudo yum install 'xorg-x11-*' 'mesa-*' 'libX*' 'fontconfig*'
     sudo yum install libX11-devel libXrandr-devel libXcursor-devel
@@ -37,7 +37,7 @@ install_yum() {
 
 # Fonction pour installer des paquets avec le gestionnaire de paquets pacman
 install_pacman() {
-    sudo pacman -Syu --noconfirm libvorbis libx11 libxorg flac libudev libxcursor libxrandr xorg-server xorg-xrandr xorg-xset
+    sudo pacman -Syu --noconfirm libvorbis libx11 libxorg flac libudev libxcursor libxrandr xorg-server xorg-xrandr xorg-xset libopenal-dev
     sudo pacman -Syyu --overwrite '*' 'xorg-*' 'mesa-*' 'libx*' 'libX*' 'fontconfig*'
     sudo pacman -S libx11 libxrandr libxcursor
 
@@ -88,4 +88,3 @@ cmake . .
 cmake --build .
 
 sudo rm -fr _deps
-

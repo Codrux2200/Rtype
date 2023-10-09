@@ -9,6 +9,8 @@
 #define PARTICLESYSTEM_HPP_
 #include "ASystem.hpp"
 #include "Connection.hpp"
+#include "PositionComponent.hpp"
+#include "Entity.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ECS {
@@ -52,6 +54,69 @@ namespace ECS {
 
             void updateEvents(SceneManager &sceneManager, SceneType SceneType, int deltaTime, RType::Connection &connection);
         private:
+            /**
+             * @brief Move the player
+             *
+             * @param player
+            */
+            void _movePlayer(ECS::Entity *player);
+            /**
+             * @brief Move the player up and left
+             *
+             * @param player
+             * @param position
+            */
+            void _moveLeftUp(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player up and right
+             *
+             * @param player
+             * @param position
+            */
+            void _moveRightUp(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player down and left
+             *
+             * @param player
+             * @param position
+            */
+            void _moveLeftDown(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player down and right
+             *
+             * @param player
+             * @param position
+            */
+            void _moveRightDown(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player up
+             *
+             * @param player
+             * @param position
+            */
+            void _moveUp(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player down
+             *
+             * @param player
+             * @param position
+            */
+            void _moveDown(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player left
+             *
+             * @param player
+             * @param position
+            */
+            void _moveLeft(ECS::Entity *player, std::vector<int> position);
+            /**
+             * @brief Move the player right
+             *
+             * @param player
+             * @param position
+            */
+            void _moveRight(ECS::Entity *player, std::vector<int> position);
+
             bool _isModified = false;
     };
 }

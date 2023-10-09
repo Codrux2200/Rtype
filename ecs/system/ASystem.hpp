@@ -18,16 +18,6 @@ namespace ECS{
     class ASystem : public ISystem {
         public:
             /**
-             * @brief Construct a new ASystem object
-             * 
-             */
-            ASystem(SystemType type);
-            /**
-             * @brief Destroy the ASystem object
-             * 
-             */
-            ~ASystem();
-            /**
              * @brief init and update the scene
              * 
              * @param sceneManager 

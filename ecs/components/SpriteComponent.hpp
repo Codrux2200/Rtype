@@ -18,7 +18,7 @@ namespace ECS {
     */
     class SpriteComponent : public AComponent{
         public:
-            SpriteComponent();
+            SpriteComponent(int uid);
             ~SpriteComponent();
             void setTexture(sf::Texture texture);
             const sf::Sprite &getSprite() const;
