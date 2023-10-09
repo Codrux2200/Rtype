@@ -27,7 +27,25 @@ namespace ECS {
              * 
              */
             ~SceneManager();
-            
+            /**
+             * @brief Get the Scene object
+             * 
+             * @param sceneType 
+             * @return Scene 
+             */
+            Scene &getScene(SceneType sceneType);
+            /**
+             * @brief Set the Scene object
+             * 
+             * @param sceneType 
+             * @param scene 
+             */
+            void setScene(SceneType sceneType, Scene scene);
+            /**
+             * @brief a boolean to know if the window should close
+             * 
+             */
+            bool shouldClose;
         protected:
         private:
             /**
@@ -40,11 +58,6 @@ namespace ECS {
              * 
              */
             SceneType _currentScene;
-            /**
-             * @brief to define
-             * 
-             */
-            bool _shouldClose;
 
     };
 }

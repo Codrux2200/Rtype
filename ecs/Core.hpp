@@ -20,15 +20,30 @@ namespace ECS {
 	class Core {
 	public :
 		/**
+		 * @brief Construct a new Core object
+		 * 
+		 */
+		Core();
+		/**
+		 * @brief Destroy the Core object
+		 * 
+		 */
+		~Core();
+		/**
 		 * @brief a map of the system with a key string
 		 * 
 		 */
-		std::map<std::string, ISystem> system;
+		//std::map<std::string, ISystem> system;
 		/**
 		 * @brief the actual Scene Manager
 		 * 
 		 */
 		SceneManager sceneManager;
+		/**
+		 * @brief the main loop of the ECS
+		 * 
+		 */
+		void mainLoop();
 
 	};
 }

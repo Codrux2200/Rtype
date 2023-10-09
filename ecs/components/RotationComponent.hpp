@@ -7,7 +7,7 @@
 
 #ifndef ROTATIONCOMPONENT_HPP_
 #define ROTATIONCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
@@ -31,20 +31,20 @@ namespace ECS {
              * @brief Get the Rotation object
              * 
              */
-            int getRotation() const;
+            std::vector<int> getValue() const override;
             /**
              * @brief Set the Rotation object
              * 
              * @param rotation 
              */
-            void setRotation(float rotation);
+            void setValue(int rotation, int unused = 0) override;
         protected:
         private:
             /**
              * @brief define the rotation of the entity
              * 
              */
-            float _rotation;
+            int _rotation;
     };
 }
 

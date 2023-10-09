@@ -7,7 +7,7 @@
 
 #ifndef VELOCITYCOMPONENT_HPP_
 #define VELOCITYCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
@@ -32,13 +32,13 @@ namespace ECS {
              * 
              * @param velocity
              */
-            void setVelocity(int velocity);
+            void setValue(int velocity, int unused = 0) final;
             /**
              * @brief Get the velocity of the entity
              * 
              * @return int
              */
-            int getVelocity() const;        
+            std::vector<int> getValue() const final;
         protected:
         private:
             int _velocity;

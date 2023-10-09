@@ -39,7 +39,7 @@ namespace ECS {
              * 
              * @return ComponentType
              */
-            virtual int getUid(void) = 0;
+            virtual int getUid(void) const = 0;
             /**
              * @brief set the type of the component
              * 

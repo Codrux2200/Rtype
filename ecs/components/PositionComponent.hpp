@@ -7,14 +7,14 @@
 
 #ifndef POSITIONCOMPONENT_HPP_
 #define POSITIONCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Position component
      * 
      */
-    class PostitionComponent : public ECS::AComponent {
+    class PositionComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new position Component object
@@ -23,35 +23,25 @@ namespace ECS {
              * @param y
              * @param uid
              */
-            PostitionComponent(int x, int y, int uid);
+            PositionComponent(int x, int y, int uid);
             /**
              * @brief Destroy the position Component object
              * 
              */
-            ~PostitionComponent();
+            ~PositionComponent();
             /**
-             * @brief Get the X position object
+             * @brief Get the X and Y position object
              * 
-             * @return int
+             * @return std::vector<int>
              */
-            int getX() const;
+            std::vector<int> getValue() const final;
             /**
-             * @brief Get the Y position object
-             * 
-             * @return int
-             */
-            int getY() const;
-            /**
-             * @brief Set the X position object
+             * @brief Set the X and Y position object
              * 
              * @param x 
-             */
-            void setX(int x);
-            /**
-             * @brief Set the Y position object
-             * 
              * @param y 
              */
+            void setValue(int x, int y) final;
         protected:
         private:
             /**

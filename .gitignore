@@ -32,6 +32,15 @@ doxygen_warnings.log
 *.la
 *.a
 *.lib
+*.cmake
+build/
+_deps/
+cmake*
+
+CmakeCache.txt
+CmakeFiles/
+CMakeFiles/
+vgcore*
 
 # Executables
 *.exe
@@ -40,3 +49,6 @@ doxygen_warnings.log
 vcpkg/
 .vscode/
 build/
+Makefile
+MySFMLProject
+CMakeCache.txt

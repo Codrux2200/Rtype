@@ -8,7 +8,7 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 #include <vector>
-#include "IComponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -32,7 +32,7 @@ namespace ECS {
              * 
              * @param id 
              */
-            Entity(int id);
+            Entity(int id, std::vector<Tag> tags);
             /**
              * @brief Destroy the Entity object
              * 
@@ -42,7 +42,19 @@ namespace ECS {
              * @brief stock component
              * 
              */
-            std::vector<IComponent> components;
+            std::vector<AComponent *> components;
+            /**
+             * @brief Get the Id object
+             * 
+             * @return int 
+             */
+            int getId() const;
+            /**
+             * @brief Get the Tags object
+             * 
+             * @return std::vector<Tag> 
+             */
+            std::vector<Tag> getTags() const;
         private :
             /**
              * @brief define the tag for the entity

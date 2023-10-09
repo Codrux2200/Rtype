@@ -30,31 +30,38 @@ namespace ECS {
     class Scene {
         public :
             /**
+             * @brief Construct a new Scene object
+             * 
+             * @param sceneType 
+             */
+            Scene(SceneType sceneType);
+            /**
+             * @brief Destroy the Scene object
+             * 
+             */
+            ~Scene();
+            /**
              * @brief stock entities with an specified key
              * 
              */
-            std::map<int, Entity> entitiesList;
+            std::map<int, Entity*> entitiesList;
             /**
              * @brief define the scene Type
              * 
              */
             SceneType sceneType;
-        private:
             /**
              * @brief load entities from the specified string
              * 
-             * @param entityName 
+             * @param entityID 
              */
-            void _loadEntity(std::string entityName);
+            void loadEntity(int entityID);
             /**
              * @brief unload entities from the specified string
              * 
-             * @param entityName 
+             * @param entityID
              */
-            void _unloadEntity(std::string entityName);
-
-
-
+            void unloadEntity(int entityID);
     };
 }
 

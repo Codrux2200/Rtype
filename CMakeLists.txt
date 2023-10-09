@@ -1,39 +1,56 @@
-cmake_minimum_required(VERSION 3.22.1)
-set(PROJECT_NAME UDPserver)
-project(${PROJECT_NAME})
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+cmake_minimum_required(VERSION 3.12)
+project(MySFMLProject)
+include(FetchContent)
 
-find_package(Boost REQUIRED)
-
-set(NETWORK_SOURCES
-    Network/Packet.hpp
-    Network/PacketManager.hpp
-    Network/PacketManager.cpp
-    Network/PacketType.hpp
+FetchContent_Declare(
+  SFML
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
 )
 
-set(CLIENT_SOURCES
-    client/Connection.hpp
-    client/Connection.cpp
-    client/main.cpp
-    )
-
-set(SERVER_SOURCES
-    server/Server.hpp
-    server/Server.cpp
-    server/main.cpp
-    server/Client.hpp
-    server/Client.cpp
-    server/ClientManager.hpp
-    server/ClientManager.cpp
+FetchContent_Declare(
+  BoostAsio
+  GIT_REPOSITORY https://github.com/boostorg/asio.git
 )
 
-add_executable(server ${NETWORK_SOURCES} ${SERVER_SOURCES})
-add_executable(client ${NETWORK_SOURCES} ${CLIENT_SOURCES})
+# Ajoutez vos sources existantes à votre exécutable
+add_executable(MySFMLProject
+    ecs/AComponent.cpp
+    ecs/Core.cpp
+    ecs/Entity.cpp
+    ecs/Scene.cpp
+    ecs/SceneManager.cpp
+    ecs/components/EnemyComponent.cpp
+    ecs/components/HealthComponent.cpp
+    ecs/components/PlayerComponent.cpp
+    ecs/components/PositionComponent.cpp
+    ecs/components/RotationComponent.cpp
+    ecs/components/ScaleComponent.cpp
+    ecs/components/ShootComponent.cpp
+    ecs/components/VelocityComponent.cpp
+    ecs/components/BackgroundComponent.cpp
+    ecs/system/ASystem.cpp
+    ecs/system/AudioSystem.cpp
+    ecs/system/EventSystem.cpp
+    ecs/system/GameSystem.cpp
+    ecs/system/GraphicSystem.cpp
+    ecs/system/ParticleSystem.cpp
+    main.cpp
+)
 
-target_include_directories(server PRIVATE ${Boost_INCLUDE_DIRS} Network Network/data)
-target_link_libraries(server ${Boost_LIBRARIES})
+# Ajoutez les répertoires d'inclusion de vos composants ECS
+target_include_directories(MySFMLProject PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/
+)
+FetchContent_MakeAvailable(SFML)
+FetchContent_MakeAvailable(BoostAsio)
 
-target_include_directories(client PRIVATE ${Boost_INCLUDE_DIRS} Network Network/data)
-target_link_libraries(client ${Boost_LIBRARIES})
+# Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
+target_include_directories(MySFMLProject PRIVATE
+    ${SFML_SOURCE_DIR}/include
+)
+
+
+# # Liens vers les bibliothèques SFML
+target_link_libraries(MySFMLProject PRIVATE sfml-graphics sfml-audio sfml-network sfml-window sfml-system)

@@ -7,7 +7,7 @@
 
 #ifndef HEALTHCOMPONENT_HPP_
 #define HEALTHCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
@@ -32,13 +32,13 @@ namespace ECS {
              * 
              * @param health
              */
-            void setHealth(int health);
+            void setValue(int health, int unused = 0) final;
             /**
              * @brief Get the health of the entity
              * 
-             * @return int
+             * @return std::vector<int>
              */
-            int getHealth() const;
+            std::vector<int> getValue() const final;
         protected:
         private:
             int _health;
