@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <functional>
 #include "Packet.hpp"
 
 /**
