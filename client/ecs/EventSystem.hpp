@@ -8,12 +8,13 @@
 #ifndef PARTICLESYSTEM_HPP_
 #define PARTICLESYSTEM_HPP_
 #include "ASystem.hpp"
+#include "Connection.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ECS {
     /**
      * @brief Event System
-     * 
+     *
      */
     enum SFMLKeys {
         up = sf::Keyboard::Up,
@@ -28,28 +29,30 @@ namespace ECS {
         s = sf::Keyboard::S,
         d = sf::Keyboard::D,
     };
-    class EventSystem : public ASystem{
+    class EventSystem : public ASystem {
         public:
             /**
              * @brief Construct a new Event System object
-             * 
+             *
              */
             EventSystem();
             /**
              * @brief Destroy the Event System object
-             * 
+             *
              */
             ~EventSystem();
             /**
              * @brief update the event system
-             * 
-             * @param sceneManager 
-             * @param SceneType 
-             * @param deltaTime 
+             *
+             * @param sceneManager
+             * @param SceneType
+             * @param deltaTime
              */
             void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) final;
-        protected:
+
+            void updateEvents(SceneManager &sceneManager, SceneType SceneType, int deltaTime, RType::Connection &connection);
         private:
+            bool _isModified = false;
     };
 }
 

@@ -31,7 +31,6 @@ set(ECS_INCLUDE
 
 set(ECS_SOURCES
     ecs/AComponent.cpp
-    ecs/Core.cpp
     ecs/Entity.cpp
     ecs/Scene.cpp
     ecs/SceneManager.cpp
@@ -56,6 +55,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/main.cpp
     client/Connection.cpp
     client/Connection.hpp
+    client/Core.cpp
+    client/Core.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

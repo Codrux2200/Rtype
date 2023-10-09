@@ -24,48 +24,64 @@ static void movePlayer(ECS::Entity *player)
 
     ECS::PositionComponent *positionComponent = dynamic_cast<ECS::PositionComponent *>(player->components.at(2));
     position = positionComponent->getValue();
-    std::cout << "position x " << position.at(0) << std::endl;
-    std::cout << "position y " << position.at(1) << std::endl;
+
+    bool isModified = false;
+
     // Movement left and up
     if (((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
-    && position.at(0) > 1 && position.at(1) > 1)
+    && position.at(0) > 1 && position.at(1) > 1) {
         player->components.at(2)->setValue(position.at(0) - 1, position.at(1) - 1);
+        isModified = true;
+    }
     // Movement right and up
     if (((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
-    && position.at(0) > 1 && position.at(1) < (800 - 128))
+    && position.at(0) > 1 && position.at(1) < (800 - 128)) {
         player->components.at(2)->setValue(position.at(0) - 1, position.at(1) + 1);
+        isModified = true;
+    }
     // Movement left and down
     if (((sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
-    && position.at(0) < (600 - 100) && position.at(1) > 1)
+    && position.at(0) < (600 - 100) && position.at(1) > 1) {
         player->components.at(2)->setValue(position.at(0) + 1, position.at(1) - 1);
+        isModified = true;
+    }
     // Movement right and down
     if (((sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    || (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
-    && position.at(0) < (600 - 100) && position.at(1) < (800 - 128))
+    && position.at(0) < (600 - 100) && position.at(1) < (800 - 128)) {
         player->components.at(2)->setValue(position.at(0) + 1, position.at(1) + 1);
+        isModified = true;
+    }
     // Movement up
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) 
-    && position.at(1) > 1)
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    && position.at(1) > 1) {
         player->components.at(2)->setValue(position.at(0), position.at(1) - 1);
+        isModified = true;
+    }
     // Movement down
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    && position.at(1) < (600 - 100))
+    && position.at(1) < (600 - 100)) {
         player->components.at(2)->setValue(position.at(0), position.at(1) + 1);
+        isModified = true;
+    }
     // Movement left
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    && position.at(0) > 1)
+    && position.at(0) > 1) {
         player->components.at(2)->setValue(position.at(0) - 1, position.at(1));
+        isModified = true;
+    }
     // Movement right
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    && position.at(0) < (800 - 128))
+    && position.at(0) < (800 - 128)) {
         player->components.at(2)->setValue(position.at(0) + 1, position.at(1));
+        isModified = true;
+    }
 }
 
 void ECS::EventSystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime)
