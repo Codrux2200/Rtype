@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "../AComponent.hpp"
 #include <vector>
+#include <memory>
 
 namespace ECS
 {

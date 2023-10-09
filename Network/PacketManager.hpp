@@ -9,6 +9,7 @@
 
 #include <map>
 #include <memory>
+#include <functional>
 #include <vector>
 #include "Packet.hpp"
 

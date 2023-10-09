@@ -10,6 +10,7 @@
 #include "../AComponent.hpp"
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 namespace ECS {
     /**
@@ -42,13 +43,13 @@ namespace ECS {
         std::string getSprite() const;
         /**
          * @brief Update the component
-         * 
+         *
          * @param positions the vector of the positions of the entity
          */
         void update(const std::vector<int> positions);
         /**
          * @brief Draw the components
-         * 
+         *
          * @param window the renderWindow
         */
        void draw(sf::RenderWindow &window);
@@ -59,6 +60,6 @@ namespace ECS {
         sf::Texture _texture;
     };
 }
- 
+
 
 #endif /* !PLAYERCOMPONENT_HPP_ */

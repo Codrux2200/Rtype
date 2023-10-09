@@ -1,19 +1,35 @@
 cmake_minimum_required(VERSION 3.12)
-project(MySFMLProject)
+project(RType)
 include(FetchContent)
 
-FetchContent_Declare(
-  SFML
-  GIT_REPOSITORY https://github.com/SFML/SFML.git
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(NETWORK_SOURCES
+    Network/Packet.hpp
+    Network/PacketManager.hpp
+    Network/PacketManager.cpp
+    Network/PacketType.hpp
+    Network/data/ConnectData.hpp
+    Network/data/JoinData.hpp
+    Network/data/LeaderData.hpp
+    Network/data/MoveData.hpp
+    Network/data/StartData.hpp
 )
 
-FetchContent_Declare(
-  BoostAsio
-  GIT_REPOSITORY https://github.com/boostorg/asio.git
+set(NETWORK_INCLUDE
+    ${CMAKE_CURRENT_SOURCE_DIR}/Network/
+    ${CMAKE_CURRENT_SOURCE_DIR}/Network/data/
 )
 
-# Ajoutez vos sources existantes à votre exécutable
-add_executable(MySFMLProject
+set(ECS_INCLUDE
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/
+)
+
+set(ECS_SOURCES
     ecs/AComponent.cpp
     ecs/Core.cpp
     ecs/Entity.cpp
@@ -34,23 +50,78 @@ add_executable(MySFMLProject
     ecs/system/GameSystem.cpp
     ecs/system/GraphicSystem.cpp
     ecs/system/ParticleSystem.cpp
-    main.cpp
 )
 
-# Ajoutez les répertoires d'inclusion de vos composants ECS
-target_include_directories(MySFMLProject PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/
-    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/system/
-    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/components/
+set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
+    client/main.cpp
+    client/Connection.cpp
+    client/Connection.hpp
 )
+
+set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
+    server/main.cpp
+    server/Server.cpp
+    server/Server.hpp
+    server/Client.cpp
+    server/Client.hpp
+    server/ClientManager.cpp
+    server/ClientManager.hpp
+)
+
+
+FetchContent_Declare(
+  SFML
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
+)
+
+FetchContent_Declare(
+  BoostAsio
+  GIT_REPOSITORY https://github.com/boostorg/asio.git
+)
+
+# Print SFML Include and Lib directories
+message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
+
 FetchContent_MakeAvailable(SFML)
 FetchContent_MakeAvailable(BoostAsio)
 
-# Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
-target_include_directories(MySFMLProject PRIVATE
+find_package(Boost REQUIRED)
+
+# Ajoutez vos sources existantes à votre exécutable
+add_executable(rtype-client ${CLIENT_SOURCES})
+
+# Ajoutez vos sources existantes à votre exécutable
+add_executable(rtype-server ${SERVER_SOURCES})
+
+# Ajoutez les répertoires d'inclusion de vos composants ECS
+target_include_directories(rtype-client PRIVATE
+    ${ECS_INCLUDE}
+    ${NETWORK_INCLUDE}
+    ${Boost_INCLUDE_DIRS}
     ${SFML_SOURCE_DIR}/include
 )
 
+# Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
+target_include_directories(rtype-server PRIVATE
+    ${SFML_SOURCE_DIR}/include
+    ${Boost_INCLUDE_DIRS}
+    ${ECS_INCLUDE}
+    ${NETWORK_INCLUDE}
+)
 
-# # Liens vers les bibliothèques SFML
-target_link_libraries(MySFMLProject PRIVATE sfml-graphics sfml-audio sfml-network sfml-window sfml-system)
+# Liens vers les bibliothèques SFML et Boost.Asio
+target_link_libraries(rtype-client
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
+    ${Boost_LIBRARIES}
+)
+
+target_link_libraries(rtype-server
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
+    ${Boost_LIBRARIES}
+)
