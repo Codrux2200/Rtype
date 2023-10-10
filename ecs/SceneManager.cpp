@@ -7,7 +7,7 @@
 
 #include "SceneManager.hpp"
 
-ECS::SceneManager::SceneManager()
+ECS::SceneManager::SceneManager(std::map<SceneType, std::shared_ptr<Scene>> scenes) : _scenes(scenes)
 {
     _currentScene = SceneType::MAIN_MENU;
     shouldClose = false;
@@ -17,12 +17,12 @@ ECS::SceneManager::~SceneManager()
 {
 }
 
-ECS::Scene &ECS::SceneManager::getScene(SceneType sceneType)
+std::shared_ptr<ECS::Scene> &ECS::SceneManager::getScene()
 {
-    return _scenes.at(sceneType);
+    return _scenes.at(_currentScene);
 }
 
-void ECS::SceneManager::setScene(SceneType sceneType, Scene scene)
+void ECS::SceneManager::setCurrentScene(SceneType sceneType)
 {
-    _scenes.insert(std::pair<SceneType, Scene>(sceneType, scene));
+    _currentScene = sceneType;
 }

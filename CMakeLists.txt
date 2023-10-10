@@ -32,22 +32,21 @@ set(ECS_INCLUDE
 set(ECS_SOURCES
     ecs/AComponent.cpp
     ecs/Entity.cpp
+    ecs/Entity.hpp
     ecs/Scene.cpp
     ecs/SceneManager.cpp
     ecs/components/EnemyComponent.cpp
     ecs/components/HealthComponent.cpp
     ecs/components/PlayerComponent.cpp
     ecs/components/PositionComponent.cpp
+    ecs/components/PositionComponent.hpp
     ecs/components/RotationComponent.cpp
     ecs/components/ScaleComponent.cpp
     ecs/components/ShootComponent.cpp
     ecs/components/VelocityComponent.cpp
     ecs/components/BackgroundComponent.cpp
-    ecs/system/ASystem.cpp
     ecs/system/AudioSystem.cpp
-    ecs/system/EventSystem.cpp
     ecs/system/GameSystem.cpp
-    ecs/system/GraphicSystem.cpp
     ecs/system/ParticleSystem.cpp
 )
 
@@ -55,8 +54,14 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/main.cpp
     client/Connection.cpp
     client/Connection.hpp
-    client/Core.cpp
-    client/Core.hpp
+    client/ecs/Core.hpp
+    client/ecs/Core.cpp
+    client/ecs/EventSystem.cpp
+    client/ecs/EventSystem.hpp
+    client/ecs/GraphicSystem.cpp
+    client/ecs/GraphicSystem.hpp
+    client/ecs/components/SpriteComponent.cpp
+    client/ecs/components/SpriteComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -100,6 +105,9 @@ target_include_directories(rtype-client PRIVATE
     ${NETWORK_INCLUDE}
     ${Boost_INCLUDE_DIRS}
     ${SFML_SOURCE_DIR}/include
+    client
+    client/ecs
+    client/ecs/components
 )
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires

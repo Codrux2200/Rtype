@@ -7,7 +7,7 @@
 
 #include "SpriteComponent.hpp"
 
-ECS::SpriteComponent::SpriteComponent(int uid)
+ECS::SpriteComponent::SpriteComponent(int uid, sf::Texture &texture) : _sprite(texture)
 {
     _uid = uid;
 }
@@ -16,7 +16,7 @@ ECS::SpriteComponent::~SpriteComponent()
 {
 }
 
-void ECS::SpriteComponent::setTexture(sf::Texture texture)
+void ECS::SpriteComponent::setTexture(sf::Texture &texture)
 {
     _sprite.setTexture(texture);
 }

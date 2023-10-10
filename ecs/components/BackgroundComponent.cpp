@@ -26,7 +26,9 @@ namespace ECS
             backgroundTextures.push_back(texture);
         }
 
-        foregroundTexture.loadFromFile("assets/background/foreground.png");
+        if (foregroundTexture.loadFromFile("assets/background/foreground.png") == false) {
+            throw std::runtime_error("Failed to load foreground texture.");
+        }
 
         for (const sf::Texture &texture : backgroundTextures)
         {
@@ -83,11 +85,11 @@ void BackgroundComponent::draw(sf::RenderWindow &window)
 
         // Set the scale
         backgroundLayers[i]->setScale(scale);
-        
+
         window.draw(*backgroundLayers[i]); // Draw each background layer
     }
     foreground->setTexture(foregroundTexture); // Set the texture for the foreground
-    foreground->setPosition(foregroundPosition); 
+    foreground->setPosition(foregroundPosition);
     //resize foreground to fit the screen
     sf::Vector2f scale(
         static_cast<float>(window.getSize().x) / foreground->getLocalBounds().width,

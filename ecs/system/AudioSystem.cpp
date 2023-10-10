@@ -9,7 +9,6 @@
 
 ECS::AudioSystem::AudioSystem()
 {
-    typeSystem = ECS::SystemType::AUDIO;
 }
 
 ECS::AudioSystem::~AudioSystem()
@@ -18,12 +17,12 @@ ECS::AudioSystem::~AudioSystem()
 
 bool ECS::AudioSystem::initAudio(std::string const &file)
 {
-    _filePath = file;
+    return true;
 }
 
 bool ECS::AudioSystem::isReady()
 {
-
+    return true;
 }
 
 float ECS::AudioSystem::getMainVolume()
@@ -36,7 +35,3 @@ void ECS::AudioSystem::setVolume(float volume)
 {
     _volume = volume;
 }
-
-
-
-

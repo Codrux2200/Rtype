@@ -8,19 +8,19 @@
 #ifndef SPRITECOMPONENT_HPP_
 #define SPRITECOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "AComponent.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ECS {
     /**
      * @brief set texture for entity and player
-     * 
+     *
     */
-    class SpriteComponent : public AComponent{
+    class SpriteComponent : public AComponent {
         public:
-            SpriteComponent(int uid);
+            SpriteComponent(int uid, sf::Texture &texture);
             ~SpriteComponent();
-            void setTexture(sf::Texture texture);
+            void setTexture(sf::Texture &texture);
             const sf::Sprite &getSprite() const;
 
         private:

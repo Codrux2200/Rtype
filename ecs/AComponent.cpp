@@ -16,3 +16,8 @@ std::vector<int> ECS::AComponent::getValue() const
     std::vector<int> value = std::vector<int>();
     return value;
 }
+
+int ECS::AComponent::getId() const
+{
+    return _uid;
+}

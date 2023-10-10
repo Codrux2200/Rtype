@@ -14,53 +14,41 @@
 
 ECS::Core::Core()
 {
-    sceneManager = SceneManager();
+    std::map<SceneType, std::shared_ptr<Scene>> scenes;
+
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
+    sceneManager = SceneManager(scenes);
+    _systems.push_back(std::make_unique<GraphicSystem>());
+    _systems.push_back(std::make_unique<EventSystem>());
 }
 
-ECS::Core::~Core()
+std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
-}
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
 
-static void initPlayer(ECS::Scene &firstScene)
-{
-    std::vector<ECS::Tag> tags;
-    tags.push_back(ECS::Tag::MOVABLE);
-    tags.push_back(ECS::Tag::DESTROYABLE);
-
-    if (firstScene.entitiesList.size() == 0) {
-        // add the player entity to the scene
-        firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
-        // create the player component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "assets/Ship6.png"));
-        // create the health component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
-        // create the position component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PositionComponent(0, 0, 12));
-        // change the player default health to 1
-        ECS::HealthComponent *health = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
-        health->setValue(1);
-    }
+    // std::shared_ptr<ECS::Entity> entity = std::make_shared<ECS::Entity>(0);
+    // entity->addComponent(std::make_shared<ECS::PlayerComponent>(0));
+    // entity->addComponent(std::make_shared<ECS::HealthComponent>(100));
+    // entity->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    // scene->addEntity(entity);
+    return scene;
 }
 
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
     int deltaTime = 0;
 
-    sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
-    GraphicSystem *graphicSystem = new GraphicSystem();
-    EventSystem *eventSystem = new EventSystem();
+    // sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
+    // GraphicSystem *graphicSystem = new GraphicSystem();
+    // EventSystem *eventSystem = new EventSystem();
 
-    while(!sceneManager.shouldClose) {
-        if (deltaTime > 1000)
-            deltaTime = 0;
-        Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
+    // while(!sceneManager.shouldClose) {
+    //     if (deltaTime > 1000)
+    //         deltaTime = 0;
 
-        initPlayer(firstScene);
-        eventSystem->updateEvents(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime, connection);
-        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
-        // if the window is closed, the loop is stopped
-        if (!graphicSystem->getWindow().isOpen())
-            sceneManager.shouldClose = true;
-        deltaTime++;
-    }
+    //     // if the window is closed, the loop is stopped
+    //     if (!graphicSystem->getWindow().isOpen())
+    //         sceneManager.shouldClose = true;
+    //     deltaTime++;
+    // }
 }

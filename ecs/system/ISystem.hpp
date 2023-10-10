@@ -6,14 +6,17 @@
 */
 
 #ifndef ISYSTEM_HPP_
-#define ISYSTEM_HPP_
-#include "../SceneManager.hpp"
+    #define ISYSTEM_HPP_
+
+#include "SceneManager.hpp"
+#include "Packet.hpp"
+#include "PacketManager.hpp"
 
 namespace ECS
 {
     /**
      * @brief System Type
-     * 
+     *
      */
     enum SystemType {
         GAME = 0,
@@ -26,17 +29,17 @@ namespace ECS
     };
     /**
      * @brief ISystem class
-     * 
+     *
      */
     class ISystem {
         public :
             /**
              * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
+             *
+             * @param sceneManager
+             * @param deltaTime
              */
-            virtual void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) = 0;
+            virtual void update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) = 0;
     };
 } // namespace ECS
 
