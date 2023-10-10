@@ -20,7 +20,7 @@ void ECS::EventSystem::_moveLeftUp(ECS::Entity *player, std::vector<int> positio
 {
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     && position.at(0) > 1 && position.at(1) > 1)
-        player->components.at(2)->setValue(position.at(0) - 1, position.at(1) - 1);
+        player->components["Position"]->setValue(position.at(0) - 1, position.at(1) - 1);
 
 }
 
@@ -30,7 +30,7 @@ void ECS::EventSystem::_moveRightUp(ECS::Entity *player, std::vector<int> positi
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
     && position.at(0) > 1 && position.at(1) < (800 - 128))
-        player->components.at(2)->setValue(position.at(0) - 1, position.at(1) + 1);
+        player->components["Position"]->setValue(position.at(0) - 1, position.at(1) + 1);
 }
 
 void ECS::EventSystem::_moveLeftDown(ECS::Entity *player, std::vector<int> position)
@@ -39,7 +39,7 @@ void ECS::EventSystem::_moveLeftDown(ECS::Entity *player, std::vector<int> posit
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
     && position.at(0) < (600 - 100) && position.at(1) > 1)
-        player->components.at(2)->setValue(position.at(0) + 1, position.at(1) - 1);
+        player->components["Position"]->setValue(position.at(0) + 1, position.at(1) - 1);
 }
 
 void ECS::EventSystem::_moveRightDown(ECS::Entity *player, std::vector<int> position)
@@ -48,42 +48,42 @@ void ECS::EventSystem::_moveRightDown(ECS::Entity *player, std::vector<int> posi
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
     && position.at(0) < (600 - 100) && position.at(1) < (800 - 128))
-        player->components.at(2)->setValue(position.at(0) + 1, position.at(1) + 1);
+        player->components["Position"]->setValue(position.at(0) + 1, position.at(1) + 1);
 }
 
 void ECS::EventSystem::_moveUp(ECS::Entity *player, std::vector<int> position)
 {
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) 
     && position.at(1) > 1)
-        player->components.at(2)->setValue(position.at(0), position.at(1) - 1);
+        player->components["Position"]->setValue(position.at(0), position.at(1) - 1);
 }
 
 void ECS::EventSystem::_moveDown(ECS::Entity *player, std::vector<int> position)
 {
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     && position.at(1) < (600 - 100))
-        player->components.at(2)->setValue(position.at(0), position.at(1) + 1);
+        player->components["Position"]->setValue(position.at(0), position.at(1) + 1);
 }
 
 void ECS::EventSystem::_moveLeft(ECS::Entity *player, std::vector<int> position)
 {
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     && position.at(0) > 1)
-        player->components.at(2)->setValue(position.at(0) - 1, position.at(1));
+        player->components["Position"]->setValue(position.at(0) - 1, position.at(1));
 }
 
 void ECS::EventSystem::_moveRight(ECS::Entity *player, std::vector<int> position)
 {
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     && position.at(0) < (800 - 128))
-        player->components.at(2)->setValue(position.at(0) + 1, position.at(1));
+        player->components["Position"]->setValue(position.at(0) + 1, position.at(1));
 }
 
 void ECS::EventSystem::_movePlayer(ECS::Entity *player)
 {
     std::vector<int> position;
 
-    ECS::PositionComponent *positionComponent = dynamic_cast<ECS::PositionComponent *>(player->components.at(2));
+    ECS::PositionComponent *positionComponent = dynamic_cast<ECS::PositionComponent *>(player->components["Position"]);
     position = positionComponent->getValue();
     // Movement left and up
     _moveLeftUp(player, position);
@@ -106,9 +106,11 @@ void ECS::EventSystem::_movePlayer(ECS::Entity *player)
 void ECS::EventSystem::update(SceneManager &sceneManager, SceneType SceneType, int deltaTime)
 {
     ECS::Scene &actualScene = sceneManager.getScene(SceneType);
-    ECS::Entity *player = actualScene.entitiesList.at(1);
-    std::vector<int> position;
 
-    // update with a movement event
-    _movePlayer(player);
+    for (int i = 1; i < sceneManager.getScene(SceneType).entitiesList.size() + 1 ; i ++ ){
+        ECS::Entity *player = actualScene.entitiesList.at(i);
+        std::vector<int> position;
+        // update with a movement event
+        _movePlayer(player);
+    }
 }

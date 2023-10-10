@@ -48,10 +48,12 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         backgroundComponent.draw(_window);
 
         // Draw stuff
-        PlayerComponent *playerComponent = dynamic_cast<PlayerComponent *>(sceneManager.getScene(SceneType).entitiesList.at(1)->components.at(0));
-        PositionComponent *positionComponent = dynamic_cast<PositionComponent *>(sceneManager.getScene(SceneType).entitiesList.at(1)->components.at(2));
-        playerComponent->update(positionComponent->getValue());
-        playerComponent->draw(_window);
+        for (int i = 1; i < sceneManager.getScene(SceneType).entitiesList.size() + 1 ; i ++ ){
+            PlayerComponent *playerComponent = dynamic_cast<PlayerComponent *>(sceneManager.getScene(SceneType).entitiesList.at(i)->components["Player"]);
+            PositionComponent *positionComponent = dynamic_cast<PositionComponent *>(sceneManager.getScene(SceneType).entitiesList.at(i)->components["Position"]);
+            playerComponent->update(positionComponent->getValue());
+            playerComponent->draw(_window);
+        }
         _window.display();
 }
 
