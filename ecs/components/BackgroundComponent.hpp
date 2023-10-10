@@ -1,33 +1,22 @@
-#ifndef BACKGROUND_COMPONENT_HPP
-#define BACKGROUND_COMPONENT_HPP
+#ifndef BACKGROUNDCOMPONENT_HPP_
+#define BACKGROUNDCOMPONENT_HPP_
 
 #include <SFML/Graphics.hpp>
-#include "../AComponent.hpp"
-#include <vector>
+#include <iostream>
 
-namespace ECS
-{
-    class BackgroundComponent
-    {
+namespace ECS {
+    class BackgroundComponent {
     public:
-        BackgroundComponent();
+        BackgroundComponent(const std::string& texturePath);
 
-        void update(float deltaTime, const sf::Vector2u& screenSize);
-        void draw(sf::RenderWindow &window);
+        void update(float deltaTime);
+        void draw(sf::RenderWindow& window);
 
     private:
-        std::vector<sf::Texture> backgroundTextures;
-        sf::Texture foregroundTexture;
-
-        std::vector<std::unique_ptr<sf::Sprite>> backgroundLayers;
-        std::unique_ptr<sf::Sprite> foreground;
-
-        std::vector<float> backgroundSpeeds;
-        float foregroundSpeed;
-
-        std::vector<sf::Vector2f> backgroundPositions;
-        sf::Vector2f foregroundPosition;
+        sf::Texture backgroundTexture;
+        sf::Sprite backgroundSprite;
+        float scrollSpeed;
     };
 }
 
-#endif // BACKGROUND_COMPONENT_HPP
+#endif /* !BACKGROUNDCOMPONENT_HPP_ */
