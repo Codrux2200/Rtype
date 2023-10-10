@@ -1,18 +1,17 @@
 #include "BackgroundComponent.hpp"
 
 ECS::BackgroundComponent::BackgroundComponent(const std::string& texturePath)
-    : scrollSpeed(50.0f)  // Adjust the scroll speed as needed
+    : scrollSpeed(50.0f), backgroundSprite(backgroundTexture)  // Adjust the scroll speed as needed
 {
-    if (!backgroundTexture.loadFromFile("assets/background/6background.png"))
+    if (!backgroundTexture.loadFromFile(texturePath))
     {
         std::cerr << "Error loading background texture" << std::endl;
     }
-
     // Initialize the sprite with the texture
     backgroundSprite.setTexture(backgroundTexture);
 
     // Set the initial position
-    backgroundSprite.setPosition(0, 0);
+    backgroundSprite.setPosition(sf::Vector2f(0, 0));
 }
 
 void ECS::BackgroundComponent::update(float deltaTime)

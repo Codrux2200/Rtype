@@ -11,7 +11,7 @@
 #include <iostream>
 
 ECS::GraphicSystem::GraphicSystem()
-    : _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
+    : _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window"), backgroundComponent("assets/background/6Background.png")
 {
     typeSystem = ECS::SystemType::GRAPHIC;
     initBackground();
@@ -23,7 +23,7 @@ ECS::GraphicSystem::~GraphicSystem()
 
 void ECS::GraphicSystem::initBackground()
 {
-    backgroundComponent = ECS::BackgroundComponent();
+    backgroundComponent = ECS::BackgroundComponent("assets/background/6Background.png");
 }
 
 
@@ -42,7 +42,7 @@ void ECS::GraphicSystem::update(SceneManager &sceneManager, SceneType SceneType,
         _window.clear();
 
         // Update the BackgroundComponent
-        backgroundComponent.update(deltaTime, screenSize);
+        backgroundComponent.update(deltaTime);
 
         // Draw the BackgroundComponent
         backgroundComponent.draw(_window);
