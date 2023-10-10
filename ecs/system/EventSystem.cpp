@@ -107,7 +107,6 @@ void ECS::EventSystem::update(SceneManager &sceneManager, SceneType SceneType, i
 {
     ECS::Scene &actualScene = sceneManager.getScene(SceneType);
     ECS::Entity *player = actualScene.entitiesList.at(1);
-    std::vector<int> position;
 
     // update with a movement event
     _movePlayer(player);
