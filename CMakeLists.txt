@@ -22,6 +22,7 @@ add_executable(MySFMLProject
     ecs/SceneManager.cpp
     ecs/components/EnemyComponent.cpp
     ecs/components/HealthComponent.cpp
+    ecs/components/HitboxComponent.cpp
     ecs/components/PlayerComponent.cpp
     ecs/components/PositionComponent.cpp
     ecs/components/RotationComponent.cpp
