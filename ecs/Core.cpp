@@ -31,14 +31,23 @@ static void initPlayer(ECS::Scene &firstScene)
         // add the player entity to the scene
         firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
         // create the player component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "assets/Ship6.png"));
+        firstScene.entitiesList.at(1)->components.emplace("Player", new ECS::PlayerComponent(10, "assets/Ship6.png"));
         // create the health component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
+        firstScene.entitiesList.at(1)->components.emplace("Health" , new ECS::HealthComponent(11));
         // create the position component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PositionComponent(0, 0, 12));
+        firstScene.entitiesList.at(1)->components.emplace("Position" ,new ECS::PositionComponent(0, 0, 12, true));
+        firstScene.entitiesList.emplace(2, new ECS::Entity(1, tags));
+        // create the player component
+        firstScene.entitiesList.at(2)->components.emplace("Player", new ECS::PlayerComponent(10, "assets/Ship6.png"));
+        // create the health component
+        firstScene.entitiesList.at(2)->components.emplace("Health" , new ECS::HealthComponent(11));
+        // create the position component
+        firstScene.entitiesList.at(2)->components.emplace("Position" ,new ECS::PositionComponent(100, 0, 15, false));
         // change the player default health to 1
-        ECS::HealthComponent *health = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
+        ECS::HealthComponent *health = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(1)->components["Health"]);
         health->setValue(1);
+        ECS::HealthComponent *health2 = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(2)->components["Health"]);
+        health2->setValue(1);
     }
 }
 
@@ -56,7 +65,6 @@ void ECS::Core::mainLoop()
         initPlayer(firstScene);
         eventSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
         graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
-        // if the window is closed, the loop is stopped
         if (!graphicSystem->getWindow().isOpen())
             sceneManager.shouldClose = true;
         deltaTime++;
