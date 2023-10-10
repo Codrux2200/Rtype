@@ -23,11 +23,9 @@ ECS::Scene::~Scene()
 void ECS::Scene::loadEntity(int entityID)
 {
     entitiesList.at(entityID);
-    std::cout << "loadEntity " << entityID << '\n';
 }
 
 void ECS::Scene::unloadEntity(int entityID)
 {
     entitiesList.erase(entityID);
-    std::cout << "unloadEntity " << entityID << '\n';
 }
