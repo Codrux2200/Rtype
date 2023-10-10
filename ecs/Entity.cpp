@@ -10,7 +10,7 @@
 ECS::Entity::Entity(int id, std::vector<Tag> tags)
 {
     _id = id;
-    components = std::vector<AComponent *>();
+    components = std::map<std::string ,AComponent *>();
     _tags = tags;
 }
 

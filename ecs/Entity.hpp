@@ -7,8 +7,9 @@
 
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
-#include <vector>
+#include <map>
 #include "AComponent.hpp"
+#include <string>
 
 namespace ECS {
     /**
@@ -42,7 +43,7 @@ namespace ECS {
              * @brief stock component
              * 
              */
-            std::vector<AComponent *> components;
+            std::map<std::string ,AComponent *> components;
             /**
              * @brief Get the Id object
              * 
