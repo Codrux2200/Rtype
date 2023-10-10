@@ -38,17 +38,13 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 {
     int deltaTime = 0;
 
-    // sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
-    // GraphicSystem *graphicSystem = new GraphicSystem();
-    // EventSystem *eventSystem = new EventSystem();
-
-    // while(!sceneManager.shouldClose) {
-    //     if (deltaTime > 1000)
-    //         deltaTime = 0;
-
-    //     // if the window is closed, the loop is stopped
-    //     if (!graphicSystem->getWindow().isOpen())
-    //         sceneManager.shouldClose = true;
-    //     deltaTime++;
-    // }
+    while(!sceneManager.shouldClose) {
+        for (auto &system : _systems) {
+            system->update(sceneManager, deltaTime, connection.sendQueue, connection.packetManager);
+        }
+        for (auto &packet : connection.sendQueue) {
+            connection.sendPacket(packet);
+        }
+        connection.sendQueue.clear();
+    }
 }

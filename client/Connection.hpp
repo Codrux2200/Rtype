@@ -48,6 +48,9 @@ namespace RType {
 
             short getId() const { return _id; }
 
+            std::vector<Network::Packet> sendQueue;
+            std::vector<Network::Packet> recvQueue;
+
 
         private:
             /**
