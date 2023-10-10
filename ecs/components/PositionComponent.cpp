@@ -7,11 +7,12 @@
 
 #include "PositionComponent.hpp"
 
-ECS::PositionComponent::PositionComponent(int x, int y, int uid)
+ECS::PositionComponent::PositionComponent(int x, int y, int uid, bool keymoved)
 {
     _uid = uid;
     _x = x;
     _y = y;
+    _keymoved = keymoved;
 }
 
 ECS::PositionComponent::~PositionComponent()

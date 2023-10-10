@@ -23,7 +23,7 @@ namespace ECS {
              * @param y
              * @param uid
              */
-            PositionComponent(int x, int y, int uid);
+            PositionComponent(int x, int y, int uid, bool keymoved);
             /**
              * @brief Destroy the position Component object
              * 
@@ -42,6 +42,13 @@ namespace ECS {
              * @param y 
              */
             void setValue(int x, int y) final;
+            /**
+            *
+            * @brief define the if the player move with keyboard or not
+            *
+            */
+
+            bool _keymoved;
         protected:
         private:
             /**
