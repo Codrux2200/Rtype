@@ -62,7 +62,7 @@ jobs:
       - name: check good files & folders
         run: |
           paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
-          if [[ ! -z "$path" ]]; then
+          if [[ ! -z "$paths" ]]; then
             IFS=$'\n'
             for FILE in "${paths[@]}"; do echo "::error title=Unwanted file detected,file=$FILE::$FILE"; done
             unset IFS
