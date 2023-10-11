@@ -5,29 +5,40 @@
 ** ScaleComponent
 */
 
+#include <iostream>
 #include "ScaleComponent.hpp"
 
-ECS::ScaleComponent::ScaleComponent(int x, int y, int uid)
-{
-    _uid = uid;
-    _x = x;
-    _y = y;
-}
-
-ECS::ScaleComponent::~ScaleComponent()
+ECS::ScaleComponent::ScaleComponent(float x, float y) : _x(x), _y(y)
 {
 }
 
 void ECS::ScaleComponent::setValue(int x, int y)
 {
-    _x = x;
-    _y = y;
+    // warn
+    std::cout << "Warning: setValue(int, int) called on ScaleComponent." << std::endl;
+    std::cout << "use setFloatValue(sf::Vector2f) instead." << std::endl;
 }
 
 std::vector<int> ECS::ScaleComponent::getValue() const
 {
-    std::vector<int> scale = std::vector<int>();
-    scale.push_back(_x);
-    scale.push_back(_y);
-    return scale;
+    // warn
+    std::cout << "Warning: getValue() called on ScaleComponent." << std::endl;
+    std::cout << "use getFloatValue() instead." << std::endl;
+    return std::vector<int>();
+}
+
+std::shared_ptr<ECS::IComponent> ECS::ScaleComponent::clone() const
+{
+    return std::make_shared<ECS::ScaleComponent>(_x, _y);
+}
+
+std::vector<float> ECS::ScaleComponent::getFloatValue() const
+{
+    return std::vector<float>{_x, _y};
+}
+
+void ECS::ScaleComponent::setFloatValue(float x, float y)
+{
+    _x = x;
+    _y = y;
 }

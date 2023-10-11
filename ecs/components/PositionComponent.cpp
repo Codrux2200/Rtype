@@ -7,9 +7,8 @@
 
 #include "PositionComponent.hpp"
 
-ECS::PositionComponent::PositionComponent(int x, int y, int uid)
+ECS::PositionComponent::PositionComponent(int x, int y)
 {
-    _uid = uid;
     _x = x;
     _y = y;
 }
@@ -30,4 +29,9 @@ std::vector<int> ECS::PositionComponent::getValue() const
     position.push_back(_x);
     position.push_back(_y);
     return position;
+}
+
+std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
+{
+    return std::make_shared<ECS::PositionComponent>(_x, _y);
 }

@@ -7,10 +7,9 @@
 
 #include "HealthComponent.hpp"
 
-ECS::HealthComponent::HealthComponent(int uid)
+ECS::HealthComponent::HealthComponent(int health)
 {
-    _uid = uid;
-    _health = 100;
+    _health = health;
 }
 
 ECS::HealthComponent::~HealthComponent()

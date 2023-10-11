@@ -13,16 +13,6 @@
 
 namespace ECS {
     /**
-     * @brief Tag enum
-     *
-     */
-    enum Tag{
-        MOVABLE = 0,
-        AUDIBLE = 1,
-        DESTROYABLE = 2,
-        COLIDLE = 3,
-    };
-    /**
      * @brief Entity class
      *
      */
@@ -33,30 +23,25 @@ namespace ECS {
              *
              * @param id
              */
-            Entity(int id, std::vector<Tag> tags);
+            Entity(int id);
             /**
              * @brief Destroy the Entity object
              *
              */
             ~Entity() = default;
+
+            Entity(const Entity &entity, int id);
+
             /**
              * @brief Get the Id object
              *
              * @return int
              */
             int getId() const;
-            /**
-             * @brief Get the Tags object
-             *
-             * @return std::vector<Tag>
-             */
-            std::vector<Tag> getTags() const;
 
-            std::shared_ptr<AComponent> getComponent(int id);
-
+            // Templates impose to write the implementation in the header file
             template<typename T>
             std::shared_ptr<T> getComponent() {
-
                 for (auto &component : _components) {
                     std::shared_ptr<T> comp = std::dynamic_pointer_cast<T>(component);
                     if (comp)
@@ -67,12 +52,9 @@ namespace ECS {
 
             void addComponent(std::shared_ptr<AComponent> component);
 
-            private :
-                /**
-                 * @brief define the tag for the entity
-                 *
-                 */
-                std::vector<Tag> _tags;
+            std::vector<std::shared_ptr<IComponent>> getComponents() const;
+
+            private:
                 /**
                  * @brief define the id of the entity
                  *
@@ -83,7 +65,7 @@ namespace ECS {
                  * @brief stock component
                  *
                  */
-                std::vector<std::shared_ptr<AComponent>> _components;
+                std::vector<std::shared_ptr<IComponent>> _components;
 
     };
 

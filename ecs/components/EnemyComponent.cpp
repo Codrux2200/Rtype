@@ -7,9 +7,8 @@
 
 #include "EnemyComponent.hpp"
 
-ECS::EnemyComponent::EnemyComponent(int uid)
+ECS::EnemyComponent::EnemyComponent()
 {
-    _uid = uid;
 }
 
 ECS::EnemyComponent::~EnemyComponent()

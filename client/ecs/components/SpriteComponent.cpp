@@ -7,9 +7,9 @@
 
 #include "SpriteComponent.hpp"
 
-ECS::SpriteComponent::SpriteComponent(int uid, sf::Texture &texture) : _sprite(texture)
+ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(texture), _sprite(_texture)
 {
-    _uid = uid;
+    _sprite.setTextureRect(_rect);
 }
 
 ECS::SpriteComponent::~SpriteComponent()
@@ -24,4 +24,9 @@ void ECS::SpriteComponent::setTexture(sf::Texture &texture)
 const sf::Sprite &ECS::SpriteComponent::getSprite() const
 {
     return _sprite;
+}
+
+std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
+{
+    return std::make_shared<ECS::SpriteComponent>(_texture, _rect);
 }

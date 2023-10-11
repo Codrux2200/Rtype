@@ -7,9 +7,8 @@
 
 #include "ShootComponent.hpp"
 
-ECS::ShootComponent::ShootComponent(int uid, int shootSpeed, int shootDamage)
+ECS::ShootComponent::ShootComponent(int shootSpeed, int shootDamage)
 {
-    _uid = uid;
     _shootSpeed = shootSpeed;
     _shootDamage = shootDamage;
 }

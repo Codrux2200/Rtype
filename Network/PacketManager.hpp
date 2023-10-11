@@ -11,6 +11,7 @@
 #include <memory>
 #include <functional>
 #include <vector>
+#include <iostream>
 #include "Packet.hpp"
 
 /**

@@ -12,30 +12,30 @@
 namespace ECS {
     /**
      * @brief Health component
-     * 
+     *
      */
     class HealthComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new health Component object
-             * 
-             * @param uid 
+             *
+             * @param health
              */
-            HealthComponent(int uid);
+            HealthComponent(int health);
             /**
              * @brief Destroy the health Component object
-             * 
+             *
              */
             ~HealthComponent();
             /**
              * @brief Set the health of the entity
-             * 
+             *
              * @param health
              */
             void setValue(int health, int unused = 0) final;
             /**
              * @brief Get the health of the entity
-             * 
+             *
              * @return std::vector<int>
              */
             std::vector<int> getValue() const final;

@@ -17,7 +17,17 @@ std::vector<int> ECS::AComponent::getValue() const
     return value;
 }
 
-int ECS::AComponent::getId() const
+void ECS::AComponent::setEnabled(bool enabled)
 {
-    return _uid;
+    _isEnabled = enabled;
+}
+
+bool ECS::AComponent::isEnabled() const
+{
+    return _isEnabled;
+}
+
+ECS::ComponentType ECS::AComponent::getType() const
+{
+    return _type;
 }

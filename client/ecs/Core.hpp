@@ -14,6 +14,7 @@
 #include "ISystem.hpp"
 #include "SceneManager.hpp"
 #include "Connection.hpp"
+#include "EntityFactory.hpp"
 
 namespace ECS {
 	/**
@@ -49,7 +50,10 @@ namespace ECS {
             void mainLoop(RType::Connection &connection);
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
+            void _initEntities();
+
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
+            EntityFactory _entityFactory;
 	};
 }
 

@@ -7,9 +7,8 @@
 
 #include "RotationComponent.hpp"
 
-ECS::RotationComponent::RotationComponent(int uid)
+ECS::RotationComponent::RotationComponent()
 {
-    _uid = uid;
     _rotation = 0;
 }
 

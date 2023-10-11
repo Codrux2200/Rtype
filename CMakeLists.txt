@@ -50,6 +50,8 @@ set(ECS_SOURCES
     ecs/system/AudioSystem.cpp
     ecs/system/GameSystem.cpp
     ecs/system/ParticleSystem.cpp
+    ecs/EntityFactory.cpp
+    ecs/EntityFactory.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

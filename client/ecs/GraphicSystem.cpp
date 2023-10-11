@@ -31,7 +31,7 @@ void ECS::GraphicSystem::initBackground()
 }
 
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
-     sf::Vector2u screenSize = _window.getSize();
+    sf::Vector2u screenSize = _window.getSize();
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -48,7 +48,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
     // Draw entities
     for (auto &entity : sceneManager.getScene()->entitiesList) {
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
-        if (spriteComponent == 0)
+        if (spriteComponent == nullptr || !spriteComponent->isEnabled())
             continue;
 
         auto positionComponent = entity->getComponent<ECS::PositionComponent>();
@@ -56,20 +56,20 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
         auto rotationComponent = entity->getComponent<ECS::RotationComponent>();
 
         std::vector<int> pos;
-        std::vector<int> scale;
+        std::vector<float> scale;
         std::vector<int> rotation;
 
-        if (positionComponent != 0)
+        if (positionComponent != nullptr && positionComponent->isEnabled())
             pos = positionComponent->getValue();
         else
             pos = {0, 0};
 
-        if (scaleComponent != 0)
-            scale = scaleComponent->getValue();
+        if (scaleComponent != nullptr && scaleComponent->isEnabled())
+            scale = scaleComponent->getFloatValue();
         else
             scale = {1, 1};
 
-        if (rotationComponent != 0)
+        if (rotationComponent != nullptr && rotationComponent->isEnabled())
             rotation = rotationComponent->getValue();
         else
             rotation = {0};

@@ -4,12 +4,14 @@
 ** File description:
 ** scene
 */
+
+#ifndef SCENE_HPP_
+#define SCENE_HPP_
+
 #include <map>
 #include <string>
 #include <memory>
 #include "Entity.hpp"
-#ifndef SCENE_HPP_
-#define SCENE_HPP_
 
 namespace ECS {
     /**

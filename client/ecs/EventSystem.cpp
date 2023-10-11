@@ -6,6 +6,7 @@
 */
 
 #include "EventSystem.hpp"
+#include "PlayerComponent.hpp"
 
 ECS::EventSystem::EventSystem()
 {
@@ -121,6 +122,12 @@ ECS::EventSystem::~EventSystem()
 void ECS::EventSystem::update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager)
 {
     auto &actualScene = sceneManager.getScene();
+
+    for (auto &entity : actualScene->entitiesList) {
+        auto playerComponent = entity->getComponent<ECS::PlayerComponent>();
+        if (playerComponent == 0)
+            continue;
+    }
 }
 
 // void ECS::EventSystem::updateEvents(SceneManager &sceneManager, SceneType SceneType, int deltaTime, RType::Connection &connection)

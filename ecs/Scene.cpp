@@ -18,6 +18,9 @@ ECS::Scene::~Scene()
 
 int ECS::Scene::addEntity(std::shared_ptr<ECS::Entity> entity)
 {
+    if (!entity)
+        return -1;
+    std::cout << "Adding entity " << entity << std::endl;
     entitiesList.push_back(entity);
     return entity->getId();
 }

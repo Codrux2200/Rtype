@@ -7,8 +7,8 @@
 
 #ifndef ACOMPONENT_HPP_
 #define ACOMPONENT_HPP_
-#include "IComponent.hpp"
 #include <vector>
+#include "IComponent.hpp"
 
 namespace ECS {
     /**
@@ -26,7 +26,7 @@ namespace ECS {
              *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const;
+            virtual std::vector<int> getValue() const override;
             /**
              * @brief Set the Value object
              *
@@ -34,16 +34,17 @@ namespace ECS {
              *
              * @param valueB
              */
-            virtual void setValue(int valueA, int valueB);
-            /**
-             * @brief Get the Id object
-             *
-             * @return int
-             */
-            int getId() const;
+            virtual void setValue(int valueA, int valueB) override;
+
+            void setEnabled(bool enabled) override;
+
+            bool isEnabled() const override;
+
+            ComponentType getType() const override;
+
         protected:
-            int _uid;
-        private:
+            bool _isEnabled = true;
+            ComponentType _type;
 
     };
 }

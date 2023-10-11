@@ -18,13 +18,17 @@ namespace ECS {
     */
     class SpriteComponent : public AComponent {
         public:
-            SpriteComponent(int uid, sf::Texture &texture);
+            SpriteComponent(sf::Texture texture, sf::Rect<int> rect);
             ~SpriteComponent();
             void setTexture(sf::Texture &texture);
             const sf::Sprite &getSprite() const;
 
+            std::shared_ptr<IComponent> clone() const override;
+
         private:
+            sf::Texture _texture;
             sf::Sprite _sprite;
+            sf::Rect<int> _rect;
     };
 }
 
