@@ -7,6 +7,7 @@
 
 #include "Server.hpp"
 #include "LeaderData.hpp"
+#include "Packet.hpp"
 
 RType::Server::Server(boost::asio::io_service &io_service, short port)
     : _socket(io_service, udp::endpoint(udp::v4(), port))
@@ -159,7 +160,21 @@ void RType::Server::_broadcastConnectPacket(void)
     }
 }
 
-void RType::Server::_broadcast(const Network::Packet &packet)
+void RType::Server::_broadcastDisconnect(char id)
+{
+    Network::data::DisconnectData disconnectData;
+
+    disconnectData.id = id;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (_clients[i] == nullptr)
+            continue;
+        std::unique_ptr<Network::Packet> disconnectPacket =
+        _packetManager.createPacket(Network::PacketType::DISCONNECT, &disconnectData);
+        _sendMessageToClient(*disconnectPacket, _clients[i]->getEndpoint());
+    }
+};
+
+void RType::Server::_broadcastMessage(const std::string &message)
 {
     std::cout << "Broadcasting packet" << std::endl;
     for (int i = 0; i < MAX_PLAYERS; i++) {
@@ -246,7 +261,7 @@ Network::Packet &packet, const udp::endpoint &clientEndpoint)
     std::vector<char> packetInBytes = _packetManager.packetToBytes(packet);
 
     _socket.async_send_to(boost::asio::buffer(packetInBytes), clientEndpoint,
-    boost::bind(&Server::_handleSend, this, packetInBytes,
-    boost::asio::placeholders::error,
-    boost::asio::placeholders::bytes_transferred));
+        boost::bind(&Server::_handleSend, this, packetInBytes,
+        boost::asio::placeholders::error,
+        boost::asio::placeholders::bytes_transferred));
 }

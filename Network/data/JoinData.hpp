@@ -23,3 +23,4 @@ namespace Network::data {
         };
     }
 } // namespace Network::data
+

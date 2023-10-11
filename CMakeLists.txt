@@ -11,13 +11,17 @@ set(NETWORK_SOURCES
     Network/PacketManager.hpp
     Network/PacketManager.cpp
     Network/PacketType.hpp
+    Network/data/StartData.hpp
+    Network/data/JoinData.hpp
+    Network/data/DisconnectData.hpp
 )
 
 set(CLIENT_SOURCES
     client/Connection.hpp
     client/Connection.cpp
     client/main.cpp
-    )
+        Network/data/DisconnectData.hpp
+)
 
 set(SERVER_SOURCES
     server/Server.hpp

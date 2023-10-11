@@ -64,6 +64,8 @@ namespace RType {
             void _handlerJoin(Network::Packet &packet);
             void _handlerStart(Network::Packet &packet);
 
+            void _broadcastDisconnect(char id);
+
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
             boost::array<char, PACKET_SIZE> _recvBuffer;

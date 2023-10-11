@@ -112,3 +112,11 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
         }
     });
 }
+
+void Connection::quit(void)
+{
+    sendPacket(*_packetManager.createPacket(Network::PacketType::QUIT));
+    sleep(1);
+    std::cout << "Quited, closing socket" << std::endl;
+    _socket.close();
+}
