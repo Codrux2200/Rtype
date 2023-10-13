@@ -8,9 +8,7 @@
 #include <iostream>
 #include "ClickComponent.hpp"
 
-ECS::ClickComponent::ClickComponent(sf::Rect<int> rect, ECS::eventCallback callback) :
-    _rect(rect),
-    _callback(callback)
+ECS::ClickComponent::ClickComponent(sf::Rect<int> rect, ECS::eventCallback callback, sf::RenderWindow &window) : ECS::EventComponent(callback), _rect(rect), _window(window)
 {
 }
 
@@ -39,15 +37,22 @@ void ECS::ClickComponent::setValue(std::vector<int> values)
 
 std::shared_ptr<ECS::IComponent> ECS::ClickComponent::clone() const
 {
-    return std::make_shared<ClickComponent>(_rect, _callback);
+    return std::make_shared<ClickComponent>(_rect, _callback, _window);
 }
 
-void ECS::ClickComponent::onClick(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue)
+void ECS::ClickComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue)
 {
-    _callback(packetManager, packetsQueue);
-}
+    // Get mouse position in window
+    sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
 
-sf::Rect<int> ECS::ClickComponent::getRect() const
-{
-    return _rect;
+    std::cout << "ClickComponent execute" << std::endl;
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        std::cout << "Mouse pos: " << mousePos.x << " " << mousePos.y << std::endl;
+        std::cout << "Rect pos: " << _rect.left << " " << _rect.top << std::endl;
+        std::cout << "Rect size: " << _rect.width << " " << _rect.height << std::endl;
+        if (_rect.contains(mousePos)) {
+            _callback(packetManager, packetsQueue);
+        }
+    }
 }

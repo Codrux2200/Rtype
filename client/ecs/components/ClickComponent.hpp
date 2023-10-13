@@ -12,26 +12,22 @@
 #include "Connection.hpp"
 #include "AComponent.hpp"
 #include "PacketManager.hpp"
+#include "EventComponent.hpp"
 
 namespace ECS {
-    using eventCallback = std::function<void(Network::PacketManager &, std::vector<Network::Packet> &)>;
-    class ClickComponent : public AComponent {
+    class ClickComponent : public EventComponent {
         public:
-            ClickComponent(sf::Rect<int> rect, eventCallback callback);
-            ~ClickComponent() = default;
+            ClickComponent(sf::Rect<int> rect, eventCallback callback, sf::RenderWindow &window);
 
             std::vector<int> getValue() const final;
             void setValue(std::vector<int> values) final;
 
             std::shared_ptr<IComponent> clone() const override;
 
-            void onClick(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue);
-
-            sf::Rect<int> getRect() const;
-
+            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue) final override;
 
         private:
             sf::Rect<int> _rect;
-            eventCallback _callback;
+            sf::RenderWindow &_window;
     };
 }

@@ -104,7 +104,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.height = sprite->getRect().height;
     }
 
-    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2)));
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2), _window));
 
     scene->addEntity(button);
     return scene;
@@ -118,6 +118,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         if (i == _playerId) {
             // This is the current player !
+            player->addComponent(std::make_shared<ECS::PlayerComponent>());
         }
         scene->addEntity(player);
     }
@@ -127,6 +128,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
 void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue)
 {
     std::cout << "Start game callback" << std::endl;
+
     Network::data::StartData startData;
     startData.mapId = 0;
     std::unique_ptr<Network::Packet> packet = packetManager.createPacket(Network::PacketType::START, &startData);

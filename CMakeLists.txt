@@ -69,6 +69,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/ClickComponent.hpp
     client/ecs/components/BackgroundComponent.cpp
     client/ecs/components/BackgroundComponent.hpp
+    client/ecs/components/EventComponent.cpp
+    client/ecs/components/EventComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

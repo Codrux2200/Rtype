@@ -34,6 +34,8 @@ namespace ECS {
          * @param positions the vector of the positions of the entity
          */
         void update(const std::vector<int> positions);
+
+        std::shared_ptr<IComponent> clone() const override;
     };
 }
 

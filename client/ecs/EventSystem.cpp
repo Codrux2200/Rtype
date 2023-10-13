@@ -131,21 +131,10 @@ void ECS::EventSystem::update(SceneManager &sceneManager, int deltaTime, std::ve
 
 void ECS::EventSystem::_handleClickEvent(std::shared_ptr<ECS::Entity> entity, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
 {
-    auto clickComponent = entity->getComponent<ECS::ClickComponent>();
+    auto eventComponent = entity->getComponent<ECS::EventComponent>();
 
-    if (clickComponent) {
-        sf::Rect<int> rect = clickComponent->getRect();
-        // Get mouse position in window
-        sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            std::cout << "Mouse pos: " << mousePos.x << " " << mousePos.y << std::endl;
-            std::cout << "Rect pos: " << rect.left << " " << rect.top << std::endl;
-            std::cout << "Rect size: " << rect.width << " " << rect.height << std::endl;
-            if (rect.contains(mousePos)) {
-                std::cout << "Click OK !!!" << std::endl;
-                clickComponent->onClick(packetManager, packetQueue);
-            }
-        }
+    if (eventComponent) {
+        eventComponent->execute(packetManager, packetQueue);
     }
 }
 
