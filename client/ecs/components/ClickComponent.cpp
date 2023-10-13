@@ -45,8 +45,6 @@ void ECS::ClickComponent::execute(Network::PacketManager &packetManager, std::ve
     // Get mouse position in window
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
 
-    std::cout << "ClickComponent execute" << std::endl;
-
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         std::cout << "Mouse pos: " << mousePos.x << " " << mousePos.y << std::endl;
         std::cout << "Rect pos: " << _rect.left << " " << _rect.top << std::endl;

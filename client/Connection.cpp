@@ -41,8 +41,6 @@ void RType::Connection::_initHandlers()
     Network::PacketType::CONNECT, &RType::Connection::_handlerConnect);
     packetManager.REGISTER_HANDLER(
     Network::PacketType::LEADER, &RType::Connection::_handlerLeader);
-    packetManager.REGISTER_HANDLER(
-    Network::PacketType::START, &RType::Connection::_handlerStart);
 }
 
 void RType::Connection::_listen()
@@ -91,11 +89,6 @@ void RType::Connection::_handlerConnect(Network::Packet &packet)
 
         sendPacket(*packet);
     }
-}
-
-void RType::Connection::_handlerStart(Network::Packet &packet)
-{
-    std::cout << "Game is starting" << std::endl;
 }
 
 void RType::Connection::sendPacket(const Network::Packet &packet)

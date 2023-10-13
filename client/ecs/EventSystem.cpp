@@ -137,23 +137,3 @@ void ECS::EventSystem::_handleClickEvent(std::shared_ptr<ECS::Entity> entity, st
         eventComponent->execute(packetManager, packetQueue);
     }
 }
-
-// void ECS::EventSystem::updateEvents(SceneManager &sceneManager, SceneType SceneType, int deltaTime, RType::Connection &connection)
-// {
-//     _isModified = false;
-//     update(sceneManager, SceneType, deltaTime);
-//     if (_isModified) {
-//         ECS::Scene &actualScene = sceneManager.getScene(SceneType);
-//         ECS::Entity *player = actualScene.entitiesList.at(1);
-//         std::vector<int> position;
-//         ECS::PositionComponent *positionComponent = dynamic_cast<ECS::PositionComponent *>(player->_components.at(2))w;
-//         position = positionComponent->getValue();
-//         Network::data::MoveData moveData;
-//         moveData.x = position.at(0);
-//         moveData.y = position.at(1);
-//         moveData.id = connection.getId();
-
-//         std::unique_ptr<Network::Packet> packet = connection.packetManager.createPacket(Network::PacketType::MOVE, &moveData);
-//         connection.sendPacket(*packet);
-//     }
-// }
