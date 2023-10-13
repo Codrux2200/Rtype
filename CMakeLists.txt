@@ -90,17 +90,17 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-  BoostAsio
-  GIT_REPOSITORY https://github.com/boostorg/asio.git
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.80.0
 )
+FetchContent_MakeAvailable(Boost)
 
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
 FetchContent_MakeAvailable(SFML)
-FetchContent_MakeAvailable(BoostAsio)
 
-find_package(Boost REQUIRED)
 
 # Ajoutez vos sources existantes à votre exécutable
 add_executable(rtype-client ${CLIENT_SOURCES})
