@@ -12,37 +12,37 @@
 namespace ECS {
     /**
      * @brief Rotation component
-     * 
+     *
      */
     class RotationComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new rotation Component object
-             * 
-             * @param uid 
+             *
+             * @param uid
              */
-            RotationComponent(int uid);
+            RotationComponent();
             /**
              * @brief Destroy the rotation Component object
-             * 
+             *
              */
             ~RotationComponent();
             /**
              * @brief Get the Rotation object
-             * 
+             *
              */
             std::vector<int> getValue() const override;
             /**
              * @brief Set the Rotation object
-             * 
-             * @param rotation 
+             *
+             * @param rotation
              */
-            void setValue(int rotation, int unused = 0) override;
+            void setValue(std::vector<int> values) override;
         protected:
         private:
             /**
              * @brief define the rotation of the entity
-             * 
+             *
              */
             int _rotation;
     };

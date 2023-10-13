@@ -5,11 +5,11 @@
 ** PositionComponent
 */
 
+#include <iostream>
 #include "PositionComponent.hpp"
 
-ECS::PositionComponent::PositionComponent(int x, int y, int uid)
+ECS::PositionComponent::PositionComponent(int x, int y)
 {
-    _uid = uid;
     _x = x;
     _y = y;
 }
@@ -18,10 +18,14 @@ ECS::PositionComponent::~PositionComponent()
 {
 }
 
-void ECS::PositionComponent::setValue(int x, int y)
+void ECS::PositionComponent::setValue(std::vector<int> values)
 {
-    _x = x;
-    _y = y;
+    if (values.size() != 2) {
+        std::cerr << "Error: setValue in PositionComponent" << std::endl;
+        return;
+    }
+    _x = values[0];
+    _y = values[1];
 }
 
 std::vector<int> ECS::PositionComponent::getValue() const
@@ -30,4 +34,9 @@ std::vector<int> ECS::PositionComponent::getValue() const
     position.push_back(_x);
     position.push_back(_y);
     return position;
+}
+
+std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
+{
+    return std::make_shared<ECS::PositionComponent>(_x, _y);
 }

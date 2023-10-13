@@ -1,3 +1,11 @@
+.DS_Store
+.idea
+rtype-server
+rtype-client
+.vscode
+
+doxygen_warnings.log
+
 # Prerequisites
 *.d
 

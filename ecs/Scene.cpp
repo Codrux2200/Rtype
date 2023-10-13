@@ -8,24 +8,34 @@
 #include "Scene.hpp"
 #include <iostream>
 
-ECS::Scene::Scene(SceneType sceneType)
+ECS::Scene::Scene(SceneType sceneType) : _sceneType(sceneType)
 {
-    sceneType = sceneType;
-    entitiesList = std::map<int, Entity*>();
 }
 
 ECS::Scene::~Scene()
 {
-    entitiesList.clear();
-    entitiesList.~map<int, Entity*>();
 }
 
-void ECS::Scene::loadEntity(int entityID)
+int ECS::Scene::addEntity(std::shared_ptr<ECS::Entity> entity)
 {
-    entitiesList.at(entityID);
+    if (!entity)
+        return -1;
+    std::cout << "Adding entity " << entity << std::endl;
+    entitiesList.push_back(entity);
+    return entity->getId();
 }
 
-void ECS::Scene::unloadEntity(int entityID)
+void ECS::Scene::removeEntity(int entityID)
 {
-    entitiesList.erase(entityID);
+    for (int i = 0; i < (int) entitiesList.size(); i++) {
+        if (entitiesList[i]->getId() == entityID) {
+            entitiesList.erase(entitiesList.begin() + i);
+            return;
+        }
+    }
+}
+
+ECS::SceneType ECS::Scene::getSceneType() const
+{
+    return _sceneType;
 }

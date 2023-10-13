@@ -14,37 +14,31 @@
 namespace ECS {
     /**
      * @brief Enemy component
-     * 
+     *
      */
     class EnemyComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new enemy Component object
-             * 
-             * @param uid 
+             *
+             * @param uid
              */
-            EnemyComponent(int uid, const std::string &spritePath);
+            EnemyComponent();
             /**
              * @brief Destroy the enemy Component object
-             * 
+             *
              */
             ~EnemyComponent();
             /**
-             * @brief Set the sprite path for the player entity
+             * @brief Set the enemy of the entity
              *
-             * @param newSpritePath The path to the new sprite image
+             * @param enemy
              */
-            void setSprite(const std::string& newSpritePath);
+            void setValue(std::vector<int> values) final;
             /**
-             * @brief Get the sprite path for the player entity
+             * @brief Get the enemy of the entity
              *
-             * @return std::string
-             */
-            std::string getSprite() const;
-            /**
-             * @brief Update the component
-             * 
-             * @param positions the vector of the positions of the entity
+             * @return std::vector<int>
              */
             void update(const std::vector<int> positions);
             /**

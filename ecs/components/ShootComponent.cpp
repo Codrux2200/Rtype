@@ -5,11 +5,11 @@
 ** ShootComponent
 */
 
+#include <iostream>
 #include "ShootComponent.hpp"
 
-ECS::ShootComponent::ShootComponent(int uid, int shootSpeed, int shootDamage)
+ECS::ShootComponent::ShootComponent(int shootSpeed, int shootDamage)
 {
-    _uid = uid;
     _shootSpeed = shootSpeed;
     _shootDamage = shootDamage;
 }
@@ -18,10 +18,14 @@ ECS::ShootComponent::~ShootComponent()
 {
 }
 
-void ECS::ShootComponent::setValue(int shootSpeed, int shootDamage)
+void ECS::ShootComponent::setValue(std::vector<int> values)
 {
-    _shootSpeed = shootSpeed;
-    _shootDamage = shootDamage;
+    if (values.size() != 2) {
+        std::cerr << "Error: setValue in ShootComponent" << std::endl;
+        return;
+    }
+    _shootSpeed = values[0];
+    _shootDamage = values[1];
 }
 
 std::vector<int> ECS::ShootComponent::getValue() const

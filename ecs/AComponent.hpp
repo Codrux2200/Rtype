@@ -7,38 +7,45 @@
 
 #ifndef ACOMPONENT_HPP_
 #define ACOMPONENT_HPP_
-#include "IComponent.hpp"
 #include <vector>
+#include "IComponent.hpp"
 
 namespace ECS {
     /**
      * @brief AComponent class
-     * 
+     *
      */
     class AComponent : public IComponent {
         public:
             /**
              * @brief UID of the component
-             *  
+             *
              */
-            int _uid;
             /**
              * @brief Get the Value object
-             * 
+             *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const;
+            virtual std::vector<int> getValue() const override;
             /**
              * @brief Set the Value object
-             * 
+             *
              * @param valueA
-             * 
+             *
              * @param valueB
              */
-            virtual void setValue(int valueA, int valueB);
+            virtual void setValue(std::vector<int> values) override;
+
+            void setEnabled(bool enabled) override;
+
+            bool isEnabled() const override;
+
+            ComponentType getType() const override;
+
         protected:
-        private:
-            
+            bool _isEnabled = true;
+            ComponentType _type;
+
     };
 }
 

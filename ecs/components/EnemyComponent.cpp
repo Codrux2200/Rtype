@@ -7,21 +7,15 @@
 
 #include "EnemyComponent.hpp"
 
-ECS::EnemyComponent::EnemyComponent(int uid, const std::string &spritePath)
-    : _spritePath(spritePath)
+ECS::EnemyComponent::EnemyComponent()
 {
-    _uid = uid;
-    _texture = sf::Texture();
-    if (!_texture.loadFromFile(_spritePath))
-        throw "TextureError";
-    _sprite = std::make_unique<sf::Sprite>(_texture);
 }
 
 ECS::EnemyComponent::~EnemyComponent()
 {
 }
 
-void ECS::EnemyComponent::setSprite(const std::string &newSpritePath)
+void ECS::EnemyComponent::setValue(std::vector<int> values)
 {
     _spritePath = newSpritePath;
 }
