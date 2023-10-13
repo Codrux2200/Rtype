@@ -37,12 +37,6 @@ namespace ECS {
             void update(SceneManager &sceneManager, const SceneType &SceneType, const float &deltaTime);
         protected:
         private:
-        /**
-         * @brief Move an enemy
-         * 
-         * @param enemy
-        */
-        void _moveEnemy(ECS::Entity *enemy);
     };
 }
 
