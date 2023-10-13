@@ -7,20 +7,16 @@ This page contains the RFC of the R-Type project.
 
 @section packet_sec Packet architecture
 
-All the communication between the server and the client is done with packets.
+The Packet serves as the primary unit of communication between the client and the server.
+It encompasses the following members:
 
-A packet is composed of 3 parts :
-
--   @ref RFC::Packet::id "long int id" : The unique identifier of the packet
--   @ref RFC::Packet::sequence "int sequence" : The sequence of the packet
--   @ref RFC::Packet::replication "short replication" : The replication of the packet
--   @ref RFC::Packet::timestamp "std::time_t timestamp" : The timestamp of the packet
--   @ref RFC::Packet::message "char message[256]" : The message of the packet
--   @ref packet_types_sec "PacketType type" : The type of the packet
--   @ref packet_types_sec "Status status" : The status of the packet
--   @ref RFC::data "RFC::data data" : The data of the packet
-
-Each type of packet has a different data structure.
+- @b type: Specifies the type of the packet. It is of type PacketType.
+- @b connectData: Contains data pertinent to connection operations. It is of type ConnectData.
+- @b disconnectData: Holds data related to disconnection procedures. It is of type ConnectData.
+- @b startData: Stores data regarding the commencement of a session or game. Type: StartData.
+- @b joinData: Contains data about joining an ongoing session or game. Type: JoinData.
+- @b leaderData: Indicates the leader within a session or game context. Type: LeaderData.
+- @b moveData: Relates to movement operations. Type: MoveData.
 
 @see RFC::Status
 @see RFC::PacketType
@@ -38,5 +34,3 @@ It will receive CONNECT from a client to accept a new connection.
 If the server can't accept a new connection, the server will send back a CONNECT packet with the status set to @ref RFC::Status::KO "KO" only to the sender, with an appropriate message.
 
 @subsubsection server_disconnect_sec DISCONNECT
-
-@see RFC

@@ -150,7 +150,7 @@ INLINE_SIMPLE_STRUCTS  = NO
 TYPEDEF_HIDES_STRUCT   = NO
 
 
-LOOKUP_CACHE_SIZE      = 0
+LOOKUP_CACHE_SIZE      = 1
 
 
 NUM_PROC_THREADS       = 1
@@ -315,8 +315,13 @@ WARN_LOGFILE           = doc/doxygen_warnings.log
 
 
 
-INPUT                  = . \
-                        doc_pages
+INPUT                  = client \
+                         server \
+                         ecs \
+                         Network \
+                         main.cpp \
+                         doc_pages \
+                         doc_images
 
 
 INPUT_ENCODING         = UTF-8

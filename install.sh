@@ -20,7 +20,7 @@ package_manager=$(detect_package_manager)
 install_apt() {
     sudo apt-get update
     sudo apt-get install libx11-dev libxrandr-dev libxcursor-dev
-    sudo apt-get install -y libvorbis0 libx11-6 libxorg1-dev libflac-dev libudev-dev libxcursor-dev libxrandr-dev libopenal-dev
+    sudo apt-get install -y libflac-dev libvorbis0 libvorbis-dev libx11-6 libxorg1-dev libflac-dev libudev-dev libxcursor-dev libxrandr-dev libopenal-dev
     sudo apt-get install -y xorg x11-xserver-utils x11-utils
     sudo apt-get install 'xserver-xorg-*' 'mesa-*' 'libx*' 'libX*' 'fontconfig*'
 
@@ -46,14 +46,14 @@ install_pacman() {
 # Détecter la distribution
 if [[ -e /etc/os-release ]]; then
     source /etc/os-release
-    if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+    if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "pop" ]]; then
         install_apt
     elif [[ "$ID" == "fedora" || "$ID" == "centos" || "$ID" == "rhel" ]]; then
         install_yum
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
-        echo "Distribution non prise en charge."
+        echo "Distribution non prise en charge: $ID"
         exit 1
     fi
 else

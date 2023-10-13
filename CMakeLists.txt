@@ -46,7 +46,6 @@ set(ECS_SOURCES
     ecs/components/BackgroundComponent.cpp
     ecs/system/ASystem.cpp
     ecs/system/AudioSystem.cpp
-    ecs/system/EventSystem.cpp
     ecs/system/GameSystem.cpp
     ecs/system/GraphicSystem.cpp
     ecs/system/ParticleSystem.cpp
