@@ -21,6 +21,7 @@ ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "R
 
     _initEntities();
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
@@ -37,6 +38,7 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet)
         return;
     std::cout << "Start game handler" << std::endl;
     sceneManager.setCurrentScene(SceneType::GAME);
+    std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
 
 void ECS::Core::_initEntities()
