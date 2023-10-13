@@ -121,6 +121,21 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         if (i == _playerId) {
             // This is the current player !
             player->addComponent(std::make_shared<ECS::PlayerComponent>());
+            player->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+        
+            sf::Texture texture;
+            if (!texture.loadFromFile("assets/Ship6.png")) {
+                std::cout << "Error loading button texture" << std::endl;
+                return nullptr;
+            }
+        
+            sf::Rect<int> rect;
+            rect.left = 0;
+            rect.top = 0;
+            rect.width = texture.getSize().x;
+            rect.height = texture.getSize().y;
+
+            player->addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
         }
         scene->addEntity(player);
     }
