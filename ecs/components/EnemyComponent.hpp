@@ -32,7 +32,7 @@ namespace ECS {
              *
              * @param enemy
              */
-            void setValue(int enemy, int unused = 0) final;
+            void setValue(std::vector<int> values) final;
             /**
              * @brief Get the enemy of the entity
              *

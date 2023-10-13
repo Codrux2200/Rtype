@@ -14,8 +14,7 @@
 #include "ScaleComponent.hpp"
 #include "RotationComponent.hpp"
 
-ECS::GraphicSystem::GraphicSystem()
-    : _modeSize(800, 600) ,_window(sf::VideoMode(sf::Vector2u(800,600), 32), "SFML Window")
+ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window)
 {
     // typeSystem = ECS::SystemType::GRAPHIC;
     initBackground();
@@ -31,7 +30,6 @@ void ECS::GraphicSystem::initBackground()
 }
 
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
-    sf::Vector2u screenSize = _window.getSize();
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -43,7 +41,6 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
     // Clear the window
     _window.clear();
 
-    // std::cout << "GraphicSystem update" << std::endl;
 
     // Draw entities
     for (auto &entity : sceneManager.getScene()->entitiesList) {
@@ -82,9 +79,4 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
         _window.draw(sprite);
     }
     _window.display();
-}
-
-sf::RenderWindow &ECS::GraphicSystem::getWindow()
-{
-    return _window;
 }

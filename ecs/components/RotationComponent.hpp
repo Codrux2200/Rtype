@@ -37,7 +37,7 @@ namespace ECS {
              *
              * @param rotation
              */
-            void setValue(int rotation, int unused = 0) override;
+            void setValue(std::vector<int> values) override;
         protected:
         private:
             /**

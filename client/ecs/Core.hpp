@@ -11,6 +11,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <SFML/Graphics.hpp>
 #include "ISystem.hpp"
 #include "SceneManager.hpp"
 #include "Connection.hpp"
@@ -48,12 +49,25 @@ namespace ECS {
              *
              */
             void mainLoop(RType::Connection &connection);
+
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
+            std::shared_ptr<ECS::Scene> _initGameScene();
+
             void _initEntities();
+
+            void _startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue);
+
+            void _initHandlers(Network::PacketManager &packetManager);
+
+            void _handlerStartGame(Network::Packet &packet);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
+            sf::Vector2u _modeSize;
+            sf::RenderWindow _window;
+
+            short _playerId = -1;
 	};
 }
 

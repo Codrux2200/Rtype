@@ -22,7 +22,7 @@ namespace ECS {
              * @brief Construct a new Graphic System object
              *
              */
-            GraphicSystem();
+            GraphicSystem(sf::RenderWindow &window);
             /**
              * @brief Destroy the Graphic System object
              *
@@ -39,19 +39,12 @@ namespace ECS {
              * @param deltaTime
              */
             void update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) override;
-            /**
-             * @brief Get the Window object
-             *
-             * @return sf::RenderWindow
-             */
-            sf::RenderWindow &getWindow();
 
         private:
-            sf::RenderWindow _window;
             sf::Event _event;
-            sf::Vector2u _modeSize;
             BackgroundComponent backgroundComponent;
 
+            sf::RenderWindow &_window;
 
     };
 };

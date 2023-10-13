@@ -5,6 +5,7 @@
 ** RotationComponent
 */
 
+#include <iostream>
 #include "RotationComponent.hpp"
 
 ECS::RotationComponent::RotationComponent()
@@ -23,7 +24,11 @@ std::vector<int> ECS::RotationComponent::getValue() const
     return rotation;
 }
 
-void ECS::RotationComponent::setValue(int rotation, int unused)
+void ECS::RotationComponent::setValue(std::vector<int> values)
 {
-    _rotation = rotation;
+    if (values.size() != 1) {
+        std::cerr << "Error: setValue in RotationComponent" << std::endl;
+        return;
+    }
+    _rotation = values[0];
 }

@@ -15,7 +15,7 @@ ECS::EnemyComponent::~EnemyComponent()
 {
 }
 
-void ECS::EnemyComponent::setValue(int enemy, int unused)
+void ECS::EnemyComponent::setValue(std::vector<int> values)
 {
 }
 

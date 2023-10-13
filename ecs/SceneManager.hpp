@@ -54,6 +54,13 @@ namespace ECS {
              * @param sceneType
              */
             void setCurrentScene(SceneType sceneType);
+
+            /**
+             * @brief Get the Current Scene object
+             *
+             * @return SceneType
+             */
+            SceneType getSceneType();
         protected:
         private:
             /**

@@ -7,10 +7,10 @@
 
 #include "EventSystem.hpp"
 #include "PlayerComponent.hpp"
+#include "ClickComponent.hpp"
 
-ECS::EventSystem::EventSystem()
+ECS::EventSystem::EventSystem(sf::RenderWindow &window) : _window(window)
 {
-    // typeSystem = ECS::SystemType::EVENT;
 }
 
 ECS::EventSystem::~EventSystem()
@@ -119,14 +119,33 @@ ECS::EventSystem::~EventSystem()
 //     _moveRight(player, position);
 // }
 
-void ECS::EventSystem::update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager)
+void ECS::EventSystem::update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
 {
     auto &actualScene = sceneManager.getScene();
 
     for (auto &entity : actualScene->entitiesList) {
-        auto playerComponent = entity->getComponent<ECS::PlayerComponent>();
-        if (playerComponent == 0)
-            continue;
+        _handleClickEvent(entity, packetQueue, packetManager);
+
+    }
+}
+
+void ECS::EventSystem::_handleClickEvent(std::shared_ptr<ECS::Entity> entity, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
+{
+    auto clickComponent = entity->getComponent<ECS::ClickComponent>();
+
+    if (clickComponent) {
+        sf::Rect<int> rect = clickComponent->getRect();
+        // Get mouse position in window
+        sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            std::cout << "Mouse pos: " << mousePos.x << " " << mousePos.y << std::endl;
+            std::cout << "Rect pos: " << rect.left << " " << rect.top << std::endl;
+            std::cout << "Rect size: " << rect.width << " " << rect.height << std::endl;
+            if (rect.contains(mousePos)) {
+                std::cout << "Click OK !!!" << std::endl;
+                clickComponent->onClick(packetManager, packetQueue);
+            }
+        }
     }
 }
 

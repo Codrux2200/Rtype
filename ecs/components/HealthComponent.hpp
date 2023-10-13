@@ -32,7 +32,7 @@ namespace ECS {
              *
              * @param health
              */
-            void setValue(int health, int unused = 0) final;
+            void setValue(std::vector<int> values) final;
             /**
              * @brief Get the health of the entity
              *

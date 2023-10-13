@@ -34,7 +34,7 @@ namespace ECS {
              *
              * @param valueB
              */
-            virtual void setValue(int valueA, int valueB) override;
+            virtual void setValue(std::vector<int> values) override;
 
             void setEnabled(bool enabled) override;
 

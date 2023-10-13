@@ -8,8 +8,8 @@
 #ifndef SPRITECOMPONENT_HPP_
 #define SPRITECOMPONENT_HPP_
 
-#include "AComponent.hpp"
 #include <SFML/Graphics.hpp>
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -22,6 +22,8 @@ namespace ECS {
             ~SpriteComponent();
             void setTexture(sf::Texture &texture);
             const sf::Sprite &getSprite() const;
+
+            sf::Rect<int> getRect() const;
 
             std::shared_ptr<IComponent> clone() const override;
 

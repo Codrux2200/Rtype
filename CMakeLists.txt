@@ -46,7 +46,6 @@ set(ECS_SOURCES
     ecs/components/ScaleComponent.cpp
     ecs/components/ShootComponent.cpp
     ecs/components/VelocityComponent.cpp
-    ecs/components/BackgroundComponent.cpp
     ecs/system/AudioSystem.cpp
     ecs/system/GameSystem.cpp
     ecs/system/ParticleSystem.cpp
@@ -66,6 +65,10 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/GraphicSystem.hpp
     client/ecs/components/SpriteComponent.cpp
     client/ecs/components/SpriteComponent.hpp
+    client/ecs/components/ClickComponent.cpp
+    client/ecs/components/ClickComponent.hpp
+    client/ecs/components/BackgroundComponent.cpp
+    client/ecs/components/BackgroundComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -116,7 +119,6 @@ target_include_directories(rtype-client PRIVATE
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
 target_include_directories(rtype-server PRIVATE
-    ${SFML_SOURCE_DIR}/include
     ${Boost_INCLUDE_DIRS}
     ${ECS_INCLUDE}
     ${NETWORK_INCLUDE}
@@ -132,9 +134,5 @@ target_link_libraries(rtype-client
 )
 
 target_link_libraries(rtype-server
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
     ${Boost_LIBRARIES}
 )

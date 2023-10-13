@@ -5,6 +5,7 @@
 ** HealthComponent
 */
 
+#include <iostream>
 #include "HealthComponent.hpp"
 
 ECS::HealthComponent::HealthComponent(int health)
@@ -16,9 +17,13 @@ ECS::HealthComponent::~HealthComponent()
 {
 }
 
-void ECS::HealthComponent::setValue(int health, int unused)
+void ECS::HealthComponent::setValue(std::vector<int> values)
 {
-    _health = health;
+    if (values.size() != 1) {
+        std::cerr << "Error: setValue in HealthComponent" << std::endl;
+        return;
+    }
+    _health = values[0];
 }
 
 std::vector<int> ECS::HealthComponent::getValue() const

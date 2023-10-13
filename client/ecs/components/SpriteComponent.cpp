@@ -30,3 +30,8 @@ std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
 {
     return std::make_shared<ECS::SpriteComponent>(_texture, _rect);
 }
+
+sf::Rect<int> ECS::SpriteComponent::getRect() const
+{
+    return _rect;
+}

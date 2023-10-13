@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** Rtype
+** File description:
+** Background Component
+*/
+
 #include "BackgroundComponent.hpp"
 
 namespace ECS

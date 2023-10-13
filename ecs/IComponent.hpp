@@ -50,7 +50,7 @@ namespace ECS {
              *
              * @param valueB
              */
-            virtual void setValue(int valueA, int valueB) = 0;
+            virtual void setValue(std::vector<int> values) = 0;
 
             // Clone
             virtual std::shared_ptr<IComponent> clone() const = 0;

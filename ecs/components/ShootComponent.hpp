@@ -39,7 +39,7 @@ namespace ECS {
              * @param shootSpeed
              * @param shootDamage
              */
-            void setValue(int shootSpeed, int shootDamage) final;
+            void setValue(std::vector<int> values) final;
         protected:
         private:
             /**

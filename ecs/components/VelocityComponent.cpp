@@ -5,6 +5,7 @@
 ** VelocityComponent
 */
 
+#include <iostream>
 #include "VelocityComponent.hpp"
 
 ECS::VelocityComponent::VelocityComponent()
@@ -16,9 +17,13 @@ ECS::VelocityComponent::~VelocityComponent()
 {
 }
 
-void ECS::VelocityComponent::setValue(int velocity, int unused)
+void ECS::VelocityComponent::setValue(std::vector<int> values)
 {
-    _velocity = velocity;
+    if (values.size() != 1) {
+        std::cerr << "Error: setValue in VelocityComponent" << std::endl;
+        return;
+    }
+    _velocity = values[0];
 }
 
 std::vector<int> ECS::VelocityComponent::getValue() const

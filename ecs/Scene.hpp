@@ -19,12 +19,13 @@ namespace ECS {
      *
      */
     enum SceneType{
-        NONE = 0,
-        MAIN_MENU = 1,
-        HELP = 2,
-        ENDGAME = 3,
-        DEATH = 4,
-        PAUSE = 5
+        NONE,
+        MAIN_MENU,
+        GAME,
+        HELP,
+        ENDGAME,
+        DEATH,
+        PAUSE
     };
     /**
      * @brief Scene class

@@ -54,18 +54,20 @@ namespace ECS {
 
             std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
-            private:
-                /**
-                 * @brief define the id of the entity
-                 *
-                 */
-                int _id;
+            bool isEnabled = true;
 
-                /**
-                 * @brief stock component
-                 *
-                 */
-                std::vector<std::shared_ptr<IComponent>> _components;
+        private:
+            /**
+             * @brief define the id of the entity
+             *
+             */
+            int _id;
+
+            /**
+             * @brief stock component
+             *
+             */
+            std::vector<std::shared_ptr<IComponent>> _components;
 
     };
 

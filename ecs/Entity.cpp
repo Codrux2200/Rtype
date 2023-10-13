@@ -6,8 +6,6 @@
 */
 
 #include "Entity.hpp"
-#include "BackgroundComponent.hpp"
-#include "PlayerComponent.hpp"
 
 ECS::Entity::Entity(int id) : _id(id)
 {

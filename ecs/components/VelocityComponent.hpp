@@ -32,7 +32,7 @@ namespace ECS {
              *
              * @param velocity
              */
-            void setValue(int velocity, int unused = 0) final;
+            void setValue(std::vector<int> values) final;
             /**
              * @brief Get the velocity of the entity
              *

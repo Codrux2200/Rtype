@@ -7,9 +7,8 @@
 
 #ifndef PLAYERCOMPONENT_HPP_
 #define PLAYERCOMPONENT_HPP_
-#include "../AComponent.hpp"
+#include "AComponent.hpp"
 #include <string>
-#include <SFML/Graphics.hpp>
 #include <memory>
 
 namespace ECS {

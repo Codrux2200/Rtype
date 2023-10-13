@@ -38,7 +38,7 @@ namespace ECS {
              * @brief Construct a new Event System object
              *
              */
-            EventSystem();
+            EventSystem(sf::RenderWindow &window);
 
             /**
              * @brief Destroy the Event System object
@@ -56,6 +56,7 @@ namespace ECS {
             void update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) override;
 
         private:
+            void _handleClickEvent(std::shared_ptr<ECS::Entity> entity, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager);
             // /**
             //  * @brief Move the player
             //  *
@@ -119,7 +120,7 @@ namespace ECS {
             // */
             // void _moveRight(ECS::Entity *player, std::vector<int> position);
 
-            sf::Event _event;
+            sf::RenderWindow &_window;
     };
 }
 

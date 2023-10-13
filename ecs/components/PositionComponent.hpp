@@ -41,7 +41,7 @@ namespace ECS {
              * @param x
              * @param y
              */
-            void setValue(int x, int y) override;
+            void setValue(std::vector<int> values) override;
 
             std::shared_ptr<IComponent> clone() const override;
         protected:
