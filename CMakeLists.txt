@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-
+set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
+set(BOOST_ENABLE_CMAKE ON)
 set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
@@ -132,9 +133,15 @@ target_link_libraries(rtype-client
     sfml-window
     sfml-system
     sfml-audio
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )
 
 target_link_libraries(rtype-server
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )
