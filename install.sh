@@ -41,7 +41,7 @@ install_pacman() {
 # Détecter la distribution
 if [[ -e /etc/os-release ]]; then
     source /etc/os-release
-    if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+    if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "pop" ]]; then
         install_apt
     elif [[ "$ID" == "fedora" || "$ID" == "centos" || "$ID" == "rhel" ]]; then
         install_yum
@@ -80,6 +80,6 @@ fi
 
 
 cmake . .
-cmake --build .
+cmake --build . -- -j 6
 
 sudo rm -fr _deps

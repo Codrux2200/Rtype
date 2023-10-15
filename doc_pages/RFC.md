@@ -26,8 +26,10 @@ Each are precised in the following sections.
 
 @section packet_types_sec Packet types
 
-@subsection server_rfc_sec Server packets
+@ref diag_ex "Example of a connexion between a client and a server"
 
+
+@subsection server_rfc_sec Server packets
 
 @subsubsection server_connect_sec CONNECT
 
@@ -169,3 +171,26 @@ The packet contains a char (1 byte), which is the id of the leader.
 When a client wants to quit a game, it sends a QUIT packet to the server.
 The server then sends a @ref server_disconnect_sec "DISCONNECT" packet to all the clients.
 It does not contain any data.
+
+@subsection diag_ex Example of a connexion between a client and a server
+
+@image html sequence_diag.png "Sequence diagram of a connexion between a client and a server"
+
+### Explanations:
+
+- The client sends a CONNECT packet to the server.
+- The server sends a CONNECT packet to all the clients (Only one at the moment).
+- The server sends a LEADER packet to all the clients (Only one at the moment).
+
+- The new client sends a CONNECT packet to the server.
+- The server sends a CONNECT packet to all the clients.
+
+- The leader client sends a START packet to the server.
+- The server sends a START packet to all the clients.
+
+- The leader client sends a QUIT packet to the server.
+- The server sends a DISCONNECT packet to all the clients.
+
+- The server sends a LEADER packet to the only remaining client.
+- The client sends a START packet to the server.
+- The server sends a START packet to all the clients (Only one at the moment).
