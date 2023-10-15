@@ -12,10 +12,9 @@ namespace Network::data {
     {
         struct MoveData {
             public:
-                short id;
+                char id;
                 int x;
                 int y;
-                int z;
         };
     }
 } // namespace Network::data

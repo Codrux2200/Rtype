@@ -63,6 +63,7 @@ namespace RType {
 
             void _handlerJoin(Network::Packet &packet);
             void _handlerStart(Network::Packet &packet);
+            void _handlerQuit(Network::Packet &packet);
 
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
