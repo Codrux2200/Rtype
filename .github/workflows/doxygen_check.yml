@@ -17,7 +17,7 @@ jobs:
       - name: Generate Documentation
         run: |
           # Generate documentation using Doxygen
-          ../../doxygen Doxyfile
+          doxygen Doxyfile
       - name: Check Documentation
         run: |
           # Check if the Doxygen generation produced any warnings or errors
