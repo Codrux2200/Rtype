@@ -2,28 +2,30 @@
 
 detect_package_manager() {
   if [ -x "$(command -v apt-get)" ]; then
-    package_manager="apt-get"
+    echo "apt-get"
   elif [ -x "$(command -v yum)" ]; then
-    package_manager="yum"
+    echo "yum"
   elif [ -x "$(command -v brew)" ]; then
-    package_manager="brew"
+    echo "brew"
+  elif [ -x "$(command -v pacman)" ]; then
+    echo "pacman"
+  elif [ -x "$(command -v apk)" ]; then
+    echo "apk"
   else
-    package_manager="none"
+    echo "none"
   fi
-  echo "$package_manager"
 }
+
 package_manager=$(detect_package_manager)
 
 #!/bin/bash
 
-# Fonction pour installer des paquets avec le gestionnaire de paquets apt
 install_apt() {
     sudo apt-get update
     sudo apt-get install g++
     sudo apt install libgl1-mesa-dev libgdiplus libfreetype6-dev libopenal-dev libflac-dev libvorbis-dev libvorbisfile3 libvorbisenc2 libogg-dev libudev-dev
 }
 
-# Fonction pour installer des paquets avec le gestionnaire de paquets yum
 install_yum() {
     sudo yum update
     sudo yum install g++
@@ -31,7 +33,6 @@ install_yum() {
     sudo yum install freeglut-devel systemd-devel
 }
 
-# Fonction pour installer des paquets avec le gestionnaire de paquets pacman
 install_pacman() {
     sudo pacman -S g++
     sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev
