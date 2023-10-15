@@ -11,100 +11,66 @@ namespace ECS
 {
     BackgroundComponent::BackgroundComponent()
     {
-        // Initialize the component's properties here
-        std::vector<std::string> backgroundPaths = {
-            "6Background.png",
-            "5Background.png",
-            "4Background.png",
-            "3Background.png",
-            "2Background.png",
-            "1Background.png"};
+        // Load your background textures and set their speeds here
+        // Replace "backgroundTexture1", "backgroundTexture2", etc. with your actual textures
+        // Adjust the speed values as needed
+        backgroundTextures.push_back(sf::Texture());
+        backgroundTextures[0].loadFromFile("assets/6Background.png");
+        backgroundSpeeds.push_back(0.2f);
 
-        backgroundSpeeds = {0.0f, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006};
-        foregroundSpeed = 0.0f;
+        backgroundTextures.push_back(sf::Texture());
+        backgroundTextures[1].loadFromFile("assets/6Background.png");
+        backgroundSpeeds.push_back(0.1f);
 
-        for (const std::string &path : backgroundPaths)
+        // Load your foreground texture and set its speed here
+        // Replace "foregroundTexture" with your actual foreground texture
+        foregroundTexture.loadFromFile("foreground.png");
+        foregroundSpeed = 0.3f;
+
+        // Initialize background sprites
+        for (int i = 0; i < backgroundTextures.size(); ++i)
         {
-            sf::Texture texture;
-            if (!texture.loadFromFile("assets/background/" + path))
-            {
-                throw std::runtime_error("Failed to load textures.");
-            }
-            backgroundTextures.push_back(texture);
+            backgroundLayers.push_back(std::make_unique<sf::Sprite>(backgroundTextures[i]));
+            backgroundPositions.push_back(sf::Vector2f(0.0f, 0.0f));
         }
 
-        if (foregroundTexture.loadFromFile("assets/background/foreground.png") == false) {
-            throw std::runtime_error("Failed to load foreground texture.");
-        }
-
-        for (const sf::Texture &texture : backgroundTextures)
-        {
-            backgroundLayers.push_back(std::make_unique<sf::Sprite>(texture));
-        }
-
-        for (size_t i = 0; i < backgroundTextures.size(); ++i)
-        {
-            backgroundPositions.emplace_back(0.f, 0.f - i * 6.f);
-        }
-
+        // Initialize foreground sprite
         foreground = std::make_unique<sf::Sprite>(foregroundTexture);
-        foregroundPosition = sf::Vector2f(0.f, 0.f);
+        foregroundPosition = sf::Vector2f(0.0f, 0.0f);
     }
 
-void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize) {
-    for (size_t i = 0; i < backgroundLayers.size(); ++i) {
-        if (deltaTime < 10000.0f)
+    void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize)
+    {
+        // Update the background positions based on their speeds and deltaTime
+        for (int i = 0; i < backgroundLayers.size(); ++i)
+        {
             backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
-        else
-            backgroundPositions[i].x -= backgroundSpeeds[i] * 10000.0f;
-        if (backgroundPositions[i].x + backgroundLayers[i]->getGlobalBounds().width <= 0.f) {
-            // Reset the background layer to the right of the screen
-            backgroundPositions[i].x = screenSize.x;
+            if (backgroundPositions[i].x < -screenSize.x)
+            {
+                backgroundPositions[i].x = 0.0f;
+            }
+            backgroundLayers[i]->setPosition(backgroundPositions[i]);
         }
 
-        backgroundLayers[i]->setPosition(backgroundPositions[i]);
+        // Update the foreground position based on its speed and deltaTime
+        foregroundPosition.x -= foregroundSpeed * deltaTime;
+        if (foregroundPosition.x < -screenSize.x)
+        {
+            foregroundPosition.x = 0.0f;
+        }
+        foreground->setPosition(foregroundPosition);
     }
 
-    foregroundPosition.x -= foregroundSpeed * deltaTime;
-    if (foregroundPosition.x + foreground->getGlobalBounds().width <= 0.f) {
-        // Reset the foreground layer to the right of the screen
-        //place foreground to bottom
-        foregroundPosition.y = screenSize.y - foreground->getGlobalBounds().height;
-        foregroundPosition.x = screenSize.x;
-    }
-
-    foreground->setPosition(foregroundPosition);
-}
-
-
-
-void BackgroundComponent::draw(sf::RenderWindow &window)
-{
-    for (size_t i = 0; i < backgroundLayers.size(); ++i)
+    void BackgroundComponent::draw(sf::RenderWindow& window)
     {
-        backgroundLayers[i]->setTexture(backgroundTextures[i]); // Set the texture for each background layer
-        backgroundLayers[i]->setPosition(backgroundPositions[i]); // Set the position for each background layer
+        // Draw the background layers
+        for (const auto& backgroundLayer : backgroundLayers)
+        {
+            window.draw(*backgroundLayer);
+        }
 
-        // Calculate the scale factor
-        sf::Vector2f scale(
-            static_cast<float>(window.getSize().x) / backgroundLayers[i]->getLocalBounds().width,
-            static_cast<float>(window.getSize().y) / backgroundLayers[i]->getLocalBounds().height);
-
-        // Set the scale
-        backgroundLayers[i]->setScale(scale);
-
-        window.draw(*backgroundLayers[i]); // Draw each background layer
+        // Draw the foreground
+        window.draw(*foreground);
     }
-    foreground->setTexture(foregroundTexture); // Set the texture for the foreground
-    foreground->setPosition(foregroundPosition);
-    //resize foreground to fit the screen
-    sf::Vector2f scale(
-        static_cast<float>(window.getSize().x) / foreground->getLocalBounds().width,
-        static_cast<float>(window.getSize().y) / foreground->getLocalBounds().height);
-    //set foreground to bottom of the screen
-    window.draw(*foreground); // Draw the foreground
 }
 
-
-
-}
