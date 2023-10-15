@@ -7,52 +7,66 @@
 
 #ifndef HITBOXCOMPONENT_HPP_
 #define HITBOXCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Hitbox component
-     * 
+     *
      */
     class HitboxComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new hitbox Component object
-             * 
-             * @param x 
+             *
+             * @param x
              * @param y
-             * @param uid
+             * @param weight
+             * @param height
              */
-            HitboxComponent(int x, int y, int uid);
+            HitboxComponent(int x, int y, int weight, int height);
             /**
              * @brief Destroy the hitbox Component object
-             * 
+             *
              */
             ~HitboxComponent();
             /**
-             * @brief Get the X hitbox object
-             * 
-             * @return int
+             * @brief Get the X and Y hitbox object
+             *
+             * @return std::vector<int>
              */
-            int getX() const;
+            std::vector<int> getValue() const final;
             /**
-             * @brief Get the Y hitbox object
-             * 
-             * @return int
+             * @brief Set the X and Y hitbox object
+             *
+             * @param x
+             * @param y
              */
-            int getY() const;
+            void setValue(int x, int y) final;
+
         protected:
         private:
             /**
              * @brief define the x hitbox of the entity
-             * 
+             *
              */
             int _x;
+
             /**
              * @brief define the y hitbox of the entity
-             * 
+             *
              */
             int _y;
+            /**
+             * @brief define the weight hitbox of the entity
+             *
+             */
+            int _weight;
+            /**
+             * @brief define the height of the hitbox of the entity
+             *
+             */
+            int _height;
     };
 }
 

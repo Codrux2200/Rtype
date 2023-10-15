@@ -4,56 +4,61 @@
 ** File description:
 ** scene
 */
-#include <map>
-#include <string>
-#include "Entity.hpp"
+
 #ifndef SCENE_HPP_
 #define SCENE_HPP_
+
+#include <map>
+#include <string>
+#include <memory>
+#include "Entity.hpp"
 
 namespace ECS {
     /**
      * @brief SceneType enum
-     * 
+     *
      */
     enum SceneType{
-        NONE = 0,
-        MAIN_MENU = 1,
-        HELP = 2,
-        ENDGAME = 3,
-        DEATH = 4,
-        PAUSE = 5
+        NONE,
+        MAIN_MENU,
+        GAME,
+        HELP,
+        ENDGAME,
+        DEATH,
+        PAUSE
     };
     /**
      * @brief Scene class
-     * 
+     *
      */
     class Scene {
-        public :
+        public:
+            /**
+             * @brief Construct a new Scene object
+             *
+             * @param sceneType
+             */
+            Scene(SceneType sceneType);
+            /**
+             * @brief Destroy the Scene object
+             *
+             */
+            ~Scene();
             /**
              * @brief stock entities with an specified key
-             * 
+             *
              */
-            std::map<int, Entity> entitiesList;
-            /**
-             * @brief define the scene Type
-             * 
-             */
-            SceneType sceneType;
+            std::vector<std::shared_ptr<Entity>> entitiesList;
+
+            int addEntity(std::shared_ptr<Entity> entity);
+
+            void removeEntity(int entityID);
+
+            SceneType getSceneType() const;
+
         private:
-            /**
-             * @brief load entities from the specified string
-             * 
-             * @param entityName 
-             */
-            void _loadEntity(std::string entityName);
-            /**
-             * @brief unload entities from the specified string
-             * 
-             * @param entityName 
-             */
-            void _unloadEntity(std::string entityName);
-
-
+            int _entityID;
+            SceneType _sceneType;
 
     };
 }

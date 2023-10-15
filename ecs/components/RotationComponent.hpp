@@ -7,44 +7,44 @@
 
 #ifndef ROTATIONCOMPONENT_HPP_
 #define ROTATIONCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Rotation component
-     * 
+     *
      */
     class RotationComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new rotation Component object
-             * 
-             * @param uid 
+             *
+             * @param uid
              */
-            RotationComponent(int uid);
+            RotationComponent();
             /**
              * @brief Destroy the rotation Component object
-             * 
+             *
              */
             ~RotationComponent();
             /**
              * @brief Get the Rotation object
-             * 
+             *
              */
-            int getRotation() const;
+            std::vector<int> getValue() const override;
             /**
              * @brief Set the Rotation object
-             * 
-             * @param rotation 
+             *
+             * @param rotation
              */
-            void setRotation(float rotation);
+            void setValue(std::vector<int> values) override;
         protected:
         private:
             /**
              * @brief define the rotation of the entity
-             * 
+             *
              */
-            float _rotation;
+            int _rotation;
     };
 }
 

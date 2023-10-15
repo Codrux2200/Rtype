@@ -7,64 +7,40 @@
 
 #ifndef SCALECOMPONENT_HPP_
 #define SCALECOMPONENT_HPP_
+
+#include <memory>
 #include "AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Scale component
-     * 
+     *
      */
-    class ScaleComponent : public ECS::AComponent {
+    class ScaleComponent : public AComponent {
         public:
             /**
              * @brief Construct a new scale Component object
-             * 
-             * @param x 
-             * @param y 
-             * @param uid 
+             *
+             * @param x
+             * @param y
+             * @param uid
              */
-            ScaleComponent(int x, int y, int uid);
+            ScaleComponent(float x, float y);
             /**
              * @brief Destroy the scale Component object
-             * 
+             *
              */
-            ~ScaleComponent();
-            /**
-             * @brief Set the X object
-             * 
-             * @param x
-             */
-            void setX(int x);
-            /**
-             * @brief Set the Y object
-             * 
-             * @param y
-             */
-            void setY(int y);
-            /**
-             * @brief Get the X object
-             * 
-             * @return int
-             */
-            int getX();
-            /**
-             * @brief Get the Y object
-             * 
-             * @return int
-             */
-            int getY();
+            ~ScaleComponent() = default;
+
+            std::vector<float> getFloatValue() const;
+
+            void setFloatValue(float x, float y);
+
+            std::shared_ptr<IComponent> clone() const final;
         protected:
         private:
-            /**
-             * @brief define the x scale of the entity
-             * 
-             */
-            int _x;
-            /**
-             * @brief define the y scale of the entity
-             * 
-             */
-            int _y;
+            float _x;
+            float _y;
     };
 }
 

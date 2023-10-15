@@ -7,38 +7,38 @@
 
 #ifndef VELOCITYCOMPONENT_HPP_
 #define VELOCITYCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Velocity component
-     * 
+     *
      */
     class VelocityComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new velocity Component object
-             * 
-             * @param uid 
+             *
+             * @param uid
              */
-            VelocityComponent(int uid);
+            VelocityComponent();
             /**
              * @brief Destroy the velocity Component object
-             * 
+             *
              */
             ~VelocityComponent();
             /**
              * @brief Set the velocity of the entity
-             * 
+             *
              * @param velocity
              */
-            void setVelocity(int velocity);
+            void setValue(std::vector<int> values) final;
             /**
              * @brief Get the velocity of the entity
-             * 
+             *
              * @return int
              */
-            int getVelocity() const;        
+            std::vector<int> getValue() const final;
         protected:
         private:
             int _velocity;

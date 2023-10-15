@@ -7,63 +7,63 @@
 
 #ifndef POSITIONCOMPONENT_HPP_
 #define POSITIONCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Position component
-     * 
+     *
      */
-    class PostitionComponent : public ECS::AComponent {
+    class PositionComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new position Component object
-             * 
-             * @param x 
+             *
+             * @param x
              * @param y
              * @param uid
              */
-            PostitionComponent(int x, int y, int uid);
+            PositionComponent(float x, float y);
             /**
              * @brief Destroy the position Component object
-             * 
+             *
              */
-            ~PostitionComponent();
+            ~PositionComponent();
             /**
-             * @brief Get the X position object
-             * 
-             * @return int
+             * @brief Get the X and Y position object
+             *
+             * @return std::vector<int>
              */
-            int getX() const;
+            std::vector<int> getValue() const override;
             /**
-             * @brief Get the Y position object
-             * 
-             * @return int
+             * @brief Set the X and Y position object
+             *
+             * @param x
+             * @param y
              */
-            int getY() const;
+            void setValue(std::vector<int> values) override;
+
             /**
-             * @brief Set the X position object
-             * 
-             * @param x 
+             * @brief move the entity
+             *
+             * @param x
+             * @param y
              */
-            void setX(int x);
-            /**
-             * @brief Set the Y position object
-             * 
-             * @param y 
-             */
+            void move(float x, float y);
+
+            std::shared_ptr<IComponent> clone() const override;
         protected:
         private:
             /**
              * @brief define the x position of the entity
-             * 
+             *
              */
-            int _x;
+            float _x;
             /**
              * @brief define the y position of the entity
-             * 
+             *
              */
-            int _y;
+            float _y;
     };
 }
 

@@ -7,38 +7,38 @@
 
 #ifndef HEALTHCOMPONENT_HPP_
 #define HEALTHCOMPONENT_HPP_
-#include "AComponent.hpp"
+#include "../AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Health component
-     * 
+     *
      */
     class HealthComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new health Component object
-             * 
-             * @param uid 
+             *
+             * @param health
              */
-            HealthComponent(int uid);
+            HealthComponent(int health);
             /**
              * @brief Destroy the health Component object
-             * 
+             *
              */
             ~HealthComponent();
             /**
              * @brief Set the health of the entity
-             * 
+             *
              * @param health
              */
-            void setHealth(int health);
+            void setValue(std::vector<int> values) final;
             /**
              * @brief Get the health of the entity
-             * 
-             * @return int
+             *
+             * @return std::vector<int>
              */
-            int getHealth() const;
+            std::vector<int> getValue() const final;
         protected:
         private:
             int _health;
