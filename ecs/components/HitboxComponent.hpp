@@ -7,7 +7,7 @@
 
 #ifndef HITBOXCOMPONENT_HPP_
 #define HITBOXCOMPONENT_HPP_
-#include "../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -42,7 +42,7 @@ namespace ECS {
              * @param x
              * @param y
              */
-            void setValue(int x, int y) final;
+            void setValue(std::vector<int> hitbox) final;
 
         protected:
         private:

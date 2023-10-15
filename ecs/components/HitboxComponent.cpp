@@ -19,10 +19,12 @@ ECS::HitboxComponent::~HitboxComponent()
 {
 }
 
-void ECS::HitboxComponent::setValue(int x, int y)
+void ECS::HitboxComponent::setValue(std::vector<int> hitbox)
 {
-    _x = x;
-    _y = y;
+    _x = hitbox[0];
+    _y = hitbox[1];
+    _height = hitbox[2];
+    _weight = hitbox[3];
 }
 
 std::vector<int> ECS::HitboxComponent::getValue() const

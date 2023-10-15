@@ -31,11 +31,24 @@ namespace ECS {
              *
              */
             ~ScaleComponent() = default;
-
+            /**
+             * @brief Get the scale Value object
+             *
+             * @return std::vector<float>
+             */
             std::vector<float> getFloatValue() const;
-
+            /**
+             * @brief Set the scale Value object
+             *
+             * @param x
+             * @param y
+             */
             void setFloatValue(float x, float y);
-
+            /**
+             * @brief clone the component
+             *
+             * @return std::shared_ptr<IComponent>
+             */
             std::shared_ptr<IComponent> clone() const final;
         protected:
         private:
