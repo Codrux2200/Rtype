@@ -91,6 +91,7 @@ namespace Network {
             MOVE_RIGHT,
             MOVE_UP,
             MOVE_DOWN,
+            QUIT
         };
     }
 } // namespace Network

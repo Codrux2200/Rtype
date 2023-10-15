@@ -87,5 +87,3 @@ fi
 
 cmake . .
 cmake --build . -- -j 6
-
-sudo rm -fr _deps
