@@ -26,6 +26,14 @@ jobs:
           cmake ..
           make
 
+  coderabbit:
+    runs-on: ubuntu-latest
+    needs: cmake_build
+    steps:
+      - name: AI-based PR Reviewer & Summarizer with Chat Capabilities
+        uses: coderabbitai/ai-pr-reviewer@1.16.2
+      
+
   include_doxygen_check:
     runs-on: ubuntu-latest
     needs: cmake_build
@@ -70,7 +78,7 @@ jobs:
           fi
 
   push_to_mirror:
-    needs: [check_repository_cleanliness, display_compilation_error, include_clang_format_check, include_doxygen_check]
+    needs: [check_repository_cleanliness, display_compilation_error, include_clang_format_check, include_doxygen_check, coderabbit]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
