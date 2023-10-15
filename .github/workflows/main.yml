@@ -34,6 +34,13 @@ jobs:
       - name: Include Doxygen Check
         uses: ./doxygen_check.yml
 
+  include_code_rabbit:
+    runs-on: ubuntu-latest
+    needs: cmake_build
+    steps:
+      - name: Include Code Rabbit
+        uses: ./code_rabbit.yml
+
   include_clang_format_check:
     runs-on: ubuntu-latest
     needs: cmake_build

@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/coderabbit-overrides.json
+
+settings:
+    enable_draft_pr_reviews: false
+    additional_branches_to_be_reviewed:
+        - "master"
+        - "yaml/test"
+        - "release"
+    disable_high_level_summary: true
+    path_based_instructions:
+        - path: "**.py"
+            instructions: "Use google style guide for Python. Quote specifically what does not match as per the style guide" 
+        - path: "**.js"
+            instructions: "Use google style guide for javascript. Quote specifically what does not match as per the style guide" 
+    ignored_pr_titles: "WIP"
+    review_language: "fr"
+
+    disable_draft_reviews: true
+    disable_poem: false
+    early_access_program: false
+    exclude_file_patterns: "!dist/**,!**.md"
+    ignored_branch: "master"
+    limit_reviews_by_label: "first_bug"
