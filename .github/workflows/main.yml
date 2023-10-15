@@ -36,7 +36,6 @@ jobs:
 
   include_code_rabbit:
     runs-on: ubuntu-latest
-    needs: cmake_build
     steps:
       - name: Include Code Rabbit
         uses: ./code_rabbit.yml
