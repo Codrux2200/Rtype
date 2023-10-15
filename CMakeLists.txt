@@ -67,6 +67,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/BackgroundComponent.hpp
     client/ecs/components/ClickComponent.cpp
     client/ecs/components/ClickComponent.hpp
+    client/ecs/components/EnemyComponent.cpp
+    client/ecs/components/EnemyComponent.hpp
     client/ecs/components/EventComponent.cpp
     client/ecs/components/EventComponent.hpp
     client/ecs/components/PlayerComponent.cpp
