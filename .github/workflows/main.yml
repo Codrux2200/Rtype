@@ -16,8 +16,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          chmod +x installer.sh
-          ./installer.sh
+          chmod +x install.sh
+          ./../../install.sh
 
       - name: Configure and Build with CMake
         run: |
