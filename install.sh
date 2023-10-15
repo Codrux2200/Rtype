@@ -18,8 +18,6 @@ detect_package_manager() {
 
 package_manager=$(detect_package_manager)
 
-#!/bin/bash
-
 install_apt() {
     sudo apt-get update
     sudo apt-get install g++
