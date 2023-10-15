@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** Rtype
+** File description:
+** BackgroundComponent
+*/
+
 #ifndef BACKGROUND_COMPONENT_HPP
 #define BACKGROUND_COMPONENT_HPP
 

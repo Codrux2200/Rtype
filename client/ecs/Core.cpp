@@ -5,62 +5,186 @@
 ** Core
 */
 
+#include <iostream>
 #include "Core.hpp"
 #include "PlayerComponent.hpp"
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "GraphicSystem.hpp"
 #include "EventSystem.hpp"
+#include "SpriteComponent.hpp"
+#include "ScaleComponent.hpp"
+#include "ClickComponent.hpp"
 
-ECS::Core::Core()
+ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
-    sceneManager = SceneManager();
+    std::map<SceneType, std::shared_ptr<Scene>> scenes;
+
+    _initEntities();
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
+    sceneManager = SceneManager(scenes);
+    _systems.push_back(std::make_unique<GraphicSystem>(_window));
+    _systems.push_back(std::make_unique<EventSystem>(_window));
 }
 
-ECS::Core::~Core()
+void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 {
+    packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
+    packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
 }
 
-static void initPlayer(ECS::Scene &firstScene)
+void ECS::Core::_handlerStartGame(Network::Packet &packet)
 {
-    std::vector<ECS::Tag> tags;
-    tags.push_back(ECS::Tag::MOVABLE);
-    tags.push_back(ECS::Tag::DESTROYABLE);
+    if (sceneManager.getSceneType() != SceneType::MAIN_MENU)
+        return;
+    std::cout << "Start game handler" << std::endl;
+    sceneManager.setCurrentScene(SceneType::GAME);
+    std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
+}
 
-    if (firstScene.entitiesList.size() == 0) {
-        // add the player entity to the scene
-        firstScene.entitiesList.emplace(1, new ECS::Entity(1, tags));
-        // create the player component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PlayerComponent(10, "assets/Ship6.png"));
-        // create the health component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::HealthComponent(11));
-        // create the position component
-        firstScene.entitiesList.at(1)->components.push_back(new ECS::PositionComponent(0, 0, 12));
-        // change the player default health to 1
-        ECS::HealthComponent *health = dynamic_cast<ECS::HealthComponent *>(firstScene.entitiesList.at(1)->components.at(1));
-        health->setValue(1);
+void ECS::Core::_handlerConnect(Network::Packet &packet)
+{
+    std::cout << "My new Connect handler" << std::endl;
+    _playerId = packet.connectData.id;
+    std::cout << "Player id: " << _playerId << std::endl;
+    for (int i = 0; i < 4; i++) {
+        std::cout << "Player " << i << ": ";
+        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
+             j++)
+            std::cout << packet.connectData.players[i][j];
+        std::cout << std::endl;
     }
+    // Add player Component to the player entity
+    std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
+    player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+}
+
+void ECS::Core::_initEntities()
+{
+    // Create player
+    std::shared_ptr<ECS::Entity> p1 = std::make_shared<ECS::Entity>(0);
+    p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+
+    sf::Texture playerTexture;
+
+    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
+        std::cout << "Error loading player playerTexture" << std::endl;
+        return;
+    }
+
+    sf::Rect<int> playerRect;
+
+    playerRect.left = 0;
+    playerRect.top = 0;
+    playerRect.width = playerTexture.getSize().x;
+    playerRect.height = playerTexture.getSize().y;
+
+    p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
+    _entityFactory.registerEntity(p1, "player");
+
+    // Create button
+    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::Entity>(4);
+    button->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+
+    sf::Texture texture;
+    if (!texture.loadFromFile("assets/start.png")) {
+        std::cout << "Error loading button texture" << std::endl;
+        return;
+    }
+
+    sf::Rect<int> rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.width = texture.getSize().x;
+    rect.height = texture.getSize().y;
+
+    std::cout << "Button rect: " << rect.width << " " << rect.height << std::endl;
+
+    button->addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
+    button->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    _entityFactory.registerEntity(button, "button");
+}
+
+std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
+{
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
+    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("button", 4);
+
+    std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
+
+    if (sprite == 0) {
+        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        return scene;
+    }
+
+    std::shared_ptr<ECS::PositionComponent> position = button->getComponent<ECS::PositionComponent>();
+
+    sf::Rect<int> rect;
+
+    if (position) {
+        std::vector<int> pos = position->getValue();
+        rect.left = pos.at(0);
+        rect.top = pos.at(1);
+    } else {
+        rect.left = 0;
+        rect.top = 0;
+    }
+
+    std::shared_ptr<ECS::ScaleComponent> scale = button->getComponent<ECS::ScaleComponent>();
+
+    if (scale) {
+        std::vector<float> scaleValue = scale->getFloatValue();
+        rect.width = sprite->getRect().width * scaleValue.at(0);
+        rect.height = sprite->getRect().height * scaleValue.at(1);
+    } else {
+        rect.width = sprite->getRect().width;
+        rect.height = sprite->getRect().height;
+    }
+
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), _window));
+
+    scene->addEntity(button);
+    return scene;
+}
+
+std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
+{
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::GAME);
+
+    for (int i = 0; i < 4; i++) {
+        std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
+        scene->addEntity(player);
+    }
+    return scene;
+}
+
+void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+{
+    std::cout << "Start game callback" << std::endl;
+
+    Network::data::StartData startData;
+    startData.mapId = 0;
+    std::unique_ptr<Network::Packet> packet = packetManager.createPacket(Network::PacketType::START, &startData);
+    packetsQueue.push_back(*packet);
 }
 
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
-    int deltaTime = 0;
+    // Delta time
+    sf::Clock clock;
+    float deltaTime = 0.0f;
 
-    sceneManager.setScene(ECS::SceneType::MAIN_MENU, Scene(ECS::SceneType::MAIN_MENU));
-    GraphicSystem *graphicSystem = new GraphicSystem();
-    EventSystem *eventSystem = new EventSystem();
-
+    _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
-        if (deltaTime > 1000)
-            deltaTime = 0;
-        Scene &firstScene = sceneManager.getScene(ECS::SceneType::MAIN_MENU);
-
-        initPlayer(firstScene);
-        eventSystem->updateEvents(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime, connection);
-        graphicSystem->update(sceneManager, ECS::SceneType::MAIN_MENU, deltaTime);
-        // if the window is closed, the loop is stopped
-        if (!graphicSystem->getWindow().isOpen())
-            sceneManager.shouldClose = true;
-        deltaTime++;
+        deltaTime = clock.restart().asSeconds();
+        for (auto &system : _systems) {
+            system->update(sceneManager, deltaTime, connection.sendQueue, connection.packetManager);
+        }
+        for (auto &packet : connection.sendQueue) {
+            connection.sendPacket(packet);
+        }
+        connection.sendQueue.clear();
     }
 }

@@ -38,11 +38,7 @@ RType::Connection::~Connection()
 void RType::Connection::_initHandlers()
 {
     packetManager.REGISTER_HANDLER(
-    Network::PacketType::CONNECT, &RType::Connection::_handlerConnect);
-    packetManager.REGISTER_HANDLER(
     Network::PacketType::LEADER, &RType::Connection::_handlerLeader);
-    packetManager.REGISTER_HANDLER(
-    Network::PacketType::START, &RType::Connection::_handlerStart);
 }
 
 void RType::Connection::_listen()
@@ -66,36 +62,6 @@ void RType::Connection::_listen()
 void RType::Connection::_handlerLeader(Network::Packet &packet)
 {
     std::cout << "Leader: " << (int) packet.leaderData.leaderId << std::endl;
-}
-
-void RType::Connection::_handlerConnect(Network::Packet &packet)
-{
-    static int i = 0;
-
-    _id = packet.connectData.id;
-    for (int i = 0; i < 4; i++) {
-        std::cout << "Player " << i << ": ";
-        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
-             j++)
-            std::cout << packet.connectData.players[i][j];
-        std::cout << std::endl;
-    }
-    if (++i >= 4) {
-        std::cout << "Game is full" << std::endl;
-        Network::data::StartData startData;
-
-        startData.mapId = 0;
-
-        std::unique_ptr<Network::Packet> packet =
-        packetManager.createPacket(Network::PacketType::START, &startData);
-
-        sendPacket(*packet);
-    }
-}
-
-void RType::Connection::_handlerStart(Network::Packet &packet)
-{
-    std::cout << "Game is starting" << std::endl;
 }
 
 void RType::Connection::sendPacket(const Network::Packet &packet)

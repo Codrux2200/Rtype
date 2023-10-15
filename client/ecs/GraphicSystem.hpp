@@ -7,25 +7,25 @@
 
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
-#include "ASystem.hpp"
+#include "ISystem.hpp"
 #include "BackgroundComponent.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace ECS {
     /**
      * @brief Graphic System
-     * 
+     *
      */
-    class GraphicSystem : public ASystem{
+    class GraphicSystem : public ISystem {
         public:
             /**
              * @brief Construct a new Graphic System object
-             * 
+             *
              */
-            GraphicSystem();
+            GraphicSystem(sf::RenderWindow &window);
             /**
              * @brief Destroy the Graphic System object
-             * 
+             *
              */
             ~GraphicSystem();
 
@@ -33,25 +33,18 @@ namespace ECS {
 
             /**
              * @brief update the Graphic System
-             * 
-             * @param sceneManager 
-             * @param SceneType 
-             * @param deltaTime 
+             *
+             * @param sceneManager
+             * @param SceneType
+             * @param deltaTime
              */
-            void update(SceneManager &sceneManager, SceneType SceneType, int deltaTime) override;
-            /**
-             * @brief Get the Window object
-             * 
-             * @return sf::RenderWindow 
-             */
-            sf::RenderWindow &getWindow();
-        protected:
-            sf::RenderWindow _window;
-            sf::Event _event;
-            sf::Vector2u _modeSize;
-            BackgroundComponent backgroundComponent;
+            void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) override;
+
         private:
-            
+            sf::Event _event;
+            BackgroundComponent backgroundComponent;
+
+            sf::RenderWindow &_window;
 
     };
 };

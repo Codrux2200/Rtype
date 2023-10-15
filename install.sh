@@ -19,41 +19,36 @@ package_manager=$(detect_package_manager)
 # Fonction pour installer des paquets avec le gestionnaire de paquets apt
 install_apt() {
     sudo apt-get update
-    sudo apt-get install libx11-dev libxrandr-dev libxcursor-dev
-    sudo apt-get install -y libflac-dev libvorbis0 libvorbis-dev libx11-6 libxorg1-dev libflac-dev libudev-dev libxcursor-dev libxrandr-dev libopenal-dev
-    sudo apt-get install -y xorg x11-xserver-utils x11-utils
-    sudo apt-get install 'xserver-xorg-*' 'mesa-*' 'libx*' 'libX*' 'fontconfig*'
-
+    sudo apt-get install g++
+    sudo apt install libgl1-mesa-dev libgdiplus libfreetype6-dev libopenal-dev libflac-dev libvorbis-dev libvorbisfile3 libvorbisenc2 libogg-dev libudev-dev
 }
 
 # Fonction pour installer des paquets avec le gestionnaire de paquets yum
 install_yum() {
     sudo yum update
-    sudo yum install -y libvorbis libX11-devel libXorg-devel flac-devel libudev-devel libXcursor-devel libXrandr-devel libopenal-dev
-    sudo yum groupinstall -y "X Window System"
-    sudo yum install 'xorg-x11-*' 'mesa-*' 'libX*' 'fontconfig*'
-    sudo yum install libX11-devel libXrandr-devel libXcursor-devel
+    sudo yum install g++
+    sudo dnf install mesa-libGL-devel libgdiplus freetype-devel openal-soft-devel flac-devel libvorbis-devel libogg-devel libudev-devel libXcursor-devel libXrandr-devel mesa-libGLw freetype-devel openal-soft-devel flac-devel
+    sudo yum install freeglut-devel systemd-devel
 }
 
 # Fonction pour installer des paquets avec le gestionnaire de paquets pacman
 install_pacman() {
-    sudo pacman -Syu --noconfirm libvorbis libx11 libxorg flac libudev libxcursor libxrandr xorg-server xorg-xrandr xorg-xset libopenal-dev
-    sudo pacman -Syyu --overwrite '*' 'xorg-*' 'mesa-*' 'libx*' 'libX*' 'fontconfig*'
-    sudo pacman -S libx11 libxrandr libxcursor
+    sudo pacman -S g++
+    sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev
 
 }
 
 # Détecter la distribution
 if [[ -e /etc/os-release ]]; then
     source /etc/os-release
-    if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "pop" ]]; then
+    if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
         install_apt
     elif [[ "$ID" == "fedora" || "$ID" == "centos" || "$ID" == "rhel" ]]; then
         install_yum
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
-        echo "Distribution non prise en charge: $ID"
+        echo "Distribution non prise en charge."
         exit 1
     fi
 else

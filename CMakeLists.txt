@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
+set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
+set(BOOST_ENABLE_CMAKE ON)
 set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
@@ -33,30 +36,43 @@ set(ECS_INCLUDE
 set(ECS_SOURCES
     ecs/AComponent.cpp
     ecs/Entity.cpp
+    ecs/Entity.hpp
     ecs/Scene.cpp
     ecs/SceneManager.cpp
     ecs/components/EnemyComponent.cpp
     ecs/components/HealthComponent.cpp
     ecs/components/PlayerComponent.cpp
     ecs/components/PositionComponent.cpp
+    ecs/components/PositionComponent.hpp
     ecs/components/RotationComponent.cpp
     ecs/components/ScaleComponent.cpp
     ecs/components/ShootComponent.cpp
     ecs/components/VelocityComponent.cpp
-    ecs/components/BackgroundComponent.cpp
-    ecs/system/ASystem.cpp
     ecs/system/AudioSystem.cpp
     ecs/system/GameSystem.cpp
-    ecs/system/GraphicSystem.cpp
     ecs/system/ParticleSystem.cpp
+    ecs/EntityFactory.cpp
+    ecs/EntityFactory.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/main.cpp
     client/Connection.cpp
     client/Connection.hpp
-    client/Core.cpp
-    client/Core.hpp
+    client/ecs/Core.hpp
+    client/ecs/Core.cpp
+    client/ecs/EventSystem.cpp
+    client/ecs/EventSystem.hpp
+    client/ecs/GraphicSystem.cpp
+    client/ecs/GraphicSystem.hpp
+    client/ecs/components/SpriteComponent.cpp
+    client/ecs/components/SpriteComponent.hpp
+    client/ecs/components/ClickComponent.cpp
+    client/ecs/components/ClickComponent.hpp
+    client/ecs/components/BackgroundComponent.cpp
+    client/ecs/components/BackgroundComponent.hpp
+    client/ecs/components/EventComponent.cpp
+    client/ecs/components/EventComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -76,17 +92,17 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-  BoostAsio
-  GIT_REPOSITORY https://github.com/boostorg/asio.git
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.80.0
 )
+FetchContent_MakeAvailable(Boost)
 
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
 FetchContent_MakeAvailable(SFML)
-FetchContent_MakeAvailable(BoostAsio)
 
-find_package(Boost REQUIRED)
 
 # Ajoutez vos sources existantes à votre exécutable
 add_executable(rtype-client ${CLIENT_SOURCES})
@@ -100,11 +116,13 @@ target_include_directories(rtype-client PRIVATE
     ${NETWORK_INCLUDE}
     ${Boost_INCLUDE_DIRS}
     ${SFML_SOURCE_DIR}/include
+    client
+    client/ecs
+    client/ecs/components
 )
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
 target_include_directories(rtype-server PRIVATE
-    ${SFML_SOURCE_DIR}/include
     ${Boost_INCLUDE_DIRS}
     ${ECS_INCLUDE}
     ${NETWORK_INCLUDE}
@@ -116,13 +134,15 @@ target_link_libraries(rtype-client
     sfml-window
     sfml-system
     sfml-audio
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )
 
 target_link_libraries(rtype-server
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )

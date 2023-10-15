@@ -9,7 +9,6 @@
 
 ECS::ParticleSystem::ParticleSystem()
 {
-    typeSystem = ECS::SystemType::PARTICLE;
 }
 
 ECS::ParticleSystem::~ParticleSystem()

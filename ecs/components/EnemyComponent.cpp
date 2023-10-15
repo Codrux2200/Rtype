@@ -7,16 +7,15 @@
 
 #include "EnemyComponent.hpp"
 
-ECS::EnemyComponent::EnemyComponent(int uid)
+ECS::EnemyComponent::EnemyComponent()
 {
-    _uid = uid;
 }
 
 ECS::EnemyComponent::~EnemyComponent()
 {
 }
 
-void ECS::EnemyComponent::setValue(int enemy, int unused)
+void ECS::EnemyComponent::setValue(std::vector<int> values)
 {
 }
 

@@ -76,8 +76,6 @@ namespace Network {
              *
              */
             JOIN,
-            QUIT,
-            MOVE,
             SHOOT,
             HIT,
             SCORE,
@@ -89,6 +87,10 @@ namespace Network {
             MAP,
             END,
             LEADER,
+            MOVE_LEFT,
+            MOVE_RIGHT,
+            MOVE_UP,
+            MOVE_DOWN,
         };
     }
 } // namespace Network

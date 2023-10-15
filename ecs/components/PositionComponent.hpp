@@ -12,48 +12,58 @@
 namespace ECS {
     /**
      * @brief Position component
-     * 
+     *
      */
     class PositionComponent : public ECS::AComponent {
         public:
             /**
              * @brief Construct a new position Component object
-             * 
-             * @param x 
+             *
+             * @param x
              * @param y
              * @param uid
              */
-            PositionComponent(int x, int y, int uid);
+            PositionComponent(float x, float y);
             /**
              * @brief Destroy the position Component object
-             * 
+             *
              */
             ~PositionComponent();
             /**
              * @brief Get the X and Y position object
-             * 
+             *
              * @return std::vector<int>
              */
-            std::vector<int> getValue() const final;
+            std::vector<int> getValue() const override;
             /**
              * @brief Set the X and Y position object
-             * 
-             * @param x 
-             * @param y 
+             *
+             * @param x
+             * @param y
              */
-            void setValue(int x, int y) final;
+            void setValue(std::vector<int> values) override;
+
+            /**
+             * @brief move the entity
+             *
+             * @param x
+             * @param y
+             */
+            void move(float x, float y);
+
+            std::shared_ptr<IComponent> clone() const override;
         protected:
         private:
             /**
              * @brief define the x position of the entity
-             * 
+             *
              */
-            int _x;
+            float _x;
             /**
              * @brief define the y position of the entity
-             * 
+             *
              */
-            int _y;
+            float _y;
     };
 }
 

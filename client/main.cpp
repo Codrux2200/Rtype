@@ -24,5 +24,7 @@ int main(int ac, char **av)
     std::thread t([&]() { io_service.run(); });
 
     core.mainLoop(connection);
+    io_service.stop();
+    t.join();
     return 0;
 }

@@ -7,23 +7,23 @@
 
 #ifndef PARTICLESYSTEM_HPP_
 #define PARTICLESYSTEM_HPP_
-#include "ASystem.hpp"
+#include "ISystem.hpp"
 
 namespace ECS {
     /**
      * @brief Particle System
-     * 
+     *
      */
-    class ParticleSystem : public ASystem{
+    class ParticleSystem : public ISystem {
         public:
             /**
              * @brief Construct a new Particle System object
-             * 
+             *
              */
             ParticleSystem();
             /**
              * @brief Destroy the Particle System object
-             * 
+             *
              */
             ~ParticleSystem();
         protected:

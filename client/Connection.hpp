@@ -48,6 +48,9 @@ namespace RType {
 
             short getId() const { return _id; }
 
+            std::vector<Network::Packet> sendQueue;
+            std::vector<Network::Packet> recvQueue;
+
 
         private:
             /**
@@ -62,9 +65,7 @@ namespace RType {
             void _initHandlers();
 
             /* HANDLERS */
-            void _handlerConnect(Network::Packet &packet);
             void _handlerLeader(Network::Packet &packet);
-            void _handlerStart(Network::Packet &packet);
 
             udp::socket _socket;
             udp::resolver _resolver;

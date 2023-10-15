@@ -11,7 +11,7 @@
 
 ECS::GameSystem::GameSystem()
 {
-    typeSystem = ECS::SystemType::GAME;
+    // typeSystem = ECS::SystemType::GAME;
 }
 
 ECS::GameSystem::~GameSystem()
