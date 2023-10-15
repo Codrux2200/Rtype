@@ -72,11 +72,18 @@ elif [ "$package_manager" == "brew" ]; then
   echo "Homebrew détecté, installation de CMake..."
   brew install cmake
   echo "CMake est maintenant installé."
+elif [ "$package_manager" == "pacman" ]; then
+  echo "Pacman détecté, installation de CMake..."
+  sudo pacman -Sy cmake
+  echo "CMake est maintenant installé."
+elif [ "$package_manager" == "apk" ]; then
+  echo "APK détecté, installation de CMake..."
+  sudo apk add cmake
+  echo "CMake est maintenant installé."
 else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
   exit 1
 fi
-
 
 
 cmake . .
