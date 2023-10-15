@@ -1,0 +1,27 @@
+name: Doxygen Check
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install doxygen
+
+      - name: Generate Documentation
+        run: |
+          # Generate documentation using Doxygen
+          ../../doxygen Doxyfile
+      - name: Check Documentation
+        run: |
+          # Check if the Doxygen generation produced any warnings or errors
+          if [ -n "$(grep -E '(warning|error)' ../../doc/doxygen_warnings.log)" ]; then
+            echo "Doxygen generated warnings or errors. Please check the documentation."
+            exit 1
+          fi
