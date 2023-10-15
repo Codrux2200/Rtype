@@ -63,10 +63,10 @@ On Windows :
 after building you will have to run two terminal
 
 in the first one:
-- run : ```./server/bin/R-type_server.exe``` without ```./``` on cmd.
+- run : ```./server/bin/rtype_server(.exe) [port]``` without ```./``` on cmd.
 
 in the second one:
-- run : ``` ./client/bin/R-type_client.exe [ip] [port]``` without ```./``` on cmd.
+- run : ``` ./client/bin/rtype_client(.exe) [ip] [port] [pseudonyme]``` without ```./``` on cmd.
 
 ## Tech Stack
 
