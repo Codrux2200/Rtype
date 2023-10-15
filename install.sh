@@ -27,7 +27,8 @@ install_apt() {
 install_yum() {
     sudo yum update
     sudo yum install g++
-    sudo dnf install mesa-libGL-devel libwinapi-winmm libgdiplus freetype-devel openal-soft-devel flac-devel libvorbis-devel libvorbisfile libvorbisenc libogg-devel libws2_32 libudev-devel
+    sudo dnf install mesa-libGL-devel libgdiplus freetype-devel openal-soft-devel flac-devel libvorbis-devel libogg-devel libudev-devel libXcursor-devel libXrandr-devel mesa-libGLw freetype-devel openal-soft-devel flac-devel
+    sudo yum install freeglut-devel systemd-devel
 }
 
 # Fonction pour installer des paquets avec le gestionnaire de paquets pacman
