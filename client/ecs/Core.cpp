@@ -13,6 +13,7 @@
 #include "PositionComponent.hpp"
 #include "RotationComponent.hpp"
 #include "GraphicSystem.hpp"
+#include "EnemyComponent.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
@@ -64,6 +65,16 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
     player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+
+    // Add enemy Component to enemy entities
+    int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
+    for (int i = 0; i < size; i++) {
+        if (i == _playerId)
+            continue;
+        std::shared_ptr<ECS::Entity> enemy = sceneManager.getScene(SceneType::GAME)->entitiesList.at(i);
+        if (enemy != nullptr)
+            enemy->addComponent(std::make_shared<ECS::EnemyComponent>(nullptr));
+    }
 }
 
 void ECS::Core::_initEntities()
@@ -187,7 +198,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
     }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 4; i < (4 + std::experimental::randint(1, 4)); i++) {
         std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("enemy", i);
         auto position = enemy->getComponent<ECS::PositionComponent>();
         if (position) {
