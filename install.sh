@@ -23,7 +23,7 @@ package_manager=$(detect_package_manager)
 install_apt() {
     sudo apt-get update
     sudo apt-get install g++
-    sudo apt install libgl1-mesa-dev libgdiplus libfreetype6-dev libopenal-dev libflac-dev libvorbis-dev libvorbisfile3 libvorbisenc2 libogg-dev libudev-dev
+    sudo apt install libgl1-mesa-dev libgdiplus libfreetype6-dev libopenal-dev libflac-dev libvorbis-dev libvorbisfile3 libvorbisenc2 libogg-dev libudev-dev  libxrandr-dev libxcursor-dev
 }
 
 install_yum() {
