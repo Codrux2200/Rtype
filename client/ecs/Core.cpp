@@ -91,20 +91,6 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
-    sf::Texture playerTexture;
-
-    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
-        std::cout << "Error loading player playerTexture" << std::endl;
-        return;
-    }
-
-    sf::Rect<int> playerRect;
-
-    playerRect.left = 0;
-    playerRect.top = 0;
-    playerRect.width = playerTexture.getSize().x;
-    playerRect.height = playerTexture.getSize().y;
-
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     _entityFactory.registerEntity(p1, "player");
 
