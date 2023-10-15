@@ -62,6 +62,8 @@ Network::PacketType type, void *data)
         case Network::PacketType::LEADER:
             memcpy(&packet->leaderData, data, sizeof(packet->leaderData));
             break;
+        case Network::PacketType::QUIT:
+            break;
         default: throw std::runtime_error("Invalid packet type"); break;
     }
     return packet;

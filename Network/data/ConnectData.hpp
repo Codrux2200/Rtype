@@ -20,19 +20,19 @@ namespace Network::data {
          * Network::PacketType::DISCONNECT "DISCONNECT" calls.
          *
          * @see Network::Packet
-         * @see Network::PacketType::CONNECT
-         * @see Network::PacketType::DISCONNECT
          * @see Network::Packet::connectData
          * @see Network::Packet::disconnectData
+         *
+         * @ref server_connect_sec "RFC: Connect"
          */
         struct ConnectData {
             public:
                 char id;
-                /** @brief Players connected including the host.
-                 * The first player to connect will be the host.
+                /** @brief Players connected.
+                 * The first player to connect will be the leader.
                  * It will be the only one to be able to start the game.
                  * If it disconnects, the next player to connect will be the
-                 * host
+                 * leader
                  */
                 char players[MAX_PLAYERS][NAME_LENGTH];
         };

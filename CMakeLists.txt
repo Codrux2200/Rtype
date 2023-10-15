@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
 set(BOOST_ENABLE_CMAKE ON)
+
 set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
@@ -19,6 +20,7 @@ set(NETWORK_SOURCES
     Network/data/LeaderData.hpp
     Network/data/MoveData.hpp
     Network/data/StartData.hpp
+    Network/data/DisconnectData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -34,24 +36,21 @@ set(ECS_INCLUDE
 
 set(ECS_SOURCES
     ecs/AComponent.cpp
+    ecs/AComponent.hpp
     ecs/Entity.cpp
     ecs/Entity.hpp
     ecs/Scene.cpp
+    ecs/Scene.hpp
     ecs/SceneManager.cpp
-    ecs/components/EnemyComponent.cpp
-    ecs/components/HealthComponent.cpp
-    ecs/components/PlayerComponent.cpp
+    ecs/SceneManager.hpp
+    ecs/EntityFactory.cpp
+    ecs/EntityFactory.hpp
     ecs/components/PositionComponent.cpp
     ecs/components/PositionComponent.hpp
     ecs/components/RotationComponent.cpp
+    ecs/components/RotationComponent.hpp
     ecs/components/ScaleComponent.cpp
-    ecs/components/ShootComponent.cpp
-    ecs/components/VelocityComponent.cpp
-    ecs/system/AudioSystem.cpp
-    ecs/system/GameSystem.cpp
-    ecs/system/ParticleSystem.cpp
-    ecs/EntityFactory.cpp
-    ecs/EntityFactory.hpp
+    ecs/components/ScaleComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -64,14 +63,16 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/EventSystem.hpp
     client/ecs/GraphicSystem.cpp
     client/ecs/GraphicSystem.hpp
-    client/ecs/components/SpriteComponent.cpp
-    client/ecs/components/SpriteComponent.hpp
-    client/ecs/components/ClickComponent.cpp
-    client/ecs/components/ClickComponent.hpp
     client/ecs/components/BackgroundComponent.cpp
     client/ecs/components/BackgroundComponent.hpp
+    client/ecs/components/ClickComponent.cpp
+    client/ecs/components/ClickComponent.hpp
     client/ecs/components/EventComponent.cpp
     client/ecs/components/EventComponent.hpp
+    client/ecs/components/PlayerComponent.cpp
+    client/ecs/components/PlayerComponent.hpp
+    client/ecs/components/SpriteComponent.cpp
+    client/ecs/components/SpriteComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

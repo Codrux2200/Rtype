@@ -26,6 +26,8 @@ void RType::Server::_loadPacketHandlers()
     Network::PacketType::JOIN, &Server::_handlerJoin);
     _packetManager.REGISTER_HANDLER(
     Network::PacketType::START, &Server::_handlerStart);
+    _packetManager.REGISTER_HANDLER(
+    Network::PacketType::QUIT, &Server::_handlerQuit);
 }
 
 /**
@@ -46,6 +48,20 @@ void RType::Server::_handlerStart(Network::Packet &packet)
     if (_clientManager.getLeader()->getEndpoint() != _remoteEndpoint)
         return;
     _broadcast(packet);
+}
+
+void RType::Server::_handlerQuit(Network::Packet & packet){
+    _clientManager.unregisterClient(_remoteEndpoint);
+    if (_clientManager.getLeader() == nullptr) {
+        _clientManager.setNewLeader();
+        _broadcastNewLeader(_clientManager.getClientId(
+        _clientManager.getLeader()->getEndpoint()));
+    }
+    char remoteClient = _clientManager.getClientId(_remoteEndpoint);
+    auto _packet = _packetManager.createPacket(
+    Network::PacketType::DISCONNECT,
+    &remoteClient);
+    _broadcast(*_packet);
 }
 
 void RType::Server::_startReceive()
@@ -106,7 +122,7 @@ std::unique_ptr<Network::Packet> &packet)
 
     std::string name = std::string(packet->joinData.name, NAME_LENGTH);
 
-    if (_clientManager.registerClient(_remoteEndpoint, name) == false) {
+    if (!_clientManager.registerClient(_remoteEndpoint, name)) {
         std::cout << "Too many clients connected, rejecting message"
                   << std::endl;
         return nullptr;

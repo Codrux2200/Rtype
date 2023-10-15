@@ -42,7 +42,6 @@ std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
 
 void ECS::PositionComponent::move(float x, float y)
 {
-    std::cout << "move" << std::endl;
     _x += x;
     _y += y;
 }
