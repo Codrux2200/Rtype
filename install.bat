@@ -1,27 +1,32 @@
 @echo off
-setlocal
-@REM test a faire
+:: Installation de Chocolatey
+if not exist "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" goto install_powershell
+choco -?
+if %errorlevel% neq 0 goto install_chocolatey
 
-if exist "%USERPROFILE%\vcpkg" (
-    echo vcpkg est déjà installé.
-) else (
-    git clone https://github.com/microsoft/vcpkg.git %USERPROFILE%\vcpkg
-    cd %USERPROFILE%\vcpkg
-    bootstrap-vcpkg.bat
-)
+choco install -y cmake
+if %errorlevel% neq 0 goto install_failed
 
-set VCPKG_ROOT=%USERPROFILE%\vcpkg
-set PATH=%VCPKG_ROOT%;%VCPKG_ROOT%\installed\x64-windows\bin;%PATH%
+choco install -y git
+if %errorlevel% neq 0 goto install_failed
 
-vcpkg install cmake asio sfml
+cmake --version
+if %errorlevel% neq 0 goto install_failed
+cmake <votre_commande_cmake>  :: Remplacez <votre_commande_cmake> par la commande CMake que vous souhaitez exécuter
 
-if %ERRORLEVEL% neq 0 (
-    echo Erreur lors de l'installation des packages.
-    exit /b %ERRORLEVEL%
-)
+goto end
 
-cd Chemin\Vers\Votre\Projet
-cmake -B build -S .
-cmake --build build
+:install_powershell
+echo PowerShell n'est pas installé. Veuillez l'installer et réessayer.
+exit /b 1
 
-endlocal
+:install_chocolatey
+echo Chocolatey n'est pas installé. Installation en cours...
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+if %errorlevel% neq 0 goto install_failed
+
+:install_failed
+echo Une erreur s'est produite lors de l'installation. Vérifiez les erreurs ci-dessus.
+exit /b 1
+
+:end
