@@ -19,32 +19,39 @@ namespace ECS {
             /**
              * @brief Construct a new rotation Component object
              *
-             * @param uid
+             * @param rotation, uid
              */
-            RotationComponent();
+            RotationComponent(float rotation);
             /**
              * @brief Destroy the rotation Component object
              *
              */
-            ~RotationComponent();
+            ~RotationComponent() = default;
             /**
-             * @brief Get the Rotation object
+             * @brief Get the rotation Value object
              *
+             * @return std::vector<float>
              */
-            std::vector<int> getValue() const override;
+            std::vector<float> getFloatValue() const;
             /**
-             * @brief Set the Rotation object
-             *
-             * @param rotation
+             * @brief Set the rotation Value object
+             * 
+             * @param rotation 
              */
-            void setValue(std::vector<int> values) override;
+            void setFloatValue(float rotation);
+            /**
+             * @brief clone the component
+             * 
+             * @return std::shared_ptr<IComponent> 
+             */
+            std::shared_ptr<IComponent> clone() const final;
         protected:
         private:
             /**
              * @brief define the rotation of the entity
              *
              */
-            int _rotation;
+            float _rotation;
     };
 }
 

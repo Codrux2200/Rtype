@@ -44,6 +44,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
 
     // Draw entities
     for (auto &entity : sceneManager.getScene()->entitiesList) {
+        // get the number of components in the entity
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled())
             continue;
@@ -54,7 +55,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
 
         std::vector<int> pos;
         std::vector<float> scale;
-        std::vector<int> rotation;
+        std::vector<float> rotation;
 
         if (positionComponent != nullptr && positionComponent->isEnabled())
             pos = positionComponent->getValue();
@@ -67,7 +68,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
             scale = {1, 1};
 
         if (rotationComponent != nullptr && rotationComponent->isEnabled())
-            rotation = rotationComponent->getValue();
+            rotation = rotationComponent->getFloatValue();
         else
             rotation = {0};
 
