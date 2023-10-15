@@ -16,22 +16,19 @@ namespace ECS {
      * @brief Player component
      */
     class PlayerComponent : public EventComponent {
-    public:
-        /**
-         * @brief Construct a new player Component object
-         *
-         * @param uid
-         * @param spritePath The path to the player sprite image
-         */
-        PlayerComponent(eventCallback callback);
+        public:
+            PlayerComponent(eventCallback callback);
 
-        std::vector<int> getValue() const final;
+            std::vector<int> getValue() const final;
 
-        void setValue(std::vector<int> values) final;
+            void setValue(std::vector<int> values) final;
 
-        std::shared_ptr<IComponent> clone() const override;
+            std::shared_ptr<IComponent> clone() const override;
 
-        void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity) final override;
+            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
+
+        private:
+            int _speed = 400;
 
     };
 }

@@ -17,7 +17,7 @@ std::shared_ptr<ECS::IComponent> ECS::EventComponent::clone() const
     return std::make_shared<ECS::EventComponent>(_callback);
 }
 
-void ECS::EventComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+void ECS::EventComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     _callback(packetManager, packetsQueue, entity);
 }

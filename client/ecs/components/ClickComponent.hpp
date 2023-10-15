@@ -24,7 +24,7 @@ namespace ECS {
 
             std::shared_ptr<IComponent> clone() const override;
 
-            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity) final override;
+            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
 
         private:
             sf::Rect<int> _rect;

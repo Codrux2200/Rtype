@@ -26,7 +26,7 @@ namespace ECS {
 
             void setValue(std::vector<int> values) override;
 
-            virtual void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
+            virtual void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt);
 
         protected:
             eventCallback _callback;

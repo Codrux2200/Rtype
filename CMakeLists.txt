@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
-set(BOOST_ENABLE_CMAKE ON)
+
 set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
@@ -93,17 +92,17 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-  Boost
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_TAG boost-1.80.0
+  BoostAsio
+  GIT_REPOSITORY https://github.com/boostorg/asio.git
 )
-FetchContent_MakeAvailable(Boost)
 
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
 FetchContent_MakeAvailable(SFML)
+FetchContent_MakeAvailable(BoostAsio)
 
+find_package(Boost REQUIRED)
 
 # Ajoutez vos sources existantes à votre exécutable
 add_executable(rtype-client ${CLIENT_SOURCES})
@@ -135,15 +134,9 @@ target_link_libraries(rtype-client
     sfml-window
     sfml-system
     sfml-audio
-    Boost::filesystem
-    Boost::array
-    Boost::asio
-    Boost::system
+    ${Boost_LIBRARIES}
 )
 
 target_link_libraries(rtype-server
-    Boost::filesystem
-    Boost::array
-    Boost::asio
-    Boost::system
+    ${Boost_LIBRARIES}
 )

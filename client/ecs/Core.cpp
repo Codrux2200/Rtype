@@ -172,10 +172,13 @@ void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::v
 
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
-    int deltaTime = 0;
+    // Delta time
+    sf::Clock clock;
+    float deltaTime = 0.0f;
 
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
+        deltaTime = clock.restart().asSeconds();
         for (auto &system : _systems) {
             system->update(sceneManager, deltaTime, connection.sendQueue, connection.packetManager);
         }

@@ -5,6 +5,7 @@
 ** Background Component
 */
 
+#include <iostream>
 #include "BackgroundComponent.hpp"
 
 namespace ECS
@@ -15,16 +16,25 @@ namespace ECS
         // Replace "backgroundTexture1", "backgroundTexture2", etc. with your actual textures
         // Adjust the speed values as needed
         backgroundTextures.push_back(sf::Texture());
-        backgroundTextures[0].loadFromFile("assets/6Background.png");
+        if (!backgroundTextures[0].loadFromFile("assets/6Background.png")) {
+            std::cout << "Error loading background texture" << std::endl;
+            return;
+        }
         backgroundSpeeds.push_back(0.2f);
 
         backgroundTextures.push_back(sf::Texture());
-        backgroundTextures[1].loadFromFile("assets/6Background.png");
+        if (!backgroundTextures[1].loadFromFile("assets/6Background.png")) {
+            std::cout << "Error loading background texture" << std::endl;
+            return;
+        }
         backgroundSpeeds.push_back(0.1f);
 
         // Load your foreground texture and set its speed here
         // Replace "foregroundTexture" with your actual foreground texture
-        foregroundTexture.loadFromFile("foreground.png");
+        if (!foregroundTexture.loadFromFile("foreground.png")) {
+            std::cout << "Error loading foreground texture" << std::endl;
+            return;
+        }
         foregroundSpeed = 0.3f;
 
         // Initialize background sprites
@@ -73,4 +83,3 @@ namespace ECS
         window.draw(*foreground);
     }
 }
-
