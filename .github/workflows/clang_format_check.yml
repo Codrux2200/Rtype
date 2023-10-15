@@ -1,11 +1,6 @@
 name: Clang Format Check
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - dev
+on: [push, pull_request]
 
 jobs:
   build:

@@ -1,10 +1,5 @@
 name: Doxygen Check
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - dev
+on: [push, pull_request]
 
 jobs:
   build:
@@ -22,7 +17,7 @@ jobs:
       - name: Generate Documentation
         run: |
           # Generate documentation using Doxygen
-          ../../Doxyfile
+          ../../doxygen Doxyfile
       - name: Check Documentation
         run: |
           # Check if the Doxygen generation produced any warnings or errors
