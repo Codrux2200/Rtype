@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Include CodeRabbit
-        uses: ./ai_oderabbit.yml
+        uses: ./ai_coderabbit.yml
 
   display_compilation_error:
     runs-on: ubuntu-latest
