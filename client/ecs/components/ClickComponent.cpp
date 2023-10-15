@@ -40,14 +40,14 @@ std::shared_ptr<ECS::IComponent> ECS::ClickComponent::clone() const
     return std::make_shared<ClickComponent>(_rect, _callback, _window);
 }
 
-void ECS::ClickComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue)
+void ECS::ClickComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     // Get mouse position in window
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (_rect.contains(mousePos)) {
-            _callback(packetManager, packetsQueue);
+            _callback(packetManager, packetsQueue, entity);
         }
     }
 }

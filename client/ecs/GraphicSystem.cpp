@@ -29,7 +29,7 @@ void ECS::GraphicSystem::initBackground()
     backgroundComponent = ECS::BackgroundComponent();
 }
 
-void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
+void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -43,8 +43,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, int deltaTime, 
 
 
     // Draw entities
-    for (auto &entity : sceneManager.getScene()->entitiesList) {
-        // get the number of components in the entity
+    for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled())
             continue;

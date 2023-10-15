@@ -119,21 +119,15 @@ ECS::EventSystem::~EventSystem()
 //     _moveRight(player, position);
 // }
 
-void ECS::EventSystem::update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
+void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
 {
-    auto &actualScene = sceneManager.getScene();
+    auto &actualScene = sceneManager.getCurrentScene();
 
     for (auto &entity : actualScene->entitiesList) {
-        _handleClickEvent(entity, packetQueue, packetManager);
+        auto eventComponent = entity->getComponent<ECS::EventComponent>();
 
-    }
-}
-
-void ECS::EventSystem::_handleClickEvent(std::shared_ptr<ECS::Entity> entity, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager)
-{
-    auto eventComponent = entity->getComponent<ECS::EventComponent>();
-
-    if (eventComponent) {
-        eventComponent->execute(packetManager, packetQueue);
+        if (eventComponent) {
+            eventComponent->execute(packetManager, packetQueue, *entity, deltaTime);
+        }
     }
 }

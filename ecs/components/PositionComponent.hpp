@@ -23,7 +23,7 @@ namespace ECS {
              * @param y
              * @param uid
              */
-            PositionComponent(int x, int y);
+            PositionComponent(float x, float y);
             /**
              * @brief Destroy the position Component object
              *
@@ -43,6 +43,14 @@ namespace ECS {
              */
             void setValue(std::vector<int> values) override;
 
+            /**
+             * @brief move the entity
+             *
+             * @param x
+             * @param y
+             */
+            void move(float x, float y);
+
             std::shared_ptr<IComponent> clone() const override;
         protected:
         private:
@@ -50,12 +58,12 @@ namespace ECS {
              * @brief define the x position of the entity
              *
              */
-            int _x;
+            float _x;
             /**
              * @brief define the y position of the entity
              *
              */
-            int _y;
+            float _y;
     };
 }
 

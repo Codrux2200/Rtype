@@ -65,7 +65,6 @@ namespace RType {
             void _initHandlers();
 
             /* HANDLERS */
-            void _handlerConnect(Network::Packet &packet);
             void _handlerLeader(Network::Packet &packet);
 
             udp::socket _socket;

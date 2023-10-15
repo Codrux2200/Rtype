@@ -2,24 +2,25 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** ClickComponent
+** playerComponent
 */
 
 #pragma once
 
-#include <functional>
-#include <SFML/Graphics.hpp>
-#include "Connection.hpp"
-#include "AComponent.hpp"
-#include "PacketManager.hpp"
+#include <string>
+#include <memory>
 #include "EventComponent.hpp"
 
 namespace ECS {
-    class ClickComponent : public EventComponent {
+    /**
+     * @brief Player component
+     */
+    class PlayerComponent : public EventComponent {
         public:
-            ClickComponent(sf::Rect<int> rect, eventCallback callback, sf::RenderWindow &window);
+            PlayerComponent(eventCallback callback);
 
             std::vector<int> getValue() const final;
+
             void setValue(std::vector<int> values) final;
 
             std::shared_ptr<IComponent> clone() const override;
@@ -27,7 +28,7 @@ namespace ECS {
             void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
 
         private:
-            sf::Rect<int> _rect;
-            sf::RenderWindow &_window;
+            int _speed = 400;
+
     };
 }
