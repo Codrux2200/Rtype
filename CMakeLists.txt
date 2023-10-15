@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-
+set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
+set(BOOST_ENABLE_CMAKE ON)
 set(NETWORK_SOURCES
     Network/Packet.hpp
     Network/PacketManager.hpp
@@ -39,6 +40,7 @@ set(ECS_SOURCES
     ecs/SceneManager.cpp
     ecs/components/EnemyComponent.cpp
     ecs/components/HealthComponent.cpp
+    ecs/components/PlayerComponent.cpp
     ecs/components/PositionComponent.cpp
     ecs/components/PositionComponent.hpp
     ecs/components/RotationComponent.cpp
@@ -70,9 +72,6 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/BackgroundComponent.hpp
     client/ecs/components/EventComponent.cpp
     client/ecs/components/EventComponent.hpp
-    client/ecs/components/PlayerComponent.cpp
-    client/ecs/components/PlayerComponent.hpp
-
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -92,17 +91,17 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-  BoostAsio
-  GIT_REPOSITORY https://github.com/boostorg/asio.git
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.80.0
 )
+FetchContent_MakeAvailable(Boost)
 
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
 FetchContent_MakeAvailable(SFML)
-FetchContent_MakeAvailable(BoostAsio)
 
-find_package(Boost REQUIRED)
 
 # Ajoutez vos sources existantes à votre exécutable
 add_executable(rtype-client ${CLIENT_SOURCES})
@@ -134,9 +133,15 @@ target_link_libraries(rtype-client
     sfml-window
     sfml-system
     sfml-audio
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )
 
 target_link_libraries(rtype-server
-    ${Boost_LIBRARIES}
+    Boost::filesystem
+    Boost::array
+    Boost::asio
+    Boost::system
 )
