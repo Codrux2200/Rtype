@@ -17,7 +17,12 @@ ECS::SceneManager::~SceneManager()
 {
 }
 
-std::shared_ptr<ECS::Scene> &ECS::SceneManager::getScene()
+std::shared_ptr<ECS::Scene> &ECS::SceneManager::getScene(ECS::SceneType sceneType)
+{
+    return _scenes.at(sceneType);
+}
+
+std::shared_ptr<ECS::Scene> &ECS::SceneManager::getCurrentScene()
 {
     return _scenes.at(_currentScene);
 }

@@ -34,7 +34,7 @@ namespace ECS {
              * @param sceneType
              * @return Scene
              */
-            std::shared_ptr<Scene> &getScene();
+            std::shared_ptr<Scene> &getScene(SceneType sceneType);
             /**
              * @brief Set the Scene object
              *
@@ -61,6 +61,8 @@ namespace ECS {
              * @return SceneType
              */
             SceneType getSceneType();
+
+            std::shared_ptr<Scene> &getCurrentScene();
         protected:
         private:
             /**

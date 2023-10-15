@@ -5,6 +5,7 @@
 ** Core
 */
 
+#include <iostream>
 #include "Core.hpp"
 #include "PlayerComponent.hpp"
 #include "HealthComponent.hpp"
@@ -29,6 +30,7 @@ ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "R
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 {
+    packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
 }
 
@@ -41,10 +43,45 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet)
     std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
 
+void ECS::Core::_handlerConnect(Network::Packet &packet)
+{
+    std::cout << "My new Connect handler" << std::endl;
+    _playerId = packet.connectData.id;
+    std::cout << "Player id: " << _playerId << std::endl;
+    for (int i = 0; i < 4; i++) {
+        std::cout << "Player " << i << ": ";
+        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
+             j++)
+            std::cout << packet.connectData.players[i][j];
+        std::cout << std::endl;
+    }
+    // Add player Component to the player entity
+    std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
+    player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+}
+
 void ECS::Core::_initEntities()
 {
     // Create player
     std::shared_ptr<ECS::Entity> p1 = std::make_shared<ECS::Entity>(0);
+    p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+
+    sf::Texture playerTexture;
+
+    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
+        std::cout << "Error loading player playerTexture" << std::endl;
+        return;
+    }
+
+    sf::Rect<int> playerRect;
+
+    playerRect.left = 0;
+    playerRect.top = 0;
+    playerRect.width = playerTexture.getSize().x;
+    playerRect.height = playerTexture.getSize().y;
+
+    p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     _entityFactory.registerEntity(p1, "player");
 
     // Create button
@@ -106,7 +143,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.height = sprite->getRect().height;
     }
 
-    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2), _window));
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), _window));
 
     scene->addEntity(button);
     return scene;
@@ -118,16 +155,12 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
 
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
-        if (i == _playerId) {
-            // This is the current player !
-            player->addComponent(std::make_shared<ECS::PlayerComponent>());
-        }
         scene->addEntity(player);
     }
     return scene;
 }
 
-void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue)
+void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;
 

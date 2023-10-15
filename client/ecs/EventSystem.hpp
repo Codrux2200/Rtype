@@ -56,7 +56,6 @@ namespace ECS {
             void update(SceneManager &sceneManager, int deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) override;
 
         private:
-            void _handleClickEvent(std::shared_ptr<ECS::Entity> entity, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager);
             // /**
             //  * @brief Move the player
             //  *

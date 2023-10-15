@@ -39,7 +39,6 @@ set(ECS_SOURCES
     ecs/SceneManager.cpp
     ecs/components/EnemyComponent.cpp
     ecs/components/HealthComponent.cpp
-    ecs/components/PlayerComponent.cpp
     ecs/components/PositionComponent.cpp
     ecs/components/PositionComponent.hpp
     ecs/components/RotationComponent.cpp
@@ -71,6 +70,9 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/BackgroundComponent.hpp
     client/ecs/components/EventComponent.cpp
     client/ecs/components/EventComponent.hpp
+    client/ecs/components/PlayerComponent.cpp
+    client/ecs/components/PlayerComponent.hpp
+
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

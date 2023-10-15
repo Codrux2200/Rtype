@@ -43,6 +43,14 @@ namespace ECS {
              */
             void setValue(std::vector<int> values) override;
 
+            /**
+             * @brief move the entity
+             *
+             * @param x
+             * @param y
+             */
+            void move(int x, int y);
+
             std::shared_ptr<IComponent> clone() const override;
         protected:
         private:

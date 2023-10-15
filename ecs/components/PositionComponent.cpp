@@ -40,3 +40,9 @@ std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
 {
     return std::make_shared<ECS::PositionComponent>(_x, _y);
 }
+
+void ECS::PositionComponent::move(int x, int y)
+{
+    _x += x;
+    _y += y;
+}
