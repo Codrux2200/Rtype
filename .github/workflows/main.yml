@@ -17,15 +17,13 @@ jobs:
       - name: Install Dependencies
         run: |
           chmod +x install.sh
-          ./../../install.sh
-
+          ./install.sh
       - name: Configure and Build with CMake
         run: |
           mkdir build
           cd build
           cmake ..
           make
-      
 
   include_doxygen_check:
     runs-on: ubuntu-latest
