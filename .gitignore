@@ -1,3 +1,10 @@
+.DS_Store
+.idea
+
+.vscode
+
+doxygen_warnings.log
+
 # Prerequisites
 *.d
 
@@ -25,8 +32,20 @@
 *.la
 *.a
 *.lib
+*.cmake
+build/
+_deps/
+cmake*
+
+CmakeCache.txt
+CmakeFiles/
 
 # Executables
 *.exe
 *.out
 *.app
+vcpkg/
+.vscode/
+build/
+Makefile
+MySFMLProject
