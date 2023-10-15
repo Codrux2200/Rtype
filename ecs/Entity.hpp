@@ -8,56 +8,69 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 #include <vector>
-#include "IComponent.hpp"
+#include <memory>
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
-     * @brief Tag enum
-     * 
-     */
-    enum Tag{
-        MOVABLE = 0,
-        AUDIBLE = 1,
-        DESTROYABLE = 2,
-        COLIDLE = 3,
-    };
-    /**
      * @brief Entity class
-     * 
+     *
      */
     class Entity {
         public:
             /**
              * @brief Construct a new Entity object
-             * 
-             * @param id 
+             *
+             * @param id
              */
             Entity(int id);
             /**
              * @brief Destroy the Entity object
-             * 
+             *
              */
-            ~Entity();
+            ~Entity() = default;
+
+            Entity(const Entity &entity, int id);
+
             /**
-             * @brief stock component
-             * 
+             * @brief Get the Id object
+             *
+             * @return int
              */
-            std::vector<IComponent> components;
-        private :
-            /**
-             * @brief define the tag for the entity
-             * 
-             */
-            std::vector<Tag> _tags;
+            int getId() const;
+
+            // Templates impose to write the implementation in the header file
+            template<typename T>
+            std::shared_ptr<T> getComponent() {
+                for (auto &component : _components) {
+                    std::shared_ptr<T> comp = std::dynamic_pointer_cast<T>(component);
+                    if (comp)
+                        return comp;
+                }
+                return nullptr;
+            }
+
+            void addComponent(std::shared_ptr<AComponent> component);
+
+            std::vector<std::shared_ptr<IComponent>> getComponents() const;
+
+            bool isEnabled = true;
+
+        private:
             /**
              * @brief define the id of the entity
-             * 
+             *
              */
             int _id;
+
+            /**
+             * @brief stock component
+             *
+             */
+            std::vector<std::shared_ptr<IComponent>> _components;
 
     };
 
 }
 
 #endif /* !ENTITY_HPP_ */
-

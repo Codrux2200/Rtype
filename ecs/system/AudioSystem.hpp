@@ -13,75 +13,56 @@
 namespace ECS {
     /**
      * @brief Audio System
-     * 
+     *
      */
-    class AudioSystem : public ISystem{
+    class AudioSystem : public ISystem {
         public:
             /**
              * @brief Construct a new Audio System object
-             * 
+             *
              */
             AudioSystem();
             /**
              * @brief Destroy the Audio System object
-             * 
+             *
              */
             ~AudioSystem();
-             /**
-             * @brief init Scene Manager
-             * 
-             * @param sceneManager 
-             */
-            void init(SceneManager &sceneManager) override;
-            /**
-             * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
-             */
-            void update(SceneManager &sceneManager, int deltaTime) override;
-            /**
-             * @brief destroy all the system
-             * 
-             * @param sceneManager 
-             */
-            void destroy(SceneManager &sceneManager) override;
             /**
              * @brief init audio from a filepath and return true if ok
-             * 
-             * @param file 
+             *
+             * @param file
              * @return true
              * @return false
              */
             bool initAudio(std::string const &file);
             /**
              * @brief Set the volume at volume %
-             * 
-             * @param volume 
+             *
+             * @param volume
              */
             void setVolume(float volume);
             /**
              * @brief return true if it's ready to play
-             * 
-             * @return true 
-             * @return false 
+             *
+             * @return true
+             * @return false
              */
             bool isReady();
             /**
              * @brief Get the Main Volume object
-             * 
-             * @return float 
+             *
+             * @return float
              */
             float getMainVolume();
         protected:
             /**
              * @brief the volume of the audio
-             * 
+             *
              */
             float _volume;
             /**
              * @brief the filepath of the audio
-             * 
+             *
              */
             std::string _filePath;
         private:

@@ -13,39 +13,27 @@
 namespace ECS {
     /**
      * @brief Game System
-     * 
+     *
      */
-    class GameSystem : public ISystem{
+    class GameSystem : public ISystem {
         public:
             /**
              * @brief Construct a new Game System object
-             * 
+             *
              */
             GameSystem();
             /**
              * @brief Destroy the Game System object
-             * 
+             *
              */
             ~GameSystem();
-             /**
-             * @brief init Scene Manager
-             * 
-             * @param SceneManager 
-             */
-            void init(SceneManager &sceneManager) override;
             /**
-             * @brief update all the system
-             * 
-             * @param sceneManager 
-             * @param deltaTime 
+             * @brief update the game system
+             *
+             * @param sceneManager
+             * @param SceneType
+             * @param deltaTime
              */
-            void update(SceneManager &sceneManager, int deltaTime) override;
-            /**
-             * @brief destroy all the system
-             * 
-             * @param sceneManager 
-             */
-            void destroy(SceneManager &sceneManager) override;
         protected:
         private:
     };

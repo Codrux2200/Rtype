@@ -1,3 +1,14 @@
+.DS_Store
+.idea
+rtype-server
+rtype-client
+.vscode
+
+CMakeLists.txt
+install.sh
+
+doxygen_warnings.log
+
 # Prerequisites
 *.d
 
@@ -25,12 +36,23 @@
 *.la
 *.a
 *.lib
+*.cmake
+build/
+_deps/
+cmake*
+
+CmakeCache.txt
+CmakeFiles/
+CMakeFiles/
+vgcore*
 
 # Executables
 *.exe
 *.out
 *.app
-*.cpp
 vcpkg/
 .vscode/
 build/
+Makefile
+MySFMLProject
+CMakeCache.txt
