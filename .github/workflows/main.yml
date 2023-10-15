@@ -45,7 +45,7 @@ jobs:
       - name: Include CodeRabbit
         uses: ./ai_oderabbit.yml
 
-x  display_compilation_error:
+  display_compilation_error:
     runs-on: ubuntu-latest
     needs: cmake_build
     steps:
