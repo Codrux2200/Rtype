@@ -34,6 +34,10 @@ namespace RType {
             Server(boost::asio::io_service &io_service, short port);
             ~Server();
 
+            void sendCurrentLeader(const udp::endpoint &endpoint);
+
+            Network::PacketManager packetManager;
+
         private:
             void _loadPacketHandlers();
 
@@ -56,8 +60,6 @@ namespace RType {
 
             void _broadcastNewLeader(int id);
 
-            void _sendCurrentLeader(const udp::endpoint &endpoint);
-
             client_ptr _newClientPacket(
             std::unique_ptr<Network::Packet> &packet);
 
@@ -68,7 +70,6 @@ namespace RType {
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
             boost::array<char, PACKET_SIZE> _recvBuffer;
-            Network::PacketManager _packetManager;
             std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
             ClientManager _clientManager;
             std::map<Network::PacketType, std::function<void()>>
