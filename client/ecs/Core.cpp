@@ -19,7 +19,7 @@
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
 
-ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
+ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
     std::map<SceneType, std::shared_ptr<Scene>> scenes;
 
