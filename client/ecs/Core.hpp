@@ -28,7 +28,7 @@ namespace ECS {
              * @brief Construct a new Core object
              *
              */
-            Core();
+            Core(const std::string &player);
             /**
              * @brief Destroy the Core object
              *
