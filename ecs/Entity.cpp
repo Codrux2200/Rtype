@@ -6,20 +6,30 @@
 */
 
 #include "Entity.hpp"
-#include <iostream>
 
-ECS::Entity::Entity(int id, std::vector<Tag> tags)
+ECS::Entity::Entity(int id) : _id(id)
 {
-    _id = id;
-    components = std::vector<AComponent>();
-    _tags = tags;
-    std::cout << "Entity created with id " << id << '\n';
 }
 
-ECS::Entity::~Entity()
+int ECS::Entity::getId() const
 {
-    components.clear();
-    _tags.clear();
-    components.~vector<AComponent>();
-    _tags.~vector<Tag>();
+    return _id;
+}
+
+void ECS::Entity::addComponent(std::shared_ptr<ECS::AComponent> component)
+{
+    _components.push_back(component);
+}
+
+ECS::Entity::Entity(const ECS::Entity &entity, int id) : _id(id)
+{
+    for (auto &component : entity._components) {
+        _components.push_back(component->clone());
+    }
+    _id = id;
+}
+
+std::vector<std::shared_ptr<ECS::IComponent>> ECS::Entity::getComponents() const
+{
+    return _components;
 }

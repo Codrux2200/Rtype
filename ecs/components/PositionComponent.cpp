@@ -5,10 +5,10 @@
 ** PositionComponent
 */
 
+#include <iostream>
 #include "PositionComponent.hpp"
 
-ECS::PositionComponent::PositionComponent(int x, int y, int uid)
-    : AComponent(uid)
+ECS::PositionComponent::PositionComponent(float x, float y)
 {
     _x = x;
     _y = y;
@@ -18,42 +18,30 @@ ECS::PositionComponent::~PositionComponent()
 {
 }
 
-int ECS::PositionComponent::getX() const
+void ECS::PositionComponent::setValue(std::vector<int> values)
 {
-    return _x;
+    if (values.size() != 2) {
+        return;
+    }
+    _x = values[0];
+    _y = values[1];
 }
 
-int ECS::PositionComponent::getY() const
+std::vector<int> ECS::PositionComponent::getValue() const
 {
-    return _y;
+    std::vector<int> position = std::vector<int>();
+    position.push_back(_x);
+    position.push_back(_y);
+    return position;
 }
 
-void ECS::PositionComponent::setX(int x)
+std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
 {
-    _x = x;
+    return std::make_shared<ECS::PositionComponent>(_x, _y);
 }
 
-void ECS::PositionComponent::setY(int y)
-{
-    _y = y;
-}
-
-void ECS::PositionComponent::moveRight(int x)
+void ECS::PositionComponent::move(float x, float y)
 {
     _x += x;
-}
-
-void ECS::PositionComponent::moveLeft(int x)
-{
-    _x -= x;
-}
-
-void ECS::PositionComponent::moveUp(int y)
-{
-    _y -= y;
-}
-
-void ECS::PositionComponent::moveDown(int y)
-{
     _y += y;
 }

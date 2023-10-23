@@ -1,6 +1,7 @@
 .DS_Store
 .idea
-
+rtype-server
+rtype-client
 .vscode
 
 doxygen_warnings.log
@@ -39,6 +40,8 @@ cmake*
 
 CmakeCache.txt
 CmakeFiles/
+CMakeFiles/
+vgcore*
 
 # Executables
 *.exe
@@ -49,3 +52,4 @@ vcpkg/
 build/
 Makefile
 MySFMLProject
+CMakeCache.txt

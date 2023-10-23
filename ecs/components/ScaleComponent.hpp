@@ -7,64 +7,53 @@
 
 #ifndef SCALECOMPONENT_HPP_
 #define SCALECOMPONENT_HPP_
-#include "../AComponent.hpp"
+
+#include <memory>
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Scale component
-     * 
+     *
      */
-    class ScaleComponent : public ECS::AComponent {
+    class ScaleComponent : public AComponent {
         public:
             /**
              * @brief Construct a new scale Component object
-             * 
-             * @param x 
-             * @param y 
-             * @param uid 
+             *
+             * @param x
+             * @param y
+             * @param uid
              */
-            ScaleComponent(int x, int y, int uid);
+            ScaleComponent(float x, float y);
             /**
              * @brief Destroy the scale Component object
-             * 
+             *
              */
-            ~ScaleComponent();
+            ~ScaleComponent() = default;
             /**
-             * @brief Set the X object
-             * 
+             * @brief Get the scale Value object
+             *
+             * @return std::vector<float>
+             */
+            std::vector<float> getFloatValue() const;
+            /**
+             * @brief Set the scale Value object
+             *
              * @param x
-             */
-            void setX(int x);
-            /**
-             * @brief Set the Y object
-             * 
              * @param y
              */
-            void setY(int y);
+            void setFloatValue(float x, float y);
             /**
-             * @brief Get the X object
-             * 
-             * @return int
+             * @brief clone the component
+             *
+             * @return std::shared_ptr<IComponent>
              */
-            int getX() const;
-            /**
-             * @brief Get the Y object
-             * 
-             * @return int
-             */
-            int getY() const;
+            std::shared_ptr<IComponent> clone() const final;
         protected:
         private:
-            /**
-             * @brief define the x scale of the entity
-             * 
-             */
-            int _x;
-            /**
-             * @brief define the y scale of the entity
-             * 
-             */
-            int _y;
+            float _x;
+            float _y;
     };
 }
 

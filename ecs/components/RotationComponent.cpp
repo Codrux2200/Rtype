@@ -5,24 +5,24 @@
 ** RotationComponent
 */
 
+#include <iostream>
 #include "RotationComponent.hpp"
 
-ECS::RotationComponent::RotationComponent(int uid)
-    : AComponent(uid)
-{
-    _rotation = 0;
-}
-
-ECS::RotationComponent::~RotationComponent()
+ECS::RotationComponent::RotationComponent(float rotation) : _rotation(rotation)
 {
 }
 
-float ECS::RotationComponent::getRotation() const
+std::vector<float> ECS::RotationComponent::getFloatValue() const
 {
-    return _rotation;
+    return std::vector<float>{_rotation};
 }
 
-void ECS::RotationComponent::setRotation(float rotation)
+void ECS::RotationComponent::setFloatValue(float rotation)
 {
     _rotation = rotation;
+}
+
+std::shared_ptr<ECS::IComponent> ECS::RotationComponent::clone() const
+{
+    return std::make_shared<RotationComponent>(_rotation);
 }

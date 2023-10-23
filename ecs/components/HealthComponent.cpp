@@ -5,24 +5,30 @@
 ** HealthComponent
 */
 
+#include <iostream>
 #include "HealthComponent.hpp"
 
-ECS::HealthComponent::HealthComponent(int uid)
-    : AComponent(uid)
+ECS::HealthComponent::HealthComponent(int health)
 {
-    _health = 100;
+    _health = health;
 }
 
 ECS::HealthComponent::~HealthComponent()
 {
 }
 
-void ECS::HealthComponent::setHealth(int health)
+void ECS::HealthComponent::setValue(std::vector<int> values)
 {
-    _health = health;
+    if (values.size() != 1) {
+        std::cerr << "Error: setValue in HealthComponent" << std::endl;
+        return;
+    }
+    _health = values[0];
 }
 
-int ECS::HealthComponent::getHealth() const
+std::vector<int> ECS::HealthComponent::getValue() const
 {
-    return _health;
+    std::vector<int> health = std::vector<int>();
+    health.push_back(_health);
+    return health;
 }

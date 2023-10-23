@@ -5,23 +5,31 @@
 ** AComponent
 */
 
+#include <iostream>
 #include "AComponent.hpp"
 
-ECS::AComponent::AComponent(int uid)
+void ECS::AComponent::setValue(std::vector<int> values)
 {
-    _uid = uid;
+    std::cout << "setValue not implemented" << std::endl;
 }
 
-ECS::AComponent::~AComponent()
+std::vector<int> ECS::AComponent::getValue() const
 {
+    std::cout << "getValue not implemented" << std::endl;
+    return std::vector<int>();
 }
 
-void ECS::AComponent::setUid(int uid)
+void ECS::AComponent::setEnabled(bool enabled)
 {
-    _uid = uid;
+    _isEnabled = enabled;
 }
 
-int ECS::AComponent::getUid() const
+bool ECS::AComponent::isEnabled() const
 {
-    return _uid;
+    return _isEnabled;
+}
+
+ECS::ComponentType ECS::AComponent::getType() const
+{
+    return _type;
 }

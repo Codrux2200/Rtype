@@ -5,35 +5,25 @@
 ** ScaleComponent
 */
 
+#include <iostream>
 #include "ScaleComponent.hpp"
 
-ECS::ScaleComponent::ScaleComponent(int x, int y, int uid)
-    : AComponent(uid)
+ECS::ScaleComponent::ScaleComponent(float x, float y) : _x(x), _y(y)
+{
+}
+
+std::shared_ptr<ECS::IComponent> ECS::ScaleComponent::clone() const
+{
+    return std::make_shared<ECS::ScaleComponent>(_x, _y);
+}
+
+std::vector<float> ECS::ScaleComponent::getFloatValue() const
+{
+    return std::vector<float>{_x, _y};
+}
+
+void ECS::ScaleComponent::setFloatValue(float x, float y)
 {
     _x = x;
-    _y = y;
-}
-
-ECS::ScaleComponent::~ScaleComponent()
-{
-}
-
-int ECS::ScaleComponent::getX() const
-{
-    return _x;
-}
-
-int ECS::ScaleComponent::getY() const
-{
-    return _y;
-}
-
-void ECS::ScaleComponent::setX(int x)
-{
-    _x = x;
-}
-
-void ECS::ScaleComponent::setY(int y)
-{
     _y = y;
 }

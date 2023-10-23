@@ -7,8 +7,7 @@
 
 #include "HitboxComponent.hpp"
 
-ECS::HitboxComponent::HitboxComponent(int x, int y, int height, int weight, int uid)
-    : AComponent(uid)
+ECS::HitboxComponent::HitboxComponent(int x, int y, int height, int weight)
 {
     _x = x;
     _y = y;
@@ -20,32 +19,20 @@ ECS::HitboxComponent::~HitboxComponent()
 {
 }
 
-int ECS::HitboxComponent::getX() const
+void ECS::HitboxComponent::setValue(std::vector<int> hitbox)
 {
-    return _x;
+    _x = hitbox[0];
+    _y = hitbox[1];
+    _height = hitbox[2];
+    _weight = hitbox[3];
 }
 
-int ECS::HitboxComponent::getY() const
+std::vector<int> ECS::HitboxComponent::getValue() const
 {
-    return _y;
-}
-
-void ECS::HitboxComponent::setX(int x)
-{
-    _x = x;
-}
-
-void ECS::HitboxComponent::setY(int y)
-{
-    _y = y;
-}
-
-int ECS::HitboxComponent::getHeight() const
-{
-    return _height;
-}
-
-int ECS::HitboxComponent::getWeight() const
-{
-    return _weight;
+    std::vector<int> hitbox = std::vector<int>();
+    hitbox.push_back(_x);
+    hitbox.push_back(_y);
+    hitbox.push_back(_height);
+    hitbox.push_back(_weight);
+    return hitbox;
 }

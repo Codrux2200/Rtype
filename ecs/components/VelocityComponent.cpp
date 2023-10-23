@@ -5,23 +5,30 @@
 ** VelocityComponent
 */
 
+#include <iostream>
 #include "VelocityComponent.hpp"
 
-ECS::VelocityComponent::VelocityComponent(int uid)
-    : AComponent(uid)
+ECS::VelocityComponent::VelocityComponent()
 {
+    _velocity = 0;
 }
 
 ECS::VelocityComponent::~VelocityComponent()
 {
 }
 
-void ECS::VelocityComponent::setVelocity(int velocity)
+void ECS::VelocityComponent::setValue(std::vector<int> values)
 {
-    _velocity = velocity;
+    if (values.size() != 1) {
+        std::cerr << "Error: setValue in VelocityComponent" << std::endl;
+        return;
+    }
+    _velocity = values[0];
 }
 
-int ECS::VelocityComponent::getVelocity() const
+std::vector<int> ECS::VelocityComponent::getValue() const
 {
-    return _velocity;
+    std::vector<int> velocity = std::vector<int>();
+    velocity.push_back(_velocity);
+    return velocity;
 }
