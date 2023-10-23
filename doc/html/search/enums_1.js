@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['packettype_0',['PacketType',['../namespaceNetwork.html#adb2459998541714e86871e42d3f702a1',1,'Network']]]
-];
