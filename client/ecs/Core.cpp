@@ -12,12 +12,14 @@
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "RotationComponent.hpp"
+#include "AudioSystem.hpp"
 #include "GraphicSystem.hpp"
 #include "EnemyComponent.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
+#include "AudioComponent.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
@@ -33,6 +35,7 @@ ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "R
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
+    _systems.push_back(std::make_unique<AudioSystem>());
 }
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
@@ -65,6 +68,8 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
     player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+
+    player->addComponent(std::make_shared<ECS::AudioComponent>("assets/sound/music.ogg"));
 
     // Add enemy Component to enemy entities
     int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
@@ -101,7 +106,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-
+    
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     _entityFactory.registerEntity(p1, "player");
 
