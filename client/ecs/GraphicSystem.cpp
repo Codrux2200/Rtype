@@ -8,7 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GraphicSystem.hpp"
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"

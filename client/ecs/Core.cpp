@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "Core.hpp"
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "GraphicSystem.hpp"
@@ -57,7 +57,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     }
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
-    player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+    player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
 }
 
 void ECS::Core::_initEntities()
