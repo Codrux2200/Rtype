@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <iostream>
-#include <string>
+#include <utility>
 #include <vector>
 
 // clang-format off
@@ -64,7 +64,7 @@ Network::PacketType type, void *data)
             break;
         case Network::PacketType::QUIT:
             break;
-        default: throw std::runtime_error("Invalid packet type"); break;
+        default: throw std::runtime_error("Invalid packet type");
     }
     return packet;
 }
@@ -72,7 +72,7 @@ Network::PacketType type, void *data)
 void Network::PacketManager::registerHandler(
 Network::PacketType type, std::function<void(Network::Packet &)> handler)
 {
-    _handlers[type] = handler;
+    _handlers[type] = std::move(handler);
 }
 
 void Network::PacketManager::handlePacket(Network::Packet &packet)
@@ -85,4 +85,16 @@ void Network::PacketManager::handlePacket(Network::Packet &packet)
     std::cout << "Handling packet type: " << static_cast<int>(packet.type)
               << std::endl;
     _handlers[packet.type](packet);
+}
+
+void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet)
+{
+    _recvPacketsQueue.push_back(packet);
+}
+
+void Network::PacketManager::executeRecvPacketsQueue()
+{
+    for (auto &packet : _recvPacketsQueue)
+        handlePacket(packet);
+    _recvPacketsQueue.clear();
 }

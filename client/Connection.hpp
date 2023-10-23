@@ -51,6 +51,7 @@ namespace RType {
             std::vector<Network::Packet> sendQueue;
             std::vector<Network::Packet> recvQueue;
 
+            void sendPackets();
 
         private:
             /**
@@ -67,10 +68,11 @@ namespace RType {
             /* HANDLERS */
             void _handlerLeader(Network::Packet &packet);
 
+
             udp::socket _socket;
             udp::resolver _resolver;
             udp::endpoint _endpoint;
-            boost::array<char, PACKET_SIZE> _recv_buffer;
+            boost::array<char, PACKET_SIZE> _recv_buffer{};
             udp::endpoint _sender_endpoint;
 
             short _id = -1;

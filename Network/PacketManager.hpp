@@ -1,8 +1,8 @@
-µ/*
+/*
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** Packetmanager
+** PacketManager
 */
 
 #pragma once
@@ -56,7 +56,7 @@ namespace Network {
              * @see Network::PacketType
              * @see Network::data
              */
-            std::unique_ptr<Packet> createPacket(
+            static std::unique_ptr<Packet> createPacket(
             PacketType type, void *data = nullptr);
 
             /**
@@ -68,7 +68,7 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            std::vector<char> packetToBytes(const Packet &packet);
+            static std::vector<char> packetToBytes(const Packet &packet);
 
             /**
              * @brief Convert a char array to a packet. It is used to convert
@@ -80,7 +80,7 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            std::unique_ptr<Packet> bytesToPacket(
+            static std::unique_ptr<Packet> bytesToPacket(
             const char *bytes, std::size_t bytes_size);
 
             /**
@@ -103,7 +103,13 @@ namespace Network {
              */
             void handlePacket(Packet &packet);
 
+            void addPacketToRecvQueue(Packet &packet);
+
+            void executeRecvPacketsQueue();
+
+            std::vector<Packet> sendPacketsQueue;
         private:
+            std::vector<Packet> _recvPacketsQueue;
             /**
              * @brief A map that contains all the handlers for each packet type.
              * The key is the packet type, and the value is the handler.

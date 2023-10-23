@@ -6,15 +6,16 @@
 */
 
 #include <iostream>
+#include <thread>
 #include "Core.hpp"
 #include "PlayerComponent.hpp"
-#include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "GraphicSystem.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
+#include "ButtonEntity.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
@@ -85,25 +86,7 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(p1, "player");
 
     // Create button
-    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::Entity>(4);
-    button->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-
-    sf::Texture texture;
-    if (!texture.loadFromFile("assets/start.png")) {
-        std::cout << "Error loading button texture" << std::endl;
-        return;
-    }
-
-    sf::Rect<int> rect;
-    rect.left = 0;
-    rect.top = 0;
-    rect.width = texture.getSize().x;
-    rect.height = texture.getSize().y;
-
-    std::cout << "Button rect: " << rect.width << " " << rect.height << std::endl;
-
-    button->addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
-    button->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>();
     _entityFactory.registerEntity(button, "button");
 }
 
@@ -143,7 +126,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.height = sprite->getRect().height;
     }
 
-    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), _window));
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _window));
 
     scene->addEntity(button);
     return scene;
@@ -160,13 +143,13 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
     return scene;
 }
 
-void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;
 
-    Network::data::StartData startData;
+    Network::data::StartData startData{};
     startData.mapId = 0;
-    std::unique_ptr<Network::Packet> packet = packetManager.createPacket(Network::PacketType::START, &startData);
+    std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::START, &startData);
     packetsQueue.push_back(*packet);
 }
 
@@ -174,17 +157,15 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 {
     // Delta time
     sf::Clock clock;
-    float deltaTime = 0.0f;
+    float deltaTime;
 
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
         for (auto &system : _systems) {
-            system->update(sceneManager, deltaTime, connection.sendQueue, connection.packetManager);
+            system->update(sceneManager, deltaTime, connection.sendQueue);
         }
-        for (auto &packet : connection.sendQueue) {
-            connection.sendPacket(packet);
-        }
-        connection.sendQueue.clear();
+        connection.sendPackets();
+        std::this_thread::sleep_for(std::chrono::microseconds(15));
     }
 }

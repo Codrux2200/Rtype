@@ -53,7 +53,7 @@ namespace ECS {
              * @param SceneType
              * @param deltaTime
              */
-            void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) override;
+            void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
 
         private:
             // /**

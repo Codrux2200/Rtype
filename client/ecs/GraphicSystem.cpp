@@ -5,10 +5,8 @@
 ** GraphicSystem
 */
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GraphicSystem.hpp"
-#include "PlayerComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
@@ -29,7 +27,7 @@ void ECS::GraphicSystem::initBackground()
     backgroundComponent = ECS::BackgroundComponent();
 }
 
-void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
+void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -40,7 +38,6 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Clear the window
     _window.clear();
-
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {

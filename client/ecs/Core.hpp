@@ -56,7 +56,7 @@ namespace ECS {
 
             void _initEntities();
 
-            void _startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
+            static void _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
 
             void _initHandlers(Network::PacketManager &packetManager);
 

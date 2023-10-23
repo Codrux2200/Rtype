@@ -18,7 +18,7 @@ std::shared_ptr<ECS::IComponent> ECS::PlayerComponent::clone() const
     return std::make_shared<ECS::PlayerComponent>(_callback);
 }
 
-void ECS::PlayerComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
+void ECS::PlayerComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     auto positionComponent = entity.getComponent<ECS::PositionComponent>();
 

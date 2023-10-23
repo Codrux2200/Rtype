@@ -9,11 +9,12 @@
 
 #include <iostream>
 #include <map>
-#include <vector>
 #include <memory>
+#include <vector>
+#include "EntityFactory.hpp"
 #include "ISystem.hpp"
 #include "SceneManager.hpp"
-#include "EntityFactory.hpp"
+#include "Server.hpp"
 
 namespace ECS {
     class ServerCore {
@@ -27,7 +28,7 @@ namespace ECS {
              * @brief the main loop of the ECS
              *
              */
-            void mainLoop(RType::Server &server);
+            [[noreturn]] void mainLoop(RType::Server &server);
 
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
@@ -35,12 +36,9 @@ namespace ECS {
 
             void _initEntities();
 
-            void _startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
-
             void _initHandlers(Network::PacketManager &packetManager);
 
             void _handlerStartGame(Network::Packet &packet);
-            void _handlerConnect(Network::Packet &packet);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;

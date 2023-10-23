@@ -6,6 +6,8 @@
 */
 
 #include "ServerCore.hpp"
+#include "PositionComponent.hpp"
+#include "Server.hpp"
 
 ECS::ServerCore::ServerCore()
 {
@@ -18,15 +20,11 @@ ECS::ServerCore::ServerCore()
     sceneManager = SceneManager(scenes);
 }
 
-ECS::ServerCore::~ServerCore()
-{
-}
-
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<ECS::Entity>(0);
     player->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    _entityFactory.registerEntity("player", player);
+    _entityFactory.registerEntity(player, "player");
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -47,29 +45,31 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
     return scene;
 }
 
-void ECS::ServerCore::mainLoop(RType::Server &server)
+[[noreturn]] void ECS::ServerCore::mainLoop(RType::Server &server)
 {
     std::vector<Network::Packet> packetsQueue;
     std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
-    std::vector<std::shared_ptr<ECS::Entity>> entities = scene->getEntities();
+    float deltaTime = 0;
 
     _initHandlers(server.packetManager);
     while (true) {
-        packetsQueue = server.getPacketsQueue();
-        for (auto &packet : packetsQueue) {
-            packetManager.handlePacket(packet);
+        server.packetManager.executeRecvPacketsQueue();
+        for (auto &system : _systems) {
+            system->update(
+            sceneManager, deltaTime, server.packetManager.sendPacketsQueue);
         }
-        for (auto &entity : entities) {
-            for (auto &system : _systems) {
-                system->update(entity);
-            }
+        for (auto &packet : server.sendPacketsQueue) {
+            server._sendMessageToClient(packet.second, packet.first->getEndpoint());
         }
-        server.sendPacketsQueue();
     }
 }
 
 void ECS::ServerCore::_initHandlers(Network::PacketManager &packetManager)
 {
-    packetManager.REGISTER_HANDLER(Network::PacketType::START, );
-    packetManager.REGISTER_HANDLER();
+    packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::ServerCore::_handlerStartGame);
+}
+
+void ECS::ServerCore::_handlerStartGame(Network::Packet &packet)
+{
+    std::cout << "Start game callback" << std::endl;
 }

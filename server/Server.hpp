@@ -38,6 +38,12 @@ namespace RType {
 
             Network::PacketManager packetManager;
 
+            void _sendMessageToClient(
+            Network::Packet &packet, const udp::endpoint &client_endpoint);
+            void broadcast(const Network::Packet &packet);
+
+            std::vector<std::pair<std::shared_ptr<Client>, std::unique_ptr<Network::Packet>>> recvPacketsQueue;
+            std::vector<std::pair<std::shared_ptr<Client>, Network::Packet>> sendPacketsQueue;
         private:
             void _loadPacketHandlers();
 
@@ -46,17 +52,12 @@ namespace RType {
             void _handleReceive(const boost::system::error_code &error,
             std::size_t bytes_transferred);
 
-            void _broadcast(const Network::Packet &packet);
 
-            void _handleSend(std::vector<char> message,
+            void _handleSend(const std::vector<char>& message,
             boost::system::error_code error, std::size_t bytes_transferred);
 
             void _startClientCleanupTimer(boost::asio::io_service &io_service);
 
-            void _sendMessageToClient(
-            Network::Packet &packet, const udp::endpoint &client_endpoint);
-
-            void _broadcastConnectPacket(void);
 
             void _broadcastNewLeader(int id);
 
@@ -69,7 +70,7 @@ namespace RType {
 
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
-            boost::array<char, PACKET_SIZE> _recvBuffer;
+            boost::array<char, PACKET_SIZE> _recvBuffer{};
             std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
             ClientManager _clientManager;
             std::map<Network::PacketType, std::function<void()>>

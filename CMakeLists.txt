@@ -74,6 +74,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/EventComponent.hpp
         client/ecs/components/PlayerComponent.cpp
         client/ecs/components/PlayerComponent.hpp
+        client/ecs/models/ButtonEntity.cpp
+        client/ecs/models/ButtonEntity.hpp
 
 )
 
@@ -123,6 +125,7 @@ target_include_directories(rtype-client PRIVATE
         client
         client/ecs
         client/ecs/components
+        client/ecs/models
 )
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires

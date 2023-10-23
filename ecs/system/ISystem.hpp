@@ -26,7 +26,7 @@ namespace ECS
              * @param sceneManager
              * @param deltaTime
              */
-            virtual void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager) = 0;
+            virtual void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) = 0;
     };
 } // namespace ECS
 
