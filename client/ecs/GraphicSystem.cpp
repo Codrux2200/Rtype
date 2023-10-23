@@ -41,6 +41,12 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
     // Clear the window
     _window.clear();
 
+    // Draw background
+    if (sceneManager.getCurrentScene()->getSceneType() == ECS::SceneType::GAME) {    
+        sf::Vector2i screenSize = static_cast<sf::Vector2i>(_window.getSize());
+        backgroundComponent.update(deltaTime, screenSize);
+        backgroundComponent.draw(_window);
+    }
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
