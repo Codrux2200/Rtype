@@ -9,6 +9,8 @@ install.sh
 
 doxygen_warnings.log
 
+doc/html
+
 # Prerequisites
 *.d
 
