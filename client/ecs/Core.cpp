@@ -12,12 +12,15 @@
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "RotationComponent.hpp"
+#include "AudioSystem.hpp"
 #include "GraphicSystem.hpp"
 #include "EnemyComponent.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
+#include "MusicsComponent.hpp"
+#include "SoundComponent.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
@@ -33,6 +36,7 @@ ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "R
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
+    _systems.push_back(std::make_unique<AudioSystem>());
 }
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
@@ -64,7 +68,11 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     }
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
+  
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+ 
+  
     // Add enemy Component to enemy entities
     int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
     for (int i = 0; i < size; i++) {
@@ -83,6 +91,14 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
+    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
+    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+        std::cerr << "Error loading sound" << std::endl;
+        return;
+    }
+    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
+
+    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
     if (!playerTexture.loadFromFile("assets/Ship6.png")) {
@@ -100,7 +116,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-
+    
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     _entityFactory.registerEntity(p1, "player");
 
