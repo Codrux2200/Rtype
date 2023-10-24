@@ -59,9 +59,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
             system->update(
             sceneManager, deltaTime, _server.packetManager.sendPacketsQueue);
         }
-        for (auto &packet : _server.sendPacketsQueue) {
-            _server._sendMessageToClient(packet.second, packet.first->getEndpoint());
-        }
+        _server.sendPackets();
     }
 }
 
@@ -76,21 +74,25 @@ void ECS::ServerCore::_initHandlers(Network::PacketManager &packetManager)
 
 void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
 {
+    if (sceneManager.getSceneType() != MAIN_MENU)
+        return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
     auto leader = _server.clientManager.getLeader();
 
     if (leader == nullptr || client == nullptr || leader->getEndpoint() != client->getEndpoint())
         return;
-    if (sceneManager.getSceneType() == SceneType::MAIN_MENU) {
-        sceneManager.setCurrentScene(SceneType::GAME);
-        for (const auto& cli : _server.clientManager.getClients()) {
-            _server.sendPacketsQueue.emplace_back(cli, packet);
-        }
+    sceneManager.setCurrentScene(SceneType::GAME);
+    for (const auto& cli : _server.clientManager.getClients()) {
+        if (cli == nullptr)
+            continue;
+        _server.sendPacketsQueue.emplace_back(cli, packet);
     }
 }
 
 void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
+        return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
     std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
     auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
@@ -129,6 +131,8 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
 
 void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
+        return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
     std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
     auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
@@ -167,6 +171,8 @@ void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp:
 
 void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
+        return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
     std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
     auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
@@ -205,6 +211,8 @@ void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp:
 
 void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
+        return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
     std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
     auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));

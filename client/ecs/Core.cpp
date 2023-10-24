@@ -33,6 +33,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 {
     packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
+    packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -46,19 +47,36 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
 
 void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    std::cout << "My new Connect handler" << std::endl;
+    std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
+
     _playerId = packet.connectData.id;
     std::cout << "Player id: " << _playerId << std::endl;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < MAX_PLAYERS; i++) {
         std::cout << "Player " << i << ": ";
-        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
-             j++)
+        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j]; j++)
             std::cout << packet.connectData.players[i][j];
         std::cout << std::endl;
+        if (packet.connectData.players[i][0] == '\0') {
+            std::cout << "Player " << i << " is empty" << std::endl;
+            scene->getEntityByID(i)->isEnabled = false;
+        }
     }
-    // Add player Component to the player entity
-    std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
+    std::shared_ptr<ECS::Entity> player = scene->getEntityByID(_playerId);
     player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+}
+
+void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto player = scene->getEntityByID(i);
+        auto positionComponent = player->getComponent<PositionComponent>();
+
+        std::vector<int> newPos{packet.playersPos.positions[i].x, packet.playersPos.positions[i].y};
+
+        positionComponent->setValue(newPos);
+    }
 }
 
 void ECS::Core::_initEntities()

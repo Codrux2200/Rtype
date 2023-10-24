@@ -22,6 +22,8 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
     auto &actualScene = sceneManager.getCurrentScene();
 
     for (auto &entity : actualScene->entitiesList) {
+        if (!entity->isEnabled)
+            continue;
         auto eventComponent = entity->getComponent<ECS::EventComponent>();
 
         if (eventComponent) {

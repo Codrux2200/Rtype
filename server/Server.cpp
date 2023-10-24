@@ -90,9 +90,9 @@ void RType::Server::_handleReceive(
 const boost::system::error_code &error, std::size_t bytesTransferred)
 {
     if (!error || error == boost::asio::error::message_size) {
-        std::cout << "Received message" << std::endl;
+        //std::cout << "Received message" << std::endl;
 
-        std::cout << "Sent by: " << _remoteEndpoint << std::endl;
+        //std::cout << "Sent by: " << _remoteEndpoint << std::endl;
 
         std::unique_ptr<Network::Packet> packet =
         Network::PacketManager::bytesToPacket(_recvBuffer.data(), bytesTransferred);
@@ -100,17 +100,15 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
         RType::client_ptr client = _newClientPacket(packet);
 
         if (client != nullptr) {
-            if (packet->type != Network::PacketType::JOIN) {
-                // Cancel duplicate packets
-                for (auto &cur : recvPacketsQueue) {
-                    if (cur.first->getEndpoint() == client->getEndpoint() && cur.second->type == packet->type) {
-                        _startReceive();
-                        return;
-                    }
+            for (auto &cur : packetManager.recvPacketsQueue) {
+                if (cur.first == client->getEndpoint() && cur.second.type == packet->type) {
+                    _startReceive();
+                    return;
                 }
-
-                recvPacketsQueue.emplace_back(client, std::move(packet));
             }
+
+            packetManager.addPacketToRecvQueue(*packet, client->getEndpoint());
+            std::cout << "Packet added to queue" << std::endl;
 
             // Check if there is a leader
             if (clientManager.getLeader() == nullptr) {
@@ -260,4 +258,16 @@ Network::Packet &packet, const udp::endpoint &clientEndpoint)
     boost::bind(&Server::_handleSend, this, packetInBytes,
     boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
+}
+
+void RType::Server::sendPackets()
+{
+    if (!sendPacketsQueue.empty())
+        std::cout << "Sending " << sendPacketsQueue.size() << " packets" << std::endl;
+    for (auto &packet : sendPacketsQueue) {
+        _sendMessageToClient(packet.second, packet.first->getEndpoint());
+    }
+    if (!sendPacketsQueue.empty())
+        std::cout << "Sent " << sendPacketsQueue.size() << " packets" << std::endl;
+    sendPacketsQueue.clear();
 }

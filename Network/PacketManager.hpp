@@ -106,13 +106,13 @@ namespace Network {
              */
             void handlePacket(Packet &packet, udp::endpoint &endpoint);
 
-            void addPacketToRecvQueue(Packet &packet, udp::endpoint &endpoint);
+            void addPacketToRecvQueue(Packet &packet, const udp::endpoint &endpoint);
 
             void executeRecvPacketsQueue();
 
             std::vector<Packet> sendPacketsQueue;
+            std::vector<std::pair<udp::endpoint, Packet>> recvPacketsQueue;
         private:
-            std::vector<std::pair<udp::endpoint, Packet>> _recvPacketsQueue;
             /**
              * @brief A map that contains all the handlers for each packet type.
              * The key is the packet type, and the value is the handler.

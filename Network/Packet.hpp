@@ -14,6 +14,7 @@
 #include "MoveData.hpp"
 #include "PacketType.hpp"
 #include "StartData.hpp"
+#include "PlayersPos.hpp"
 
 /**
  * @brief Network protocol
@@ -44,6 +45,7 @@ namespace Network {
                         leaderData; ///< The data of the LEADER packet
                         struct data::MoveData
                         moveData; ///< The data of the MOVE packet
+                        struct data::PlayersPos playersPos;
                 };
         };
     }

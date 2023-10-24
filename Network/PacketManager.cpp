@@ -62,6 +62,9 @@ Network::PacketType type, void *data)
         case Network::PacketType::LEADER:
             memcpy(&packet->leaderData, data, sizeof(packet->leaderData));
             break;
+        case Network::PacketType::PLAYERS_POS:
+            memcpy(&packet->playersPos, data, sizeof(packet->playersPos));
+            break;
         case Network::PacketType::QUIT:
             break;
         default: throw std::runtime_error("Invalid packet type");
@@ -87,14 +90,14 @@ void Network::PacketManager::handlePacket(Network::Packet &packet, udp::endpoint
     _handlers[packet.type](packet, endpoint);
 }
 
-void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet, udp::endpoint &endpoint)
+void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    _recvPacketsQueue.emplace_back(endpoint, packet);
+    recvPacketsQueue.emplace_back(endpoint, packet);
 }
 
 void Network::PacketManager::executeRecvPacketsQueue()
 {
-    for (auto &req : _recvPacketsQueue)
+    for (auto &req : recvPacketsQueue)
         handlePacket(req.second, req.first);
-    _recvPacketsQueue.clear();
+    recvPacketsQueue.clear();
 }

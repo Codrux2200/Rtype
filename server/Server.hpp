@@ -38,6 +38,8 @@ namespace RType {
 
             Network::PacketManager packetManager;
 
+            void sendPackets();
+
             void _sendMessageToClient(
             Network::Packet &packet, const udp::endpoint &client_endpoint);
             void broadcast(const Network::Packet &packet);
