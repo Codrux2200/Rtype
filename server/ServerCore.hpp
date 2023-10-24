@@ -40,10 +40,10 @@ namespace ECS {
 
             void _handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint);
             
-            void _handlerMoveUp(Network::Packet &packet, const udp::endpoint &endpoint);
-            void _handlerMoveDown(Network::Packet &packet, const udp::endpoint &endpoint);
-            void _handlerMoveLeft(Network::Packet &packet, const udp::endpoint &endpoint);
-            void _handlerMoveRight(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveUp(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveDown(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveLeft(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveRight(const Network::Packet &packet, const udp::endpoint &endpoint);
 
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 

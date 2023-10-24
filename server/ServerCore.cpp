@@ -149,22 +149,22 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
     }
 }
 
-void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+void ECS::ServerCore::_handlerMoveUp(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
     _tryMovePlayer(endpoint, 0, -(_verticalSpeed * _deltaTime));
 }
 
-void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+void ECS::ServerCore::_handlerMoveDown(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
     _tryMovePlayer(endpoint, 0, _verticalSpeed * _deltaTime);
 }
 
-void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+void ECS::ServerCore::_handlerMoveLeft(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
     _tryMovePlayer(endpoint, -(_horizontalSpeed * _deltaTime), 0);
 }
 
-void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+void ECS::ServerCore::_handlerMoveRight(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
     _tryMovePlayer(endpoint, _horizontalSpeed * _deltaTime, 0);
 }
