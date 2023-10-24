@@ -6,11 +6,14 @@
 */
 
 #include <iostream>
+#include <experimental/random>
 #include "Core.hpp"
 #include "ControlComponent.hpp"
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
+#include "RotationComponent.hpp"
 #include "GraphicSystem.hpp"
+#include "EnemyComponent.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
@@ -23,6 +26,10 @@ ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "R
     _initEntities();
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
+    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
+        std::cout << "Error: scene is null" << std::endl;
+        return;
+    }
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
@@ -58,6 +65,15 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
+    // Add enemy Component to enemy entities
+    int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
+    for (int i = 0; i < size; i++) {
+        if (i == _playerId)
+            continue;
+        std::shared_ptr<ECS::Entity> enemy = sceneManager.getScene(SceneType::GAME)->entitiesList.at(i);
+        if (enemy != nullptr)
+            enemy->addComponent(std::make_shared<ECS::EnemyComponent>(nullptr));
+    }
 }
 
 void ECS::Core::_initEntities()
@@ -80,6 +96,10 @@ void ECS::Core::_initEntities()
     playerRect.top = 0;
     playerRect.width = playerTexture.getSize().x;
     playerRect.height = playerTexture.getSize().y;
+
+    p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
+    p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     _entityFactory.registerEntity(p1, "player");
@@ -105,6 +125,26 @@ void ECS::Core::_initEntities()
     button->addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
     button->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
     _entityFactory.registerEntity(button, "button");
+
+    // Create enemy
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::Entity>(1);
+    enemy->addComponent(std::make_shared<ECS::PositionComponent>(600, 300));
+    enemy->addComponent(std::make_shared<ECS::ScaleComponent>(0.03f, 0.03f));
+    enemy->addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
+
+    sf::Texture enemyTexture;
+    if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
+        std::cout << "Error loading enemy texture" << std::endl;
+        return;
+    }
+
+    sf::Rect<int> enemyRect;
+    enemyRect.left = 0;
+    enemyRect.top = 0;
+    enemyRect.width = enemyTexture.getSize().x;
+    enemyRect.height = enemyTexture.getSize().y;
+    enemy->addComponent(std::make_shared<ECS::SpriteComponent>(enemyTexture, enemyRect));
+    _entityFactory.registerEntity(enemy, "enemy");
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -156,6 +196,17 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
+    }
+    for (int i = 4; i < (4 + std::experimental::randint(1, 4)); i++) {
+        std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("enemy", i);
+        auto position = enemy->getComponent<ECS::PositionComponent>();
+        if (position) {
+            std::vector<int> pos = position->getValue();
+            pos.at(0) = std::experimental::randint(400, 800);
+            pos.at(1) = std::experimental::randint(70, 600);
+            position->setValue(pos);
+        }
+        scene->addEntity(enemy);
     }
     return scene;
 }

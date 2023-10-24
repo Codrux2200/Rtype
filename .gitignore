@@ -4,9 +4,6 @@ rtype-server
 rtype-client
 .vscode
 
-CMakeLists.txt
-install.sh
-
 doxygen_warnings.log
 
 # Prerequisites

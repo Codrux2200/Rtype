@@ -41,6 +41,12 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
     // Clear the window
     _window.clear();
 
+    // Draw background
+    if (sceneManager.getCurrentScene()->getSceneType() == ECS::SceneType::GAME) {    
+        sf::Vector2i screenSize = static_cast<sf::Vector2i>(_window.getSize());
+        backgroundComponent.update(deltaTime, screenSize);
+        backgroundComponent.draw(_window);
+    }
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
@@ -54,7 +60,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
         std::vector<int> pos;
         std::vector<float> scale;
-        std::vector<int> rotation;
+        std::vector<float> rotation;
 
         if (positionComponent != nullptr && positionComponent->isEnabled())
             pos = positionComponent->getValue();
@@ -67,7 +73,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
             scale = {1, 1};
 
         if (rotationComponent != nullptr && rotationComponent->isEnabled())
-            rotation = rotationComponent->getValue();
+            rotation = rotationComponent->getFloatValue();
         else
             rotation = {0};
 

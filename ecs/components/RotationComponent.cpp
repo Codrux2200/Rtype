@@ -8,27 +8,21 @@
 #include <iostream>
 #include "RotationComponent.hpp"
 
-ECS::RotationComponent::RotationComponent()
-{
-    _rotation = 0;
-}
-
-ECS::RotationComponent::~RotationComponent()
+ECS::RotationComponent::RotationComponent(float rotation) : _rotation(rotation)
 {
 }
 
-std::vector<int> ECS::RotationComponent::getValue() const
+std::vector<float> ECS::RotationComponent::getFloatValue() const
 {
-    std::vector<int> rotation = std::vector<int>();
-    rotation.push_back(_rotation);
-    return rotation;
+    return std::vector<float>{_rotation};
 }
 
-void ECS::RotationComponent::setValue(std::vector<int> values)
+void ECS::RotationComponent::setFloatValue(float rotation)
 {
-    if (values.size() != 1) {
-        std::cerr << "Error: setValue in RotationComponent" << std::endl;
-        return;
-    }
-    _rotation = values[0];
+    _rotation = rotation;
+}
+
+std::shared_ptr<ECS::IComponent> ECS::RotationComponent::clone() const
+{
+    return std::make_shared<RotationComponent>(_rotation);
 }

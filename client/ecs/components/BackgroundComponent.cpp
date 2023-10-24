@@ -16,59 +16,59 @@ namespace ECS
         // Replace "backgroundTexture1", "backgroundTexture2", etc. with your actual textures
         // Adjust the speed values as needed
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[0].loadFromFile("assets/6Background.png")) {
+        if (!backgroundTextures[0].loadFromFile("assets/background/6Background.png")) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
-        backgroundSpeeds.push_back(0.2f);
+        backgroundSpeeds.push_back(20.0f);
+        backgroundPositions.push_back(sf::Vector2f(0.0f, 0.0f));
 
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[1].loadFromFile("assets/6Background.png")) {
+        if (!backgroundTextures[1].loadFromFile("assets/background/6Background.png")) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
-        backgroundSpeeds.push_back(0.1f);
+        backgroundSpeeds.push_back(20.0f);
+        backgroundPositions.push_back(sf::Vector2f(900.0f, 0.0f));
 
-        // Load your foreground texture and set its speed here
-        // Replace "foregroundTexture" with your actual foreground texture
-        if (!foregroundTexture.loadFromFile("foreground.png")) {
-            std::cout << "Error loading foreground texture" << std::endl;
+        backgroundTextures.push_back(sf::Texture());
+        if (!backgroundTextures[2].loadFromFile("assets/background/1Background.png")) {
+            std::cout << "Error loading background texture" << std::endl;
             return;
         }
-        foregroundSpeed = 0.3f;
+        backgroundSpeeds.push_back(40.0f);
+        backgroundPositions.push_back(sf::Vector2f(0.0f, 0.0f));
+
+        backgroundTextures.push_back(sf::Texture());
+        if (!backgroundTextures[3].loadFromFile("assets/background/1Background.png")) {
+            std::cout << "Error loading background texture" << std::endl;
+            return;
+        }
+        backgroundSpeeds.push_back(40.0f);
+        backgroundPositions.push_back(sf::Vector2f(900.0f, 0.0f));
 
         // Initialize background sprites
         for (int i = 0; i < backgroundTextures.size(); ++i)
         {
             backgroundLayers.push_back(std::make_unique<sf::Sprite>(backgroundTextures[i]));
-            backgroundPositions.push_back(sf::Vector2f(0.0f, 0.0f));
+            backgroundLayers[i]->setScale(sf::Vector2f(1.5f, 1.5f));
         }
 
-        // Initialize foreground sprite
-        foreground = std::make_unique<sf::Sprite>(foregroundTexture);
-        foregroundPosition = sf::Vector2f(0.0f, 0.0f);
     }
 
-    void BackgroundComponent::update(float deltaTime, const sf::Vector2u& screenSize)
+    void BackgroundComponent::update(float deltaTime, const sf::Vector2i& screenSize)
     {
         // Update the background positions based on their speeds and deltaTime
         for (int i = 0; i < backgroundLayers.size(); ++i)
         {
             backgroundPositions[i].x -= backgroundSpeeds[i] * deltaTime;
-            if (backgroundPositions[i].x < -screenSize.x)
+            if (backgroundPositions[i].x <= -900.0f)
             {
-                backgroundPositions[i].x = 0.0f;
+                backgroundPositions[i].x = 895.0f;
             }
             backgroundLayers[i]->setPosition(backgroundPositions[i]);
+            
         }
-
-        // Update the foreground position based on its speed and deltaTime
-        foregroundPosition.x -= foregroundSpeed * deltaTime;
-        if (foregroundPosition.x < -screenSize.x)
-        {
-            foregroundPosition.x = 0.0f;
-        }
-        foreground->setPosition(foregroundPosition);
     }
 
     void BackgroundComponent::draw(sf::RenderWindow& window)
@@ -80,6 +80,6 @@ namespace ECS
         }
 
         // Draw the foreground
-        window.draw(*foreground);
+        //window.draw(*foreground);
     }
 }
