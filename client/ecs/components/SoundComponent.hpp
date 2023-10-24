@@ -17,16 +17,16 @@ namespace ECS {
 class SoundComponent : public AComponent {
     public:
         SoundComponent(const SoundComponent& other);
-        SoundComponent(std::shared_ptr<sf::Sound>);
+        SoundComponent(std::shared_ptr<sf::Sound>, std::shared_ptr<sf::SoundBuffer>);
         ~SoundComponent() = default;
         void play();
-        void update();
         bool isPlaying() const;
+        bool startPlaying= true;
         std::shared_ptr<IComponent> clone() const override;
 
     protected:
     private:
-        sf::SoundBuffer _soundBuffer;
+        std::shared_ptr<sf::SoundBuffer> _soundBuffer;
         std::shared_ptr<sf::Sound> _sounds;
     };
 }

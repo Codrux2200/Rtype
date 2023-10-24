@@ -9,11 +9,11 @@
 #include <iostream>
 
 namespace ECS {
-SoundComponent::SoundComponent(const SoundComponent& other) : _sounds(other._sounds)
+SoundComponent::SoundComponent(const SoundComponent& other) : _sounds(other._sounds), _soundBuffer(other._soundBuffer)
 {
 }
 
-SoundComponent::SoundComponent(std::shared_ptr<sf::Sound>)
+SoundComponent::SoundComponent(std::shared_ptr<sf::Sound> sounds, std::shared_ptr<sf::SoundBuffer> soundbuffer) : _sounds(sounds), _soundBuffer(soundbuffer)
 {
 }
 
@@ -23,13 +23,6 @@ void SoundComponent::play()
     _sounds->play();
 }
 
-void SoundComponent::update()
-{
-    if (_sounds->getStatus() == sf::Music::Stopped) {
-        // If the sound has finished playing, restart it
-        _sounds->play();
-    }
-}
 
 std::shared_ptr<IComponent> SoundComponent::clone() const
 {

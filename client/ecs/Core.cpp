@@ -90,11 +90,14 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
-    sf::SoundBuffer soundbuffer;
-    soundbuffer.loadFromFile("assets/sound/laser.ogg");
-    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(soundbuffer);
+    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
+    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+        std::cerr << "Error loading sound" << std::endl;
+        return;
+    }
+    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
 
-    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound));
+    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
     if (!playerTexture.loadFromFile("assets/Ship6.png")) {
