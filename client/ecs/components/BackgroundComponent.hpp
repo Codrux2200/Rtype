@@ -18,7 +18,7 @@ namespace ECS
     class BackgroundComponent
     {
     public:
-        BackgroundComponent();
+        BackgroundComponent(int windowWidth, int windowHeight);
 
         void update(float deltaTime, const sf::Vector2i& screenSize);
         void draw(sf::RenderWindow &window);
