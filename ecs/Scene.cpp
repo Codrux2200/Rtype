@@ -5,8 +5,9 @@
 ** Scene
 */
 
-#include "Scene.hpp"
 #include <iostream>
+#include <algorithm>
+#include "Scene.hpp"
 
 ECS::Scene::Scene(SceneType sceneType) : _sceneType(sceneType)
 {
@@ -42,9 +43,12 @@ ECS::SceneType ECS::Scene::getSceneType() const
 
 std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
 {
-    for (auto &entity : entitiesList) {
-        if (entity->getId() == entityID)
-            return entity;
-    }
+    auto it = std::find_if(entitiesList.begin(), entitiesList.end(),
+    [entityID](const std::shared_ptr<Entity>& entity) {
+        return entity->getId() == entityID;
+    });
+
+    if (it != entitiesList.end())
+        return *it;
     return nullptr;
 }

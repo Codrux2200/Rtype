@@ -186,6 +186,6 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             system->update(sceneManager, deltaTime, connection.sendQueue);
         }
         connection.sendPackets();
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLISECONDS_TICKS));
+        std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME_MILLIS));
     }
 }

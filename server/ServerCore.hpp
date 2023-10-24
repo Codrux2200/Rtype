@@ -45,6 +45,8 @@ namespace ECS {
             void _handlerMoveLeft(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerMoveRight(Network::Packet &packet, const udp::endpoint &endpoint);
 
+            void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
+
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
             RType::Server &_server;

@@ -14,12 +14,10 @@
 ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 {
     _initEntities();
-    std::map<SceneType, std::shared_ptr<Scene>> scenes = {
+    sceneManager = SceneManager({
         {SceneType::MAIN_MENU, _initMainMenuScene()},
         {SceneType::GAME, _initGameScene()}
-    };
-
-    sceneManager = SceneManager(scenes);
+    });
 }
 
 void ECS::ServerCore::_initEntities()
@@ -68,7 +66,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
             sceneManager, _deltaTime, _server.packetManager.sendPacketsQueue);
         }
         _server.sendPackets();
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLISECONDS_TICKS));
+        std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME_MILLIS));
     }
 }
 
@@ -98,7 +96,7 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
     }
 }
 
-void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, float y)
 {
     if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
@@ -111,9 +109,20 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
     auto position = entity->getComponent<PositionComponent>();
     auto pos = position->getValue();
 
-    if (pos[1] <= 0)
+    if (pos[0] <= 0 || pos[0] >= 720 || pos[1] <= 0 || pos[1] >= 540)
         return;
-    position->move(0, -(_verticalSpeed * _deltaTime));
+
+    position->move(x, y);
+
+    pos = position->getValue();
+    if (pos[0] < 0)
+        position->move(-pos[0], 0);
+    if (pos[0] > 720)
+        position->move(720 - pos[0], 0);
+    if (pos[1] < 0)
+        position->move(0, -pos[1]);
+    if (pos[1] > 540)
+        position->move(0, 540 - pos[1]);
 
     Network::data::PlayersPos data{};
 
@@ -140,128 +149,22 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
     }
 }
 
+void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::endpoint &endpoint)
+{
+    _tryMovePlayer(endpoint, 0, -(_verticalSpeed * _deltaTime));
+}
+
 void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
-    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
-        return;
-    auto client = _server.clientManager.getClientByEndpoint(endpoint);
-    std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
-    auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
-
-    if (entity == nullptr)
-        return;
-    auto position = entity->getComponent<PositionComponent>();
-    auto pos = position->getValue();
-
-    if (pos[1] >= 540)
-        return;
-    position->move(0, _verticalSpeed * _deltaTime);
-
-    Network::data::PlayersPos data{};
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        std::shared_ptr<Entity> cli = scene->getEntityByID(i);
-
-        if (cli == nullptr)
-            continue;
-        auto positionComponent = cli->getComponent<PositionComponent>();
-
-        if (positionComponent == nullptr)
-            continue;
-
-        std::vector<int> values = positionComponent->getValue();
-
-        data.positions[i] = {values[0], values[1]};
-    }
-    auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
-
-    for (auto cli : _server.clientManager.getClients()) {
-        if (cli == nullptr)
-            continue;
-        _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
-    }
+    _tryMovePlayer(endpoint, 0, _verticalSpeed * _deltaTime);
 }
 
 void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
-    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
-        return;
-    auto client = _server.clientManager.getClientByEndpoint(endpoint);
-    std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
-    auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
-
-    if (entity == nullptr)
-        return;
-    auto position = entity->getComponent<PositionComponent>();
-    auto pos = position->getValue();
-
-    if (pos[0] <= 0)
-        return;
-    position->move(-(_horizontalSpeed * _deltaTime), 0);
-
-    Network::data::PlayersPos data{};
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        std::shared_ptr<Entity> cli = scene->getEntityByID(i);
-
-        if (cli == nullptr)
-            continue;
-        auto positionComponent = cli->getComponent<PositionComponent>();
-
-        if (positionComponent == nullptr)
-            continue;
-
-        std::vector<int> values = positionComponent->getValue();
-
-        data.positions[i] = {values[0], values[1]};
-    }
-    auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
-
-    for (auto cli : _server.clientManager.getClients()) {
-        if (cli == nullptr)
-            continue;
-        _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
-    }
+    _tryMovePlayer(endpoint, -(_horizontalSpeed * _deltaTime), 0);
 }
 
 void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
-    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
-        return;
-    auto client = _server.clientManager.getClientByEndpoint(endpoint);
-    std::shared_ptr<Scene> scene = sceneManager.getScene(SceneType::GAME);
-    auto entity = scene->getEntityByID(_server.clientManager.getClientId(client->getEndpoint()));
-
-    if (entity == nullptr)
-        return;
-    auto position = entity->getComponent<PositionComponent>();
-    auto pos = position->getValue();
-
-    if (pos[0] >= 720)
-        return;
-    position->move(_horizontalSpeed * _deltaTime, 0);
-
-    Network::data::PlayersPos data{};
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        std::shared_ptr<Entity> cli = scene->getEntityByID(i);
-
-        if (cli == nullptr)
-            continue;
-        auto positionComponent = cli->getComponent<PositionComponent>();
-
-        if (positionComponent == nullptr)
-            continue;
-
-        std::vector<int> values = positionComponent->getValue();
-
-        data.positions[i] = {values[0], values[1]};
-    }
-    auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
-
-    for (auto cli : _server.clientManager.getClients()) {
-        if (cli == nullptr)
-            continue;
-        _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
-    }
+    _tryMovePlayer(endpoint, _horizontalSpeed * _deltaTime, 0);
 }

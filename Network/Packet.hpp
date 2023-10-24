@@ -20,7 +20,7 @@
  * @brief Network protocol
  */
 
-#define MILLISECONDS_TICKS 20
+#define TICK_TIME_MILLIS 20
 
 namespace Network {
     extern "C"

@@ -6,7 +6,6 @@
 */
 
 #include <iostream>
-#include <utility>
 #include "ClickComponent.hpp"
 
 ECS::ClickComponent::ClickComponent(sf::Rect<int> rect, ECS::eventCallback callback, sf::RenderWindow &window) : ECS::EventComponent(std::move(callback)), _rect(rect), _window(window)
