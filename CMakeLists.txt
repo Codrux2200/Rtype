@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
+set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
+set(BOOST_ENABLE_CMAKE ON)
 
 set(NETWORK_SOURCES
         Network/Packet.hpp
@@ -19,7 +21,6 @@ set(NETWORK_SOURCES
         Network/data/MoveData.hpp
         Network/data/StartData.hpp
         Network/data/DisconnectData.hpp
-        Network/data/PlayersPos.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -39,48 +40,49 @@ set(ECS_SOURCES
         ecs/Entity.cpp
         ecs/Entity.hpp
         ecs/Scene.cpp
+        ecs/Scene.hpp
         ecs/SceneManager.cpp
-        ecs/components/HealthComponent.cpp
+        ecs/SceneManager.hpp
+        ecs/EntityFactory.cpp
+        ecs/EntityFactory.hpp
         ecs/components/PositionComponent.cpp
         ecs/components/PositionComponent.hpp
         ecs/components/RotationComponent.cpp
+        ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
-        ecs/components/ShootComponent.cpp
-        ecs/components/VelocityComponent.cpp
-        ecs/EntityFactory.cpp
-        ecs/EntityFactory.hpp
+        ecs/components/ScaleComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
-    client/main.cpp
-    client/Connection.cpp
-    client/Connection.hpp
-    client/ecs/Core.hpp
-    client/ecs/Core.cpp
-    client/ecs/EventSystem.cpp
-    client/ecs/EventSystem.hpp
-    client/ecs/GraphicSystem.cpp
-    client/ecs/AudioSystem.cpp
-    client/ecs/AudioSystem.hpp
-    client/ecs/GraphicSystem.hpp
-    client/ecs/components/BackgroundComponent.cpp
-    client/ecs/components/BackgroundComponent.hpp
-    client/ecs/components/MusicsComponent.cpp
-    client/ecs/components/MusicsComponent.hpp
-    client/ecs/components/SoundComponent.cpp
-    client/ecs/components/SoundComponent.hpp
-    client/ecs/components/ClickComponent.cpp
-    client/ecs/components/ClickComponent.hpp
-    client/ecs/components/EnemyComponent.cpp
-    client/ecs/components/EnemyComponent.hpp
-    client/ecs/components/EventComponent.cpp
-    client/ecs/components/EventComponent.hpp
-    client/ecs/components/ControlComponent.cpp
-    client/ecs/components/ControlComponent.hpp
-    client/ecs/components/SpriteComponent.cpp
-    client/ecs/components/SpriteComponent.hpp
-    client/ecs/models/ButtonEntity.hpp
-    client/ecs/models/ButtonEntity.cpp
+        client/main.cpp
+        client/Connection.cpp
+        client/Connection.hpp
+        client/ecs/Core.hpp
+        client/ecs/Core.cpp
+        client/ecs/EventSystem.cpp
+        client/ecs/EventSystem.hpp
+        client/ecs/GraphicSystem.cpp
+        client/ecs/AudioSystem.cpp
+        client/ecs/AudioSystem.hpp
+        client/ecs/GraphicSystem.hpp
+        client/ecs/components/BackgroundComponent.cpp
+        client/ecs/components/BackgroundComponent.hpp
+        client/ecs/components/MusicsComponent.cpp
+        client/ecs/components/MusicsComponent.hpp
+        client/ecs/components/SoundComponent.cpp
+        client/ecs/components/SoundComponent.hpp
+        client/ecs/components/ClickComponent.cpp
+        client/ecs/components/ClickComponent.hpp
+        client/ecs/components/EnemyComponent.cpp
+        client/ecs/components/EnemyComponent.hpp
+        client/ecs/components/EventComponent.cpp
+        client/ecs/components/EventComponent.hpp
+        client/ecs/components/ControlComponent.cpp
+        client/ecs/components/ControlComponent.hpp
+        client/ecs/components/SpriteComponent.cpp
+        client/ecs/components/SpriteComponent.hpp
+        client/ecs/models/ButtonEntity.cpp
+        client/ecs/models/ButtonEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -91,8 +93,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/Client.hpp
         server/ClientManager.cpp
         server/ClientManager.hpp
-        server/ServerCore.hpp
         server/ServerCore.cpp
+        server/ServerCore.hpp
 )
 
 
@@ -102,17 +104,17 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-        BoostAsio
-        GIT_REPOSITORY https://github.com/boostorg/asio.git
+        Boost
+        GIT_REPOSITORY https://github.com/boostorg/boost.git
+        GIT_TAG boost-1.80.0
 )
+FetchContent_MakeAvailable(Boost)
 
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
 FetchContent_MakeAvailable(SFML)
-FetchContent_MakeAvailable(BoostAsio)
 
-find_package(Boost REQUIRED)
 
 # Ajoutez vos sources existantes à votre exécutable
 add_executable(rtype-client ${CLIENT_SOURCES})
@@ -145,9 +147,15 @@ target_link_libraries(rtype-client
         sfml-window
         sfml-system
         sfml-audio
-        ${Boost_LIBRARIES}
+        Boost::filesystem
+        Boost::array
+        Boost::asio
+        Boost::system
 )
 
 target_link_libraries(rtype-server
-        ${Boost_LIBRARIES}
+        Boost::filesystem
+        Boost::array
+        Boost::asio
+        Boost::system
 )
