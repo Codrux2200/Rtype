@@ -19,6 +19,9 @@
 /**
  * @brief Network protocol
  */
+
+#define MILLISECONDS_TICKS 20
+
 namespace Network {
     extern "C"
     {

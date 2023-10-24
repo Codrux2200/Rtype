@@ -49,5 +49,7 @@ namespace ECS {
             EntityFactory _entityFactory;
             RType::Server &_server;
             float _deltaTime;
+            float _horizontalSpeed = 500;
+            float _verticalSpeed = 500;
     };
 }

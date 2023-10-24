@@ -6,9 +6,10 @@
 */
 
 #include "ServerCore.hpp"
+#include <thread>
+#include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
-#include "PlayersPos.hpp"
 
 ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 {
@@ -59,6 +60,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
     while (true) {
         frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
         _deltaTime = frameDuration.count();
+        lastFrameTime = std::chrono::high_resolution_clock::now();
 
         _server.packetManager.executeRecvPacketsQueue();
         for (auto &system : _systems) {
@@ -66,6 +68,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
             sceneManager, _deltaTime, _server.packetManager.sendPacketsQueue);
         }
         _server.sendPackets();
+        std::this_thread::sleep_for(std::chrono::milliseconds(MILLISECONDS_TICKS));
     }
 }
 
@@ -110,7 +113,7 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
 
     if (pos[1] <= 0)
         return;
-    position->move(0, -(40 * _deltaTime));
+    position->move(0, -(_verticalSpeed * _deltaTime));
 
     Network::data::PlayersPos data{};
 
@@ -152,7 +155,7 @@ void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp:
 
     if (pos[1] >= 540)
         return;
-    position->move(0, 40 * _deltaTime);
+    position->move(0, _verticalSpeed * _deltaTime);
 
     Network::data::PlayersPos data{};
 
@@ -194,7 +197,7 @@ void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp:
 
     if (pos[0] <= 0)
         return;
-    position->move(-(80 * _deltaTime), 0);
+    position->move(-(_horizontalSpeed * _deltaTime), 0);
 
     Network::data::PlayersPos data{};
 
@@ -236,7 +239,7 @@ void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp
 
     if (pos[0] >= 720)
         return;
-    position->move(80 * _deltaTime, 0);
+    position->move(_horizontalSpeed * _deltaTime, 0);
 
     Network::data::PlayersPos data{};
 
