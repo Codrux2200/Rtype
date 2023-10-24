@@ -8,7 +8,7 @@
 #include <iostream>
 #include <experimental/random>
 #include "Core.hpp"
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "HealthComponent.hpp"
 #include "PositionComponent.hpp"
 #include "RotationComponent.hpp"
@@ -68,10 +68,11 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     }
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
-    player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
-
+  
+    player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
     player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
-
+ 
+  
     // Add enemy Component to enemy entities
     int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
     for (int i = 0; i < size; i++) {
