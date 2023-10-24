@@ -19,7 +19,7 @@
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
-#include "AudioComponent.hpp"
+#include "SoundComponent.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
@@ -69,7 +69,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
     player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
 
-    player->addComponent(std::make_shared<ECS::AudioComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::SoundComponent>("assets/sound/music.ogg"));
 
     // Add enemy Component to enemy entities
     int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();

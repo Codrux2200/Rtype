@@ -2,30 +2,30 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** AudioComponent
+** SoundComponent
 */
 
-#include "AudioComponent.hpp"
+#include "SoundComponent.hpp"
 #include <iostream>
 
 namespace ECS {
 
-AudioComponent::AudioComponent(const AudioComponent &other)
+SoundComponent::SoundComponent(const SoundComponent &other)
     :_soundBuffer(other._soundBuffer), _sound(other._sound) {
 }
 
-AudioComponent::AudioComponent(std::string soundPath)
+SoundComponent::SoundComponent(std::string soundPath)
     :_sound(_soundBuffer) {
     if (_soundBuffer.loadFromFile("assets/sound/music.ogg")) {
         _sound.setBuffer(_soundBuffer);
     }
 }
 
-void AudioComponent::play() {
+void SoundComponent::play() {
     _sound.play();
 }
 
-void AudioComponent::update() {
+void SoundComponent::update() {
     if (_sound.getStatus() == sf::Sound::Stopped) {
         // If the sound has finished playing, restart it
         _sound.play();
@@ -33,11 +33,11 @@ void AudioComponent::update() {
 }
 
 
-std::shared_ptr<IComponent> AudioComponent::clone() const {
-    return std::make_shared<AudioComponent>(*this);
+std::shared_ptr<IComponent> SoundComponent::clone() const {
+    return std::make_shared<SoundComponent>(*this);
 }
 }
 
-bool ECS::AudioComponent::isPlaying() const {
+bool ECS::SoundComponent::isPlaying() const {
     return _sound.getStatus() == sf::Sound::Playing;
 }

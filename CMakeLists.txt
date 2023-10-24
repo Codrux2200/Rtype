@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.11)
 project(RType)
 include(FetchContent)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -67,8 +67,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/GraphicSystem.hpp
     client/ecs/components/BackgroundComponent.cpp
     client/ecs/components/BackgroundComponent.hpp
-    client/ecs/components/AudioComponent.cpp
-    client/ecs/components/AudioComponent.hpp
+    client/ecs/components/SoundComponent.cpp
+    client/ecs/components/SoundComponent.hpp
     client/ecs/components/ClickComponent.cpp
     client/ecs/components/ClickComponent.hpp
     client/ecs/components/EnemyComponent.cpp

@@ -2,24 +2,24 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** AudioComponent
+** SoundComponent
 */
 
-#ifndef AUDIOCOMPONENT_HPP_
-#define AUDIOCOMPONENT_HPP_
+#ifndef SoundComponent_HPP_
+#define SoundComponent_HPP_
 
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "AComponent.hpp"
 
 namespace ECS {
-class AudioComponent : public AComponent{
+class SoundComponent : public AComponent{
 public:
-    AudioComponent(const AudioComponent& other);
-    AudioComponent(std::string soundPath);
-    ~AudioComponent() {
+    SoundComponent(const SoundComponent& other);
+    SoundComponent(std::string soundPath);
+    ~SoundComponent() {
         _sound.stop();
-        std::cout << "AudioComponent destructor" << std::endl;
+        std::cout << "SoundComponent destructor" << std::endl;
     }
     void play();
     void update();
@@ -32,4 +32,4 @@ private:
     sf::Sound _sound;
 };
 }
-#endif /* !AUDIOCOMPONENT_HPP_ */
+#endif /* !SoundComponent_HPP_ */

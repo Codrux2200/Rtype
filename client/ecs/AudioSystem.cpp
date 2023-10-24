@@ -6,7 +6,7 @@
 */
 
 #include "AudioSystem.hpp"
-#include "AudioComponent.hpp"
+#include "SoundComponent.hpp"
 #include <vector>
 #include <memory>
 
@@ -16,7 +16,7 @@ AudioSystem::AudioSystem() {
 
 void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::vector<Network::Packet> &/*packetQueue*/, Network::PacketManager &/* packetManager*/) {
     for (auto entity : sceneManager.getCurrentScene()->entitiesList) {
-        auto component = entity->getComponent<AudioComponent>();
+        auto component = entity->getComponent<SoundComponent>();
 
         if(!component || !component->isEnabled())
             continue;
