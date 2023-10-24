@@ -59,6 +59,8 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
         if (packet.connectData.players[i][0] == '\0') {
             std::cout << "Player " << i << " is empty" << std::endl;
             scene->getEntityByID(i)->isEnabled = false;
+        } else {
+            scene->getEntityByID(i)->isEnabled = true;
         }
     }
     std::shared_ptr<ECS::Entity> player = scene->getEntityByID(_playerId);
