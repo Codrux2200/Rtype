@@ -5,8 +5,7 @@
 ** SceneManager
 */
 
-#ifndef SCENEMANAGER_HPP_
-#define SCENEMANAGER_HPP_
+#pragma once
 #include <map>
 #include "Scene.hpp"
 
@@ -75,8 +74,5 @@ namespace ECS {
              *
              */
             SceneType _currentScene;
-
     };
 }
-
-#endif /* !SCENEMANAGER_HPP_ */

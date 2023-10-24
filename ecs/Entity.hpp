@@ -37,7 +37,7 @@ namespace ECS {
              *
              * @return int
              */
-            int getId() const;
+            [[nodiscard]] int getId() const;
 
             // Templates impose to write the implementation in the header file
             template<typename T>
@@ -52,7 +52,7 @@ namespace ECS {
 
             void addComponent(std::shared_ptr<AComponent> component);
 
-            std::vector<std::shared_ptr<IComponent>> getComponents() const;
+            [[nodiscard]] std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
             bool isEnabled = true;
 

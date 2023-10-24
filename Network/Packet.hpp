@@ -14,10 +14,14 @@
 #include "MoveData.hpp"
 #include "PacketType.hpp"
 #include "StartData.hpp"
+#include "PlayersPos.hpp"
 
 /**
  * @brief Network protocol
  */
+
+#define TICK_TIME_MILLIS 20
+
 namespace Network {
     extern "C"
     {
@@ -44,6 +48,7 @@ namespace Network {
                         leaderData; ///< The data of the LEADER packet
                         struct data::MoveData
                         moveData; ///< The data of the MOVE packet
+                        struct data::PlayersPos playersPos;
                 };
         };
     }

@@ -18,6 +18,7 @@ namespace ECS {
      */
     enum ComponentType
     {
+        NOTHING = -1,
         /**
          * @brief Sprite component
          *
@@ -33,6 +34,8 @@ namespace ECS {
          *
         */
         AUDIBLE = 2,
+
+
     };
 
     class IComponent {

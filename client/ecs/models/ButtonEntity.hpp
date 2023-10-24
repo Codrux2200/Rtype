@@ -7,13 +7,13 @@
 
 #pragma once
 
+#include "Entity.hpp"
+
 namespace ECS {
-    class ButtonEntity {
+    class ButtonEntity : public Entity {
         public:
             ButtonEntity();
-            ~ButtonEntity();
+            ~ButtonEntity() = default;
 
-        protected:
-        private:
     };
 }

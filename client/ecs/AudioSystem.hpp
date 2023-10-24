@@ -16,9 +16,9 @@ namespace ECS {
 
 class AudioSystem : public ISystem {
     public:
-        AudioSystem();
+        AudioSystem() = default;
         ~AudioSystem() = default;
-        void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &packetManager);
+        void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
 
     protected:
     private:

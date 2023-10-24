@@ -25,7 +25,7 @@ namespace ECS {
 
             std::shared_ptr<IComponent> clone() const override;
 
-            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
+            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
 
         private:
             int _speed = 400;

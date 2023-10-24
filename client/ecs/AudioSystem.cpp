@@ -9,27 +9,25 @@
 #include "MusicsComponent.hpp"
 #include "SoundComponent.hpp"
 #include <vector>
-#include <memory>
 
 namespace ECS {
-AudioSystem::AudioSystem() {
-}
 
-void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::vector<Network::Packet> &/*packetQueue*/, Network::PacketManager &/* packetManager*/) {
+void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::vector<Network::Packet> &/*packetQueue*/)
+{
     for (auto entity : sceneManager.getCurrentScene()->entitiesList) {
         auto component = entity->getComponent<MusicsComponent>();
         auto component2 = entity->getComponent<SoundComponent>();
 
-
-        if(component && component->isEnabled()) 
+        if (component && component->isEnabled())
             if (!component->isPlaying()) {
                 component->play();
             }
-        if(component2 && component2->isEnabled())
+        if (component2 && component2->isEnabled()) {
             if (component2->startPlaying == true) {
                 component2->play();
                 component2->startPlaying = false;
             }
         }
+    }
 }
 }

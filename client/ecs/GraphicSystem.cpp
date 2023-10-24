@@ -5,7 +5,6 @@
 ** GraphicSystem
 */
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GraphicSystem.hpp"
 #include "ControlComponent.hpp"
@@ -22,7 +21,7 @@ ECS::GraphicSystem::~GraphicSystem()
 {
 }
 
-void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
+void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -43,6 +42,8 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
+        if (!entity->isEnabled)
+            continue;
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled())
             continue;
@@ -55,8 +56,10 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         std::vector<float> scale;
         std::vector<float> rotation;
 
-        if (positionComponent != nullptr && positionComponent->isEnabled())
+        if (positionComponent != nullptr && positionComponent->isEnabled()) {
+            std::cout << "pos: " << positionComponent->getValue()[0] << ", " << positionComponent->getValue()[1] << std::endl;
             pos = positionComponent->getValue();
+        }
         else
             pos = {0, 0};
 

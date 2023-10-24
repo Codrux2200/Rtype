@@ -44,7 +44,7 @@ namespace ECS {
              * @param entity
              * @param dt
              */
-            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final override;
+            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final override;
         protected:
         private:
             int _speed = 100;
