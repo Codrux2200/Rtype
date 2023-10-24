@@ -50,14 +50,20 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 {
     std::vector<Network::Packet> packetsQueue;
     std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
-    float deltaTime = 0;
+    // Initialize variables for delta time calculation.
+    std::chrono::high_resolution_clock clock;
+    auto lastFrameTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> frameDuration{};
 
     _initHandlers(_server.packetManager);
     while (true) {
+        frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
+        _deltaTime = frameDuration.count();
+
         _server.packetManager.executeRecvPacketsQueue();
         for (auto &system : _systems) {
             system->update(
-            sceneManager, deltaTime, _server.packetManager.sendPacketsQueue);
+            sceneManager, _deltaTime, _server.packetManager.sendPacketsQueue);
         }
         _server.sendPackets();
     }
@@ -104,7 +110,7 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
 
     if (pos[1] <= 0)
         return;
-    position->move(0, -1);
+    position->move(0, -(40 * _deltaTime));
 
     Network::data::PlayersPos data{};
 
@@ -124,7 +130,7 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
     }
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
-    for (auto cli : _server.clientManager.getClients()) {
+    for (const auto& cli : _server.clientManager.getClients()) {
         if (cli == nullptr)
             continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
@@ -146,7 +152,7 @@ void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp:
 
     if (pos[1] >= 540)
         return;
-    position->move(0, 1);
+    position->move(0, 40 * _deltaTime);
 
     Network::data::PlayersPos data{};
 
@@ -188,7 +194,7 @@ void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp:
 
     if (pos[0] <= 0)
         return;
-    position->move(-1, 0);
+    position->move(-(80 * _deltaTime), 0);
 
     Network::data::PlayersPos data{};
 
@@ -230,7 +236,7 @@ void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp
 
     if (pos[0] >= 720)
         return;
-    position->move(1, 0);
+    position->move(80 * _deltaTime, 0);
 
     Network::data::PlayersPos data{};
 

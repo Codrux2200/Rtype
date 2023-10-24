@@ -48,5 +48,6 @@ namespace ECS {
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
             RType::Server &_server;
+            float _deltaTime;
     };
 }
