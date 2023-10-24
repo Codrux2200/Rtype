@@ -45,11 +45,13 @@ namespace ECS
 
         float backgroundWRatio = 0.0f;
         float backgroundHRatio = 0.0f;
-        backgroundWRatio = static_cast<float>(windowWidth) / static_cast<float>(backgroundTextures[i].getSize().x);
-        backgroundHRatio = static_cast<float>(windowHeight) / static_cast<float>(backgroundTextures[i].getSize().y);
+
+
         // Initialize background sprites
         for (int i = 0; i < backgroundTextures.size(); ++i)
         {
+            backgroundWRatio = static_cast<float>(windowWidth) / static_cast<float>(backgroundTextures[i].getSize().x);
+            backgroundHRatio = static_cast<float>(windowHeight) / static_cast<float>(backgroundTextures[i].getSize().y);
             backgroundLayers.push_back(std::make_unique<sf::Sprite>(backgroundTextures[i]));
             backgroundLayers[i]->setScale(sf::Vector2f(backgroundWRatio, backgroundHRatio));
             std::cout << "Background positions: " << backgroundTextures[i].getSize().x * backgroundWRatio << " " << backgroundTextures[i].getSize().y * backgroundHRatio << std::endl;
