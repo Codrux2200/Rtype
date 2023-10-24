@@ -16,7 +16,7 @@ MusicsComponent::MusicsComponent(const MusicsComponent &other)
 
 MusicsComponent::MusicsComponent(std::string soundPath)
     :_musics(_musicsBuffer) {
-    if (_musicsBuffer.loadFromFile("assets/sound/music.ogg")) {
+    if (_musicsBuffer.loadFromFile(soundPath)) {
         _musics.setBuffer(_musicsBuffer);
     }
 }

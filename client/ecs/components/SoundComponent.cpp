@@ -32,6 +32,6 @@ std::shared_ptr<IComponent> SoundComponent::clone() const
 
 bool SoundComponent::isPlaying() const
 {
-    return _sounds->getStatus() == sf::Music::Playing;
+    return _sounds->getStatus() == sf::Sound::Playing;
 }
 }
