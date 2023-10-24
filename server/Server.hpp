@@ -77,7 +77,7 @@ namespace RType {
             std::map<Network::PacketType, std::function<void()>>
             _packetHandlers;
 
-            static constexpr int CLIENT_TIMEOUT_SECONDS = 180;
-            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 100;
+            static constexpr int CLIENT_TIMEOUT_SECONDS = 180000;
+            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 10000;
     };
 } // namespace RType

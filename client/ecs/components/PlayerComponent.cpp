@@ -24,18 +24,19 @@ void ECS::PlayerComponent::execute(std::vector<Network::Packet> &packetsQueue, E
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_UP);
+        packetsQueue.push_back(*packet);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_DOWN);
+        packetsQueue.push_back(*packet);
+
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_LEFT);
+        packetsQueue.push_back(*packet);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_RIGHT);
-    }
-    if (packet) {
-        std::cout << "Sending packet" << std::endl;
         packetsQueue.push_back(*packet);
     }
 }
