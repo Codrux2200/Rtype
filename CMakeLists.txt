@@ -19,6 +19,7 @@ set(NETWORK_SOURCES
         Network/data/MoveData.hpp
         Network/data/StartData.hpp
         Network/data/DisconnectData.hpp
+        Network/data/PlayersPos.hpp
 )
 
 set(NETWORK_INCLUDE

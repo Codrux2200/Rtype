@@ -39,3 +39,12 @@ ECS::SceneType ECS::Scene::getSceneType() const
 {
     return _sceneType;
 }
+
+std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
+{
+    for (auto &entity : entitiesList) {
+        if (entity->getId() == entityID)
+            return entity;
+    }
+    return nullptr;
+}

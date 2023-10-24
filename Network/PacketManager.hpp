@@ -12,6 +12,7 @@
 #include <functional>
 #include <vector>
 #include <iostream>
+#include <boost/asio.hpp>
 #include "Packet.hpp"
 
 /**
@@ -29,7 +30,9 @@
  *
  */
 #define REGISTER_HANDLER(type, handler) \
-    registerHandler(type, std::bind(handler, this, std::placeholders::_1));
+    registerHandler(type, std::bind(handler, this, std::placeholders::_1, std::placeholders::_2));
+
+using boost::asio::ip::udp;
 
 namespace Network {
 
@@ -91,7 +94,7 @@ namespace Network {
              * @param handler
              */
             void registerHandler(
-            PacketType type, std::function<void(Packet &)> handler);
+            PacketType type, std::function<void(Packet &, const udp::endpoint &)> handler);
 
             /**
              * @brief Used to handle a packet. It will call the handler
@@ -101,20 +104,20 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            void handlePacket(Packet &packet);
+            void handlePacket(Packet &packet, udp::endpoint &endpoint);
 
-            void addPacketToRecvQueue(Packet &packet);
+            void addPacketToRecvQueue(Packet &packet, udp::endpoint &endpoint);
 
             void executeRecvPacketsQueue();
 
             std::vector<Packet> sendPacketsQueue;
         private:
-            std::vector<Packet> _recvPacketsQueue;
+            std::vector<std::pair<udp::endpoint, Packet>> _recvPacketsQueue;
             /**
              * @brief A map that contains all the handlers for each packet type.
              * The key is the packet type, and the value is the handler.
              * Use registerHandler method to add a handler.
              */
-            std::map<PacketType, std::function<void(Packet &)>> _handlers;
+            std::map<PacketType, std::function<void(Packet &, const udp::endpoint &)>> _handlers;
     };
 } // namespace Network

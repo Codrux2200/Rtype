@@ -49,7 +49,7 @@ void RType::Connection::_listen()
         if (!error) {
             std::unique_ptr<Network::Packet> packet =
             Network::PacketManager::bytesToPacket(_recv_buffer.data(), bytes_received);
-            packetManager.handlePacket(*packet);
+            packetManager.handlePacket(*packet, _sender_endpoint);
         } else {
             std::cerr << "Error receiving response: " << error.message()
                       << std::endl;
@@ -58,7 +58,7 @@ void RType::Connection::_listen()
     });
 }
 
-void RType::Connection::_handlerLeader(Network::Packet &packet)
+void RType::Connection::_handlerLeader(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     std::cout << "Leader: " << (int) packet.leaderData.leaderId << std::endl;
 }

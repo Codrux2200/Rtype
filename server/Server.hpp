@@ -42,6 +42,7 @@ namespace RType {
             Network::Packet &packet, const udp::endpoint &client_endpoint);
             void broadcast(const Network::Packet &packet);
 
+            ClientManager clientManager;
             std::vector<std::pair<std::shared_ptr<Client>, std::unique_ptr<Network::Packet>>> recvPacketsQueue;
             std::vector<std::pair<std::shared_ptr<Client>, Network::Packet>> sendPacketsQueue;
         private:
@@ -64,15 +65,13 @@ namespace RType {
             client_ptr _newClientPacket(
             std::unique_ptr<Network::Packet> &packet);
 
-            void _handlerJoin(Network::Packet &packet);
-            void _handlerStart(Network::Packet &packet);
-            void _handlerQuit(Network::Packet &packet);
+            void _handlerJoin(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerQuit(Network::Packet &packet, const udp::endpoint &endpoint);
 
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
             boost::array<char, PACKET_SIZE> _recvBuffer{};
             std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
-            ClientManager _clientManager;
             std::map<Network::PacketType, std::function<void()>>
             _packetHandlers;
 

@@ -35,7 +35,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
 }
 
-void ECS::Core::_handlerStartGame(Network::Packet &packet)
+void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     if (sceneManager.getSceneType() != SceneType::MAIN_MENU)
         return;
@@ -44,7 +44,7 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet)
     std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
 
-void ECS::Core::_handlerConnect(Network::Packet &packet)
+void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     std::cout << "My new Connect handler" << std::endl;
     _playerId = packet.connectData.id;

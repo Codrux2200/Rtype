@@ -19,8 +19,8 @@
 namespace ECS {
     class ServerCore {
         public:
-            ServerCore();
-            ~ServerCore();
+            ServerCore(RType::Server &server);
+            ~ServerCore() = default;
 
             SceneManager sceneManager;
 
@@ -28,7 +28,7 @@ namespace ECS {
              * @brief the main loop of the ECS
              *
              */
-            [[noreturn]] void mainLoop(RType::Server &server);
+            [[noreturn]] void mainLoop();
 
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
@@ -38,9 +38,15 @@ namespace ECS {
 
             void _initHandlers(Network::PacketManager &packetManager);
 
-            void _handlerStartGame(Network::Packet &packet);
+            void _handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint);
+            
+            void _handlerMoveUp(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveDown(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveLeft(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerMoveRight(Network::Packet &packet, const udp::endpoint &endpoint);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
+            RType::Server &_server;
     };
 }

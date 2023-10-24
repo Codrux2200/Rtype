@@ -70,12 +70,12 @@ Network::PacketType type, void *data)
 }
 
 void Network::PacketManager::registerHandler(
-Network::PacketType type, std::function<void(Network::Packet &)> handler)
+Network::PacketType type, std::function<void(Network::Packet &, const udp::endpoint &)> handler)
 {
     _handlers[type] = std::move(handler);
 }
 
-void Network::PacketManager::handlePacket(Network::Packet &packet)
+void Network::PacketManager::handlePacket(Network::Packet &packet, udp::endpoint &endpoint)
 {
     if (_handlers.find(packet.type) == _handlers.end()) {
         std::cerr << "No handler for packet type: "
@@ -84,17 +84,17 @@ void Network::PacketManager::handlePacket(Network::Packet &packet)
     }
     std::cout << "Handling packet type: " << static_cast<int>(packet.type)
               << std::endl;
-    _handlers[packet.type](packet);
+    _handlers[packet.type](packet, endpoint);
 }
 
-void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet)
+void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet, udp::endpoint &endpoint)
 {
-    _recvPacketsQueue.push_back(packet);
+    _recvPacketsQueue.emplace_back(endpoint, packet);
 }
 
 void Network::PacketManager::executeRecvPacketsQueue()
 {
-    for (auto &packet : _recvPacketsQueue)
-        handlePacket(packet);
+    for (auto &req : _recvPacketsQueue)
+        handlePacket(req.second, req.first);
     _recvPacketsQueue.clear();
 }

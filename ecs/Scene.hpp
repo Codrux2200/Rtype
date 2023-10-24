@@ -56,6 +56,8 @@ namespace ECS {
 
             [[nodiscard]] SceneType getSceneType() const;
 
+            std::shared_ptr<Entity> getEntityByID(int entityID);
+
         private:
             int _entityID;
             SceneType _sceneType;

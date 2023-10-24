@@ -60,8 +60,8 @@ namespace ECS {
 
             void _initHandlers(Network::PacketManager &packetManager);
 
-            void _handlerStartGame(Network::Packet &packet);
-            void _handlerConnect(Network::Packet &packet);
+            void _handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
