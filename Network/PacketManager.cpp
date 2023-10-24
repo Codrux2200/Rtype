@@ -33,7 +33,6 @@ const char *bytes, std::size_t bytes_size)
     std::unique_ptr<Network::Packet> packet =
     std::make_unique<Network::Packet>();
 
-    std::cout << "bytes_size: " << bytes_size << std::endl;
     memcpy(packet.get(), bytes, bytes_size);
     return packet;
 }
@@ -84,7 +83,6 @@ void Network::PacketManager::handlePacket(Network::Packet &packet, udp::endpoint
                   << static_cast<int>(packet.type) << std::endl;
         return;
     }
-    std::cout << "Handling packet" << std::endl;
     _handlers[packet.type](packet, endpoint);
 }
 
