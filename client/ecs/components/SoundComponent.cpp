@@ -2,42 +2,43 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** SoundComponent
+** MusicComponent
 */
 
 #include "SoundComponent.hpp"
 #include <iostream>
 
 namespace ECS {
-
-SoundComponent::SoundComponent(const SoundComponent &other)
-    :_soundBuffer(other._soundBuffer), _sound(other._sound) {
+SoundComponent::SoundComponent(const SoundComponent& other) : _sounds(other._sounds)
+{
 }
 
-SoundComponent::SoundComponent(std::string soundPath)
-    :_sound(_soundBuffer) {
-    if (_soundBuffer.loadFromFile("assets/sound/music.ogg")) {
-        _sound.setBuffer(_soundBuffer);
-    }
+SoundComponent::SoundComponent(std::shared_ptr<sf::Sound>)
+{
 }
 
-void SoundComponent::play() {
-    _sound.play();
+
+void SoundComponent::play()
+{
+    _sounds->play();
 }
 
-void SoundComponent::update() {
-    if (_sound.getStatus() == sf::Sound::Stopped) {
+void SoundComponent::update()
+{
+    if (_sounds->getStatus() == sf::Music::Stopped) {
         // If the sound has finished playing, restart it
-        _sound.play();
+        _sounds->play();
     }
 }
 
-
-std::shared_ptr<IComponent> SoundComponent::clone() const {
+std::shared_ptr<IComponent> SoundComponent::clone() const
+{
     return std::make_shared<SoundComponent>(*this);
 }
-}
 
-bool ECS::SoundComponent::isPlaying() const {
-    return _sound.getStatus() == sf::Sound::Playing;
+
+bool SoundComponent::isPlaying() const
+{
+    return _sounds->getStatus() == sf::Music::Playing;
+}
 }

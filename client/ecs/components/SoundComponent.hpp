@@ -2,31 +2,33 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** SoundComponent
+** MusicComponent
 */
 
-#ifndef SoundComponent_HPP_
-#define SoundComponent_HPP_
+#ifndef SOUNDCOMPONENT_HPP_
+#define SOUNDCOMPONENT_HPP_
 
 #include <SFML/Audio.hpp>
-#include <iostream>
 #include "AComponent.hpp"
+#include <vector>
+#include <memory>
 
 namespace ECS {
-class SoundComponent : public AComponent{
-public:
-    SoundComponent(const SoundComponent& other);
-    SoundComponent(std::string soundPath);
-    ~SoundComponent() = default;
-    void play();
-    void update();
-    bool isPlaying() const;
-    std::shared_ptr<IComponent> clone() const override;
+class SoundComponent : public AComponent {
+    public:
+        SoundComponent(const SoundComponent& other);
+        SoundComponent(std::shared_ptr<sf::Sound>);
+        ~SoundComponent() = default;
+        void play();
+        void update();
+        bool isPlaying() const;
+        std::shared_ptr<IComponent> clone() const override;
 
-
-private:
-    sf::SoundBuffer _soundBuffer;
-    sf::Sound _sound;
-};
+    protected:
+    private:
+        sf::SoundBuffer _soundBuffer;
+        std::shared_ptr<sf::Sound> _sounds;
+    };
 }
-#endif /* !SoundComponent_HPP_ */
+
+#endif /* !SOUNDCOMPONENT_HPP_ */

@@ -19,6 +19,7 @@
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
+#include "MusicsComponent.hpp"
 #include "SoundComponent.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
@@ -69,7 +70,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet)
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
     player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
 
-    player->addComponent(std::make_shared<ECS::SoundComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
 
     // Add enemy Component to enemy entities
     int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
@@ -89,6 +90,11 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
+    sf::SoundBuffer soundbuffer;
+    soundbuffer.loadFromFile("assets/sound/laser.ogg");
+    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(soundbuffer);
+
+    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound));
     sf::Texture playerTexture;
 
     if (!playerTexture.loadFromFile("assets/Ship6.png")) {

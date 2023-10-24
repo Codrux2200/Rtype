@@ -6,6 +6,7 @@
 */
 
 #include "AudioSystem.hpp"
+#include "MusicsComponent.hpp"
 #include "SoundComponent.hpp"
 #include <vector>
 #include <memory>
@@ -16,13 +17,13 @@ AudioSystem::AudioSystem() {
 
 void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::vector<Network::Packet> &/*packetQueue*/, Network::PacketManager &/* packetManager*/) {
     for (auto entity : sceneManager.getCurrentScene()->entitiesList) {
-        auto component = entity->getComponent<SoundComponent>();
+        auto component = entity->getComponent<MusicsComponent>();
 
-        if(!component || !component->isEnabled())
-            continue;
-        if (!component->isPlaying()) {
-            component->play();
-        }
+
+        if(component && component->isEnabled()) 
+            if (!component->isPlaying()) {
+                component->play();
+            }
     }
 }
 }
