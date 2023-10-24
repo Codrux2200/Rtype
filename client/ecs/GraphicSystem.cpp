@@ -14,19 +14,12 @@
 #include "ScaleComponent.hpp"
 #include "RotationComponent.hpp"
 
-ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window)
+ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), backgroundComponent(window.getSize().x, window.getSize().y)
 {
-    // typeSystem = ECS::SystemType::GRAPHIC;
-    initBackground();
 }
 
 ECS::GraphicSystem::~GraphicSystem()
 {
-}
-
-void ECS::GraphicSystem::initBackground()
-{
-    backgroundComponent = ECS::BackgroundComponent();
 }
 
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
