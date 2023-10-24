@@ -83,8 +83,8 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
  
   
     // Add enemy Component to enemy entities
-    int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
-    for (int i = 0; i < size; i++) {
+    int size = scene->entitiesList.size();
+    for (int i = 4; i < size; i++) {
         if (i == _playerId)
             continue;
         std::shared_ptr<ECS::Entity> enemy = sceneManager.getScene(SceneType::GAME)->entitiesList.at(i);
@@ -97,6 +97,7 @@ void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint 
 {
     auto scene = sceneManager.getScene(ECS::SceneType::GAME);
 
+    std::cout << "Handler players pos" << std::endl;
     for (int i = 0; i < MAX_PLAYERS; i++) {
         auto player = scene->getEntityByID(i);
         auto positionComponent = player->getComponent<PositionComponent>();

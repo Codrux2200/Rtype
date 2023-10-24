@@ -56,8 +56,10 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         std::vector<float> scale;
         std::vector<float> rotation;
 
-        if (positionComponent != nullptr && positionComponent->isEnabled())
+        if (positionComponent != nullptr && positionComponent->isEnabled()) {
+            std::cout << "pos: " << positionComponent->getValue()[0] << ", " << positionComponent->getValue()[1] << std::endl;
             pos = positionComponent->getValue();
+        }
         else
             pos = {0, 0};
 

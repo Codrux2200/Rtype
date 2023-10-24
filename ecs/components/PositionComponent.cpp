@@ -44,6 +44,4 @@ void ECS::PositionComponent::move(float x, float y)
 {
     _x += x;
     _y += y;
-
-    std::cout << "x: " << _x << " y: " << _y << std::endl;
 }

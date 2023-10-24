@@ -98,6 +98,7 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
 
 void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, float y)
 {
+    std::cout << "Trying to move player" << std::endl;
     if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
@@ -106,11 +107,10 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
 
     if (entity == nullptr)
         return;
+
+    std::cout << "Check player pos" << std::endl;
     auto position = entity->getComponent<PositionComponent>();
     auto pos = position->getValue();
-
-    if (pos[0] <= 0 || pos[0] >= 720 || pos[1] <= 0 || pos[1] >= 540)
-        return;
 
     position->move(x, y);
 
@@ -147,6 +147,7 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
             continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
+    std::cout << "Player moved" << std::endl;
 }
 
 void ECS::ServerCore::_handlerMoveUp(const Network::Packet &/* packet */, const udp::endpoint &endpoint)

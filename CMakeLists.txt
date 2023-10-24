@@ -40,7 +40,6 @@ set(ECS_SOURCES
         ecs/Entity.hpp
         ecs/Scene.cpp
         ecs/SceneManager.cpp
-        ecs/components/EnemyComponent.cpp
         ecs/components/HealthComponent.cpp
         ecs/components/PositionComponent.cpp
         ecs/components/PositionComponent.hpp
@@ -80,8 +79,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/ControlComponent.hpp
     client/ecs/components/SpriteComponent.cpp
     client/ecs/components/SpriteComponent.hpp
-        client/ecs/models/ButtonEntity.hpp
-        client/ecs/models/ButtonEntity.cpp
+    client/ecs/models/ButtonEntity.hpp
+    client/ecs/models/ButtonEntity.cpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
