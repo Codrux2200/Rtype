@@ -17,10 +17,7 @@ class SoundComponent : public AComponent{
 public:
     SoundComponent(const SoundComponent& other);
     SoundComponent(std::string soundPath);
-    ~SoundComponent() {
-        _sound.stop();
-        std::cout << "SoundComponent destructor" << std::endl;
-    }
+    ~SoundComponent() = default;
     void play();
     void update();
     bool isPlaying() const;
