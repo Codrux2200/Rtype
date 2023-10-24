@@ -14,5 +14,6 @@ namespace ECS {
         public:
             ButtonEntity();
             ~ButtonEntity() = default;
+
     };
 }

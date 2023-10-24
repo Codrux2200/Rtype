@@ -20,19 +20,23 @@ std::shared_ptr<ECS::IComponent> ECS::PlayerComponent::clone() const
 
 void ECS::PlayerComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
-    auto positionComponent = entity.getComponent<ECS::PositionComponent>();
+    std::unique_ptr<Network::Packet> packet;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        positionComponent->move(0, -_speed * dt);
+        packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_UP);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        positionComponent->move(0, _speed * dt);
+        packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_DOWN);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        positionComponent->move(-_speed * dt, 0);
+        packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_LEFT);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        positionComponent->move(_speed * dt, 0);
+        packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_RIGHT);
+    }
+    if (packet) {
+        std::cout << "Sending packet" << std::endl;
+        packetsQueue.push_back(*packet);
     }
 }
 

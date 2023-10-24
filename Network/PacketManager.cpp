@@ -39,8 +39,6 @@ const char *bytes, std::size_t bytes_size)
 std::unique_ptr<Network::Packet> Network::PacketManager::createPacket(
 Network::PacketType type, void *data)
 {
-    if (data == nullptr)
-        return nullptr;
     std::unique_ptr<Network::Packet> packet =
     std::make_unique<Network::Packet>();
 
@@ -65,9 +63,7 @@ Network::PacketType type, void *data)
         case Network::PacketType::PLAYERS_POS:
             memcpy(&packet->playersPos, data, sizeof(packet->playersPos));
             break;
-        case Network::PacketType::QUIT:
-            break;
-        default: throw std::runtime_error("Invalid packet type");
+        default: break;
     }
     return packet;
 }

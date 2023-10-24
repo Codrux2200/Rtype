@@ -80,6 +80,8 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
 
 void RType::Connection::sendPackets()
 {
+    if (!sendQueue.empty())
+        std::cout << "Sending " << sendQueue.size() << " packets" << std::endl;
     for (auto &packet : sendQueue) {
         sendPacket(packet);
     }

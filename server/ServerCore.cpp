@@ -125,6 +125,8 @@ void ECS::ServerCore::_handlerMoveUp(Network::Packet &/* packet */, const udp::e
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
     for (auto cli : _server.clientManager.getClients()) {
+        if (cli == nullptr)
+            continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
 }
@@ -165,6 +167,8 @@ void ECS::ServerCore::_handlerMoveDown(Network::Packet &/* packet */, const udp:
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
     for (auto cli : _server.clientManager.getClients()) {
+        if (cli == nullptr)
+            continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
 }
@@ -205,6 +209,8 @@ void ECS::ServerCore::_handlerMoveLeft(Network::Packet &/* packet */, const udp:
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
     for (auto cli : _server.clientManager.getClients()) {
+        if (cli == nullptr)
+            continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
 }
@@ -245,6 +251,8 @@ void ECS::ServerCore::_handlerMoveRight(Network::Packet &/* packet */, const udp
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
     for (auto cli : _server.clientManager.getClients()) {
+        if (cli == nullptr)
+            continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
 }
