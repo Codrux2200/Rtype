@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.11)
 project(RType)
 include(FetchContent)
 
@@ -48,36 +48,40 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ShootComponent.cpp
         ecs/components/VelocityComponent.cpp
-        ecs/system/AudioSystem.cpp
-        ecs/system/GameSystem.cpp
-        ecs/system/ParticleSystem.cpp
         ecs/EntityFactory.cpp
         ecs/EntityFactory.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
-        client/main.cpp
-        client/Connection.cpp
-        client/Connection.hpp
-        client/ecs/Core.hpp
-        client/ecs/Core.cpp
-        client/ecs/EventSystem.cpp
-        client/ecs/EventSystem.hpp
-        client/ecs/GraphicSystem.cpp
-        client/ecs/GraphicSystem.hpp
-        client/ecs/components/SpriteComponent.cpp
-        client/ecs/components/SpriteComponent.hpp
-        client/ecs/components/ClickComponent.cpp
-        client/ecs/components/ClickComponent.hpp
-        client/ecs/components/BackgroundComponent.cpp
-        client/ecs/components/BackgroundComponent.hpp
-        client/ecs/components/EventComponent.cpp
-        client/ecs/components/EventComponent.hpp
-        client/ecs/components/PlayerComponent.cpp
-        client/ecs/components/PlayerComponent.hpp
-        client/ecs/models/ButtonEntity.cpp
+    client/main.cpp
+    client/Connection.cpp
+    client/Connection.hpp
+    client/ecs/Core.hpp
+    client/ecs/Core.cpp
+    client/ecs/EventSystem.cpp
+    client/ecs/EventSystem.hpp
+    client/ecs/GraphicSystem.cpp
+    client/ecs/AudioSystem.cpp
+    client/ecs/AudioSystem.hpp
+    client/ecs/GraphicSystem.hpp
+    client/ecs/components/BackgroundComponent.cpp
+    client/ecs/components/BackgroundComponent.hpp
+    client/ecs/components/MusicsComponent.cpp
+    client/ecs/components/MusicsComponent.hpp
+    client/ecs/components/SoundComponent.cpp
+    client/ecs/components/SoundComponent.hpp
+    client/ecs/components/ClickComponent.cpp
+    client/ecs/components/ClickComponent.hpp
+    client/ecs/components/EnemyComponent.cpp
+    client/ecs/components/EnemyComponent.hpp
+    client/ecs/components/EventComponent.cpp
+    client/ecs/components/EventComponent.hpp
+    client/ecs/components/ControlComponent.cpp
+    client/ecs/components/ControlComponent.hpp
+    client/ecs/components/SpriteComponent.cpp
+    client/ecs/components/SpriteComponent.hpp
         client/ecs/models/ButtonEntity.hpp
-
+        client/ecs/models/ButtonEntity.cpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

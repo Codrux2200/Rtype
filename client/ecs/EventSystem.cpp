@@ -6,7 +6,7 @@
 */
 
 #include "EventSystem.hpp"
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "ClickComponent.hpp"
 
 ECS::EventSystem::EventSystem(sf::RenderWindow &window) : _window(window)

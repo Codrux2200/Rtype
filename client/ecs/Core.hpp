@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "ISystem.hpp"
 #include "SceneManager.hpp"
 #include "Connection.hpp"

@@ -2,23 +2,23 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** PlayerComponent
+** ControlComponent
 */
 
 #include <iostream>
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 
-ECS::PlayerComponent::PlayerComponent(ECS::eventCallback callback) : EventComponent(callback)
+ECS::ControlComponent::ControlComponent(ECS::eventCallback callback) : EventComponent(callback)
 {
 }
 
-std::shared_ptr<ECS::IComponent> ECS::PlayerComponent::clone() const
+std::shared_ptr<ECS::IComponent> ECS::ControlComponent::clone() const
 {
-    return std::make_shared<ECS::PlayerComponent>(_callback);
+    return std::make_shared<ECS::ControlComponent>(_callback);
 }
 
-void ECS::PlayerComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
+void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     std::unique_ptr<Network::Packet> packet;
 
@@ -41,12 +41,12 @@ void ECS::PlayerComponent::execute(std::vector<Network::Packet> &packetsQueue, E
     }
 }
 
-std::vector<int> ECS::PlayerComponent::getValue() const
+std::vector<int> ECS::ControlComponent::getValue() const
 {
     return std::vector<int>();
 }
 
-void ECS::PlayerComponent::setValue(std::vector<int> values)
+void ECS::ControlComponent::setValue(std::vector<int> values)
 {
 
 }
