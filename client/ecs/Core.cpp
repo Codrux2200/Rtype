@@ -23,7 +23,7 @@
 #include "SoundComponent.hpp"
 #include "ButtonEntity.hpp"
 
-ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
+ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty"), _convertPath()
 {
     std::map<SceneType, std::shared_ptr<Scene>> scenes;
 
@@ -78,9 +78,8 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
   
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
-    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>(_convertPath.convertPath("assets/sound/music.ogg")));
  
-  
     // Add enemy Component to enemy entities
     int size = scene->entitiesList.size();
     for (int i = 4; i < size; i++) {
@@ -115,7 +114,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
     std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+    if(!soundbuffer->loadFromFile(_convertPath.convertPath("assets/sound/laser.ogg"))) {
         std::cerr << "Error loading sound" << std::endl;
         return;
     }
@@ -124,7 +123,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
-    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
+    if (!playerTexture.loadFromFile(_convertPath.convertPath("assets/Ship6.png"))) {
         std::cout << "Error loading player playerTexture" << std::endl;
         return;
     }
@@ -154,7 +153,7 @@ void ECS::Core::_initEntities()
     enemy->addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
     sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
+    if (!enemyTexture.loadFromFile(_convertPath.convertPath("assets/Ship5.png"))) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }

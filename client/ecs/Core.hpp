@@ -17,6 +17,7 @@
 #include "SceneManager.hpp"
 #include "Connection.hpp"
 #include "EntityFactory.hpp"
+#include "ConvertPath.hpp"
 
 namespace ECS {
 	/**
@@ -54,6 +55,8 @@ namespace ECS {
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
+
+            RType::ConvertPath _convertPath;
 
             void _initEntities();
 

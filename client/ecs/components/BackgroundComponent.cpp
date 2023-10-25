@@ -7,37 +7,39 @@
 
 #include <iostream>
 #include "BackgroundComponent.hpp"
+#include "ConvertPath.hpp"
 
 namespace ECS
 {
     BackgroundComponent::BackgroundComponent(int windowWidth, int windowHeight)
     {
+        RType::ConvertPath convertPath;
         // Load your background textures and set their speeds here
         // Replace "backgroundTexture1", "backgroundTexture2", etc. with your actual textures
         // Adjust the speed values as needed
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[0].loadFromFile("assets/background/6Background.png")) {
+        if (!backgroundTextures[0].loadFromFile(convertPath.convertPath("assets/background/6Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(20.0f);
 
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[1].loadFromFile("assets/background/6Background.png")) {
+        if (!backgroundTextures[1].loadFromFile(convertPath.convertPath("assets/background/6Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(20.0f);
 
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[2].loadFromFile("assets/background/1Background.png")) {
+        if (!backgroundTextures[2].loadFromFile(convertPath.convertPath("assets/background/1Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(40.0f);
 
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[3].loadFromFile("assets/background/1Background.png")) {
+        if (!backgroundTextures[3].loadFromFile(convertPath.convertPath("assets/background/1Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
