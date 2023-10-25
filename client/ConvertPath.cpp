@@ -17,9 +17,8 @@ std::string RType::ConvertPath::convertPath(const std::string &path)
 {
     #ifdef _WIN32
         std::string newPath = path;
-        for (int i = 0; i < newPath.size(); ++i)
-            if (newPath[i] == '/')
-                newPath[i] = '\\';
+        std::filesystem::path p(path);
+        newPath = std::filesystem::absolute(p).string();
         return newPath;
     #else
         return path;

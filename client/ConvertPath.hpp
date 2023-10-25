@@ -7,6 +7,7 @@
 
 #pragma once
 #include <iostream>
+#include <filesystem>
 
 namespace RType {
     class ConvertPath {
@@ -15,7 +16,6 @@ namespace RType {
             ~ConvertPath() = default;
 
             static std::string convertPath(const std::string &path);
-        protected:
         private:
     };
 }
