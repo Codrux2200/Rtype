@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <thread>
-#include <experimental/random>
 #include "Core.hpp"
 #include "ControlComponent.hpp"
 #include "HealthComponent.hpp"
@@ -218,17 +217,6 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
-    }
-    for (int i = 4; i < (4 + std::experimental::randint(1, 4)); i++) {
-        std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("enemy", i);
-        auto position = enemy->getComponent<ECS::PositionComponent>();
-        if (position) {
-            std::vector<int> pos = position->getValue();
-            pos.at(0) = std::experimental::randint(400, 800);
-            pos.at(1) = std::experimental::randint(70, 600);
-            position->setValue(pos);
-        }
-        scene->addEntity(enemy);
     }
     return scene;
 }
