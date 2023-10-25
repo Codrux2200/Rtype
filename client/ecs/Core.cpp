@@ -100,9 +100,10 @@ void ECS::Core::_initEntities()
 
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f)); // Already one ?
 
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
+    p1->addComponent(std::make_shared<ECS::ShootComponent>(10, 10));
     _entityFactory.registerEntity(p1, "player");
 
     // Create button

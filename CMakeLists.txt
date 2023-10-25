@@ -75,6 +75,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
     client/ecs/components/PlayerComponent.hpp
     client/ecs/components/SpriteComponent.cpp
     client/ecs/components/SpriteComponent.hpp
+    client/ecs/components/ShootComponent.cpp
+    client/ecs/components/ShootComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}

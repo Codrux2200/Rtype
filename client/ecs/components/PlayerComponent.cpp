@@ -5,9 +5,10 @@
 ** PlayerComponent
 */
 
-#include <iostream>
 #include "PlayerComponent.hpp"
+#include <iostream>
 #include "PositionComponent.hpp"
+#include "ShootComponent.hpp"
 
 ECS::PlayerComponent::PlayerComponent(ECS::eventCallback callback) : EventComponent(callback)
 {
@@ -21,6 +22,7 @@ std::shared_ptr<ECS::IComponent> ECS::PlayerComponent::clone() const
 void ECS::PlayerComponent::execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     auto positionComponent = entity.getComponent<ECS::PositionComponent>();
+    auto shootComponent = entity.getComponent<ECS::ShootComponent>();
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         positionComponent->move(0, -_speed * dt);
@@ -33,6 +35,9 @@ void ECS::PlayerComponent::execute(Network::PacketManager &packetManager, std::v
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         positionComponent->move(_speed * dt, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        shootComponent->newShot(positionComponent->getValue());
     }
 }
 
