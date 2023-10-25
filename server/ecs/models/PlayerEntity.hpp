@@ -8,13 +8,13 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "Packet.hpp"
 
 class PlayerEntity : public ECS::Entity {
     public:
         PlayerEntity();
         ~PlayerEntity() = default;
 
-        void init();
-        void update();
+    private:
+        void _callbackPlayerHit(std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };
-

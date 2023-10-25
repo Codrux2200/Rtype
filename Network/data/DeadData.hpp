@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** MoveData
+** HubData
 */
 
 #pragma once
@@ -10,11 +10,10 @@
 namespace Network::data {
     extern "C"
     {
-        struct MoveData {
+
+        struct DeadData {
             public:
-                char id;
-                int x;
-                int y;
+                int id;
         };
     }
 } // namespace Network::data

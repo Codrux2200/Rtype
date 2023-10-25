@@ -18,9 +18,9 @@ set(NETWORK_SOURCES
         Network/data/ConnectData.hpp
         Network/data/JoinData.hpp
         Network/data/LeaderData.hpp
-        Network/data/MoveData.hpp
         Network/data/StartData.hpp
         Network/data/DisconnectData.hpp
+        Network/data/DeadData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -146,6 +146,7 @@ target_include_directories(rtype-server PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         server/ecs/components
+        server/ecs/models
 )
 
 # Liens vers les bibliothèques SFML et Boost.Asio

@@ -13,16 +13,16 @@ namespace ECS {
     HitboxComponent::HitboxComponent(ECS::hitboxCallback callback) : _callback(std::move(callback))
     {}
 
-    HitboxComponent::HitboxComponent(hitboxCallback callback, const std::vector<std::pair<float, float>> &hitbox) : _hitbox(hitbox), _callback(std::move(callback))
+    HitboxComponent::HitboxComponent(hitboxCallback callback, const std::vector<std::pair<int, int>> &hitbox) : _hitbox(hitbox), _callback(std::move(callback))
     {
     }
 
-    void HitboxComponent::setHitbox(const std::vector<std::pair<float, float>> &hitbox)
+    void HitboxComponent::setHitbox(const std::vector<std::pair<int, int>> &hitbox)
     {
         _hitbox = hitbox;
     }
 
-    const std::vector<std::pair<float, float>> &HitboxComponent::getHitbox() const
+    const std::vector<std::pair<int, int>> &HitboxComponent::getHitbox() const
     {
         return _hitbox;
     }
@@ -32,8 +32,8 @@ namespace ECS {
         return std::make_shared<HitboxComponent>(_callback, _hitbox);
     }
 
-    void HitboxComponent::executeCallback(std::shared_ptr<Entity> entity) const
+    void HitboxComponent::executeCallback(std::shared_ptr<Entity> entity, std::vector<Network::Packet> &packetsQueue) const
     {
-        _callback(entity);
+        _callback(std::move(entity), packetsQueue);
     }
 } // namespace ECS

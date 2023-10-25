@@ -46,6 +46,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
     packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
+    packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -105,6 +106,20 @@ void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint 
         std::vector<int> newPos{packet.playersPos.positions[i].x, packet.playersPos.positions[i].y};
 
         positionComponent->setValue(newPos);
+    }
+}
+
+void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    std::cout << "Handler dead" << std::endl;
+    auto entity = scene->getEntityByID(packet.deadData.id);
+    if (entity == nullptr)
+        return;
+    entity->isEnabled = false;
+    if (packet.deadData.id == _playerId) {
+        std::cout << "Player is dead" << std::endl;
     }
 }
 

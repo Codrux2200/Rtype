@@ -72,6 +72,9 @@ Network::PacketType type, void *data)
         case Network::PacketType::PLAYERS_POS:
             memcpy(&packet->playersPos, data, sizeof(packet->playersPos));
             break;
+        case Network::PacketType::DEAD:
+            memcpy(&packet->deadData, data, sizeof(packet->deadData));
+            break;
         default: break;
     }
     return packet;
