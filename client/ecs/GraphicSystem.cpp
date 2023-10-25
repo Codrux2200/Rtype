@@ -45,9 +45,8 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
         auto TextComponent = entity->getComponent<ECS::TextComponent>();
         if (TextComponent == nullptr){
-            std::cout<<"no text component"<<std::endl;
+            continue;
         } else {
-            std::cout<<"print entity"<<std::endl;
             sf::Text Text = TextComponent->getText();
             _window.draw(Text);
         }
