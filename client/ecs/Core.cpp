@@ -53,6 +53,7 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
     if (sceneManager.getSceneType() != SceneType::MAIN_MENU)
         return;
     std::cout << "Start game handler" << std::endl;
+    sceneManager.getCurrentScene()->getEntityByID(4)->getComponent<ECS::MusicsComponent>()->stop();
     sceneManager.setCurrentScene(SceneType::GAME);
     std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
@@ -80,6 +81,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
   
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
     player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+
  
   
     // Add enemy Component to enemy entities
@@ -115,6 +117,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
+
     std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
     if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
         std::cerr << "Error loading sound" << std::endl;
@@ -147,6 +150,7 @@ void ECS::Core::_initEntities()
     // Create button
     std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>();
     _entityFactory.registerEntity(button, "button");
+
 
     // Create enemy
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::Entity>(1);
@@ -206,6 +210,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
     }
 
     button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _window));
+    button->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Main_Menu.ogg"));
+
 
     scene->addEntity(button);
     return scene;
