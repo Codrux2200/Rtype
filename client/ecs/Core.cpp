@@ -23,6 +23,7 @@
 #include "MusicsComponent.hpp"
 #include "SoundComponent.hpp"
 #include "ButtonEntity.hpp"
+#include "TextComponent.hpp"
 
 ECS::Core::Core() : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty")
 {
@@ -147,7 +148,9 @@ void ECS::Core::_initEntities()
     // Create button
     std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>();
     _entityFactory.registerEntity(button, "button");
-
+    std::shared_ptr<ECS::Entity> text = std::make_shared<ECS::Entity>(1);
+    text->addComponent(std::make_shared<ECS::TextComponent>("bonjour"));
+    _entityFactory.registerEntity(text, "text");
     // Create enemy
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::Entity>(1);
     enemy->addComponent(std::make_shared<ECS::PositionComponent>(600, 300));
@@ -173,13 +176,17 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
     std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("button", 4);
-
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", 10);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
-
     if (sprite == 0) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
         return scene;
     }
+    std::shared_ptr<ECS::TextComponent> textComponent = text->getComponent<ECS::TextComponent>();
+
+    textComponent->setPosition(100, 500);
+
+    scene->addEntity(text);
 
     std::shared_ptr<ECS::PositionComponent> position = button->getComponent<ECS::PositionComponent>();
 
@@ -190,7 +197,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.left = pos.at(0);
         rect.top = pos.at(1);
     } else {
-        rect.left = 0;
+        rect.left = 100;
         rect.top = 0;
     }
 
