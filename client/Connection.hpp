@@ -44,11 +44,25 @@ namespace RType {
              */
             void sendPacket(const Network::Packet &packet);
 
+            /*
+             * @brief The manager to serialize / deserialize packets, at emission and reception.
+             */
             Network::PacketManager packetManager;
 
+            /**
+             * @brief Get the id of the client
+             *
+             * @return short The id of the client
+             */
             short getId() const { return _id; }
 
+            /*
+             * @brief The queue of packets to send to the server
+             */
             std::vector<Network::Packet> sendQueue;
+            /*
+             * @brief The queue of packets received from the server
+             */
             std::vector<Network::Packet> recvQueue;
 
             void sendPackets();
