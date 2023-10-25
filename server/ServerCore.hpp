@@ -34,6 +34,8 @@ namespace ECS {
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
 
+            void _callbackPlayerHit(std::shared_ptr<ECS::Entity> entity);
+
             void _initEntities();
 
             void _initHandlers(Network::PacketManager &packetManager);

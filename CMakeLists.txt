@@ -95,6 +95,12 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ClientManager.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
+        server/ecs/components/HitboxComponent.cpp
+        server/ecs/components/HitboxComponent.hpp
+        server/ecs/CollisionSystem.cpp
+        server/ecs/CollisionSystem.hpp
+        server/ecs/models/PlayerEntity.cpp
+        server/ecs/models/PlayerEntity.hpp
 )
 
 
@@ -139,6 +145,7 @@ target_include_directories(rtype-server PRIVATE
         ${Boost_INCLUDE_DIRS}
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
+        server/ecs/components
 )
 
 # Liens vers les bibliothèques SFML et Boost.Asio

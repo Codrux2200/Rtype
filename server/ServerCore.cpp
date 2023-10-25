@@ -5,8 +5,9 @@
 ** ServerCore
 */
 
-#include "ServerCore.hpp"
 #include <thread>
+#include "HitboxComponent.hpp"
+#include "ServerCore.hpp"
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
@@ -25,6 +26,11 @@ void ECS::ServerCore::_initEntities()
     std::shared_ptr<ECS::Entity> player = std::make_shared<ECS::Entity>(0);
     player->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     _entityFactory.registerEntity(player, "player");
+
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::Entity>(0);
+    enemy->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    enemy->addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&ECS::ServerCore::_callbackPlayerHit, this, std::placeholders::_1),
+    std::vector<std::pair<float, float>>{{0, 0}, {80, 60}}));
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -43,6 +49,11 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         scene->addEntity(player);
     }
     return scene;
+}
+
+void ECS::ServerCore::_callbackPlayerHit(std::shared_ptr<ECS::Entity> other)
+{
+    std::cout << "Player hit" << std::endl;
 }
 
 [[noreturn]] void ECS::ServerCore::mainLoop()

@@ -16,17 +16,7 @@ void ECS::AComponent::setValue(std::vector<int> values)
 std::vector<int> ECS::AComponent::getValue() const
 {
     std::cout << "getValue not implemented" << std::endl;
-    return std::vector<int>();
-}
-
-void ECS::AComponent::setEnabled(bool enabled)
-{
-    _isEnabled = enabled;
-}
-
-bool ECS::AComponent::isEnabled() const
-{
-    return _isEnabled;
+    return {};
 }
 
 ECS::ComponentType ECS::AComponent::getType() const
