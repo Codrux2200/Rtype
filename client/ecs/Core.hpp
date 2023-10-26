@@ -56,8 +56,6 @@ namespace ECS {
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
 
-            RType::ConvertPath _convertPath;
-
             void _initEntities();
 
             static void _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
