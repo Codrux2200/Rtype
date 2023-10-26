@@ -34,6 +34,21 @@ namespace RType {
             Server(boost::asio::io_service &io_service, short port);
             ~Server();
 
+            void sendCurrentLeader(const udp::endpoint &endpoint);
+
+            Network::PacketManager packetManager;
+
+            void sendPackets();
+
+            void _sendMessageToClient(
+            Network::Packet &packet, const udp::endpoint &client_endpoint);
+            void broadcast(const Network::Packet &packet);
+
+            void broadcastNewLeader();
+
+            ClientManager clientManager;
+            std::vector<std::pair<std::shared_ptr<Client>, std::unique_ptr<Network::Packet>>> recvPacketsQueue;
+            std::vector<std::pair<std::shared_ptr<Client>, Network::Packet>> sendPacketsQueue;
         private:
             void _loadPacketHandlers();
 
@@ -42,39 +57,25 @@ namespace RType {
             void _handleReceive(const boost::system::error_code &error,
             std::size_t bytes_transferred);
 
-            void _broadcast(const Network::Packet &packet);
 
-            void _handleSend(std::vector<char> message,
+            void _handleSend(const std::vector<char>& message,
             boost::system::error_code error, std::size_t bytes_transferred);
 
             void _startClientCleanupTimer(boost::asio::io_service &io_service);
 
-            void _sendMessageToClient(
-            Network::Packet &packet, const udp::endpoint &client_endpoint);
-
-            void _broadcastConnectPacket(void);
-
-            void _broadcastNewLeader(int id);
-
-            void _sendCurrentLeader(const udp::endpoint &endpoint);
-
             client_ptr _newClientPacket(
             std::unique_ptr<Network::Packet> &packet);
 
-            void _handlerJoin(Network::Packet &packet);
-            void _handlerStart(Network::Packet &packet);
-            void _handlerQuit(Network::Packet &packet);
+            void _handlerQuit(Network::Packet &packet, const udp::endpoint &endpoint);
 
             udp::socket _socket;
             udp::endpoint _remoteEndpoint;
-            boost::array<char, PACKET_SIZE> _recvBuffer;
-            Network::PacketManager _packetManager;
+            boost::array<char, PACKET_SIZE> _recvBuffer{};
             std::shared_ptr<boost::asio::steady_timer> _clientCleanupTimer;
-            ClientManager _clientManager;
             std::map<Network::PacketType, std::function<void()>>
             _packetHandlers;
 
-            static constexpr int CLIENT_TIMEOUT_SECONDS = 180;
-            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 100;
+            static constexpr int CLIENT_TIMEOUT_SECONDS = 180000;
+            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 10000;
     };
 } // namespace RType

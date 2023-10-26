@@ -23,7 +23,7 @@ const std::string &host, const std::string &port, const std::string &name)
         joinData.name[i] = name[i];
 
     std::unique_ptr<Network::Packet> packet =
-    packetManager.createPacket(Network::PacketType::JOIN, &joinData);
+    Network::PacketManager::createPacket(Network::PacketType::JOIN, &joinData);
 
     _initHandlers();
 
@@ -48,9 +48,8 @@ void RType::Connection::_listen()
     [&](const boost::system::error_code &error, std::size_t bytes_received) {
         if (!error) {
             std::unique_ptr<Network::Packet> packet =
-            packetManager.bytesToPacket(_recv_buffer.data(), bytes_received);
-            std::cout << "Received packet from server: " << std::endl;
-            packetManager.handlePacket(*packet);
+            Network::PacketManager::bytesToPacket(_recv_buffer.data(), bytes_received);
+            packetManager.handlePacket(*packet, _sender_endpoint);
         } else {
             std::cerr << "Error receiving response: " << error.message()
                       << std::endl;
@@ -59,22 +58,28 @@ void RType::Connection::_listen()
     });
 }
 
-void RType::Connection::_handlerLeader(Network::Packet &packet)
+void RType::Connection::_handlerLeader(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     std::cout << "Leader: " << (int) packet.leaderData.leaderId << std::endl;
 }
 
 void RType::Connection::sendPacket(const Network::Packet &packet)
 {
-    std::vector<char> packetInBytes = packetManager.packetToBytes(packet);
+    std::vector<char> packetInBytes = Network::PacketManager::packetToBytes(packet);
 
     _socket.async_send_to(boost::asio::buffer(packetInBytes), _endpoint,
     [](const boost::system::error_code &error, std::size_t bytes_sent) {
-        if (!error) {
-            std::cout << "Sent packet to server." << std::endl;
-        } else {
+        if (error) {
             std::cerr << "Error sending message: " << error.message()
                       << std::endl;
         }
     });
+}
+
+void RType::Connection::sendPackets()
+{
+    for (auto &packet : sendQueue) {
+        sendPacket(packet);
+    }
+    sendQueue.clear();
 }

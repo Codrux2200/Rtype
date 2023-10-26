@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <iostream>
-#include <string>
+#include <utility>
 #include <vector>
 
 // clang-format off
@@ -39,10 +39,17 @@ const char *bytes, std::size_t bytes_size)
 std::unique_ptr<Network::Packet> Network::PacketManager::createPacket(
 Network::PacketType type, void *data)
 {
-    if (data == nullptr)
-        return nullptr;
-    std::unique_ptr<Network::Packet> packet =
-    std::make_unique<Network::Packet>();
+    if (data == nullptr &&
+    type != Network::PacketType::MOVE_UP &&
+    type != Network::PacketType::MOVE_DOWN &&
+    type != Network::PacketType::MOVE_LEFT &&
+    type != Network::PacketType::MOVE_RIGHT &&
+    type != Network::PacketType::SHOOT &&
+    type != Network::PacketType::QUIT)
+        throw std::runtime_error("Data is null");
+
+    std::unique_ptr<Network::Packet> packet = std::make_unique<Network::Packet>();
+    std::memset(packet.get(), 0, sizeof(Network::Packet));
 
     packet->type = type;
     switch (type) {
@@ -62,27 +69,44 @@ Network::PacketType type, void *data)
         case Network::PacketType::LEADER:
             memcpy(&packet->leaderData, data, sizeof(packet->leaderData));
             break;
-        case Network::PacketType::QUIT:
+        case Network::PacketType::PLAYERS_POS:
+            memcpy(&packet->playersPos, data, sizeof(packet->playersPos));
             break;
-        default: throw std::runtime_error("Invalid packet type"); break;
+        case Network::PacketType::DEAD:
+            memcpy(&packet->deadData, data, sizeof(packet->deadData));
+            break;
+        case Network::PacketType::ENTITY_SPAWN:
+            memcpy(&packet->entitySpawnData, data, sizeof(packet->entitySpawnData));
+            break;
+        default: break;
     }
     return packet;
 }
 
 void Network::PacketManager::registerHandler(
-Network::PacketType type, std::function<void(Network::Packet &)> handler)
+Network::PacketType type, std::function<void(Network::Packet &, const udp::endpoint &)> handler)
 {
-    _handlers[type] = handler;
+    _handlers[type] = std::move(handler);
 }
 
-void Network::PacketManager::handlePacket(Network::Packet &packet)
+void Network::PacketManager::handlePacket(Network::Packet &packet, udp::endpoint &endpoint)
 {
     if (_handlers.find(packet.type) == _handlers.end()) {
         std::cerr << "No handler for packet type: "
                   << static_cast<int>(packet.type) << std::endl;
         return;
     }
-    std::cout << "Handling packet type: " << static_cast<int>(packet.type)
-              << std::endl;
-    _handlers[packet.type](packet);
+    _handlers[packet.type](packet, endpoint);
+}
+
+void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    recvPacketsQueue.emplace_back(endpoint, packet);
+}
+
+void Network::PacketManager::executeRecvPacketsQueue()
+{
+    for (auto &req : recvPacketsQueue)
+        handlePacket(req.second, req.first);
+    recvPacketsQueue.clear();
 }

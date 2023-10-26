@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** MoveData
+** PacketType
 */
 
 #pragma once
@@ -10,9 +10,10 @@
 namespace Network::data {
     extern "C"
     {
-        struct MoveData {
+        struct EntitySpawnData {
             public:
-                char id;
+                int id;
+                char type;
                 int x;
                 int y;
         };

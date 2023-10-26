@@ -79,7 +79,7 @@ namespace Network {
             SHOOT,
             HIT,
             SCORE,
-            ENEMY_SPAWN,
+            ENTITY_SPAWN,
             ENEMY_DEAD,
             ENEMY_MOVE,
             ENEMY_SHOOT,
@@ -91,7 +91,8 @@ namespace Network {
             MOVE_RIGHT,
             MOVE_UP,
             MOVE_DOWN,
-            QUIT
+            QUIT,
+            PLAYERS_POS
         };
     }
 } // namespace Network

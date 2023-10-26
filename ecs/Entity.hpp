@@ -9,6 +9,7 @@
 #define ENTITY_HPP_
 #include <vector>
 #include <memory>
+#include <algorithm>
 #include "AComponent.hpp"
 
 namespace ECS {
@@ -32,29 +33,49 @@ namespace ECS {
 
             Entity(const Entity &entity, int id);
 
+            enum EntityType {
+                PLAYER,
+                ENEMY_CLASSIC,
+                PLAYER_BULLET,
+                UNKNOWN
+            };
+
             /**
              * @brief Get the Id object
              *
              * @return int
              */
-            int getId() const;
+            [[nodiscard]] int getId() const;
 
             // Templates impose to write the implementation in the header file
             template<typename T>
             std::shared_ptr<T> getComponent() {
+                auto it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<IComponent> &component) {
+                    return std::dynamic_pointer_cast<T>(component);
+                });
+                if (it == _components.end())
+                    return nullptr;
+                return std::dynamic_pointer_cast<T>(*it);
+            }
+
+            template<typename T>
+            std::vector<std::shared_ptr<T>> getComponents() {
+                std::vector<std::shared_ptr<T>> components;
+
                 for (auto &component : _components) {
-                    std::shared_ptr<T> comp = std::dynamic_pointer_cast<T>(component);
-                    if (comp)
-                        return comp;
+                    auto casted = std::dynamic_pointer_cast<T>(component);
+                    if (casted)
+                        components.push_back(casted);
                 }
-                return nullptr;
+                return components;
             }
 
             void addComponent(std::shared_ptr<AComponent> component);
 
-            std::vector<std::shared_ptr<IComponent>> getComponents() const;
+            [[nodiscard]] std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
             bool isEnabled = true;
+            bool toDestroy = false;
 
         private:
             /**

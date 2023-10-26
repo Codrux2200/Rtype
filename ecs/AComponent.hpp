@@ -26,7 +26,7 @@ namespace ECS {
              *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const override;
+            [[nodiscard]] std::vector<int> getValue() const override;
             /**
              * @brief Set the Value object
              *
@@ -34,18 +34,13 @@ namespace ECS {
              *
              * @param valueB
              */
-            virtual void setValue(std::vector<int> values) override;
+            void setValue(std::vector<int> values) override;
 
-            void setEnabled(bool enabled) override;
+            [[nodiscard]] ComponentType getType() const override;
 
-            bool isEnabled() const override;
-
-            ComponentType getType() const override;
-
+            bool isEnabled = true;
         protected:
-            bool _isEnabled = true;
-            ComponentType _type;
-
+            ComponentType _type = ComponentType::NOTHING;
     };
 }
 

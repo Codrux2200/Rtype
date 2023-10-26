@@ -22,10 +22,10 @@ namespace ECS {
             ~SpriteComponent();
             void setTexture(sf::Texture &texture);
             void setMaxIteration(sf::Vector2i max_iteration);
-            void moveRect(void);
+            void moveRect();
 
             const sf::Sprite &getSprite() const;
-            sf::Rect<int> getRect() const;
+            sf::Rect<int> &getRect();
             sf::Vector2i getIterations() const { return _iterations; }
 
             std::shared_ptr<IComponent> clone() const override;
@@ -34,7 +34,7 @@ namespace ECS {
             sf::Texture _texture;
             sf::Sprite _sprite;
             sf::Rect<int> _rect;
-            sf::Vector2i _max_iteration;
+            sf::Vector2i _maxIterations;
             sf::Vector2i _iterations;
     };
 }

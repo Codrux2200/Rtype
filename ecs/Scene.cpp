@@ -5,8 +5,9 @@
 ** Scene
 */
 
-#include "Scene.hpp"
 #include <iostream>
+#include <algorithm>
+#include "Scene.hpp"
 
 ECS::Scene::Scene(SceneType sceneType) : _sceneType(sceneType)
 {
@@ -38,4 +39,26 @@ void ECS::Scene::removeEntity(int entityID)
 ECS::SceneType ECS::Scene::getSceneType() const
 {
     return _sceneType;
+}
+
+std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
+{
+    auto it = std::find_if(entitiesList.begin(), entitiesList.end(),
+    [entityID](const std::shared_ptr<Entity>& entity) {
+        return entity->getId() == entityID;
+    });
+
+    if (it != entitiesList.end())
+        return *it;
+    return nullptr;
+}
+
+void ECS::Scene::removeEntitiesToDestroy()
+{
+    for (int i = 0; i < (int) entitiesList.size(); i++) {
+        if (entitiesList[i]->toDestroy) {
+            entitiesList.erase(entitiesList.begin() + i);
+            i--;
+        }
+    }
 }

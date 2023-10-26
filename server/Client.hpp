@@ -11,8 +11,6 @@
 #include <chrono>
 #include <iostream>
 
-#include "Client.hpp"
-
 using boost::asio::ip::udp;
 
 namespace RType {

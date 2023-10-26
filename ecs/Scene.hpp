@@ -19,7 +19,7 @@ namespace ECS {
      *
      */
     enum SceneType{
-        NONE,
+        NONE = -1,
         MAIN_MENU,
         GAME,
         HELP,
@@ -38,7 +38,7 @@ namespace ECS {
              *
              * @param sceneType
              */
-            Scene(SceneType sceneType);
+            explicit Scene(SceneType sceneType);
             /**
              * @brief Destroy the Scene object
              *
@@ -54,7 +54,23 @@ namespace ECS {
 
             void removeEntity(int entityID);
 
-            SceneType getSceneType() const;
+            [[nodiscard]] SceneType getSceneType() const;
+
+            std::shared_ptr<Entity> getEntityByID(int entityID);
+
+            template <class T>
+            std::vector<std::shared_ptr<Entity>> getEntitiesWithComponent()
+            {
+                std::vector<std::shared_ptr<Entity>> entities;
+
+                for (auto &entity : entitiesList) {
+                    if (entity->getComponent<T>())
+                        entities.push_back(entity);
+                }
+                return entities;
+            }
+
+            void removeEntitiesToDestroy();
 
         private:
             int _entityID;

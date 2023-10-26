@@ -7,27 +7,29 @@
 
 #pragma once
 
-#include <functional>
 #include <SFML/Graphics.hpp>
-#include "Connection.hpp"
+#include <functional>
 #include "AComponent.hpp"
+#include "AEventComponent.hpp"
+#include "Connection.hpp"
 #include "PacketManager.hpp"
-#include "EventComponent.hpp"
 
 namespace ECS {
-    class ClickComponent : public EventComponent {
+    using eventCallback = std::function<void(std::vector<Network::Packet> &, ECS::Entity &)>;
+    class ClickComponent : public AEventComponent {
         public:
             ClickComponent(sf::Rect<int> rect, eventCallback callback, sf::RenderWindow &window);
 
-            std::vector<int> getValue() const final;
+            [[nodiscard]] std::vector<int> getValue() const final;
             void setValue(std::vector<int> values) final;
 
-            std::shared_ptr<IComponent> clone() const override;
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
+            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final ;
 
         private:
             sf::Rect<int> _rect;
             sf::RenderWindow &_window;
+            eventCallback _callback;
     };
 }

@@ -6,18 +6,23 @@
 */
 
 #include <iostream>
+#include <thread>
 #include <experimental/random>
 #include "Core.hpp"
-#include "PlayerComponent.hpp"
-#include "HealthComponent.hpp"
+#include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
-#include "RotationComponent.hpp"
+#include "AudioSystem.hpp"
 #include "GraphicSystem.hpp"
-#include "EnemyComponent.hpp"
+#include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "ClickComponent.hpp"
+#include "MusicsComponent.hpp"
+#include "SoundComponent.hpp"
+#include "ButtonEntity.hpp"
+#include "ShootComponent.hpp"
+#include "PlayerBullet.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -33,15 +38,19 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
+    _systems.push_back(std::make_unique<AudioSystem>());
 }
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 {
     packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
+    packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
+    packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
+    packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
 }
 
-void ECS::Core::_handlerStartGame(Network::Packet &packet)
+void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     if (sceneManager.getSceneType() != SceneType::MAIN_MENU)
         return;
@@ -50,30 +59,51 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet)
     std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
 
-void ECS::Core::_handlerConnect(Network::Packet &packet)
+void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    std::cout << "My new Connect handler" << std::endl;
+    std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
+
     _playerId = packet.connectData.id;
-    std::cout << "Player id: " << _playerId << std::endl;
-    for (int i = 0; i < 4; i++) {
-        std::cout << "Player " << i << ": ";
-        for (int j = 0; j < NAME_LENGTH && packet.connectData.players[i][j];
-             j++)
-            std::cout << packet.connectData.players[i][j];
-        std::cout << std::endl;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (packet.connectData.players[i][0] == '\0') {
+            scene->getEntityByID(i)->isEnabled = false;
+        } else {
+            scene->getEntityByID(i)->isEnabled = true;
+        }
     }
     // Add player Component to the player entity
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
-    player->addComponent(std::make_shared<ECS::PlayerComponent>(nullptr));
+  
+    player->addComponent(std::make_shared<ECS::ControlComponent>());
+    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+}
 
-    // Add enemy Component to enemy entities
-    int size = sceneManager.getScene(SceneType::GAME)->entitiesList.size();
-    for (int i = 0; i < size; i++) {
-        if (i == _playerId)
-            continue;
-        std::shared_ptr<ECS::Entity> enemy = sceneManager.getScene(SceneType::GAME)->entitiesList.at(i);
-        if (enemy != nullptr)
-            enemy->addComponent(std::make_shared<ECS::EnemyComponent>(nullptr));
+void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto player = scene->getEntityByID(i);
+        auto positionComponent = player->getComponent<PositionComponent>();
+
+        std::vector<int> newPos{packet.playersPos.positions[i].x, packet.playersPos.positions[i].y};
+
+        positionComponent->setValue(newPos);
+    }
+}
+
+void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    std::cout << "Handler dead" << std::endl;
+    auto entity = scene->getEntityByID(packet.deadData.id);
+    if (entity == nullptr)
+        return;
+    entity->isEnabled = false;
+    entity->toDestroy = true;
+    if (packet.deadData.id == _playerId) {
+        std::cout << "Player is dead" << std::endl;
     }
 }
 
@@ -84,6 +114,14 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
+    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
+    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+        std::cerr << "Error loading sound" << std::endl;
+        return;
+    }
+    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
+
+    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
     if (!playerTexture.loadFromFile("assets/Ship6.png")) {
@@ -100,53 +138,21 @@ void ECS::Core::_initEntities()
 
     p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
     p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f)); // Already one ?
-
-    p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
-    p1->addComponent(std::make_shared<ECS::ShootComponent>(10, 10));
+    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    p1->addComponent(std::make_shared<ECS::ShootComponent>());
     _entityFactory.registerEntity(p1, "player");
 
     // Create button
-    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::Entity>(4);
-    button->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-
-    sf::Texture texture;
-    if (!texture.loadFromFile("assets/start.png")) {
-        std::cout << "Error loading button texture" << std::endl;
-        return;
-    }
-
-    sf::Rect<int> rect;
-    rect.left = 0;
-    rect.top = 0;
-    rect.width = texture.getSize().x;
-    rect.height = texture.getSize().y;
-
-    std::cout << "Button rect: " << rect.width << " " << rect.height << std::endl;
-
-    button->addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
-    button->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>();
     _entityFactory.registerEntity(button, "button");
 
     // Create enemy
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::Entity>(1);
-    enemy->addComponent(std::make_shared<ECS::PositionComponent>(600, 300));
-    enemy->addComponent(std::make_shared<ECS::ScaleComponent>(0.03f, 0.03f));
-    enemy->addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
+    _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_CLASSIC));
 
-    sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
-        std::cout << "Error loading enemy texture" << std::endl;
-        return;
-    }
-
-    sf::Rect<int> enemyRect;
-    enemyRect.left = 0;
-    enemyRect.top = 0;
-    enemyRect.width = enemyTexture.getSize().x;
-    enemyRect.height = enemyTexture.getSize().y;
-    enemy->addComponent(std::make_shared<ECS::SpriteComponent>(enemyTexture, enemyRect));
-    _entityFactory.registerEntity(enemy, "enemy");
+    // Create player bullet
+    std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<ECS::PlayerBullet>(0);
+    _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -156,7 +162,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
 
-    if (sprite == 0) {
+    if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
         return scene;
     }
@@ -185,7 +191,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.height = sprite->getRect().height;
     }
 
-    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&ECS::Core::_startGameCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), _window));
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _window));
 
     scene->addEntity(button);
     return scene;
@@ -199,27 +205,16 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
     }
-    for (int i = 4; i < (4 + std::experimental::randint(1, 4)); i++) {
-        std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("enemy", i);
-        auto position = enemy->getComponent<ECS::PositionComponent>();
-        if (position) {
-            std::vector<int> pos = position->getValue();
-            pos.at(0) = std::experimental::randint(400, 800);
-            pos.at(1) = std::experimental::randint(70, 600);
-            position->setValue(pos);
-        }
-        scene->addEntity(enemy);
-    }
     return scene;
 }
 
-void ECS::Core::_startGameCallback(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;
 
-    Network::data::StartData startData;
+    Network::data::StartData startData{};
     startData.mapId = 0;
-    std::unique_ptr<Network::Packet> packet = packetManager.createPacket(Network::PacketType::START, &startData);
+    std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::START, &startData);
     packetsQueue.push_back(*packet);
 }
 
@@ -227,17 +222,35 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 {
     // Delta time
     sf::Clock clock;
-    float deltaTime = 0.0f;
+    float deltaTime;
 
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
         for (auto &system : _systems) {
-            system->update(sceneManager, deltaTime, connection.sendQueue, connection.packetManager);
+            system->update(sceneManager, deltaTime, connection.sendQueue);
         }
-        for (auto &packet : connection.sendQueue) {
-            connection.sendPacket(packet);
-        }
-        connection.sendQueue.clear();
+        connection.sendPackets();
+        std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME_MILLIS));
     }
+}
+
+void ECS::Core::_handlerEntitySpawn(
+Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    std::cout << "Handler entity spawn" << std::endl;
+    std::string entityType = "entity" + std::to_string(packet.entitySpawnData.type);
+    std::shared_ptr<ECS::Entity> entity = _entityFactory.createEntity(entityType, packet.entitySpawnData.id);
+
+    if (entity == nullptr)
+        return;
+    auto positionComponent = entity->getComponent<ECS::PositionComponent>();
+
+    if (positionComponent == nullptr)
+        return;
+    positionComponent->setValue({packet.entitySpawnData.x, packet.entitySpawnData.y});
+
+    scene->addEntity(entity);
 }

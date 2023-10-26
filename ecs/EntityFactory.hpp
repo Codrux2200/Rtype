@@ -19,9 +19,11 @@ namespace ECS {
 
             ~EntityFactory();
 
-            void registerEntity(std::shared_ptr<ECS::Entity> entity, std::string name);
+            void registerEntity(const std::shared_ptr<ECS::Entity>& entity, const std::string& name);
 
-            std::shared_ptr<ECS::Entity> createEntity(std::string name, int id);
+            std::shared_ptr<ECS::Entity> createEntity(const std::string& name, int id);
+
+            int ids = 4;
 
         private:
             std::map<std::string, std::shared_ptr<ECS::Entity>> _entities;

@@ -31,24 +31,24 @@ std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
     return std::make_shared<ECS::SpriteComponent>(_texture, _rect);
 }
 
-sf::Rect<int> ECS::SpriteComponent::getRect() const
+sf::Rect<int> &ECS::SpriteComponent::getRect()
 {
     return _rect;
 }
 
 void ECS::SpriteComponent::setMaxIteration(sf::Vector2i max_iteration)
 {
-    _max_iteration = max_iteration;
+    _maxIterations = max_iteration;
 }
 
-void ECS::SpriteComponent::moveRect(void)
+void ECS::SpriteComponent::moveRect()
 {
-    if (_iterations.x == _max_iteration.x) {
+    if (_iterations.x == _maxIterations.x) {
         _iterations.x = 0;
-        _rect.left -= _rect.width * (_max_iteration.x - 1);
-        if (_iterations.y == _max_iteration.y) {
+        _rect.left -= _rect.width * (_maxIterations.x - 1);
+        if (_iterations.y == _maxIterations.y) {
             _iterations.y = 0;
-            _rect.top -= _rect.height * (_max_iteration.y - 1);
+            _rect.top -= _rect.height * (_maxIterations.y - 1);
         } else {
             _rect.top += _rect.height;
             _iterations.y++;
