@@ -15,6 +15,7 @@
 #include "StartData.hpp"
 #include "PlayersPos.hpp"
 #include "DeadData.hpp"
+#include "EnemySpawnData.hpp"
 
 /**
  * @brief Network protocol
@@ -49,6 +50,8 @@ namespace Network {
                         struct data::PlayersPos playersPos;
 
                         struct data::DeadData deadData;
+
+                        struct data::EnemySpawnData enemySpawnData;
                 };
         };
     }

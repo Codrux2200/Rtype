@@ -32,8 +32,8 @@ namespace ECS {
         return std::make_shared<HitboxComponent>(_callback, _hitbox);
     }
 
-    void HitboxComponent::executeCallback(std::shared_ptr<Entity> entity, std::vector<Network::Packet> &packetsQueue) const
+    void HitboxComponent::executeCallback(std::shared_ptr<Entity> self, std::shared_ptr<Entity> entity, std::vector<Network::Packet> &packetsQueue) const
     {
-        _callback(std::move(entity), packetsQueue);
+        _callback(std::move(self), std::move(entity), packetsQueue);
     }
 } // namespace ECS

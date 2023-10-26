@@ -16,5 +16,5 @@ class PlayerEntity : public ECS::Entity {
         ~PlayerEntity() = default;
 
     private:
-        void _callbackPlayerHit(std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
+        void _callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };

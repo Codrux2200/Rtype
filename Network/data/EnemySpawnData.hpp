@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** LeaderData
+** PacketType
 */
 
 #pragma once
@@ -10,9 +10,12 @@
 namespace Network::data {
     extern "C"
     {
-        struct LeaderData {
+        struct EnemySpawnData {
             public:
-                int leaderId;
+                int id;
+                char type;
+                int x;
+                int y;
         };
     }
 } // namespace Network::data

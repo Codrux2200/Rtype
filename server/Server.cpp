@@ -23,53 +23,14 @@ RType::Server::~Server()
 void RType::Server::_loadPacketHandlers()
 {
     packetManager.REGISTER_HANDLER(
-    Network::PacketType::JOIN, &Server::_handlerJoin);
-    packetManager.REGISTER_HANDLER(
     Network::PacketType::QUIT, &Server::_handlerQuit);
-}
-
-/**
- * @brief This admit that the client is connected to the server.
- *
- * @param packet
- */
-void RType::Server::_handlerJoin(Network::Packet &/* packet */, const udp::endpoint &/* endpoint */)
-{
-    Network::data::ConnectData connectData{};
-
-    // Set all player names to empty
-    for (auto &player : connectData.players) {
-        std::memset(player, '\0', NAME_LENGTH);
-    }
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        auto client = clientManager.getClientById(i);
-        if (client == nullptr)
-            continue;
-        std::memcpy(connectData.players[i], client->getName().c_str(),
-        client->getName().size());
-    }
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        auto client = clientManager.getClientById(i);
-        if (client == nullptr)
-            continue;
-        connectData.id = i;
-        std::unique_ptr<Network::Packet> connectPacket =
-        Network::PacketManager::createPacket(Network::PacketType::CONNECT, &connectData);
-        _sendMessageToClient(*connectPacket, client->getEndpoint());
-    }
-
-    _broadcastNewLeader(
-    clientManager.getClientId(clientManager.getLeader()->getEndpoint()));
 }
 
 void RType::Server::_handlerQuit(Network::Packet & packet, const udp::endpoint &endpoint){
     clientManager.unregisterClient(endpoint);
     if (clientManager.getLeader() == nullptr) {
         clientManager.setNewLeader();
-        _broadcastNewLeader(
-        clientManager.getClientId(clientManager.getLeader()->getEndpoint()));
+        broadcastNewLeader();
     }
     char remoteClient = clientManager.getClientId(endpoint);
     auto _packet = Network::PacketManager::createPacket(
@@ -90,9 +51,11 @@ void RType::Server::_handleReceive(
 const boost::system::error_code &error, std::size_t bytesTransferred)
 {
     if (!error || error == boost::asio::error::message_size) {
-        //std::cout << "Received message" << std::endl;
-
-        //std::cout << "Sent by: " << _remoteEndpoint << std::endl;
+        if (bytesTransferred != PACKET_SIZE) {
+            _startReceive();
+            std::cerr << "Invalid packet size: " << bytesTransferred << std::endl;
+            return;
+        }
 
         std::unique_ptr<Network::Packet> packet =
         Network::PacketManager::bytesToPacket(_recvBuffer.data(), bytesTransferred);
@@ -108,7 +71,6 @@ const boost::system::error_code &error, std::size_t bytesTransferred)
             }
 
             packetManager.addPacketToRecvQueue(*packet, client->getEndpoint());
-            std::cout << "Packet added to queue" << std::endl;
 
             // Check if there is a leader
             if (clientManager.getLeader() == nullptr) {
@@ -144,8 +106,6 @@ std::unique_ptr<Network::Packet> &packet)
     std::string name = std::string(packet->joinData.name, NAME_LENGTH);
 
     if (!clientManager.registerClient(_remoteEndpoint, name)) {
-        std::cout << "Too many clients connected, rejecting message"
-                  << std::endl;
         return nullptr;
     } else {
         client = clientManager.getClientByEndpoint(_remoteEndpoint);
@@ -170,7 +130,6 @@ void RType::Server::sendCurrentLeader(const udp::endpoint &endpoint)
 
 void RType::Server::broadcast(const Network::Packet &packet)
 {
-    std::cout << "Broadcasting packet" << std::endl;
     for (int i = 0; i < MAX_PLAYERS; i++) {
         auto client = clientManager.getClientById(i);
         if (client == nullptr)
@@ -191,19 +150,23 @@ void RType::Server::broadcast(const Network::Packet &packet)
             clientManager.unregisterClient(client->getEndpoint());
             if (isLeader) {
                 clientManager.setNewLeader();
-                _broadcastNewLeader(clientManager.getClientId(
-                clientManager.getLeader()->getEndpoint()));
+                broadcastNewLeader();
             }
         } else {
-            std::cout << "Sending to: " << client->getName() << std::endl;
             _sendMessageToClient(
             const_cast<Network::Packet &>(packet), client->getEndpoint());
         }
     }
 }
 
-void RType::Server::_broadcastNewLeader(int id)
+void RType::Server::broadcastNewLeader()
 {
+    auto leader = clientManager.getLeader();
+
+    if (leader == nullptr)
+        return;
+
+    int id = clientManager.getClientId(leader->getEndpoint());
     Network::data::LeaderData leaderData{};
 
     leaderData.leaderId = id;
@@ -217,11 +180,6 @@ void RType::Server::_broadcastNewLeader(int id)
 void RType::Server::_handleSend(const std::vector<char>& message,
 boost::system::error_code error, std::size_t bytesTransferred)
 {
-    if (!error) {
-        std::cout << "Message sent" << std::endl;
-    } else {
-        std::cout << "Error sending message: " << error.message() << std::endl;
-    }
 }
 
 void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
@@ -240,8 +198,7 @@ void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
             if (this->clientManager.cleanupInactiveClients()) {
                 if (this->clientManager.getLeader() == nullptr) {
                     this->clientManager.setNewLeader();
-                    this->_broadcastNewLeader(this->clientManager.getClientId(
-                    this->clientManager.getLeader()->getEndpoint()));
+                    this->broadcastNewLeader();
                 }
             }
             _startClientCleanupTimer(ioService);
@@ -262,12 +219,12 @@ Network::Packet &packet, const udp::endpoint &clientEndpoint)
 
 void RType::Server::sendPackets()
 {
-    if (!sendPacketsQueue.empty())
-        std::cout << "Sending " << sendPacketsQueue.size() << " packets" << std::endl;
     for (auto &packet : sendPacketsQueue) {
         _sendMessageToClient(packet.second, packet.first->getEndpoint());
     }
-    if (!sendPacketsQueue.empty())
-        std::cout << "Sent " << sendPacketsQueue.size() << " packets" << std::endl;
     sendPacketsQueue.clear();
+    for (auto &packet : packetManager.sendPacketsQueue) {
+        broadcast(packet);
+    }
+    packetManager.sendPacketsQueue.clear();
 }

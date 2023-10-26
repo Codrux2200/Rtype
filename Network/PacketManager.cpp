@@ -75,6 +75,9 @@ Network::PacketType type, void *data)
         case Network::PacketType::DEAD:
             memcpy(&packet->deadData, data, sizeof(packet->deadData));
             break;
+        case Network::PacketType::ENEMY_SPAWN:
+            memcpy(&packet->enemySpawnData, data, sizeof(packet->enemySpawnData));
+            break;
         default: break;
     }
     return packet;

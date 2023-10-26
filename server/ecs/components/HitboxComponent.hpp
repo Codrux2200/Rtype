@@ -14,7 +14,7 @@
 
 namespace ECS {
 
-    using hitboxCallback = std::function<void(std::shared_ptr<Entity>, std::vector<Network::Packet> &)>;
+    using hitboxCallback = std::function<void(std::shared_ptr<Entity>, std::shared_ptr<Entity>, std::vector<Network::Packet> &)>;
 
     class HitboxComponent : public AComponent {
         public:
@@ -26,7 +26,7 @@ namespace ECS {
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void executeCallback(std::shared_ptr<Entity> entity, std::vector<Network::Packet> &packetsQueue) const;
+            void executeCallback(std::shared_ptr<Entity> self, std::shared_ptr<Entity> other, std::vector<Network::Packet> &packetsQueue) const;
 
         private:
             std::vector<std::pair<int, int>> _hitbox;

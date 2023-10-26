@@ -34,8 +34,6 @@ namespace ECS {
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
 
-            void _callbackPlayerHit(std::shared_ptr<ECS::Entity> entity);
-
             void _initEntities();
 
             void _initHandlers(Network::PacketManager &packetManager);
@@ -46,6 +44,7 @@ namespace ECS {
             void _handlerMoveDown(const Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerMoveLeft(const Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerMoveRight(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerJoin(const Network::Packet &packet, const udp::endpoint &endpoint);
 
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 
