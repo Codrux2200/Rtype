@@ -32,7 +32,9 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
             continue;
         std::vector<std::shared_ptr<ECS::AEventComponent>> eventComponent = entity->getComponents<ECS::AEventComponent>();
 
-        for (auto &component : eventComponent)
-            component->execute(packetQueue, *entity, deltaTime);
+        for (auto &component : eventComponent) {
+            if (component != nullptr)
+                component->execute(packetQueue, *entity, deltaTime);
+        }
     }
 }
