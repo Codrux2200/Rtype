@@ -6,14 +6,9 @@
 */
 
 #include <filesystem>
-#include <iostream>
 #include "ConvertPath.hpp"
 
-RType::ConvertPath::ConvertPath(void)
-{
-}
-
-std::string RType::ConvertPath::convertPath(const std::string &path)
+std::string ConvertPath::convertPath(const std::string &path)
 {
     #ifdef _WIN32
         std::string newPath = path;

@@ -9,13 +9,6 @@
 #include <iostream>
 #include <filesystem>
 
-namespace RType {
-    class ConvertPath {
-        public:
-            ConvertPath(void);
-            ~ConvertPath() = default;
-
-            static std::string convertPath(const std::string &path);
-        private:
-    };
+namespace ConvertPath {
+    std::string convertPath(const std::string &path);
 }
