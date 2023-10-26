@@ -5,6 +5,8 @@ on: [push, pull_request]
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-saad.berrada.git
 
+  
+
 
 
 jobs:
@@ -68,13 +70,6 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Apply clang-format"
 
-
-#  include_coderabbit:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Include CodeRabbit
-#        uses: ./ai_coderabbit.yml
 
   display_compilation_error:
     runs-on: ubuntu-latest
