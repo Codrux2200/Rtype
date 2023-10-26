@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** Packetmanager
+** PacketManager
 */
 
 #pragma once
@@ -12,6 +12,7 @@
 #include <functional>
 #include <vector>
 #include <iostream>
+#include <boost/asio.hpp>
 #include "Packet.hpp"
 
 /**
@@ -29,7 +30,9 @@
  *
  */
 #define REGISTER_HANDLER(type, handler) \
-    registerHandler(type, std::bind(handler, this, std::placeholders::_1));
+    registerHandler(type, std::bind(handler, this, std::placeholders::_1, std::placeholders::_2));
+
+using boost::asio::ip::udp;
 
 namespace Network {
 
@@ -56,7 +59,7 @@ namespace Network {
              * @see Network::PacketType
              * @see Network::data
              */
-            std::unique_ptr<Packet> createPacket(
+            static std::unique_ptr<Packet> createPacket(
             PacketType type, void *data = nullptr);
 
             /**
@@ -68,7 +71,7 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            std::vector<char> packetToBytes(const Packet &packet);
+            static std::vector<char> packetToBytes(const Packet &packet);
 
             /**
              * @brief Convert a char array to a packet. It is used to convert
@@ -80,7 +83,7 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            std::unique_ptr<Packet> bytesToPacket(
+            static std::unique_ptr<Packet> bytesToPacket(
             const char *bytes, std::size_t bytes_size);
 
             /**
@@ -91,7 +94,7 @@ namespace Network {
              * @param handler
              */
             void registerHandler(
-            PacketType type, std::function<void(Packet &)> handler);
+            PacketType type, std::function<void(Packet &, const udp::endpoint &)> handler);
 
             /**
              * @brief Used to handle a packet. It will call the handler
@@ -101,14 +104,20 @@ namespace Network {
              *
              * @see Network::Packet
              */
-            void handlePacket(Packet &packet);
+            void handlePacket(Packet &packet, udp::endpoint &endpoint);
 
+            void addPacketToRecvQueue(Packet &packet, const udp::endpoint &endpoint);
+
+            void executeRecvPacketsQueue();
+
+            std::vector<Packet> sendPacketsQueue;
+            std::vector<std::pair<udp::endpoint, Packet>> recvPacketsQueue;
         private:
             /**
              * @brief A map that contains all the handlers for each packet type.
              * The key is the packet type, and the value is the handler.
              * Use registerHandler method to add a handler.
              */
-            std::map<PacketType, std::function<void(Packet &)>> _handlers;
+            std::map<PacketType, std::function<void(Packet &, const udp::endpoint &)>> _handlers;
     };
 } // namespace Network

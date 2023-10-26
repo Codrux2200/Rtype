@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** playerComponent
+** ControlComponent
 */
 
 #pragma once
@@ -15,9 +15,9 @@ namespace ECS {
     /**
      * @brief Player component
      */
-    class PlayerComponent : public EventComponent {
+    class ControlComponent : public EventComponent {
         public:
-            PlayerComponent(eventCallback callback);
+            ControlComponent(eventCallback callback);
 
             std::vector<int> getValue() const final;
 
@@ -25,7 +25,7 @@ namespace ECS {
 
             std::shared_ptr<IComponent> clone() const override;
 
-            void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
+            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
 
         private:
             int _speed = 400;

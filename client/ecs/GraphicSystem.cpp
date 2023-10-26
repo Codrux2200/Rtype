@@ -5,31 +5,23 @@
 ** GraphicSystem
 */
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GraphicSystem.hpp"
-#include "PlayerComponent.hpp"
+#include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "RotationComponent.hpp"
 
-ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window)
+ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), backgroundComponent(window.getSize().x, window.getSize().y)
 {
-    // typeSystem = ECS::SystemType::GRAPHIC;
-    initBackground();
 }
 
 ECS::GraphicSystem::~GraphicSystem()
 {
 }
 
-void ECS::GraphicSystem::initBackground()
-{
-    backgroundComponent = ECS::BackgroundComponent();
-}
-
-void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue, Network::PacketManager &pacektManager) {
+void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
 
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
@@ -41,9 +33,17 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
     // Clear the window
     _window.clear();
 
+    // Draw background
+    if (sceneManager.getCurrentScene()->getSceneType() == ECS::SceneType::GAME) {    
+        sf::Vector2i screenSize = static_cast<sf::Vector2i>(_window.getSize());
+        backgroundComponent.update(deltaTime, screenSize);
+        backgroundComponent.draw(_window);
+    }
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
+        if (!entity->isEnabled)
+            continue;
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled())
             continue;
@@ -56,8 +56,10 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         std::vector<float> scale;
         std::vector<float> rotation;
 
-        if (positionComponent != nullptr && positionComponent->isEnabled())
+        if (positionComponent != nullptr && positionComponent->isEnabled()) {
+            std::cout << "pos: " << positionComponent->getValue()[0] << ", " << positionComponent->getValue()[1] << std::endl;
             pos = positionComponent->getValue();
+        }
         else
             pos = {0, 0};
 

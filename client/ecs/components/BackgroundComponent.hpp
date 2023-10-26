@@ -18,17 +18,17 @@ namespace ECS
     class BackgroundComponent
     {
     public:
-        BackgroundComponent();
+        BackgroundComponent(int windowWidth, int windowHeight);
 
-        void update(float deltaTime, const sf::Vector2u& screenSize);
+        void update(float deltaTime, const sf::Vector2i& screenSize);
         void draw(sf::RenderWindow &window);
 
     private:
         std::vector<sf::Texture> backgroundTextures;
         sf::Texture foregroundTexture;
 
-        std::vector<std::unique_ptr<sf::Sprite>> backgroundLayers;
-        std::unique_ptr<sf::Sprite> foreground;
+        std::vector<std::shared_ptr<sf::Sprite>> backgroundLayers;
+        std::shared_ptr<sf::Sprite> foreground;
 
         std::vector<float> backgroundSpeeds;
         float foregroundSpeed;

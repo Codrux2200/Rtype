@@ -14,19 +14,19 @@
 #include "Entity.hpp"
 
 namespace ECS {
-    using eventCallback = std::function<void(Network::PacketManager &, std::vector<Network::Packet> &, ECS::Entity &)>;
+    using eventCallback = std::function<void(std::vector<Network::Packet> &, ECS::Entity &)>;
     class EventComponent : public AComponent {
         public:
-            EventComponent(eventCallback callback);
+            explicit EventComponent(eventCallback callback);
             ~EventComponent() = default;
 
-            std::shared_ptr<IComponent> clone() const override;
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            std::vector<int> getValue() const override;
+            [[nodiscard]] std::vector<int> getValue() const override;
 
             void setValue(std::vector<int> values) override;
 
-            virtual void execute(Network::PacketManager &packetManager, std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt);
+            virtual void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt);
 
         protected:
             eventCallback _callback;

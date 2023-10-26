@@ -6,6 +6,8 @@ rtype-client
 
 doxygen_warnings.log
 
+doc/html
+
 # Prerequisites
 *.d
 
