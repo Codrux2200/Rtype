@@ -45,7 +45,7 @@ namespace ECS {
              *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const = 0;
+            [[nodiscard]] virtual std::vector<int> getValue() const = 0;
             /**
              * @brief Set the Value object
              *
@@ -56,13 +56,9 @@ namespace ECS {
             virtual void setValue(std::vector<int> values) = 0;
 
             // Clone
-            virtual std::shared_ptr<IComponent> clone() const = 0;
+            [[nodiscard]] virtual std::shared_ptr<IComponent> clone() const = 0;
 
-            virtual void setEnabled(bool enabled) = 0;
-
-            virtual bool isEnabled() const = 0;
-
-            virtual ComponentType getType() const = 0;
+            [[nodiscard]] virtual ComponentType getType() const = 0;
     };
 }
 

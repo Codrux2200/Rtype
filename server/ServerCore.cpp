@@ -7,6 +7,12 @@
 
 #include "ServerCore.hpp"
 #include <thread>
+#include "CollisionSystem.hpp"
+#include "EnemyComponent.hpp"
+#include "EnemyEntity.hpp"
+#include "EnemySpawnData.hpp"
+#include "HitboxComponent.hpp"
+#include "PlayerEntity.hpp"
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
@@ -18,13 +24,15 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
         {SceneType::MAIN_MENU, _initMainMenuScene()},
         {SceneType::GAME, _initGameScene()}
     });
+    _systems.push_back(std::make_unique<ECS::CollisionSystem>());
 }
 
 void ECS::ServerCore::_initEntities()
 {
-    std::shared_ptr<ECS::Entity> player = std::make_shared<ECS::Entity>(0);
-    player->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     _entityFactory.registerEntity(player, "player");
+    _entityFactory.registerEntity(enemy, "enemy0");
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -42,6 +50,8 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
     }
+    std::shared_ptr<EnemyEntity> enemy = std::make_shared<EnemyEntity>(4);
+    scene->addEntity(enemy);
     return scene;
 }
 
@@ -72,6 +82,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 
 void ECS::ServerCore::_initHandlers(Network::PacketManager &packetManager)
 {
+    packetManager.REGISTER_HANDLER(Network::PacketType::JOIN, &ECS::ServerCore::_handlerJoin);
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::ServerCore::_handlerStartGame);
     packetManager.REGISTER_HANDLER(Network::PacketType::MOVE_UP, &ECS::ServerCore::_handlerMoveUp);
     packetManager.REGISTER_HANDLER(Network::PacketType::MOVE_DOWN, &ECS::ServerCore::_handlerMoveDown);
@@ -88,17 +99,52 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
 
     if (leader == nullptr || client == nullptr || leader->getEndpoint() != client->getEndpoint())
         return;
+
     sceneManager.setCurrentScene(SceneType::GAME);
     for (const auto& cli : _server.clientManager.getClients()) {
         if (cli == nullptr)
             continue;
         _server.sendPacketsQueue.emplace_back(cli, packet);
     }
+
+    std::shared_ptr<ECS::Scene> gameScene = sceneManager.getScene(SceneType::GAME);
+
+    std::vector<std::shared_ptr<ECS::Entity>> enemies =
+    gameScene->getEntitiesWithComponent<EnemyComponent>();
+
+    // Sends all present enemies to the players
+    for (auto &enemy : enemies) {
+        Network::data::EnemySpawnData data{};
+        auto positionComponent = enemy->getComponent<PositionComponent>();
+
+        if (positionComponent == nullptr)
+            continue;
+        std::vector<int> values = positionComponent->getValue();
+
+        data.x = values[0];
+        data.y = values[1];
+        data.type = 0;
+        data.id = enemy->getId();
+
+        std::cout << "Sending enemy spawn packet" << std::endl;
+        std::cout << "x: " << data.x << std::endl;
+        std::cout << "y: " << data.y << std::endl;
+        std::cout << "type: " << data.type << std::endl;
+        std::cout << "id: " << data.id << std::endl;
+        std::cout << "---------------------" << std::endl;
+
+        auto packetToSend = Network::PacketManager::createPacket(Network::ENEMY_SPAWN, &data);
+
+        for (const auto& cli : _server.clientManager.getClients()) {
+            if (cli == nullptr)
+                continue;
+            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+        }
+    }
 }
 
 void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, float y)
 {
-    std::cout << "Trying to move player" << std::endl;
     if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
     auto client = _server.clientManager.getClientByEndpoint(endpoint);
@@ -108,7 +154,6 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
     if (entity == nullptr)
         return;
 
-    std::cout << "Check player pos" << std::endl;
     auto position = entity->getComponent<PositionComponent>();
     auto pos = position->getValue();
 
@@ -147,7 +192,6 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
             continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
-    std::cout << "Player moved" << std::endl;
 }
 
 void ECS::ServerCore::_handlerMoveUp(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
@@ -168,4 +212,52 @@ void ECS::ServerCore::_handlerMoveLeft(const Network::Packet &/* packet */, cons
 void ECS::ServerCore::_handlerMoveRight(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
     _tryMovePlayer(endpoint, _horizontalSpeed * _deltaTime, 0);
+}
+
+void ECS::ServerCore::_handlerJoin(
+const Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    if (sceneManager.getSceneType() != MAIN_MENU)
+        return;
+
+
+    auto gameScene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (gameScene == nullptr)
+        return;
+    int clientId = _server.clientManager.getClientId(endpoint);
+
+    auto playerEntity = gameScene->getEntityByID(clientId);
+
+    if (playerEntity == nullptr)
+        return;
+
+    playerEntity->isEnabled = true;
+
+    Network::data::ConnectData connectData{};
+
+    // Set all player names to empty
+    for (auto &player : connectData.players) {
+        std::memset(player, '\0', NAME_LENGTH);
+    }
+
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto client = _server.clientManager.getClientById(i);
+        if (client == nullptr)
+            continue;
+        std::memcpy(connectData.players[i], client->getName().c_str(),
+        client->getName().size());
+    }
+
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto client = _server.clientManager.getClientById(i);
+        if (client == nullptr)
+            continue;
+        connectData.id = i;
+        std::unique_ptr<Network::Packet> connectPacket =
+        Network::PacketManager::createPacket(Network::PacketType::CONNECT, &connectData);
+        _server.sendPacketsQueue.emplace_back(client, *connectPacket);
+    }
+
+    _server.broadcastNewLeader();
 }

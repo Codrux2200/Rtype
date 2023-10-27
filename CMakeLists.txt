@@ -18,9 +18,10 @@ set(NETWORK_SOURCES
         Network/data/ConnectData.hpp
         Network/data/JoinData.hpp
         Network/data/LeaderData.hpp
-        Network/data/MoveData.hpp
         Network/data/StartData.hpp
         Network/data/DisconnectData.hpp
+        Network/data/DeadData.hpp
+        Network/data/EnemySpawnData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -85,6 +86,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/SpriteComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
+        client/ecs/models/EnemyEntity.cpp
+        client/ecs/models/EnemyEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -97,6 +100,16 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ClientManager.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
+        server/ecs/components/HitboxComponent.cpp
+        server/ecs/components/HitboxComponent.hpp
+        server/ecs/components/EnemyComponent.cpp
+        server/ecs/components/EnemyComponent.hpp
+        server/ecs/CollisionSystem.cpp
+        server/ecs/CollisionSystem.hpp
+        server/ecs/models/PlayerEntity.cpp
+        server/ecs/models/PlayerEntity.hpp
+        server/ecs/models/EnemyEntity.cpp
+        server/ecs/models/EnemyEntity.hpp
 )
 
 
@@ -141,6 +154,9 @@ target_include_directories(rtype-server PRIVATE
         ${Boost_INCLUDE_DIRS}
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
+        server/ecs
+        server/ecs/models
+        server/ecs/components
 )
 
 # Liens vers les bibliothèques SFML et Boost.Asio
