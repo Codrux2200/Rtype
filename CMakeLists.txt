@@ -63,6 +63,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/main.cpp
         client/Connection.cpp
         client/Connection.hpp
+        client/ConvertPath.cpp
+        client/ConvertPath.hpp
         client/ecs/Core.hpp
         client/ecs/Core.cpp
         client/ecs/EventSystem.cpp

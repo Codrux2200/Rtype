@@ -6,9 +6,11 @@
 */
 
 #include "Core.hpp"
-#include <experimental/random>
 #include <iostream>
 #include <thread>
+#include "Core.hpp"
+#include "ControlComponent.hpp"
+#include "PositionComponent.hpp"
 #include "AudioSystem.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
@@ -78,7 +80,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
   
     player->addComponent(std::make_shared<ECS::ControlComponent>());
-    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>(ConvertPath::convertPath("assets/sound/music.ogg")));
 }
 
 void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint)

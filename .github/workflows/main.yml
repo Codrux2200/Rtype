@@ -68,14 +68,7 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Apply clang-format"
 
-
-  include_coderabbit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Include CodeRabbit
-        uses: ./ai_coderabbit.yml
-
+          
   display_compilation_error:
     runs-on: ubuntu-latest
     needs: cmake_build

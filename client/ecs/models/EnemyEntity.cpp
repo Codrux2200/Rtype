@@ -7,10 +7,9 @@
 
 #include "EnemyEntity.hpp"
 #include <iostream>
-#include "../../../server/ecs/components/HitboxComponent.hpp"
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
-#include "SFML/Audio/SoundBuffer.hpp"
+#include "ConvertPath.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
@@ -23,7 +22,7 @@ namespace ECS {
         // addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
         sf::Texture enemyTexture;
-        if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
+        if (!enemyTexture.loadFromFile(ConvertPath::convertPath("assets/Ship5.png"))) {
             std::cout << "Error loading enemy texture" << std::endl;
             return;
         }
@@ -38,7 +37,7 @@ namespace ECS {
         addComponent(std::make_shared<ECS::EnemyComponent>());
 
         std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-        if(!soundbuffer->loadFromFile("assets/sound/death.ogg")) {
+        if(!soundbuffer->loadFromFile(ConvertPath::convertPath("assets/sound/death.ogg"))) {
             std::cerr << "Error loading sound" << std::endl;
             return;
         }
