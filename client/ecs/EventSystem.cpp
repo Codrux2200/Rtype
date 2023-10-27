@@ -27,8 +27,6 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
 
     auto &actualScene = sceneManager.getCurrentScene();
 
-    std::cout << "EventSystem" << std::endl;
-
     for (auto entity : actualScene->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)
             continue;
@@ -39,6 +37,4 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
                 component->execute(packetQueue, *entity, deltaTime);
         }
     }
-
-    std::cout << "EventSystem end" << std::endl;
 }

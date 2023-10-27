@@ -22,8 +22,6 @@ void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::v
 {
     auto &actualScene = sceneManager.getCurrentScene();
 
-    std::cout << "GameSystem" << std::endl;
-
     for (auto entity : actualScene->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)
             continue;
@@ -34,5 +32,4 @@ void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::v
                 component->update(packetQueue, *entity, deltaTime);
         }
     }
-    std::cout << "GameSystem end" << std::endl;
 }

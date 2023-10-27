@@ -268,7 +268,6 @@ void ECS::ServerCore::_handlerMoveUp(const Network::Packet &/* packet */, const 
 
 void ECS::ServerCore::_handlerMoveDown(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
-    std::cout << "Move down" << std::endl;
     _tryMovePlayer(endpoint, 0, _verticalSpeed * _deltaTime);
 }
 
