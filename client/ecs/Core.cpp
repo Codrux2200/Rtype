@@ -207,6 +207,11 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
         }
         connection.sendPackets();
+        // remove entities to destroy
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy();
+
+        std::cout << "Entities loaded in scene: " << sceneManager.getCurrentScene()->entitiesList.size() << std::endl;
+
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
