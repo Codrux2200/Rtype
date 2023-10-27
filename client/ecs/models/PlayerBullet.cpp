@@ -5,12 +5,13 @@
 ** PlayerBullet
 */
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "SpriteComponent.hpp"
 #include "PlayerBullet.hpp"
+#include <SFML/Graphics.hpp>
+#include <iostream>
 #include "PositionComponent.hpp"
+#include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
+#include "SpriteComponent.hpp"
 
 ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
 {
@@ -36,4 +37,5 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     }
     std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
     addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
+    addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 }

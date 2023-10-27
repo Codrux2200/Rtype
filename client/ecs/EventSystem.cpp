@@ -27,12 +27,12 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
 
     auto &actualScene = sceneManager.getCurrentScene();
 
-    for (auto &entity : actualScene->entitiesList) {
-        if (!entity->isEnabled)
+    for (auto entity : actualScene->entitiesList) {
+        if (entity == nullptr || !entity->isEnabled)
             continue;
         std::vector<std::shared_ptr<ECS::AEventComponent>> eventComponent = entity->getComponents<ECS::AEventComponent>();
 
-        for (auto &component : eventComponent) {
+        for (auto component : eventComponent) {
             if (component != nullptr)
                 component->execute(packetQueue, *entity, deltaTime);
         }

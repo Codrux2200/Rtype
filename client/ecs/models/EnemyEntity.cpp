@@ -7,6 +7,7 @@
 
 #include "EnemyEntity.hpp"
 #include <iostream>
+#include "../../../server/ecs/components/HitboxComponent.hpp"
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SFML/Audio/SoundBuffer.hpp"

@@ -5,24 +5,25 @@
 ** Core
 */
 
+#include "Core.hpp"
+#include <experimental/random>
 #include <iostream>
 #include <thread>
-#include <experimental/random>
-#include "Core.hpp"
-#include "ControlComponent.hpp"
-#include "PositionComponent.hpp"
 #include "AudioSystem.hpp"
-#include "GraphicSystem.hpp"
+#include "ButtonEntity.hpp"
+#include "ClickComponent.hpp"
+#include "ControlComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
-#include "SpriteComponent.hpp"
-#include "ScaleComponent.hpp"
-#include "ClickComponent.hpp"
+#include "GraphicSystem.hpp"
 #include "MusicsComponent.hpp"
-#include "SoundComponent.hpp"
-#include "ButtonEntity.hpp"
-#include "ShootComponent.hpp"
 #include "PlayerBullet.hpp"
+#include "PlayerEntity.hpp"
+#include "PositionComponent.hpp"
+#include "ScaleComponent.hpp"
+#include "ShootComponent.hpp"
+#include "SoundComponent.hpp"
+#include "SpriteComponent.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -109,37 +110,7 @@ void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpo
 
 void ECS::Core::_initEntities()
 {
-    // Create player
-    std::shared_ptr<ECS::Entity> p1 = std::make_shared<ECS::Entity>(0);
-    p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-
-    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
-        std::cerr << "Error loading sound" << std::endl;
-        return;
-    }
-    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
-
-    p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
-    sf::Texture playerTexture;
-
-    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
-        std::cout << "Error loading player playerTexture" << std::endl;
-        return;
-    }
-
-    sf::Rect<int> playerRect;
-
-    playerRect.left = 0;
-    playerRect.top = 0;
-    playerRect.width = playerTexture.getSize().x;
-    playerRect.height = playerTexture.getSize().y;
-
-    p1->addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect));
-    p1->addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-    p1->addComponent(std::make_shared<ECS::ShootComponent>());
+    std::shared_ptr<ECS::Entity> p1 = std::make_shared<ECS::PlayerEntity>(0);
     _entityFactory.registerEntity(p1, "player");
 
     // Create button

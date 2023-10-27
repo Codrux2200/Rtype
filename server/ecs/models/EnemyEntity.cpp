@@ -8,7 +8,9 @@
 #include "EnemyEntity.hpp"
 #include "EnemyComponent.hpp"
 #include "HitboxComponent.hpp"
+#include "PlayerBulletComponent.hpp"
 #include "PositionComponent.hpp"
+#include "PacketManager.hpp"
 
 EnemyEntity::EnemyEntity(int id) : Entity(id)
 {
@@ -22,5 +24,15 @@ EnemyEntity::EnemyEntity(int id) : Entity(id)
 void EnemyEntity::_callbackEnemyHit(std::shared_ptr<ECS::Entity> self,
 std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
-    // TODO: Check if it is a bullet, so it can be killed
+    if (other->getComponent<ECS::PlayerBulletComponent>() != nullptr) {
+        self->isEnabled = false;
+        self->toDestroy = true;
+
+        std::cout << "Enemy " << self->getId() << " is dead" << std::endl;
+        Network::data::DeadData deadData {};
+        deadData.id = self->getId();
+        std::shared_ptr<Network::Packet> deadPacket = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
+
+        packets.push_back(*deadPacket);
+    }
 }

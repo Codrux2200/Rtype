@@ -99,7 +99,6 @@ void ECS::ServerCore::_initHandlers(Network::PacketManager &packetManager)
 
 void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    std::cout << "Shooting" << std::endl;
     if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
     auto clientID = _server.clientManager.getClientId(endpoint);
@@ -107,7 +106,6 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     if (clientID == -1 || clientID > 3)
         return;
 
-    std::cout << "Client found" << std::endl;
     auto scene = sceneManager.getScene(SceneType::GAME);
 
     auto playerEntity = scene->getEntityByID(clientID);
@@ -115,14 +113,10 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     if (playerEntity == nullptr)
         return;
 
-    std::cout << "Player entity found" << std::endl;
-
     auto playerPositionComponent = playerEntity->getComponent<ECS::PositionComponent>();
 
     if (playerPositionComponent == nullptr)
         return;
-
-    std::cout << "Player position component found" << std::endl;
 
     auto playerPosition = playerPositionComponent->getValue();
 
@@ -131,26 +125,24 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     if (bulletEntity == nullptr)
         return;
 
-    std::cout << "Bullet entity created" << std::endl;
-
     auto bulletPosComponent = bulletEntity->getComponent<ECS::PositionComponent>();
 
     if (bulletPosComponent == nullptr)
         return;
 
-    std::cout << "Bullet position component found" << std::endl;
-
     bulletPosComponent->setValue({playerPosition[0], playerPosition[1]});
 
     scene->addEntity(bulletEntity);
 
-    // TODO: Broadcast the bullet spawn
     Network::data::EntitySpawnData data{};
 
     data.x = playerPosition[0];
     data.y = playerPosition[1];
     data.type = ECS::Entity::PLAYER_BULLET;
     data.id = bulletEntity->getId();
+
+    std::cout << "-------------------------" << std::endl;
+    std::cout << "BULLET ID: " << data.id << std::endl;
 
     auto packetToSend = Network::PacketManager::createPacket(Network::ENTITY_SPAWN, &data);
 
@@ -159,8 +151,6 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
             continue;
         _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
-
-    std::cout << "Bullet spawned" << std::endl;
 }
 
 void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)

@@ -28,28 +28,11 @@ std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vect
     if (other->getId() < 4)
         return;
 
-    auto enemyComponent = other->getComponent<ECS::EnemyComponent>();
-
-    if (enemyComponent == nullptr)
-        return;
-
-    // TODO: Check if it has a healthComponent to decrease its health before killing it
-
-    // Destroy the enemy //
-    other->toDestroy = true;
-    other->isEnabled = false;
-
-    Network::data::DeadData deadData{other->getId()};
-    std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
-
-    packets.push_back(*packet);
-
-    // Destroy the bullet //
     self->isEnabled = false;
     self->toDestroy = true;
 
-    deadData.id = self->getId();
+    Network::data::DeadData deadData{self->getId()};
+    std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
 
-    packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
     packets.push_back(*packet);
 }

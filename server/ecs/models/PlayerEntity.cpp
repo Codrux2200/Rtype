@@ -18,13 +18,12 @@ PlayerEntity::PlayerEntity() : Entity(0)
     addComponent(std::make_shared<ECS::PlayerComponent>());
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&PlayerEntity::_callbackPlayerHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
+    std::vector<std::pair<int, int>>{{0, 0}, {60, 40}}));
     isEnabled = false;
 }
 
 void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
-    std::cout << "Player hit with " << other->getId() << std::endl;
     if (other->getId() < 4 || other->getComponent<ECS::PlayerBulletComponent>())
         return;
 

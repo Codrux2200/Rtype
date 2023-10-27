@@ -46,12 +46,15 @@ set(ECS_SOURCES
         ecs/SceneManager.hpp
         ecs/EntityFactory.cpp
         ecs/EntityFactory.hpp
+        ecs/system/GameSystem.cpp
+        ecs/system/GameSystem.hpp
         ecs/components/PositionComponent.cpp
         ecs/components/PositionComponent.hpp
         ecs/components/RotationComponent.cpp
         ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
+        ecs/components/AGameComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -89,6 +92,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/EnemyEntity.hpp
         client/ecs/models/PlayerBullet.cpp
         client/ecs/models/PlayerBullet.hpp
+        client/ecs/models/PlayerEntity.cpp
+        client/ecs/models/PlayerEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
