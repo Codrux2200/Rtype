@@ -44,6 +44,8 @@ namespace RType {
             Network::Packet &packet, const udp::endpoint &client_endpoint);
             void broadcast(const Network::Packet &packet);
 
+            void broadcastNewLeader();
+
             ClientManager clientManager;
             std::vector<std::pair<std::shared_ptr<Client>, std::unique_ptr<Network::Packet>>> recvPacketsQueue;
             std::vector<std::pair<std::shared_ptr<Client>, Network::Packet>> sendPacketsQueue;
@@ -61,13 +63,9 @@ namespace RType {
 
             void _startClientCleanupTimer(boost::asio::io_service &io_service);
 
-
-            void _broadcastNewLeader(int id);
-
             client_ptr _newClientPacket(
             std::unique_ptr<Network::Packet> &packet);
 
-            void _handlerJoin(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerQuit(Network::Packet &packet, const udp::endpoint &endpoint);
 
             udp::socket _socket;

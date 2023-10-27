@@ -11,10 +11,11 @@
 #include "ConnectData.hpp"
 #include "JoinData.hpp"
 #include "LeaderData.hpp"
-#include "MoveData.hpp"
 #include "PacketType.hpp"
 #include "StartData.hpp"
 #include "PlayersPos.hpp"
+#include "DeadData.hpp"
+#include "EnemySpawnData.hpp"
 
 /**
  * @brief Network protocol
@@ -46,9 +47,11 @@ namespace Network {
                         joinData; ///< The data of the JOIN packet
                         struct data::LeaderData
                         leaderData; ///< The data of the LEADER packet
-                        struct data::MoveData
-                        moveData; ///< The data of the MOVE packet
                         struct data::PlayersPos playersPos;
+
+                        struct data::DeadData deadData;
+
+                        struct data::EnemySpawnData enemySpawnData;
                 };
         };
     }

@@ -69,9 +69,7 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
 
     _socket.async_send_to(boost::asio::buffer(packetInBytes), _endpoint,
     [](const boost::system::error_code &error, std::size_t bytes_sent) {
-        if (!error) {
-            std::cout << "Sent packet to server." << std::endl;
-        } else {
+        if (error) {
             std::cerr << "Error sending message: " << error.message()
                       << std::endl;
         }
@@ -80,8 +78,6 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
 
 void RType::Connection::sendPackets()
 {
-    if (!sendQueue.empty())
-        std::cout << "Sending " << sendQueue.size() << " packets" << std::endl;
     for (auto &packet : sendQueue) {
         sendPacket(packet);
     }
