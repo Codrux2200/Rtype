@@ -10,8 +10,8 @@
 
 ECS::PositionComponent::PositionComponent(float x, float y)
 {
-    _x = x;
-    _y = y;
+    this->x = x;
+    this->y = y;
 }
 
 ECS::PositionComponent::~PositionComponent()
@@ -23,25 +23,25 @@ void ECS::PositionComponent::setValue(std::vector<int> values)
     if (values.size() != 2) {
         return;
     }
-    _x = values[0];
-    _y = values[1];
+    x = values[0];
+    y = values[1];
 }
 
 std::vector<int> ECS::PositionComponent::getValue() const
 {
     std::vector<int> position = std::vector<int>();
-    position.push_back(_x);
-    position.push_back(_y);
+    position.push_back(x);
+    position.push_back(y);
     return position;
 }
 
 std::shared_ptr<ECS::IComponent> ECS::PositionComponent::clone() const
 {
-    return std::make_shared<ECS::PositionComponent>(_x, _y);
+    return std::make_shared<ECS::PositionComponent>(x, y);
 }
 
 void ECS::PositionComponent::move(float x, float y)
 {
-    _x += x;
-    _y += y;
+    x += x;
+    y += y;
 }

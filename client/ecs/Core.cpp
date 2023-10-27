@@ -87,9 +87,8 @@ void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint 
         auto player = scene->getEntityByID(i);
         auto positionComponent = player->getComponent<PositionComponent>();
 
-        std::vector<int> newPos{packet.playersPos.positions[i].x, packet.playersPos.positions[i].y};
-
-        positionComponent->setValue(newPos);
+        positionComponent->x = packet.playersPos.positions[i].x;
+        positionComponent->y = packet.playersPos.positions[i].y;
     }
 }
 
@@ -194,6 +193,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
     // Delta time
     sf::Clock clock;
     float deltaTime;
+    std::chrono::milliseconds waitTime;
 
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
@@ -202,7 +202,9 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             system->update(sceneManager, deltaTime, connection.sendQueue);
         }
         connection.sendPackets();
-        std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME_MILLIS));
+        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
+        if (waitTime.count() > 0)
+            std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
     }
 }
 

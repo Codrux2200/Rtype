@@ -23,12 +23,12 @@ void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::v
 {
     auto &actualScene = sceneManager.getCurrentScene();
 
-    for (auto &entity : actualScene->entitiesList) {
-        if (!entity->isEnabled)
+    for (auto entity : actualScene->entitiesList) {
+        if (entity == nullptr || !entity->isEnabled)
             continue;
-        std::vector<std::shared_ptr<ECS::AGameComponent>> eventComponent = entity->getComponents<ECS::AGameComponent>();
+        std::vector<std::shared_ptr<ECS::AGameComponent>> gameComponents = entity->getComponents<ECS::AGameComponent>();
 
-        for (auto &component : eventComponent) {
+        for (auto component : gameComponents) {
             if (component != nullptr)
                 component->update(packetQueue, *entity, deltaTime);
         }

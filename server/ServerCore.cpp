@@ -11,9 +11,9 @@
 #include "EnemyComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EntitySpawnData.hpp"
+#include "GameSystem.hpp"
 #include "HitboxComponent.hpp"
 #include "PlayerBullet.hpp"
-#include "PlayerComponent.hpp"
 #include "PlayerEntity.hpp"
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
@@ -27,6 +27,7 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
         {SceneType::GAME, _initGameScene()}
     });
     _systems.push_back(std::make_unique<ECS::CollisionSystem>());
+    _systems.push_back(std::make_unique<ECS::GameSystem>());
 }
 
 void ECS::ServerCore::_initEntities()
@@ -34,6 +35,8 @@ void ECS::ServerCore::_initEntities()
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
+
+    std::cout << "At creation : x: " << enemy->getComponent<PositionComponent>()->x << "; y: " << enemy->getComponent<PositionComponent>()->y << std::endl;
 
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
@@ -66,6 +69,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
     std::chrono::high_resolution_clock clock;
     auto lastFrameTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> frameDuration{};
+    std::chrono::milliseconds waitTime{};
 
     _initHandlers(_server.packetManager);
     while (true) {
@@ -82,7 +86,9 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 
         sceneManager.getCurrentScene()->removeEntitiesToDestroy();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME_MILLIS));
+        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
+        if (waitTime.count() > 0)
+            std::this_thread::sleep_for(waitTime);
     }
 }
 
@@ -184,15 +190,15 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
             continue;
         std::vector<int> values = positionComponent->getValue();
 
-        data.x = values[0];
-        data.y = values[1];
+        data.x = positionComponent->x;
+        data.y = positionComponent->y;
         data.type = ECS::Entity::ENEMY_CLASSIC;
         data.id = enemy->getId();
 
         std::cout << "Sending enemy spawn packet" << std::endl;
-        std::cout << "x: " << data.x << std::endl;
-        std::cout << "y: " << data.y << std::endl;
-        std::cout << "type: " << data.type << std::endl;
+        std::cout << "x: " << positionComponent->x << std::endl;
+        std::cout << "y: " << positionComponent->y << std::endl;
+        std::cout << "type: " << (int) data.type << std::endl;
         std::cout << "id: " << data.id << std::endl;
         std::cout << "---------------------" << std::endl;
 

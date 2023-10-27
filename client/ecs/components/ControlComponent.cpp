@@ -43,7 +43,7 @@ void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, 
 
 std::vector<int> ECS::ControlComponent::getValue() const
 {
-    return std::vector<int>();
+    return {};
 }
 
 void ECS::ControlComponent::setValue(std::vector<int> values)
