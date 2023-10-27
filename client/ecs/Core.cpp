@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <thread>
-#include <experimental/random>
 #include "Core.hpp"
 #include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
@@ -73,7 +72,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
   
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
-    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>(ConvertPath::convertPath("assets/sound/music.ogg")));
 }
 
 void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -112,7 +111,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
     std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+    if(!soundbuffer->loadFromFile(ConvertPath::convertPath("assets/sound/laser.ogg"))) {
         std::cerr << "Error loading sound" << std::endl;
         return;
     }
@@ -121,7 +120,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
-    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
+    if (!playerTexture.loadFromFile(ConvertPath::convertPath("assets/Ship6.png"))) {
         std::cout << "Error loading player playerTexture" << std::endl;
         return;
     }
