@@ -136,7 +136,8 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     if (bulletPosComponent == nullptr)
         return;
 
-    bulletPosComponent->setValue({playerPosition[0], playerPosition[1]});
+    bulletPosComponent->x = playerPosition[0] + 50;
+    bulletPosComponent->y = playerPosition[1] + 50;
 
     scene->addEntity(bulletEntity);
 
@@ -223,20 +224,20 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
     if (entity == nullptr)
         return;
 
+    std::cout << "Try moving player of x: " << x << "; y: " << y << std::endl;
+
     auto position = entity->getComponent<PositionComponent>();
-    auto pos = position->getValue();
 
     position->move(x, y);
 
-    pos = position->getValue();
-    if (pos[0] < 0)
-        position->move(-pos[0], 0);
-    if (pos[0] > 720)
-        position->move(720 - pos[0], 0);
-    if (pos[1] < 0)
-        position->move(0, -pos[1]);
-    if (pos[1] > 540)
-        position->move(0, 540 - pos[1]);
+    if (position->x < 0)
+        position->move(-position->x, 0);
+    if (position->x > 720)
+        position->move(720 - position->x, 0);
+    if (position->y < 0)
+        position->move(0, -position->y);
+    if (position->y > 540)
+        position->move(0, 540 - position->y);
 
     Network::data::PlayersPos data{};
 
@@ -250,9 +251,7 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
         if (positionComponent == nullptr)
             continue;
 
-        std::vector<int> values = positionComponent->getValue();
-
-        data.positions[i] = {values[0], values[1]};
+        data.positions[i] = {static_cast<int>(positionComponent->x), static_cast<int>(positionComponent->y)};
     }
     auto packetToSend = Network::PacketManager::createPacket(Network::PLAYERS_POS, &data);
 
@@ -270,6 +269,7 @@ void ECS::ServerCore::_handlerMoveUp(const Network::Packet &/* packet */, const 
 
 void ECS::ServerCore::_handlerMoveDown(const Network::Packet &/* packet */, const udp::endpoint &endpoint)
 {
+    std::cout << "Move down" << std::endl;
     _tryMovePlayer(endpoint, 0, _verticalSpeed * _deltaTime);
 }
 

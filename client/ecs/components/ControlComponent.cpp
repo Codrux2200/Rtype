@@ -29,6 +29,7 @@ void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_DOWN);
         packetsQueue.push_back(*packet);
+        std::cout << "Move down" << std::endl;
 
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
