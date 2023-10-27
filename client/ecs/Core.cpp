@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <thread>
-#include <experimental/random>
 #include "Core.hpp"
 #include "ControlComponent.hpp"
 #include "HealthComponent.hpp"
@@ -79,9 +78,8 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
     std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
   
     player->addComponent(std::make_shared<ECS::ControlComponent>(nullptr));
-    player->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/music.ogg"));
+    player->addComponent(std::make_shared<ECS::MusicsComponent>(ConvertPath::convertPath("assets/sound/music.ogg")));
  
-  
     // Add enemy Component to enemy entities
     int size = scene->entitiesList.size();
     for (int i = 4; i < size; i++) {
@@ -116,7 +114,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
 
     std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if(!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
+    if(!soundbuffer->loadFromFile(ConvertPath::convertPath("assets/sound/laser.ogg"))) {
         std::cerr << "Error loading sound" << std::endl;
         return;
     }
@@ -125,7 +123,7 @@ void ECS::Core::_initEntities()
     p1->addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     sf::Texture playerTexture;
 
-    if (!playerTexture.loadFromFile("assets/Ship6.png")) {
+    if (!playerTexture.loadFromFile(ConvertPath::convertPath("assets/Ship6.png"))) {
         std::cout << "Error loading player playerTexture" << std::endl;
         return;
     }
@@ -155,7 +153,7 @@ void ECS::Core::_initEntities()
     enemy->addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
     sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
+    if (!enemyTexture.loadFromFile(ConvertPath::convertPath("assets/Ship5.png"))) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }
@@ -218,17 +216,6 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
-    }
-    for (int i = 4; i < (4 + std::experimental::randint(1, 4)); i++) {
-        std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("enemy", i);
-        auto position = enemy->getComponent<ECS::PositionComponent>();
-        if (position) {
-            std::vector<int> pos = position->getValue();
-            pos.at(0) = std::experimental::randint(400, 800);
-            pos.at(1) = std::experimental::randint(70, 600);
-            position->setValue(pos);
-        }
-        scene->addEntity(enemy);
     }
     return scene;
 }
