@@ -9,7 +9,7 @@
 #include <iostream>
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
-#include "RotationComponent.hpp"
+#include "ConvertPath.hpp"
 #include "ScaleComponent.hpp"
 #include "SpriteComponent.hpp"
 
@@ -21,7 +21,7 @@ EnemyEntity::EnemyEntity() : Entity(0)
     // addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
     sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile("assets/Ship5.png")) {
+    if (!enemyTexture.loadFromFile(ConvertPath::convertPath("assets/Ship5.png"))) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }
