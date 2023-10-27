@@ -26,10 +26,10 @@ namespace ECS{
             void setFont(sf::Font);
             void setPosition(int x, int y);
         protected:
-            sf::Color _Color;
-            sf::Font _Font;
-            sf::Text _Text;
-            std::string _String;
+            sf::Color _color;
+            sf::Font _font;
+            sf::Text _text;
+            std::string _string;
         private:
     };
 }
