@@ -24,6 +24,8 @@ void ECS::Entity::addComponent(std::shared_ptr<ECS::AComponent> component)
 ECS::Entity::Entity(const ECS::Entity &entity, int id) : _id(id)
 {
     for (auto &component : entity._components) {
+        if (component == nullptr)
+            continue;
         _components.push_back(component->clone());
     }
     _id = id;

@@ -79,6 +79,8 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 
         _server.packetManager.executeRecvPacketsQueue();
         for (auto &system : _systems) {
+            if (system == nullptr)
+                continue;
             system->update(
             sceneManager, _deltaTime, _server.packetManager.sendPacketsQueue);
         }
@@ -148,9 +150,6 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     data.type = ECS::Entity::PLAYER_BULLET;
     data.id = bulletEntity->getId();
 
-    std::cout << "-------------------------" << std::endl;
-    std::cout << "BULLET ID: " << data.id << std::endl;
-
     auto packetToSend = Network::PacketManager::createPacket(Network::ENTITY_SPAWN, &data);
 
     for (const auto& cli : _server.clientManager.getClients()) {
@@ -184,6 +183,8 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
 
     // Sends all present enemies to the players
     for (auto &enemy : enemies) {
+        if (enemy == nullptr)
+            continue;
         Network::data::EntitySpawnData data{};
         auto positionComponent = enemy->getComponent<PositionComponent>();
 
@@ -223,8 +224,6 @@ void ECS::ServerCore::_tryMovePlayer(const udp::endpoint &endpoint, float x, flo
 
     if (entity == nullptr)
         return;
-
-    std::cout << "Try moving player of x: " << x << "; y: " << y << std::endl;
 
     auto position = entity->getComponent<PositionComponent>();
 

@@ -24,8 +24,11 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
 void ECS::PlayerBullet::_callbackPlayerBulletHit(
 std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
+    if (other == nullptr || self == nullptr)
+        return;
+    
     // Cancel player contacts
-    if (other->getId() < 4)
+    if (other->getId() < 4 || other->getComponent<ECS::PlayerBulletComponent>() != nullptr)
         return;
 
     self->isEnabled = false;

@@ -26,7 +26,7 @@ namespace ECS {
              * @brief Destroy the Game System object
              *
              */
-            ~GameSystem();
+            ~GameSystem() override;
             /**
              * @brief update the game system
              *

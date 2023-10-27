@@ -27,7 +27,7 @@ namespace ECS {
              * @brief Destroy the Graphic System object
              *
              */
-            ~GraphicSystem();
+            ~GraphicSystem() override;
 
             void initBackground();
 

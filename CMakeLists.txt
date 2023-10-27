@@ -55,6 +55,8 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
         ecs/components/AGameComponent.hpp
+        ecs/components/PlayerBulletComponent.cpp
+        ecs/components/PlayerBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -112,8 +114,6 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
         server/ecs/components/PlayerComponent.hpp
-        server/ecs/components/PlayerBulletComponent.cpp
-        server/ecs/components/PlayerBulletComponent.hpp
         server/ecs/CollisionSystem.cpp
         server/ecs/CollisionSystem.hpp
         server/ecs/models/PlayerEntity.cpp

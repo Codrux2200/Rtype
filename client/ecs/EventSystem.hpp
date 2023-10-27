@@ -44,7 +44,7 @@ namespace ECS {
              * @brief Destroy the Event System object
              *
              */
-            ~EventSystem();
+            ~EventSystem() override;
 
             /**
              * @brief update the event system

@@ -17,10 +17,7 @@ namespace ECS {
      */
     class AComponent : public IComponent {
         public:
-            /**
-             * @brief UID of the component
-             *
-             */
+            virtual ~AComponent() = default;
             /**
              * @brief Get the Value object
              *

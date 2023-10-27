@@ -34,7 +34,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
-        if (!entity->isEnabled)
+        if (entity == nullptr || !entity->isEnabled)
             continue;
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled)

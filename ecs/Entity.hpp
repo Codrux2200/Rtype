@@ -62,7 +62,9 @@ namespace ECS {
             std::vector<std::shared_ptr<T>> getComponents() {
                 std::vector<std::shared_ptr<T>> components;
 
-                for (auto &component : _components) {
+                for (auto component : _components) {
+                    if (component == nullptr)
+                        continue;
                     auto casted = std::dynamic_pointer_cast<T>(component);
                     if (casted)
                         components.push_back(casted);

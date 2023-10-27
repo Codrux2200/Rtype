@@ -15,6 +15,7 @@
 #include "ControlComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
+#include "GameSystem.hpp"
 #include "GraphicSystem.hpp"
 #include "MusicsComponent.hpp"
 #include "PlayerBullet.hpp"
@@ -40,6 +41,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     _systems.push_back(std::make_unique<GraphicSystem>(_window));
     _systems.push_back(std::make_unique<EventSystem>(_window));
     _systems.push_back(std::make_unique<AudioSystem>());
+    _systems.push_back(std::make_unique<GameSystem>());
 }
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
@@ -198,8 +200,11 @@ void ECS::Core::mainLoop(RType::Connection &connection)
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
+        connection.handlePackets();
         for (auto &system : _systems) {
-            system->update(sceneManager, deltaTime, connection.sendQueue);
+            if (system == nullptr)
+                continue;
+            system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
         }
         connection.sendPackets();
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
@@ -223,7 +228,8 @@ Network::Packet &packet, const udp::endpoint &endpoint)
 
     if (positionComponent == nullptr)
         return;
-    positionComponent->setValue({packet.entitySpawnData.x, packet.entitySpawnData.y});
-
+    positionComponent->x = packet.entitySpawnData.x;
+    positionComponent->y = packet.entitySpawnData.y;
     scene->addEntity(entity);
+    std::cout << "OK" << std::endl;
 }
