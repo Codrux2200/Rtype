@@ -43,15 +43,13 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
-        auto TextComponent = entity->getComponent<ECS::TextComponent>();
-        if (TextComponent == nullptr){
-            continue;
-        } else {
-            sf::Text Text = TextComponent->getText();
-            _window.draw(Text);
-        }
         if (!entity->isEnabled)
             continue;
+        auto TextComponent = entity->getComponent<ECS::TextComponent>();
+        if (TextComponent != nullptr) {
+            sf::Text Text = TextComponent->getText(); 
+            _window.draw(Text);
+        }
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled)
             continue;
