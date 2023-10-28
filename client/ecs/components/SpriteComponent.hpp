@@ -21,9 +21,12 @@ namespace ECS {
             SpriteComponent(sf::Texture texture, sf::Rect<int> rect);
             ~SpriteComponent();
             void setTexture(sf::Texture &texture);
-            const sf::Sprite &getSprite() const;
+            void setMaxIteration(sf::Vector2i max_iteration);
+            void moveRect();
 
-            sf::Rect<int> getRect() const;
+            const sf::Sprite &getSprite() const;
+            sf::Rect<int> &getRect();
+            sf::Vector2i getIterations() const { return _iterations; }
 
             std::shared_ptr<IComponent> clone() const override;
 
@@ -31,6 +34,8 @@ namespace ECS {
             sf::Texture _texture;
             sf::Sprite _sprite;
             sf::Rect<int> _rect;
+            sf::Vector2i _maxIterations;
+            sf::Vector2i _iterations;
     };
 }
 

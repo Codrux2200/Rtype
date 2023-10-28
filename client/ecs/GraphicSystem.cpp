@@ -18,19 +18,7 @@ ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), b
 {
 }
 
-ECS::GraphicSystem::~GraphicSystem()
-{
-}
-
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
-
-    while (_window.pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
-            _window.close();
-            sceneManager.shouldClose = true;
-        }
-    }
-
     // Clear the window
     _window.clear();
 
@@ -43,7 +31,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
-        if (!entity->isEnabled)
+        if (entity == nullptr || !entity->isEnabled)
             continue;
         auto TextComponent = entity->getComponent<ECS::TextComponent>();
         if (TextComponent != nullptr) {

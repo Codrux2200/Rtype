@@ -10,7 +10,7 @@
 namespace Network::data {
     extern "C"
     {
-        struct EnemySpawnData {
+        struct EntitySpawnData {
             public:
                 int id;
                 char type;

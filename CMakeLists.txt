@@ -21,7 +21,7 @@ set(NETWORK_SOURCES
         Network/data/StartData.hpp
         Network/data/DisconnectData.hpp
         Network/data/DeadData.hpp
-        Network/data/EnemySpawnData.hpp
+        Network/data/EntitySpawnData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -46,13 +46,17 @@ set(ECS_SOURCES
         ecs/SceneManager.hpp
         ecs/EntityFactory.cpp
         ecs/EntityFactory.hpp
+        ecs/system/GameSystem.cpp
+        ecs/system/GameSystem.hpp
         ecs/components/PositionComponent.cpp
         ecs/components/PositionComponent.hpp
         ecs/components/RotationComponent.cpp
         ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
-
+        ecs/components/AGameComponent.hpp
+        ecs/components/PlayerBulletComponent.cpp
+        ecs/components/PlayerBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -79,18 +83,23 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/ClickComponent.hpp
         client/ecs/components/EnemyComponent.cpp
         client/ecs/components/EnemyComponent.hpp
-        client/ecs/components/EventComponent.cpp
-        client/ecs/components/EventComponent.hpp
+        client/ecs/components/AEventComponent.hpp
         client/ecs/components/ControlComponent.cpp
         client/ecs/components/ControlComponent.hpp
         client/ecs/components/SpriteComponent.cpp
         client/ecs/components/SpriteComponent.hpp
+        client/ecs/components/ShootComponent.hpp
+        client/ecs/components/ShootComponent.cpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
         client/ecs/models/EnemyEntity.cpp
         client/ecs/models/EnemyEntity.hpp
+        client/ecs/models/PlayerBullet.cpp
+        client/ecs/models/PlayerBullet.hpp
+        client/ecs/models/PlayerEntity.cpp
+        client/ecs/models/PlayerEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -107,12 +116,16 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/HitboxComponent.hpp
         server/ecs/components/EnemyComponent.cpp
         server/ecs/components/EnemyComponent.hpp
+        server/ecs/components/PlayerComponent.cpp
+        server/ecs/components/PlayerComponent.hpp
         server/ecs/CollisionSystem.cpp
         server/ecs/CollisionSystem.hpp
         server/ecs/models/PlayerEntity.cpp
         server/ecs/models/PlayerEntity.hpp
         server/ecs/models/EnemyEntity.cpp
         server/ecs/models/EnemyEntity.hpp
+        server/ecs/models/PlayerBullet.cpp
+        server/ecs/models/PlayerBullet.hpp
 )
 
 

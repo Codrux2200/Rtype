@@ -21,12 +21,8 @@ namespace ECS {
              * @brief Construct a new Game System object
              *
              */
-            GameSystem();
-            /**
-             * @brief Destroy the Game System object
-             *
-             */
-            ~GameSystem();
+            GameSystem() = default;
+
             /**
              * @brief update the game system
              *
@@ -34,7 +30,7 @@ namespace ECS {
              * @param SceneType
              * @param deltaTime
              */
-            void update(SceneManager &sceneManager, const SceneType &SceneType, const float &deltaTime);
+            void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
         protected:
         private:
     };

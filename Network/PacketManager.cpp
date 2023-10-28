@@ -40,15 +40,15 @@ std::unique_ptr<Network::Packet> Network::PacketManager::createPacket(
 Network::PacketType type, void *data)
 {
     if (data == nullptr &&
-    type != Network::PacketType::QUIT &&
     type != Network::PacketType::MOVE_UP &&
     type != Network::PacketType::MOVE_DOWN &&
     type != Network::PacketType::MOVE_LEFT &&
-    type != Network::PacketType::MOVE_RIGHT)
+    type != Network::PacketType::MOVE_RIGHT &&
+    type != Network::PacketType::SHOOT &&
+    type != Network::PacketType::QUIT)
         throw std::runtime_error("Data is null");
 
-    std::unique_ptr<Network::Packet> packet =
-    std::make_unique<Network::Packet>();
+    std::unique_ptr<Network::Packet> packet = std::make_unique<Network::Packet>();
     std::memset(packet.get(), 0, sizeof(Network::Packet));
 
     packet->type = type;
@@ -75,8 +75,8 @@ Network::PacketType type, void *data)
         case Network::PacketType::DEAD:
             memcpy(&packet->deadData, data, sizeof(packet->deadData));
             break;
-        case Network::PacketType::ENEMY_SPAWN:
-            memcpy(&packet->enemySpawnData, data, sizeof(packet->enemySpawnData));
+        case Network::PacketType::ENTITY_SPAWN:
+            memcpy(&packet->entitySpawnData, data, sizeof(packet->entitySpawnData));
             break;
         default: break;
     }

@@ -8,8 +8,9 @@
 #ifndef ICOMPONENT_HPP_
 #define ICOMPONENT_HPP_
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include "DeadData.hpp"
 
 namespace ECS {
     /**
@@ -38,6 +39,8 @@ namespace ECS {
 
     };
 
+    class Entity;
+
     class IComponent {
         public:
             /**
@@ -59,6 +62,8 @@ namespace ECS {
             [[nodiscard]] virtual std::shared_ptr<IComponent> clone() const = 0;
 
             [[nodiscard]] virtual ComponentType getType() const = 0;
+
+            virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason) = 0;
     };
 }
 

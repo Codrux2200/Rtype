@@ -7,15 +7,16 @@
 
 #pragma once
 
-#include <functional>
 #include <SFML/Graphics.hpp>
-#include "Connection.hpp"
+#include <functional>
 #include "AComponent.hpp"
+#include "AEventComponent.hpp"
+#include "Connection.hpp"
 #include "PacketManager.hpp"
-#include "EventComponent.hpp"
 
 namespace ECS {
-    class ClickComponent : public EventComponent {
+    using eventCallback = std::function<void(std::vector<Network::Packet> &, ECS::Entity &)>;
+    class ClickComponent : public AEventComponent {
         public:
             ClickComponent(sf::Rect<int> rect, eventCallback callback, sf::RenderWindow &window);
 
@@ -29,5 +30,6 @@ namespace ECS {
         private:
             sf::Rect<int> _rect;
             sf::RenderWindow &_window;
+            eventCallback _callback;
     };
 }

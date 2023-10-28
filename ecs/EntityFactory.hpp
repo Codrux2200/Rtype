@@ -23,6 +23,8 @@ namespace ECS {
 
             std::shared_ptr<ECS::Entity> createEntity(const std::string& name, int id);
 
+            int ids = 4;
+
         private:
             std::map<std::string, std::shared_ptr<ECS::Entity>> _entities;
     };
