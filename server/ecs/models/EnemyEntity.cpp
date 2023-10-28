@@ -25,6 +25,8 @@ EnemyEntity::EnemyEntity(int id) : Entity(id)
 void EnemyEntity::_callbackEnemyHit(std::shared_ptr<ECS::Entity> self,
 std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
+    if (other == nullptr || self == nullptr)
+        return;
     if (other->getComponent<ECS::PlayerBulletComponent>() != nullptr) {
         self->isEnabled = false;
         self->deathReason = Network::data::DeathReason::PLAYER_BULLET;

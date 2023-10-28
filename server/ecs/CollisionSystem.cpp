@@ -55,6 +55,7 @@ namespace ECS {
                 int _y1 = pos2[1] + hitbox2[0].second;
                 int _y2 = pos2[1] + hitbox2[1].second;
 
+/*
                 if (entity->getId() == 4 && entity2->getId() == 5) {
                     std::cout << "Trying to collide " << entity->getId() << " with " << entity2->getId() << std::endl;
                     std::cout << "Enemy: " << x1 << " " << x2 << " " << y1 << " " << y2 << std::endl;
@@ -65,7 +66,6 @@ namespace ECS {
                     std::cout << (_x2 > x1 && _x2 < x2 && _y2 > y1 && _y2 < y2) << std::endl;
                     std::cout << "---------------------" << std::endl;
                 }
-//*
                 //*/
                 if ((_x1 > x1 && _x1 < x2 && _y1 > y1 && _y1 < y2) ||
                     (_x2 > x1 && _x2 < x2 && _y1 > y1 && _y1 < y2) ||
