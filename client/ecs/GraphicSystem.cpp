@@ -53,7 +53,7 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         if (!entity->isEnabled)
             continue;
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
-        if (spriteComponent == nullptr || !spriteComponent->isEnabled())
+        if (spriteComponent == nullptr || !spriteComponent->isEnabled)
             continue;
         auto positionComponent = entity->getComponent<ECS::PositionComponent>();
         auto scaleComponent = entity->getComponent<ECS::ScaleComponent>();
@@ -63,19 +63,18 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         std::vector<float> scale;
         std::vector<float> rotation;
 
-        if (positionComponent != nullptr && positionComponent->isEnabled()) {
-            std::cout << "pos: " << positionComponent->getValue()[0] << ", " << positionComponent->getValue()[1] << std::endl;
+        if (positionComponent != nullptr && positionComponent->isEnabled) {
             pos = positionComponent->getValue();
         }
         else
             pos = {0, 0};
 
-        if (scaleComponent != nullptr && scaleComponent->isEnabled())
+        if (scaleComponent != nullptr && scaleComponent->isEnabled)
             scale = scaleComponent->getFloatValue();
         else
             scale = {1, 1};
 
-        if (rotationComponent != nullptr && rotationComponent->isEnabled())
+        if (rotationComponent != nullptr && rotationComponent->isEnabled)
             rotation = rotationComponent->getFloatValue();
         else
             rotation = {0};
