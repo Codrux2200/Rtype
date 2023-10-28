@@ -52,6 +52,7 @@ set(ECS_SOURCES
         ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
+
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -86,6 +87,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/SpriteComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
+        client/ecs/components/TextComponent.cpp
+        client/ecs/components/TextComponent.hpp
         client/ecs/models/EnemyEntity.cpp
         client/ecs/models/EnemyEntity.hpp
 )
