@@ -12,6 +12,7 @@
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "RotationComponent.hpp"
+#include "TextComponent.hpp"
 
 ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), backgroundComponent(window.getSize().x, window.getSize().y)
 {
@@ -32,10 +33,14 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)
             continue;
+        auto TextComponent = entity->getComponent<ECS::TextComponent>();
+        if (TextComponent != nullptr) {
+            sf::Text Text = TextComponent->getText(); 
+            _window.draw(Text);
+        }
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled)
             continue;
-
         auto positionComponent = entity->getComponent<ECS::PositionComponent>();
         auto scaleComponent = entity->getComponent<ECS::ScaleComponent>();
         auto rotationComponent = entity->getComponent<ECS::RotationComponent>();

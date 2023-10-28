@@ -92,6 +92,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/ShootComponent.cpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
+        client/ecs/components/TextComponent.cpp
+        client/ecs/components/TextComponent.hpp
         client/ecs/models/EnemyEntity.cpp
         client/ecs/models/EnemyEntity.hpp
         client/ecs/models/PlayerBullet.cpp
