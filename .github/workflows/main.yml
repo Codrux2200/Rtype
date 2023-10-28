@@ -5,6 +5,8 @@ on: [push, pull_request]
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-saad.berrada.git
 
+  
+
 
 
 jobs:
@@ -67,7 +69,6 @@ jobs:
           git config --local user.name "CI Bot"
           git add .
           git diff-index --quiet HEAD || git commit -m "Apply clang-format"
-
           
   display_compilation_error:
     runs-on: ubuntu-latest
