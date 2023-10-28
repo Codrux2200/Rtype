@@ -5,29 +5,21 @@
 ** GameSystem
 */
 
-#include <iostream>
 #include "GameSystem.hpp"
 #include "AGameComponent.hpp"
-
-ECS::GameSystem::GameSystem()
-{
-    // typeSystem = ECS::SystemType::GAME;
-}
-
-ECS::GameSystem::~GameSystem()
-{
-}
 
 void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
     auto &actualScene = sceneManager.getCurrentScene();
 
-    for (auto entity : actualScene->entitiesList) {
+    if (actualScene == nullptr)
+        return;
+
+    for (const auto& entity : actualScene->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)
             continue;
-        std::vector<std::shared_ptr<ECS::AGameComponent>> gameComponents = entity->getComponents<ECS::AGameComponent>();
 
-        for (auto component : gameComponents) {
+        for (const auto& component : entity->gameComponents) {
             if (component != nullptr)
                 component->update(packetQueue, *entity, deltaTime);
         }

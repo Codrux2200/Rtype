@@ -19,6 +19,7 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::PlayerBulletComponent>());
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&ECS::PlayerBullet::_callbackPlayerBulletHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
     std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
+    updateGameComponents();
 }
 
 void ECS::PlayerBullet::_callbackPlayerBulletHit(

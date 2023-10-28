@@ -12,10 +12,6 @@ ECS::EventSystem::EventSystem(sf::RenderWindow &window) : _window(window)
 {
 }
 
-ECS::EventSystem::~EventSystem()
-{
-}
-
 void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
     while (_window.pollEvent(_event)) {

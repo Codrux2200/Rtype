@@ -45,5 +45,6 @@ namespace ECS {
         std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>(sound, soundbuffer);
         soundComponent->startPlaying = false;
         addComponent(soundComponent);
+        updateGameComponents();
     }
 }

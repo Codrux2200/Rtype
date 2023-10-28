@@ -12,7 +12,6 @@
 #include "Entity.hpp"
 #include "Packet.hpp"
 
-
 namespace ECS {
 
     using hitboxCallback = std::function<void(std::shared_ptr<Entity>, std::shared_ptr<Entity>, std::vector<Network::Packet> &)>;

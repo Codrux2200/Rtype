@@ -40,4 +40,5 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
     addComponent(std::make_shared<ECS::PlayerBulletComponent>());
+    updateGameComponents();
 }

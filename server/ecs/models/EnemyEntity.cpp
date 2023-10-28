@@ -19,6 +19,7 @@ EnemyEntity::EnemyEntity(int id) : Entity(id)
 
     addComponent(std::make_shared<ECS::PositionComponent>(500, 200));
     addComponent(std::make_shared<ECS::EnemyComponent>());
+    updateGameComponents();
 }
 
 void EnemyEntity::_callbackEnemyHit(std::shared_ptr<ECS::Entity> self,

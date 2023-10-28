@@ -7,7 +7,9 @@
 
 #include "SpriteComponent.hpp"
 
-ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(texture), _sprite(_texture)
+#include <utility>
+
+ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(std::move(texture)), _sprite(_texture)
 {
     _sprite.setTextureRect(_rect);
 }

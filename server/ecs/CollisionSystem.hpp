@@ -13,7 +13,7 @@ namespace ECS {
     class CollisionSystem : public ISystem {
         public:
             CollisionSystem();
-            ~CollisionSystem() override = default;
+            ~CollisionSystem() = default;
 
             void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
     };

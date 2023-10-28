@@ -20,7 +20,6 @@ namespace ECS
      */
     class ISystem {
         public :
-            virtual ~ISystem() = default;
             /**
              * @brief update all the system
              *

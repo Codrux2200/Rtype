@@ -13,7 +13,6 @@ namespace ECS {
     class PlayerComponent : public AComponent {
         public:
             PlayerComponent() = default;
-            ~PlayerComponent() = default;
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
     };

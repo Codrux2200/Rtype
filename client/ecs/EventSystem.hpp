@@ -41,12 +41,6 @@ namespace ECS {
             EventSystem(sf::RenderWindow &window);
 
             /**
-             * @brief Destroy the Event System object
-             *
-             */
-            ~EventSystem() override;
-
-            /**
              * @brief update the event system
              *
              * @param sceneManager

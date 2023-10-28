@@ -6,6 +6,8 @@
 */
 
 #include "Entity.hpp"
+#include "AGameComponent.hpp"
+#include <iostream>
 
 namespace ECS {
     Entity::Entity(int id) : _id(id)
@@ -30,6 +32,7 @@ namespace ECS {
             _components.push_back(component->clone());
         }
         _id = id;
+        gameComponents = entity.gameComponents;
     }
 
     std::vector<std::shared_ptr<IComponent>> Entity::getComponents() const
@@ -45,5 +48,17 @@ namespace ECS {
             if (!component->onDestroy(*this, deathReason))
                 canBeDestroyed = false;
         return canBeDestroyed;
+    }
+
+    void Entity::updateGameComponents()
+    {
+        gameComponents.clear();
+        for (auto &component : _components) {
+            auto casted = std::dynamic_pointer_cast<AGameComponent>(component);
+            if (casted) {
+                gameComponents.push_back(casted);
+                std::cout << "Added game component" << std::endl;
+            }
+        }
     }
 }

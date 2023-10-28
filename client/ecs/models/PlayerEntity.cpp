@@ -12,16 +12,13 @@
 #include "ShootComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ConvertPath.hpp"
 
 namespace ECS {
     PlayerEntity::PlayerEntity(int id) : Entity(id)
     {
-        std::shared_ptr<ECS::Entity> p1 = std::make_shared<ECS::Entity>(0);
-        addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-        addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-
         std::shared_ptr<sf::SoundBuffer> soundBuffer = std::make_shared<sf::SoundBuffer>();
-        if(!soundBuffer->loadFromFile("assets/sound/laser.ogg")) {
+        if(!soundBuffer->loadFromFile(ConvertPath::convertPath("assets/sound/laser.ogg"))) {
             std::cerr << "Error loading sound" << std::endl;
             return;
         }
@@ -30,8 +27,8 @@ namespace ECS {
         addComponent(std::make_shared<ECS::SoundComponent>(sound, soundBuffer));
         sf::Texture playerTexture;
 
-        if (!playerTexture.loadFromFile("assets/Ship6.png")) {
-            std::cout << "Error loading player playerTexture" << std::endl;
+        if (!playerTexture.loadFromFile(ConvertPath::convertPath("assets/Ship6.png"))) {
+            std::cerr << "Error loading player playerTexture" << std::endl;
             return;
         }
 

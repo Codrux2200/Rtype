@@ -18,6 +18,9 @@ namespace ECS {
      * @brief Entity class
      *
      */
+
+    class AGameComponent;
+
     class Entity {
         public:
             /**
@@ -87,6 +90,13 @@ namespace ECS {
              * @return false if the entity can't be destroyed now, it can be used to do actions by components before destroying the entity
              */
             virtual bool onDestroy();
+
+            /**
+             * @brief Get the Game Components objects that are int stored as cache
+             */
+            std::vector<std::shared_ptr<AGameComponent>> gameComponents;
+
+            void updateGameComponents();
 
         private:
             /**

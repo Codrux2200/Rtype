@@ -1,6 +1,10 @@
-//
-// Created by raph on 26/10/23.
-//
+/*
+** EPITECH PROJECT, 2023
+** RType
+** File description:
+** PlayerComponent
+*/
+
 
 #include "PlayerComponent.hpp"
 

@@ -8,10 +8,11 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "Entity.hpp"
 #include "Packet.hpp"
+#include "Entity.hpp"
 
 namespace ECS {
+
     class AGameComponent : public AComponent {
         public:
             virtual void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) = 0;
