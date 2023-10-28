@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** LeaderData
+** HubData
 */
 
 #pragma once
@@ -10,9 +10,10 @@
 namespace Network::data {
     extern "C"
     {
-        struct LeaderData {
+
+        struct DeadData {
             public:
-                int leaderId;
+                int id;
         };
     }
 } // namespace Network::data

@@ -1,5 +1,9 @@
 @echo off
 
+for /f %%a in ('wmic cpu get NumberOfCores ^| findstr /r "[0-9]"') do (
+    set "cores=%%a"
+)
+
 choco -? >nul 2>&1
 if %errorlevel% neq 0 (
     echo Chocolatey n'est pas installé. Installation en cours...
@@ -27,9 +31,15 @@ if %errorlevel% neq 0 (
     echo Git est déjà installé.
 )
 
-cmake .
+cmake -B build
+cmake --build build --config Release -j %cores%
+
+move build\Release\rtype-server.exe .
+move build\Release\rtype-client.exe .
 
 if %errorlevel% neq 0 goto install_failed
+
+echo %errorlevel%
 
 echo Configuration de CMake terminée avec succès.
 

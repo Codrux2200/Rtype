@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "BackgroundComponent.hpp"
+#include "ConvertPath.hpp"
 
 namespace ECS
 {
@@ -16,14 +17,14 @@ namespace ECS
         // Replace "backgroundTexture1", "backgroundTexture2", etc. with your actual textures
         // Adjust the speed values as needed
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[0].loadFromFile("assets/background/6Background.png")) {
+        if (!backgroundTextures[0].loadFromFile(ConvertPath::convertPath("assets/background/6Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(20.0f);
 
         backgroundTextures.push_back(sf::Texture());
-        if (!backgroundTextures[1].loadFromFile("assets/background/6Background.png")) {
+        if (!backgroundTextures[1].loadFromFile(ConvertPath::convertPath("assets/background/6Background.png"))) {
             std::cout << "Error loading background texture" << std::endl;
             return;
         }
@@ -112,7 +113,6 @@ namespace ECS
             backgroundHRatio = static_cast<float>(windowHeight) / static_cast<float>(backgroundTextures[i].getSize().y);
             backgroundLayers.push_back(std::make_unique<sf::Sprite>(backgroundTextures[i]));
             backgroundLayers[i]->setScale(sf::Vector2f(backgroundWRatio, backgroundHRatio));
-            std::cout << "Background positions: " << backgroundTextures[i].getSize().x * backgroundWRatio << " " << backgroundTextures[i].getSize().y * backgroundHRatio << std::endl;
             if (i % 2 != 0)
                 backgroundPositions.push_back(sf::Vector2f(backgroundTextures[i].getSize().x * backgroundWRatio, 0.0f));
             else
@@ -131,7 +131,6 @@ namespace ECS
             if (backgroundPositions[i].x <= (backgroundLayers[i]->getTexture().getSize().x * backgroundLayers[i]->getScale().x * -1.0f))
             {
                 // Set the background position to the right of the last background, minux 0.5% to avoid a gap
-                std::cout << "Resetting background " << i << " position.x " << backgroundLayers[i]->getTexture().getSize().x * backgroundLayers[i]->getScale().x - screenSize.x * 0.01f << std::endl;
                 backgroundPositions[i].x = backgroundLayers[i]->getTexture().getSize().x * backgroundLayers[i]->getScale().x - screenSize.x * (0.005f * backgroundLayers[i]->getTexture().getSize().x / 900.0f);
             }
             backgroundLayers[i]->setPosition(backgroundPositions[i]);
