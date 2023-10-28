@@ -45,11 +45,8 @@ std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
     // Get mouse position in window
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (_rect.contains(mousePos)) {
-            if (_callback)
-                _callback(packetsQueue, entity);
-        }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && _callback != nullptr && _rect.contains(mousePos)) {
+        _callback(packetsQueue, entity);
     }
 }
 

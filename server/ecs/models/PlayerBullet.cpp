@@ -32,9 +32,9 @@ std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vect
         return;
 
     self->isEnabled = false;
-    self->toDestroy = true;
+    self->deathReason = Network::data::DeathReason::ENEMY;
 
-    Network::data::DeadData deadData{self->getId()};
+    Network::data::DeadData deadData{self->getId(), Network::data::DeathReason::ENEMY};
     std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
 
     packets.push_back(*packet);

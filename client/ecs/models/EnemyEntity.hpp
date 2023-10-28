@@ -11,9 +11,9 @@
 #include "Packet.hpp"
 
 namespace ECS {
-    class EnemyEntity : public ECS::Entity {
+    class EnemyEntity : public Entity {
         public:
             EnemyEntity(int id);
-            ~EnemyEntity();
+            ~EnemyEntity() = default;
     };
 }

@@ -6,12 +6,13 @@
 */
 
 #include "PlayerEntity.hpp"
-#include "PositionComponent.hpp"
-#include "HitboxComponent.hpp"
 #include "DeadData.hpp"
+#include "EnemyComponent.hpp"
+#include "HitboxComponent.hpp"
 #include "PacketManager.hpp"
-#include "PlayerComponent.hpp"
 #include "PlayerBulletComponent.hpp"
+#include "PlayerComponent.hpp"
+#include "PositionComponent.hpp"
 
 PlayerEntity::PlayerEntity() : Entity(0)
 {
@@ -24,10 +25,18 @@ PlayerEntity::PlayerEntity() : Entity(0)
 
 void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
-    if (other->getId() < 4 || other->getComponent<ECS::PlayerBulletComponent>())
+
+    if (other == nullptr || self == nullptr)
         return;
 
-    Network::data::DeadData deadData{self->getId()};
+    Network::data::DeathReason reason;
+
+    if (other->getComponent<ECS::EnemyComponent>() != nullptr)
+        reason = Network::data::DeathReason::ENEMY;
+    else
+        return;
+
+    Network::data::DeadData deadData{self->getId(), reason};
     std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
 
     packets.push_back(*packet);

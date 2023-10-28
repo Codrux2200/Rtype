@@ -26,7 +26,7 @@ namespace ECS {
 
         //TODO: change to window size
         if (positionComponent->x > 800 + 100) {
-            entity.toDestroy = true;
+            entity.deathReason = Network::data::OUT_OF_BOUNDS;
         }
     }
 }

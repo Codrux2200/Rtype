@@ -25,9 +25,9 @@ namespace ECS {
         if (positionComponent == nullptr)
             return;
 
-//        positionComponent->x -= _speed * deltaTime;
-//        if (positionComponent->x < 0 - 100) {
-//            entity.toDestroy = true;
-//        }
+        positionComponent->x -= _speed * deltaTime;
+        if (positionComponent->x < 0 - 100) {
+            entity.deathReason = Network::data::OUT_OF_BOUNDS;
+        }
     }
 }

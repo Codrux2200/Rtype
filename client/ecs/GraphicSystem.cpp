@@ -17,10 +17,6 @@ ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), b
 {
 }
 
-ECS::GraphicSystem::~GraphicSystem()
-{
-}
-
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
     // Clear the window
     _window.clear();

@@ -43,19 +43,14 @@ void ECS::SpriteComponent::setMaxIteration(sf::Vector2i max_iteration)
 
 void ECS::SpriteComponent::moveRect()
 {
-    if (_iterations.x == _maxIterations.x) {
-        _iterations.x = 0;
-        _rect.left -= _rect.width * (_maxIterations.x - 1);
-        if (_iterations.y == _maxIterations.y) {
+    _iterations.x++;
+    if (_iterations.x >= _maxIterations.x) {
+        _iterations.x = 0; _iterations.y++;
+        if (_iterations.y >= _maxIterations.y) {
             _iterations.y = 0;
-            _rect.top -= _rect.height * (_maxIterations.y - 1);
-        } else {
-            _rect.top += _rect.height;
-            _iterations.y++;
         }
-    } else {
-        _rect.left += _rect.width;
-        _iterations.x++;
     }
+    _rect.left = _iterations.x * _rect.width;
+    _rect.top = _iterations.y * _rect.height;
     _sprite.setTextureRect(_rect);
 }

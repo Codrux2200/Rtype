@@ -5,7 +5,6 @@
 ** Core
 */
 
-#include "Core.hpp"
 #include <iostream>
 #include <thread>
 #include "Core.hpp"
@@ -14,7 +13,6 @@
 #include "AudioSystem.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
-#include "ControlComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
 #include "GameSystem.hpp"
@@ -22,9 +20,7 @@
 #include "MusicsComponent.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerEntity.hpp"
-#include "PositionComponent.hpp"
 #include "ScaleComponent.hpp"
-#include "ShootComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
 
@@ -105,7 +101,8 @@ void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpo
     if (entity == nullptr)
         return;
     entity->isEnabled = false;
-    entity->toDestroy = true;
+    entity->deathReason = packet.deadData.reason;
+
     if (packet.deadData.id == _playerId) {
         std::cout << "Player is dead" << std::endl;
     }

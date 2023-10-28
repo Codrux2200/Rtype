@@ -7,10 +7,11 @@
 
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
-#include <vector>
-#include <memory>
 #include <algorithm>
+#include <memory>
+#include <vector>
 #include "AComponent.hpp"
+#include "DeadData.hpp"
 
 namespace ECS {
     /**
@@ -72,12 +73,20 @@ namespace ECS {
                 return components;
             }
 
-            void addComponent(std::shared_ptr<AComponent> component);
+            void addComponent(const std::shared_ptr<AComponent>& component);
 
             [[nodiscard]] std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
             bool isEnabled = true;
-            bool toDestroy = false;
+            Network::data::DeathReason deathReason = Network::data::ALIVE;
+
+            /**
+             * @brief Destroy the Entity object
+             *
+             * @return true if the entity can be destroyed
+             * @return false if the entity can't be destroyed now, it can be used to do actions by components before destroying the entity
+             */
+            virtual bool onDestroy();
 
         private:
             /**

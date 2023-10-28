@@ -26,11 +26,9 @@ std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 {
     if (other->getComponent<ECS::PlayerBulletComponent>() != nullptr) {
         self->isEnabled = false;
-        self->toDestroy = true;
+        self->deathReason = Network::data::DeathReason::PLAYER_BULLET;
 
-        std::cout << "Enemy " << self->getId() << " is dead" << std::endl;
-        Network::data::DeadData deadData {};
-        deadData.id = self->getId();
+        Network::data::DeadData deadData {self->getId(), Network::data::DeathReason::PLAYER_BULLET};
         std::shared_ptr<Network::Packet> deadPacket = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
 
         packets.push_back(*deadPacket);

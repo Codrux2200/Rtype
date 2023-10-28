@@ -23,7 +23,7 @@ namespace ECS {
 
         sf::Texture enemyTexture;
         if (!enemyTexture.loadFromFile(ConvertPath::convertPath("assets/Ship5.png"))) {
-            std::cout << "Error loading enemy texture" << std::endl;
+            std::cerr << "Error loading enemy texture" << std::endl;
             return;
         }
 
@@ -45,16 +45,5 @@ namespace ECS {
         std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>(sound, soundbuffer);
         soundComponent->startPlaying = false;
         addComponent(soundComponent);
-    }
-
-    EnemyEntity::~EnemyEntity()
-    {
-        std::cout << "Destroying enemy entity" << std::endl;
-        std::shared_ptr<ECS::SoundComponent> soundComponent = getComponent<ECS::SoundComponent>();
-
-        if (soundComponent == nullptr)
-            return;
-
-        soundComponent->play();
     }
 }
