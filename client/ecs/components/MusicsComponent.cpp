@@ -24,8 +24,8 @@ MusicsComponent::MusicsComponent(std::string soundPath)
 }
 
 void MusicsComponent::play() {
-    _music->play();
     _music->setVolume(50);
+    _music->play();
 }
 
 void MusicsComponent::stop() {
