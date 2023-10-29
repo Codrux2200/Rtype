@@ -12,7 +12,7 @@ namespace Network::data {
     {
         struct LeaderData {
             public:
-                char leaderId;
+                int leaderId;
         };
     }
 } // namespace Network::data

@@ -7,28 +7,22 @@
 
 #pragma once
 
-#include <string>
 #include <memory>
-#include "EventComponent.hpp"
+#include <string>
+#include "AEventComponent.hpp"
 
 namespace ECS {
-    /**
-     * @brief Player component
-     */
-    class ControlComponent : public EventComponent {
+    class ControlComponent : public AEventComponent {
         public:
-            ControlComponent(eventCallback callback);
+            ControlComponent();
 
-            std::vector<int> getValue() const final;
+            [[nodiscard]] std::vector<int> getValue() const final;
 
             void setValue(std::vector<int> values) final;
 
-            std::shared_ptr<IComponent> clone() const override;
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final override;
-
-        private:
-            int _speed = 400;
+            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final;
 
     };
 }

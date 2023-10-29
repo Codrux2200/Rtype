@@ -17,6 +17,7 @@
 #include "SceneManager.hpp"
 #include "Connection.hpp"
 #include "EntityFactory.hpp"
+#include "ConvertPath.hpp"
 
 namespace ECS {
 	/**
@@ -29,7 +30,7 @@ namespace ECS {
              * @brief Construct a new Core object
              *
              */
-            Core();
+            explicit Core(const std::string &player);
             /**
              * @brief Destroy the Core object
              *
@@ -64,6 +65,8 @@ namespace ECS {
             void _handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerDead(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerEntitySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;

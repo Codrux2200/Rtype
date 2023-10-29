@@ -5,26 +5,25 @@
 ** enemyComponent
 */
 
-#ifndef ENEMYCOMPONENT_HPP_
-#define ENEMYCOMPONENT_HPP_
+#pragma once
 
 #include <string>
 #include <memory>
-#include "EventComponent.hpp"
+#include "AGameComponent.hpp"
 
 namespace ECS {
     /**
      * @brief Enemy component
      *
      */
-    class EnemyComponent : public ECS::EventComponent {
+    class EnemyComponent : public AGameComponent {
         public:
             /**
              * @brief Construct a new enemy Component object
              *
              * @param uid
              */
-            EnemyComponent(eventCallback callback);
+            EnemyComponent() = default;
             /**
              * @brief Destroy the enemy Component object
              *
@@ -35,20 +34,14 @@ namespace ECS {
              *
              * @return std::shared_ptr<IComponent>
              */
-            std::shared_ptr<IComponent> clone() const override;
-            /**
-             * @brief execute the component
-             *
-             * @param packetManager
-             * @param packetsQueue
-             * @param entity
-             * @param dt
-             */
-            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final override;
-        protected:
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+
+            void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+
+            bool onDestroy(Entity &entity, Network::data::DeathReason reason) override;
+
         private:
             int _speed = 100;
+            bool _soundPlayed = false;
     };
 }
-
-#endif /* !ENEMYCOMPONENT_HPP_ */

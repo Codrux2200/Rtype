@@ -1,4 +1,4 @@
-/*
+/**
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
@@ -18,10 +18,6 @@ namespace ECS {
     class AComponent : public IComponent {
         public:
             /**
-             * @brief UID of the component
-             *
-             */
-            /**
              * @brief Get the Value object
              *
              * @return the value asked
@@ -36,16 +32,13 @@ namespace ECS {
              */
             void setValue(std::vector<int> values) override;
 
-            void setEnabled(bool enabled) override;
-
-            [[nodiscard]] bool isEnabled() const override;
-
             [[nodiscard]] ComponentType getType() const override;
 
-        protected:
-            bool _isEnabled = true;
-            ComponentType _type = ComponentType::NOTHING;
+            bool onDestroy(Entity &entity, Network::data::DeathReason reason) override;
 
+            bool isEnabled = true;
+        protected:
+            ComponentType _type = ComponentType::NOTHING;
     };
 }
 

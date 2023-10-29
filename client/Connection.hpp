@@ -48,10 +48,8 @@ namespace RType {
 
             short getId() const { return _id; }
 
-            std::vector<Network::Packet> sendQueue;
-            std::vector<Network::Packet> recvQueue;
-
             void sendPackets();
+            void handlePackets();
 
         private:
             /**
@@ -72,8 +70,8 @@ namespace RType {
             udp::socket _socket;
             udp::resolver _resolver;
             udp::endpoint _endpoint;
-            boost::array<char, PACKET_SIZE> _recv_buffer{};
-            udp::endpoint _sender_endpoint;
+            boost::array<char, PACKET_SIZE> _recvBuffer {};
+            udp::endpoint _senderEndpoint;
 
             short _id = -1;
     };

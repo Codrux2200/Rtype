@@ -58,6 +58,22 @@ namespace ECS {
 
             std::shared_ptr<Entity> getEntityByID(int entityID);
 
+            template <class T>
+            std::vector<std::shared_ptr<Entity>> getEntitiesWithComponent()
+            {
+                std::vector<std::shared_ptr<Entity>> entities;
+
+                for (auto &entity : entitiesList) {
+                    if (entity == nullptr)
+                        continue;
+                    if (entity->getComponent<T>())
+                        entities.push_back(entity);
+                }
+                return entities;
+            }
+
+            void removeEntitiesToDestroy();
+
         private:
             int _entityID;
             SceneType _sceneType;
