@@ -7,7 +7,9 @@
 
 #include "SpriteComponent.hpp"
 
-ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(texture), _sprite(_texture)
+#include <utility>
+
+ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(std::move(texture)), _sprite(_texture)
 {
     _sprite.setTextureRect(_rect);
 }
@@ -31,7 +33,26 @@ std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
     return std::make_shared<ECS::SpriteComponent>(_texture, _rect);
 }
 
-sf::Rect<int> ECS::SpriteComponent::getRect() const
+sf::Rect<int> &ECS::SpriteComponent::getRect()
 {
     return _rect;
+}
+
+void ECS::SpriteComponent::setMaxIteration(sf::Vector2i max_iteration)
+{
+    _maxIterations = max_iteration;
+}
+
+void ECS::SpriteComponent::moveRect()
+{
+    _iterations.x++;
+    if (_iterations.x >= _maxIterations.x) {
+        _iterations.x = 0; _iterations.y++;
+        if (_iterations.y >= _maxIterations.y) {
+            _iterations.y = 0;
+        }
+    }
+    _rect.left = _iterations.x * _rect.width;
+    _rect.top = _iterations.y * _rect.height;
+    _sprite.setTextureRect(_rect);
 }

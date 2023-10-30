@@ -12,24 +12,13 @@
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "RotationComponent.hpp"
+#include "TextComponent.hpp"
 
 ECS::GraphicSystem::GraphicSystem(sf::RenderWindow &window) : _window(window), backgroundComponent(window.getSize().x, window.getSize().y)
 {
 }
 
-ECS::GraphicSystem::~GraphicSystem()
-{
-}
-
 void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) {
-
-    while (_window.pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
-            _window.close();
-            sceneManager.shouldClose = true;
-        }
-    }
-
     // Clear the window
     _window.clear();
 
@@ -42,12 +31,16 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
 
     // Draw entities
     for (auto &entity : sceneManager.getCurrentScene()->entitiesList) {
-        if (!entity->isEnabled)
+        if (entity == nullptr || !entity->isEnabled)
             continue;
+        auto TextComponent = entity->getComponent<ECS::TextComponent>();
+        if (TextComponent != nullptr) {
+            sf::Text Text = TextComponent->getText(); 
+            _window.draw(Text);
+        }
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled)
             continue;
-
         auto positionComponent = entity->getComponent<ECS::PositionComponent>();
         auto scaleComponent = entity->getComponent<ECS::ScaleComponent>();
         auto rotationComponent = entity->getComponent<ECS::RotationComponent>();

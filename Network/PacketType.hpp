@@ -79,7 +79,7 @@ namespace Network {
             SHOOT,
             HIT,
             SCORE,
-            ENEMY_SPAWN,
+            ENTITY_SPAWN,
             ENEMY_DEAD,
             ENEMY_MOVE,
             ENEMY_SHOOT,

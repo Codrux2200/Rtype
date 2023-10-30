@@ -10,9 +10,10 @@
 #include "Entity.hpp"
 #include "Packet.hpp"
 
-class EnemyEntity : public ECS::Entity {
-    public:
-        EnemyEntity();
-        ~EnemyEntity() = default;
-
-};
+namespace ECS {
+    class EnemyEntity : public Entity {
+        public:
+            EnemyEntity(int id);
+            ~EnemyEntity() = default;
+    };
+}

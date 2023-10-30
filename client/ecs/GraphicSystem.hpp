@@ -27,7 +27,7 @@ namespace ECS {
              * @brief Destroy the Graphic System object
              *
              */
-            ~GraphicSystem();
+            ~GraphicSystem() = default;
 
             void initBackground();
 
@@ -41,7 +41,6 @@ namespace ECS {
             void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
 
         private:
-            sf::Event _event;
             BackgroundComponent backgroundComponent;
 
             sf::RenderWindow &_window;

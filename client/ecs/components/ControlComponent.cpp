@@ -9,13 +9,13 @@
 #include "ControlComponent.hpp"
 #include "PositionComponent.hpp"
 
-ECS::ControlComponent::ControlComponent(ECS::eventCallback callback) : EventComponent(callback)
+ECS::ControlComponent::ControlComponent() : AEventComponent()
 {
 }
 
 std::shared_ptr<ECS::IComponent> ECS::ControlComponent::clone() const
 {
-    return std::make_shared<ECS::ControlComponent>(_callback);
+    return std::make_shared<ECS::ControlComponent>();
 }
 
 void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
@@ -29,7 +29,6 @@ void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_DOWN);
         packetsQueue.push_back(*packet);
-
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_LEFT);
@@ -43,7 +42,7 @@ void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, 
 
 std::vector<int> ECS::ControlComponent::getValue() const
 {
-    return std::vector<int>();
+    return {};
 }
 
 void ECS::ControlComponent::setValue(std::vector<int> values)

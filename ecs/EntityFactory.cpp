@@ -28,7 +28,7 @@ std::shared_ptr<ECS::Entity> ECS::EntityFactory::createEntity(const std::string&
     std::shared_ptr<ECS::Entity> entity = _entities[name];
 
     if (!entity) {
-        std::cout << "Entity \"" << name << "\" not found" << std::endl;
+        std::cerr << "Entity \"" << name << "\" not found" << std::endl;
         return nullptr;
     }
     return std::make_shared<ECS::Entity>(*entity, id);

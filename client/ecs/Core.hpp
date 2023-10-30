@@ -29,7 +29,7 @@ namespace ECS {
              * @brief Construct a new Core object
              *
              */
-            Core();
+            explicit Core(const std::string &player);
             /**
              * @brief Destroy the Core object
              *
@@ -65,7 +65,7 @@ namespace ECS {
             void _handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerDead(Network::Packet &packet, const udp::endpoint &endpoint);
-            void _handlerEnemySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerEntitySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;

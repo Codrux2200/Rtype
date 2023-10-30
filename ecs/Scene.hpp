@@ -64,13 +64,17 @@ namespace ECS {
                 std::vector<std::shared_ptr<Entity>> entities;
 
                 for (auto &entity : entitiesList) {
+                    if (entity == nullptr)
+                        continue;
                     if (entity->getComponent<T>())
                         entities.push_back(entity);
                 }
                 return entities;
             }
 
-            private:
+            void removeEntitiesToDestroy();
+
+        private:
             int _entityID;
             SceneType _sceneType;
 

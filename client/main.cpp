@@ -19,7 +19,7 @@ int main(int ac, char **av)
 {
     boost::asio::io_service io_service;
     RType::Connection connection(io_service, av[1], av[2], av[3]);
-    ECS::Core core;
+    ECS::Core core(av[3]);
 
     std::thread t([&]() { io_service.run(); });
 

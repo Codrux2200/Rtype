@@ -6,19 +6,22 @@
 */
 
 #include "GameSystem.hpp"
-#include "HealthComponent.hpp"
-#include "PositionComponent.hpp"
+#include "AGameComponent.hpp"
 
-ECS::GameSystem::GameSystem()
+void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
-    // typeSystem = ECS::SystemType::GAME;
-}
+    auto &actualScene = sceneManager.getCurrentScene();
 
-ECS::GameSystem::~GameSystem()
-{
-}
+    if (actualScene == nullptr)
+        return;
 
-void ECS::GameSystem::update(
-    SceneManager &sceneManager, const SceneType &SceneType, const float &deltaTime)
-{
+    for (const auto& entity : actualScene->entitiesList) {
+        if (entity == nullptr || !entity->isEnabled)
+            continue;
+
+        for (const auto& component : entity->gameComponents) {
+            if (component != nullptr)
+                component->update(packetQueue, *entity, deltaTime);
+        }
+    }
 }

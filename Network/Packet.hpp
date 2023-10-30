@@ -9,13 +9,13 @@
 
 #include <ctime>
 #include "ConnectData.hpp"
+#include "DeadData.hpp"
+#include "EntitySpawnData.hpp"
 #include "JoinData.hpp"
 #include "LeaderData.hpp"
 #include "PacketType.hpp"
-#include "StartData.hpp"
 #include "PlayersPos.hpp"
-#include "DeadData.hpp"
-#include "EnemySpawnData.hpp"
+#include "StartData.hpp"
 
 /**
  * @brief Network protocol
@@ -51,7 +51,7 @@ namespace Network {
 
                         struct data::DeadData deadData;
 
-                        struct data::EnemySpawnData enemySpawnData;
+                        struct data::EntitySpawnData entitySpawnData;
                 };
         };
     }

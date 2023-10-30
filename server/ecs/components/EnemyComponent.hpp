@@ -7,13 +7,19 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "AGameComponent.hpp"
 
-class EnemyComponent : public ECS::AComponent {
-    public:
-        EnemyComponent();
-        ~EnemyComponent() = default;
+namespace ECS {
+    class EnemyComponent : public ECS::AGameComponent {
+        public:
+            EnemyComponent();
+            ~EnemyComponent() = default;
 
-        [[nodiscard]] std::shared_ptr<ECS::IComponent> clone() const override;
+            [[nodiscard]] std::shared_ptr<ECS::IComponent>
+            clone() const override;
 
-};
+            void update(std::vector<Network::Packet> &packets, ECS::Entity &entity, float deltaTime) override;
+        private:
+            float _speed = 100;
+    };
+}
