@@ -6,10 +6,6 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-for /f %%a in ('wmic cpu get NumberOfCores ^| findstr /r "[0-9]"') do (
-    set "cores=%%a"
-)
-
 cmake --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo CMake not installed, installing...
