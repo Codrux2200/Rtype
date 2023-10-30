@@ -10,6 +10,7 @@
 
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <memory>
 #include "AComponent.hpp"
 
 namespace ECS {
@@ -19,14 +20,14 @@ public:
     MusicsComponent(std::string soundPath);
     ~MusicsComponent() = default;
     void play();
+    void stop();
     void update();
     bool isPlaying() const;
     std::shared_ptr<IComponent> clone() const override;
 
 
 private:
-    sf::SoundBuffer _musicsBuffer;
-    sf::Sound _musics;
+    std::shared_ptr<sf::Music> _music;
 };
 }
 #endif /* !Musics_Component_HPP_ */

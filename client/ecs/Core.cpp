@@ -58,6 +58,7 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
     if (sceneManager.getSceneType() != SceneType::MAIN_MENU)
         return;
     std::cout << "Start game handler" << std::endl;
+    sceneManager.getCurrentScene()->getEntityByID(4)->getComponent<ECS::MusicsComponent>()->stop();
     sceneManager.setCurrentScene(SceneType::GAME);
     std::cout << "Scene type: " << sceneManager.getSceneType() << std::endl;
 }
@@ -171,6 +172,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
     }
 
     button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _window));
+    button->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Main_Menu.ogg"));
+
 
     scene->addEntity(button);
     return scene;
