@@ -11,24 +11,36 @@
 namespace ECS {
 
 MusicsComponent::MusicsComponent(const MusicsComponent &other)
-    :_musicsBuffer(other._musicsBuffer), _musics(other._musics) {
+    : _music(other._music) {
 }
 
 MusicsComponent::MusicsComponent(std::string soundPath)
-    :_musics(_musicsBuffer) {
-    if (_musicsBuffer.loadFromFile(soundPath)) {
-        _musics.setBuffer(_musicsBuffer);
+{
+    _music = std::make_shared<sf::Music>();
+
+    if (!_music->openFromFile(soundPath)) {
+        std::cerr << "Failed to load audio music file" << std::endl;
     }
 }
 
 void MusicsComponent::play() {
-    _musics.play();
+    _music->setVolume(50);
+    _music->play();
+}
+
+void MusicsComponent::stop() {
+    // Fade out the volume gradually
+    while (_music->getVolume() > 1) {
+        _music->setVolume(_music->getVolume() - 1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10)); // Wait for 10 milliseconds
+    }
+    _music->stop();
 }
 
 void MusicsComponent::update() {
-    if (_musics.getStatus() == sf::Sound::Stopped) {
+    if (_music->getStatus() == sf::Music::Stopped) {
         // If the sound has finished playing, restart it
-        _musics.play();
+        _music->play();
     }
 }
 
@@ -39,5 +51,5 @@ std::shared_ptr<IComponent> MusicsComponent::clone() const {
 }
 
 bool ECS::MusicsComponent::isPlaying() const {
-    return _musics.getStatus() == sf::Sound::Playing;
+    return _music->getStatus() == sf::Music::Playing;
 }
