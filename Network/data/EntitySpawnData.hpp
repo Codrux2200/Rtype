@@ -10,13 +10,18 @@
 namespace Network::data {
     extern "C"
     {
+        /**
+         *
+         */
         struct EntitySpawnData {
             public:
                 /**
                  * @brief The id of the player that moved.
                  */
                 int id;
-                // TODO: DOC
+                /**
+                 * @brief The type of the entity.
+                 */
                 char type;
                 /**
                  * @brief The x position of the player.

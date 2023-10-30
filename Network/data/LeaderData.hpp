@@ -14,6 +14,7 @@ namespace Network::data {
             public:
                 /**
                  * @brief The id of the player that is the leader.
+                 * Only the leader player can start the game.
                  */
                 int leaderId;
         };

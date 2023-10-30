@@ -43,7 +43,14 @@ namespace Network {
      */
     class PacketManager {
         public:
+            /**
+             * @brief Construct a new PacketManager object
+             *
+             */
             PacketManager() = default;
+            /**
+             * @brief Destroy the PacketManager object
+             */
             ~PacketManager() = default;
 
             /**

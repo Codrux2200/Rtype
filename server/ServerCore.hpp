@@ -30,6 +30,9 @@ namespace ECS {
              */
             ~ServerCore() = default;
 
+            /**
+             * @brief Initialize the server's ECS
+             */
             SceneManager sceneManager;
 
             /**
