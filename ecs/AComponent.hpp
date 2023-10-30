@@ -18,10 +18,6 @@ namespace ECS {
     class AComponent : public IComponent {
         public:
             /**
-             * @brief UID of the component
-             *
-             */
-            /**
              * @brief Get the Value object
              *
              * @return the value asked
