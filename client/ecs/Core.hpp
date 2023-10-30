@@ -17,7 +17,6 @@
 #include "SceneManager.hpp"
 #include "Connection.hpp"
 #include "EntityFactory.hpp"
-#include "ConvertPath.hpp"
 
 namespace ECS {
 	/**
