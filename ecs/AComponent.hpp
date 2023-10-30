@@ -43,7 +43,9 @@ namespace ECS {
             [[nodiscard]] ComponentType getType() const override;
 
         protected:
+            /** @brief Indicates whether the component is currently active/enabled. */
             bool _isEnabled = true;
+            /** @brief The type of this component, defaults to NOTHING. */
             ComponentType _type = ComponentType::NOTHING;
 
     };

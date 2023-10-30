@@ -39,7 +39,15 @@ namespace ECS {
              */
             [[nodiscard]] int getId() const;
 
-            // Templates impose to write the implementation in the header file
+            /**
+             * @brief Retrieves a specific type of component from the entity.
+             *
+             * This template function attempts to find and return a component of type T.
+             * If such a component doesn't exist, it returns nullptr.
+             *
+             * @tparam T The type of the component to retrieve.
+             * @return A shared pointer to the component of type T, or nullptr if not found.
+             */
             template<typename T>
             std::shared_ptr<T> getComponent() {
                 for (auto &component : _components) {
@@ -52,21 +60,27 @@ namespace ECS {
 
             void addComponent(std::shared_ptr<AComponent> component);
 
+            /**
+             * @brief Retrieves all components of a specific type from the entity.
+             *
+             * This template function finds and returns all components of type T.
+             *
+             * @tparam T The type of the components to retrieve.
+             * @return A vector of shared pointers to the components of type T.
+             */
             [[nodiscard]] std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
+            /** @brief Indicates whether the entity is currently active / enabled. */
             bool isEnabled = true;
 
         private:
             /**
-             * @brief define the id of the entity
+             * @brief define the unique id of the entity
              *
              */
             int _id;
 
-            /**
-             * @brief stock component
-             *
-             */
+            /** @brief List of components attached to this entity. */
             std::vector<std::shared_ptr<IComponent>> _components;
 
     };

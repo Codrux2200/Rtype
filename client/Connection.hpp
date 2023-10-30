@@ -83,10 +83,25 @@ namespace RType {
             void _handlerLeader(Network::Packet &packet, const udp::endpoint &endpoint);
 
 
+            /**
+             * @brief The client's socket
+             */
             udp::socket _socket;
+            /**
+             * @brief The client's resolver
+             */
             udp::resolver _resolver;
+            /**
+             * @brief The endpoint of the server
+             */
             udp::endpoint _endpoint;
+            /**
+             * @brief The buffer used to receive packets
+             */
             boost::array<char, PACKET_SIZE> _recv_buffer{};
+            /**
+             * @brief The endpoint of the sender, when receiving a packet
+             */
             udp::endpoint _sender_endpoint;
 
             short _id = -1;

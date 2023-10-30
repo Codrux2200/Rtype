@@ -12,8 +12,17 @@ namespace Network::data {
     {
         struct MoveData {
             public:
+                /**
+                 * @brief The id of the player that moved.
+                 */
                 char id;
+                /**
+                 * @brief The x position of the player.
+                 */
                 int x;
+                /**
+                 * @brief The y position of the player.
+                 */
                 int y;
         };
     }

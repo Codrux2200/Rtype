@@ -12,6 +12,9 @@ namespace Network::data {
     {
         struct LeaderData {
             public:
+                /**
+                 * @brief The id of the player that is the leader.
+                 */
                 char leaderId;
         };
     }

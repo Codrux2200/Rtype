@@ -55,13 +55,31 @@ namespace ECS {
              */
             virtual void setValue(std::vector<int> values) = 0;
 
-            // Clone
+            /**
+             * @brief Clone the component
+             *
+             * @return a shared pointer to the cloned component
+             */
             virtual std::shared_ptr<IComponent> clone() const = 0;
 
+            /**
+             * @brief Set the Enabled object
+             *
+             * @param enabled
+             */
             virtual void setEnabled(bool enabled) = 0;
 
+            /**
+             * @brief Get the Enabled object
+             * @return bool
+             */
             virtual bool isEnabled() const = 0;
 
+            /**
+             * @brief Get the Type object
+             *
+             * @return ComponentType
+             */
             virtual ComponentType getType() const = 0;
     };
 }
