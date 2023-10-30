@@ -66,6 +66,7 @@ namespace RType {
             std::vector<Network::Packet> recvQueue;
 
             void sendPackets();
+            void handlePackets();
 
         private:
             /**
@@ -98,11 +99,11 @@ namespace RType {
             /**
              * @brief The buffer used to receive packets
              */
-            boost::array<char, PACKET_SIZE> _recv_buffer{};
+            boost::array<char, PACKET_SIZE> _recvBuffer {};
             /**
              * @brief The endpoint of the sender, when receiving a packet
              */
-            udp::endpoint _sender_endpoint;
+            udp::endpoint _senderEndpoint;
 
             short _id = -1;
     };

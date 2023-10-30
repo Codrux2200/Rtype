@@ -7,15 +7,20 @@
 
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
-#include <vector>
+#include <algorithm>
 #include <memory>
+#include <vector>
 #include "AComponent.hpp"
+#include "DeadData.hpp"
 
 namespace ECS {
     /**
      * @brief Entity class
      *
      */
+
+    class AGameComponent;
+
     class Entity {
         public:
             /**
@@ -31,6 +36,13 @@ namespace ECS {
             ~Entity() = default;
 
             Entity(const Entity &entity, int id);
+
+            enum EntityType {
+                PLAYER,
+                ENEMY_CLASSIC,
+                PLAYER_BULLET,
+                UNKNOWN
+            };
 
             /**
              * @brief Get the Id object
@@ -50,15 +62,29 @@ namespace ECS {
              */
             template<typename T>
             std::shared_ptr<T> getComponent() {
-                for (auto &component : _components) {
-                    std::shared_ptr<T> comp = std::dynamic_pointer_cast<T>(component);
-                    if (comp)
-                        return comp;
-                }
-                return nullptr;
+                auto it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<IComponent> &component) {
+                    return std::dynamic_pointer_cast<T>(component);
+                });
+                if (it == _components.end())
+                    return nullptr;
+                return std::dynamic_pointer_cast<T>(*it);
             }
 
-            void addComponent(std::shared_ptr<AComponent> component);
+            template<typename T>
+            std::vector<std::shared_ptr<T>> getComponents() {
+                std::vector<std::shared_ptr<T>> components;
+
+                for (auto component : _components) {
+                    if (component == nullptr)
+                        continue;
+                    auto casted = std::dynamic_pointer_cast<T>(component);
+                    if (casted)
+                        components.push_back(casted);
+                }
+                return components;
+            }
+
+            void addComponent(const std::shared_ptr<AComponent>& component);
 
             /**
              * @brief Retrieves all components of a specific type from the entity.
@@ -72,6 +98,22 @@ namespace ECS {
 
             /** @brief Indicates whether the entity is currently active / enabled. */
             bool isEnabled = true;
+            Network::data::DeathReason deathReason = Network::data::ALIVE;
+
+            /**
+             * @brief Destroy the Entity object
+             *
+             * @return true if the entity can be destroyed
+             * @return false if the entity can't be destroyed now, it can be used to do actions by components before destroying the entity
+             */
+            virtual bool onDestroy();
+
+            /**
+             * @brief Get the Game Components objects that are int stored as cache
+             */
+            std::vector<std::shared_ptr<AGameComponent>> gameComponents;
+
+            void updateGameComponents();
 
         private:
             /**

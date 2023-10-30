@@ -93,6 +93,8 @@ namespace ECS {
              * @param endpoint
              */
             void _handlerMoveRight(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerJoin(const Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerShoot(const Network::Packet &packet, const udp::endpoint &endpoint);
 
             /**
              * @brief Ensure the player can move, try the given move

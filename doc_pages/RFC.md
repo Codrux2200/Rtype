@@ -100,9 +100,9 @@ The packet contains a NAME_LENGTH char (1 byte) array, which is the name of the 
 When the score changes, the server sends a SCORE packet to all the clients.
 The packet contains an int (4 bytes), which is the new score for everyone.
 
-@subsubsection server_espwn_sec ENEMY_SPAWN
+@subsubsection server_espwn_sec ENTITY_SPAWN
 
-When an enemy spawns, the server sends an ENEMY_SPAWN packet to all the clients.
+When an enemy spawns, the server sends an ENTITY_SPAWN packet to all the clients.
 The packet contains a char (1 byte), which is the id of the enemy that spawned,
 and two int (4 bytes) corresponding to the X and Y position of the enemy.
 

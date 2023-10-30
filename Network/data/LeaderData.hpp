@@ -15,7 +15,7 @@ namespace Network::data {
                 /**
                  * @brief The id of the player that is the leader.
                  */
-                char leaderId;
+                int leaderId;
         };
     }
 } // namespace Network::data

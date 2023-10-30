@@ -73,6 +73,11 @@ namespace RType {
             void broadcast(const Network::Packet &packet);
 
             /**
+             * @brief Broadcasts the new leader ID to all clients
+             */
+            void broadcastNewLeader();
+
+            /**
              * @brief The server's client manager
              */
             ClientManager clientManager;
@@ -120,12 +125,6 @@ namespace RType {
             void _startClientCleanupTimer(boost::asio::io_service &io_service);
 
             /**
-             * @brief Broadcasts the new leader ID to all clients
-             * @param id
-             */
-            void _broadcastNewLeader(int id);
-
-            /**
              * @brief Creates a new client packet and adds it to the client manager
              * @param packet
              * @return client_ptr
@@ -133,14 +132,7 @@ namespace RType {
             client_ptr _newClientPacket(
             std::unique_ptr<Network::Packet> &packet);
 
-            /**
-             * @brief Handles the JOIN packet
-             * @param packet
-             * @param endpoint
-             */
-            void _handlerJoin(Network::Packet &packet, const udp::endpoint &endpoint);
-
-            /**
+           /**
              * @brief Handles the QUIT packet
              * @param packet
              * @param endpoint

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** MoveData
+** PacketType
 */
 
 #pragma once
@@ -10,12 +10,14 @@
 namespace Network::data {
     extern "C"
     {
-        struct MoveData {
+        struct EntitySpawnData {
             public:
                 /**
                  * @brief The id of the player that moved.
                  */
-                char id;
+                int id;
+                // TODO: DOC
+                char type;
                 /**
                  * @brief The x position of the player.
                  */

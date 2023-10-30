@@ -52,18 +52,18 @@ namespace ECS {
             void move(float x, float y);
 
             std::shared_ptr<IComponent> clone() const override;
+            float x;
+            float y;
         protected:
         private:
             /**
              * @brief define the x position of the entity
              *
              */
-            float _x;
             /**
              * @brief define the y position of the entity
              *
              */
-            float _y;
     };
 }
 

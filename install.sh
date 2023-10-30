@@ -32,8 +32,8 @@ install_yum() {
 }
 
 install_pacman() {
-    sudo pacman -S g++
-    sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev
+    sudo pacman -S g++ --noconfirm
+    sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev --noconfirm
 
 }
 
@@ -73,7 +73,7 @@ elif [ "$package_manager" == "brew" ]; then
   echo "CMake est maintenant installé."
 elif [ "$package_manager" == "pacman" ]; then
   echo "Pacman détecté, installation de CMake..."
-  sudo pacman -Sy cmake
+  sudo pacman -Sy cmake --noconfirm
   echo "CMake est maintenant installé."
 elif [ "$package_manager" == "apk" ]; then
   echo "APK détecté, installation de CMake..."

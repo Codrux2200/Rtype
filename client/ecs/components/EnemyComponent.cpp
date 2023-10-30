@@ -5,21 +5,42 @@
 ** EnemyComponent
 */
 
-#include "PositionComponent.hpp"
 #include "EnemyComponent.hpp"
+#include "PositionComponent.hpp"
+#include "SoundComponent.hpp"
 
-ECS::EnemyComponent::EnemyComponent(eventCallback callback) : EventComponent(callback)
-{
-}
+namespace ECS {
+    std::shared_ptr<IComponent> EnemyComponent::clone() const
+    {
+        return std::make_shared<EnemyComponent>();
+    }
 
-std::shared_ptr<ECS::IComponent> ECS::EnemyComponent::clone() const
-{
-    return std::make_shared<ECS::EnemyComponent>(_callback);
-}
+    void EnemyComponent::update(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt)
+    {
+        auto position = entity.getComponent<PositionComponent>();
+        position->x -= _speed * dt;
+        if (position->x < 0) {
+            entity.deathReason = Network::data::OUT_OF_BOUNDS;
+        }
+    }
 
-void ECS::EnemyComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
-{
-    auto positionComponent = entity.getComponent<ECS::PositionComponent>();
+    bool EnemyComponent::onDestroy(Entity &entity, Network::data::DeathReason reason)
+    {
+        if (reason != Network::data::PLAYER_BULLET)
+            return true;
 
-    positionComponent->move(-_speed * dt, 0);
+        auto sound = entity.getComponent<SoundComponent>();
+
+        if (!sound)
+            return true;
+
+        if (!_soundPlayed) {
+            sound->play();
+            _soundPlayed = true;
+        }
+
+        if (sound->isPlaying())
+            return false;
+        return true;
+    }
 }

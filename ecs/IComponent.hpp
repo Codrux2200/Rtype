@@ -8,8 +8,9 @@
 #ifndef ICOMPONENT_HPP_
 #define ICOMPONENT_HPP_
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include "DeadData.hpp"
 
 namespace ECS {
     /**
@@ -38,6 +39,8 @@ namespace ECS {
 
     };
 
+    class Entity;
+
     class IComponent {
         public:
             /**
@@ -45,7 +48,7 @@ namespace ECS {
              *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const = 0;
+            [[nodiscard]] virtual std::vector<int> getValue() const = 0;
             /**
              * @brief Set the Value object
              *
@@ -60,27 +63,16 @@ namespace ECS {
              *
              * @return a shared pointer to the cloned component
              */
-            virtual std::shared_ptr<IComponent> clone() const = 0;
+            [[nodiscard]] virtual std::shared_ptr<IComponent> clone() const = 0;
 
             /**
-             * @brief Set the Enabled object
-             *
-             * @param enabled
-             */
-            virtual void setEnabled(bool enabled) = 0;
-
-            /**
-             * @brief Get the Enabled object
-             * @return bool
-             */
-            virtual bool isEnabled() const = 0;
-
-            /**
-             * @brief Get the Type object
+             * @brief Get the component type
              *
              * @return ComponentType
              */
-            virtual ComponentType getType() const = 0;
+            [[nodiscard]] virtual ComponentType getType() const = 0;
+
+            virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason) = 0;
     };
 }
 

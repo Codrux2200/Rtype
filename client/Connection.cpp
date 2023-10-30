@@ -43,16 +43,17 @@ void RType::Connection::_initHandlers()
 
 void RType::Connection::_listen()
 {
-    _socket.async_receive_from(boost::asio::buffer(_recv_buffer),
-    _sender_endpoint,
+    _socket.async_receive_from(boost::asio::buffer(_recvBuffer),
+    _senderEndpoint,
     [&](const boost::system::error_code &error, std::size_t bytes_received) {
         if (!error) {
             std::unique_ptr<Network::Packet> packet =
-            Network::PacketManager::bytesToPacket(_recv_buffer.data(), bytes_received);
-            packetManager.handlePacket(*packet, _sender_endpoint);
+            Network::PacketManager::bytesToPacket(
+            _recvBuffer.data(), bytes_received);
+            packetManager.recvPacketsQueue.emplace_back(
+            _senderEndpoint, std::move(*packet));
         } else {
-            std::cerr << "Error receiving response: " << error.message()
-                      << std::endl;
+            std::cerr << "Error receiving response: " << error.message() << std::endl;
         }
         _listen();
     });
@@ -69,9 +70,7 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
 
     _socket.async_send_to(boost::asio::buffer(packetInBytes), _endpoint,
     [](const boost::system::error_code &error, std::size_t bytes_sent) {
-        if (!error) {
-            std::cout << "Sent packet to server." << std::endl;
-        } else {
+        if (error) {
             std::cerr << "Error sending message: " << error.message()
                       << std::endl;
         }
@@ -80,10 +79,16 @@ void RType::Connection::sendPacket(const Network::Packet &packet)
 
 void RType::Connection::sendPackets()
 {
-    if (!sendQueue.empty())
-        std::cout << "Sending " << sendQueue.size() << " packets" << std::endl;
-    for (auto &packet : sendQueue) {
+    for (auto &packet : packetManager.sendPacketsQueue) {
         sendPacket(packet);
     }
-    sendQueue.clear();
+    packetManager.sendPacketsQueue.clear();
+}
+
+void RType::Connection::handlePackets()
+{
+    for (auto &packet : packetManager.recvPacketsQueue) {
+        packetManager.handlePacket(packet.second, packet.first);
+    }
+    packetManager.recvPacketsQueue.clear();
 }
