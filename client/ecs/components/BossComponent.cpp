@@ -126,15 +126,19 @@ namespace ECS {
     {
         auto positionComponent = entity.getComponent<PositionComponent>();
 
-        if (positionComponent == nullptr)
+        if (positionComponent == nullptr) {
+            std::cout << "No position component" << std::endl;
             return;
+        }
 
         positionComponent->y += dt * _speed * _isUp;
 
-        if (positionComponent->y <= ((_isUp < 0.0) ? 0.0 : 240)) {
-            positionComponent->y = static_cast<float>((_isUp < 0) ? 0 : 240);
+        if (_isUp == 1 && positionComponent->y >= 240) {
             _state = Network::data::IDLE;
-            _isUp = -_isUp;
+            _isUp = -1;
+        } else if (_isUp == -1 && positionComponent->y <= 0) {
+            _state = Network::data::IDLE;
+            _isUp = 1;
         }
     }
 

@@ -85,8 +85,9 @@ namespace ECS {
     void BossComponent::_idleUpdate()
     {
         if (_timer >= 3) {
-            int random = std::rand() % 5;
+//            int random = std::rand() % 5;
 
+            int random = 3;
             switch (random) {
                 case 0:
                     _state = Network::data::ATTACK_UP;
@@ -149,10 +150,12 @@ namespace ECS {
 
         positionComponent->y += dt * _speed * _isUp;
 
-        if (positionComponent->y <= ((_isUp < 0.0) ? 0.0 : 240)) {
-            positionComponent->y = static_cast<float>((_isUp < 0) ? 0 : 240);
+        if (_isUp == 1 && positionComponent->y >= 240) {
             _state = Network::data::IDLE;
-            _isUp = -_isUp;
+            _isUp = -1;
+        } else if (_isUp == -1 && positionComponent->y <= 0) {
+            _state = Network::data::IDLE;
+            _isUp = 1;
         }
     }
 
