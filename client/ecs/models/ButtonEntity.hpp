@@ -8,11 +8,12 @@
 #pragma once
 
 #include "Entity.hpp"
+#include <string>
 
 namespace ECS {
     class ButtonEntity : public Entity {
         public:
-            ButtonEntity();
+            ButtonEntity(std::string path, int x, int y);
             ~ButtonEntity() = default;
 
     };

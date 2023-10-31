@@ -26,6 +26,7 @@
 #include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ConvertPath.hpp"
+#include "StaticBackgroundEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -118,15 +119,18 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(p1, "player");
 
     // Create button
-    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>();
-    _entityFactory.registerEntity(button, "button");
+    std::shared_ptr<ECS::Entity> back = std::make_shared<ECS::StaticBackgroundEntity>("assets/back.png");
+    _entityFactory.registerEntity(back, "background");
+    std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>("assets/startgame.png", 0, 300);
+    _entityFactory.registerEntity(button, "buttonStart");
+    std::shared_ptr<ECS::Entity> buttonStop = std::make_shared<ECS::ButtonEntity>("assets/options.png", 0 , 200);
+    _entityFactory.registerEntity(buttonStop, "buttonStop");
     std::shared_ptr<ECS::Entity> text = std::make_shared<ECS::Entity>(1);
     text->addComponent(std::make_shared<ECS::TextComponent>("bonjour"));
     _entityFactory.registerEntity(text, "text");
     // Create enemy
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_CLASSIC));
-
     // Create player bullet
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<ECS::PlayerBullet>(0);
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
@@ -135,17 +139,24 @@ void ECS::Core::_initEntities()
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
-    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("button", 4);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", 1);
+    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", 4);
+    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", 4);
     std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", 10);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
         return scene;
     }
+    std::shared_ptr<ECS::SpriteComponent> spriteStop = buttonStop->getComponent<ECS::SpriteComponent>();
+    if (spriteStop == nullptr) {
+        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        return scene;
+    }
     std::shared_ptr<ECS::TextComponent> textComponent = text->getComponent<ECS::TextComponent>();
 
     textComponent->setPosition(100, 500);
-
+    scene->addEntity(background);
     scene->addEntity(text);
 
     std::shared_ptr<ECS::PositionComponent> position = button->getComponent<ECS::PositionComponent>();
@@ -177,6 +188,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 
 
     scene->addEntity(button);
+    scene->addEntity(buttonStop);
     return scene;
 }
 
