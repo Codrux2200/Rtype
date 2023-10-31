@@ -22,6 +22,7 @@
 #include "PositionComponent.hpp"
 #include "Server.hpp"
 #include "VelocityComponent.hpp"
+#include "BossShootEntity.hpp"
 
 ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 {
@@ -40,11 +41,13 @@ void ECS::ServerCore::_initEntities()
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
+    std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
 
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
+    _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::BOSS_BULLET));
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -60,10 +63,13 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
+        std::cout << "Player " << player->getId() << " created" << std::endl;
         scene->addEntity(player);
     }
     std::shared_ptr<EnemyEntity> enemy = std::make_shared<EnemyEntity>(_entityFactory.ids++);
     scene->addEntity(enemy);
+    std::shared_ptr<ECS::Entity> boss = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _entityFactory.ids++);
+    scene->addEntity(boss);
     return scene;
 }
 
@@ -115,8 +121,10 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
         return;
     auto clientID = _server.clientManager.getClientId(endpoint);
 
-    if (clientID == -1 || clientID > 3)
+    if (clientID == -1 || clientID > 3) {
+        std::cerr << "Invalid client ID: " << clientID << std::endl;
         return;
+    }
 
     auto scene = sceneManager.getScene(SceneType::GAME);
 
@@ -131,9 +139,12 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     if (playerPositionComponent == nullptr || playerComponent == nullptr)
         return;
 
-    if (playerComponent->lastFire < playerComponent->fireRate)
+    if (playerComponent->getLastFire() < playerComponent->fireRate) {
+//        std::cout << "Player can't shoot yet: " << playerComponent->lastFire << " / " << playerComponent->fireRate << std::endl;
         return;
+    }
 
+    std::cout << "Player can shoot" << std::endl;
     auto playerPosition = playerPositionComponent->getValue();
 
     auto bulletEntity = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::PLAYER_BULLET), _entityFactory.ids++);
@@ -142,11 +153,12 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
         return;
 
     auto bulletPosComponent = bulletEntity->getComponent<ECS::PositionComponent>();
+    auto velocityComponent = bulletEntity->getComponent<ECS::VelocityComponent>();
 
-    if (bulletPosComponent == nullptr)
+    if (bulletPosComponent == nullptr || velocityComponent == nullptr)
         return;
 
-    playerComponent->lastFire = 0;
+    playerComponent->resetLastFire();
 
     bulletPosComponent->x = playerPosition[0] + 50;
     bulletPosComponent->y = playerPosition[1] + 50;
@@ -157,6 +169,8 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
 
     data.x = playerPosition[0];
     data.y = playerPosition[1];
+    data.vx = velocityComponent->vx;
+    data.vy = velocityComponent->vy;
     data.type = ECS::Entity::PLAYER_BULLET;
     data.id = bulletEntity->getId();
 
@@ -172,11 +186,6 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
 void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     if (sceneManager.getSceneType() != MAIN_MENU)
-        return;
-    auto client = _server.clientManager.getClientByEndpoint(endpoint);
-    auto leader = _server.clientManager.getLeader();
-
-    if (leader == nullptr || client == nullptr || leader->getEndpoint() != client->getEndpoint())
         return;
 
     sceneManager.setCurrentScene(SceneType::GAME);
@@ -208,6 +217,41 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
         data.id = enemy->getId();
 
         std::cout << "Sending enemy spawn packet" << std::endl;
+        std::cout << "x: " << positionComponent->x << std::endl;
+        std::cout << "y: " << positionComponent->y << std::endl;
+        std::cout << "type: " << (int) data.type << std::endl;
+        std::cout << "id: " << data.id << std::endl;
+        std::cout << "---------------------" << std::endl;
+
+        auto packetToSend = Network::PacketManager::createPacket(Network::ENTITY_SPAWN, &data);
+
+        for (const auto& cli : _server.clientManager.getClients()) {
+            if (cli == nullptr)
+                continue;
+            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+        }
+    }
+
+    std::vector<std::shared_ptr<ECS::Entity>> bosses =
+    gameScene->getEntitiesWithComponent<BossComponent>();
+
+    // Sends all present bosses to the players
+    for (auto &boss : bosses) {
+        if (boss == nullptr)
+            continue;
+        Network::data::EntitySpawnData data{};
+        auto positionComponent = boss->getComponent<PositionComponent>();
+
+        if (positionComponent == nullptr)
+            continue;
+        std::vector<int> values = positionComponent->getValue();
+
+        data.x = static_cast<int>(positionComponent->x);
+        data.y = static_cast<int>(positionComponent->y);
+        data.type = ECS::Entity::BOSS;
+        data.id = boss->getId();
+
+        std::cout << "Sending boss spawn packet" << std::endl;
         std::cout << "x: " << positionComponent->x << std::endl;
         std::cout << "y: " << positionComponent->y << std::endl;
         std::cout << "type: " << (int) data.type << std::endl;

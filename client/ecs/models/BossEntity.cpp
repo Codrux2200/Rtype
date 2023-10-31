@@ -13,11 +13,13 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "VelocityComponent.hpp"
 
 BossEntity::BossEntity(int id) : ECS::Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>());
     addComponent(std::make_shared<ECS::ScaleComponent>(0.9f, 0.9f));
+    addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
 
     sf::Texture bossTexture;
     if (!bossTexture.loadFromFile(ConvertPath::convertPath("assets/boss.png"))) {

@@ -25,6 +25,8 @@
 #include "SpriteComponent.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "BossEntity.hpp"
+#include "BossShootEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -129,6 +131,16 @@ void ECS::Core::_initEntities()
     // Create player bullet
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<ECS::PlayerBullet>(0);
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
+
+    // Create boss
+    std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>(0);
+    _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::EntityType::BOSS));
+
+    // Create boss bullet
+    std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
+    _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
+
+    std::cout << "Boss entity registered: " << boss << std::endl;
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -228,21 +240,26 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 void ECS::Core::_handlerEntitySpawn(
 Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
-
     std::string entityType = "entity" + std::to_string(packet.entitySpawnData.type);
     std::shared_ptr<ECS::Entity> entity = _entityFactory.createEntity(entityType, packet.entitySpawnData.id);
 
-    if (entity == nullptr)
+    if (entity == nullptr) {
         return;
+    }
     auto positionComponent = entity->getComponent<ECS::PositionComponent>();
     auto velocityComponent = entity->getComponent<ECS::VelocityComponent>();
 
-    if (positionComponent == nullptr || velocityComponent == nullptr)
+    if (positionComponent == nullptr || velocityComponent == nullptr) {
         return;
-    positionComponent->x = static_cast<float>(packet.entitySpawnData.x);
-    positionComponent->y = static_cast<float>(packet.entitySpawnData.y);
+    }
+    positionComponent->x = (packet.entitySpawnData.x);
+    positionComponent->y = (packet.entitySpawnData.y);
     velocityComponent->vx = packet.entitySpawnData.vx;
     velocityComponent->vy = packet.entitySpawnData.vy;
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    std::cout << "Entity spawned: " << entityType << std::endl;
     scene->addEntity(entity);
 }

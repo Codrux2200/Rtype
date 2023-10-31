@@ -33,7 +33,7 @@ namespace ECS {
             _components.push_back(component->clone());
         }
         _id = id;
-        _gameComponents = entity.getGameComponents();
+        updateGameComponents();
     }
 
     std::vector<std::shared_ptr<IComponent>> Entity::getComponents() const

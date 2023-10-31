@@ -5,6 +5,7 @@
 ** BossComponent
 */
 
+#include <iostream>
 #include "BossComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SoundComponent.hpp"
@@ -87,6 +88,7 @@ namespace ECS {
             positionComponent->x = 500;
             _state = Entity::IDLE;
         }
+        std::cout << "Coming" << std::endl;
     }
 
     void BossComponent::_dashUpdate(ECS::Entity &entity, float dt)

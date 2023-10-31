@@ -5,7 +5,7 @@
 ** PlayerComponent
 */
 
-
+#include <iostream>
 #include "PlayerComponent.hpp"
 
 namespace ECS {
@@ -17,7 +17,18 @@ namespace ECS {
     void PlayerComponent::update(
     std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt)
     {
-        lastFire++;
+        _lastFire++;
+    }
+
+    int PlayerComponent::getLastFire() const
+    {
+        std::cout << "last fire: " << _lastFire << std::endl;
+        return _lastFire;
+    }
+
+    void PlayerComponent::resetLastFire()
+    {
+        _lastFire = 0;
     }
 
 } // namespace ECS

@@ -13,12 +13,14 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "VelocityComponent.hpp"
 
 namespace ECS {
     EnemyEntity::EnemyEntity(int id) : Entity(id)
     {
         addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
         addComponent(std::make_shared<ECS::ScaleComponent>(0.03f, 0.03f));
+        addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
         // addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
         sf::Texture enemyTexture;

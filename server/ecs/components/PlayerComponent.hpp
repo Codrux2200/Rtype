@@ -20,7 +20,12 @@ namespace ECS {
 
             int fireRate = 5;
 
-            int lastFire = 0;
+            [[nodiscard]] int getLastFire() const;
+
+            void resetLastFire();
+
+        private:
+            int _lastFire = 5;
     };
 
 } // namespace ECS

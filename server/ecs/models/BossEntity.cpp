@@ -12,7 +12,7 @@
 
 BossEntity::BossEntity(const ECS::bossShootFunction& shootFunction, int id) : ECS::Entity(id)
 {
-    addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    addComponent(std::make_shared<ECS::PositionComponent>(1100, 0));
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&BossEntity::_callbackBossHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
     std::vector<std::pair<int, int>>{{0, 0}, {360, 360}}));
 

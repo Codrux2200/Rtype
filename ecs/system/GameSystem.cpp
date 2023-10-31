@@ -20,8 +20,9 @@ void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::v
             continue;
 
         for (const auto& component : entity->getGameComponents()) {
-            if (component != nullptr)
+            if (component != nullptr && component->isEnabled) {
                 component->update(packetQueue, *entity, deltaTime);
+            }
         }
     }
 }
