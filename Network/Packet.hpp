@@ -16,6 +16,7 @@
 #include "PacketType.hpp"
 #include "PlayersPos.hpp"
 #include "StartData.hpp"
+#include "BossStateData.hpp"
 
 /**
  * @brief Network protocol
@@ -52,6 +53,8 @@ namespace Network {
                         struct data::DeadData deadData;
 
                         struct data::EntitySpawnData entitySpawnData;
+
+                        struct data::BossStateData bossStateData;
                 };
         };
     }

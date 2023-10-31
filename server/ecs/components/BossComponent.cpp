@@ -9,6 +9,7 @@
 
 #include <utility>
 #include "HitboxComponent.hpp"
+#include "PacketManager.hpp"
 #include "PositionComponent.hpp"
 
 namespace ECS {
@@ -23,38 +24,47 @@ namespace ECS {
 
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
     {
-        Entity::BossState previousState = _state;
+        Network::data::BossState previousState = _state;
 
         _timer += dt;
         switch (_state) {
-            case Entity::COMING:
+            case Network::data::COMING:
                 _comingUpdate(entity, dt);
                 break;
-            case Entity::IDLE:
+            case Network::data::IDLE:
                 _idleUpdate();
                 break;
-            case Entity::DASH:
+            case Network::data::DASH:
                 _dashUpdate(entity, dt);
                 break;
-            case Entity::MOVE:
+            case Network::data::MOVE:
                 _moveUpdate(entity, dt);
                 break;
-            case Entity::ATTACK_UP:
+            case Network::data::ATTACK_UP:
                 _attackUpUpdate(entity);
                 break;
-            case Entity::ATTACK_DOWN:
+            case Network::data::ATTACK_DOWN:
                 _attackDownUpdate(entity);
                 break;
-            case Entity::SHOOT:
+            case Network::data::SHOOT:
                 _shootUpdate();
                 break;
-            case Entity::DEAD: break;
         }
 
         if (previousState != _state) {
             _timer = 0;
             _step = 0;
             // TODO: send state to clients
+            Network::data::BossStateData data = {
+                .id = entity.getId(),
+                .x = static_cast<int>(entity.getComponent<PositionComponent>()->x),
+                .y = static_cast<int>(entity.getComponent<PositionComponent>()->y),
+                .state = _state
+            };
+
+            std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::BOSS_STATE, &data);
+            packetsQueue.push_back(*packet);
+            std::cout << "Boss state: " << _state << std::endl;
         }
     }
 
@@ -68,7 +78,7 @@ namespace ECS {
         positionComponent->x -= dt * (_speed / 2);
         if (positionComponent->x <= 500) {
             positionComponent->x = 500;
-            _state = Entity::IDLE;
+            _state = Network::data::IDLE;
         }
     }
 
@@ -79,19 +89,19 @@ namespace ECS {
 
             switch (random) {
                 case 0:
-                    _state = Entity::ATTACK_UP;
+                    _state = Network::data::ATTACK_UP;
                     break;
                 case 1:
-                    _state = Entity::ATTACK_DOWN;
+                    _state = Network::data::ATTACK_DOWN;
                     break;
                 case 2:
-                    _state = Entity::DASH;
+                    _state = Network::data::DASH;
                     break;
                 case 3:
-                    _state = Entity::MOVE;
+                    _state = Network::data::MOVE;
                     break;
                 case 4:
-                    _state = Entity::SHOOT;
+                    _state = Network::data::SHOOT;
                     break;
                 default:
                     break;
@@ -124,7 +134,7 @@ namespace ECS {
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;
-                    _state = Entity::IDLE;
+                    _state = Network::data::IDLE;
                 }
                 break;
         }
@@ -141,7 +151,7 @@ namespace ECS {
 
         if (positionComponent->y <= ((_isUp < 0.0) ? 0.0 : 240)) {
             positionComponent->y = static_cast<float>((_isUp < 0) ? 0 : 240);
-            _state = Entity::IDLE;
+            _state = Network::data::IDLE;
             _isUp = -_isUp;
         }
     }
@@ -181,7 +191,7 @@ namespace ECS {
                 if (hbComp != nullptr) {
                     hbComp->isEnabled = false;
                 }
-                _state = Entity::IDLE;
+                _state = Network::data::IDLE;
                 break;
             }
         }
@@ -222,7 +232,7 @@ namespace ECS {
                 if (hbComp != nullptr) {
                     hbComp->isEnabled = false;
                 }
-                _state = Entity::IDLE;
+                _state = Network::data::IDLE;
                 break;
             }
         }
@@ -238,7 +248,7 @@ namespace ECS {
                 break;
             case 1:
                 _shootFunction();
-                _state = Entity::IDLE;
+                _state = Network::data::IDLE;
                 break;
         }
     }

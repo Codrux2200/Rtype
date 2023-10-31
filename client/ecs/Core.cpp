@@ -53,6 +53,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
     packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
     packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
+    packetManager.REGISTER_HANDLER(Network::PacketType::BOSS_STATE, &ECS::Core::_handlerBossState);
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -262,4 +263,30 @@ Network::Packet &packet, const udp::endpoint &endpoint)
         return;
     std::cout << "Entity spawned: " << entityType << std::endl;
     scene->addEntity(entity);
+}
+
+void ECS::Core::_handlerBossState(
+Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    auto boss = scene->getEntityByID(packet.bossStateData.id);
+
+    if (boss == nullptr)
+        return;
+
+    auto bossComponent = boss->getComponent<BossComponent>();
+
+    if (bossComponent == nullptr)
+        return;
+    bossComponent->setState(packet.bossStateData.state);
+
+    auto positionComponent = boss->getComponent<PositionComponent>();
+
+    if (positionComponent == nullptr)
+        return;
+    positionComponent->x = packet.bossStateData.x;
+    positionComponent->y = packet.bossStateData.y;
 }

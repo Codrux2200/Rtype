@@ -14,16 +14,16 @@
 namespace ECS {
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
     {
-        Entity::BossState previousState = _state;
+        Network::data::BossState previousState = _state;
 
         _timer += dt;
         switch (_state) {
-            case Entity::COMING:
+            case Network::data::COMING:
                 _comingUpdate(entity, dt);
                 break;
-            case Entity::DASH: _dashUpdate(entity, dt);
+            case Network::data::DASH: _dashUpdate(entity, dt);
                 break;
-            case Entity::MOVE:
+            case Network::data::MOVE:
                 _moveUpdate(entity, dt);
                 break;
             default:
@@ -69,7 +69,7 @@ namespace ECS {
         return canBeDestroyed;
     }
 
-    void BossComponent::setState(ECS::Entity::BossState state)
+    void BossComponent::setState(Network::data::BossState state)
     {
         _timer = 0;
         _step = 0;
@@ -86,7 +86,7 @@ namespace ECS {
         positionComponent->x -= dt * (_speed / 2);
         if (positionComponent->x <= 500) {
             positionComponent->x = 500;
-            _state = Entity::IDLE;
+            _state = Network::data::IDLE;
         }
         std::cout << "Coming" << std::endl;
     }
@@ -116,7 +116,7 @@ namespace ECS {
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;
-                    _state = Entity::IDLE;
+                    _state = Network::data::IDLE;
                 }
                 break;
         }
@@ -133,7 +133,7 @@ namespace ECS {
 
         if (positionComponent->y <= ((_isUp < 0.0) ? 0.0 : 240)) {
             positionComponent->y = static_cast<float>((_isUp < 0) ? 0 : 240);
-            _state = Entity::IDLE;
+            _state = Network::data::IDLE;
             _isUp = -_isUp;
         }
     }

@@ -112,6 +112,8 @@ namespace Network {
 
             std::vector<Packet> sendPacketsQueue;
             std::vector<std::pair<udp::endpoint, Packet>> recvPacketsQueue;
+
+            std::mutex mutex;
         private:
             /**
              * @brief A map that contains all the handlers for each packet type.

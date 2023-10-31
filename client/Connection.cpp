@@ -47,11 +47,14 @@ void RType::Connection::_listen()
     _senderEndpoint,
     [&](const boost::system::error_code &error, std::size_t bytes_received) {
         if (!error) {
-            std::unique_ptr<Network::Packet> packet =
-            Network::PacketManager::bytesToPacket(
-            _recvBuffer.data(), bytes_received);
+            packetManager.mutex.lock();
+
+            std::unique_ptr<Network::Packet> packet = Network::PacketManager::bytesToPacket(
+                _recvBuffer.data(), bytes_received);
             packetManager.recvPacketsQueue.emplace_back(
-            _senderEndpoint, std::move(*packet));
+                _senderEndpoint, *packet);
+
+            packetManager.mutex.unlock();
         } else {
             std::cerr << "Error receiving response: " << error.message() << std::endl;
         }
@@ -87,6 +90,8 @@ void RType::Connection::sendPackets()
 
 void RType::Connection::handlePackets()
 {
+    std::lock_guard<std::mutex> lock(packetManager.mutex);
+
     for (auto &packet : packetManager.recvPacketsQueue) {
         packetManager.handlePacket(packet.second, packet.first);
     }

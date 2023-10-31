@@ -9,6 +9,7 @@
 
 #include <functional>
 #include "AGameComponent.hpp"
+#include "BossStateData.hpp"
 #include "HitboxComponent.hpp"
 
 namespace ECS {
@@ -32,7 +33,7 @@ namespace ECS {
 
             [[nodiscard]] static std::shared_ptr<HitboxComponent> _getHitboxStartingAt(ECS::Entity &entity, int x, int y) ;
 
-            Entity::BossState _state = Entity::COMING;
+            Network::data::BossState _state = Network::data::BossState::COMING;
             float _timer = 0;
             float _speed = 100;
             int _step = 0;

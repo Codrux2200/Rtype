@@ -46,17 +46,6 @@ namespace ECS {
                 UNKNOWN
             };
 
-            enum BossState {
-                IDLE,           // DONE
-                DASH,           // DONE
-                MOVE,           // DONE
-                DEAD,
-                COMING,         // DONE
-                ATTACK_UP,      // DONE
-                ATTACK_DOWN,    // DONE
-                SHOOT           // DONE
-            };
-
             /**
              * @brief Get the Id object
              *

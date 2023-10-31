@@ -1,15 +1,58 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.15)
 project(RType)
-include(FetchContent)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CLIENT_BINARY "rtype-client")
+set(SERVER_BINARY "rtype-server")
+
+# -- Fetch Boost
+include(FetchContent)
+FetchContent_Declare(
+    Boost
+    URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
+    CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release" "-DCMAKE_CONFIGURATION_TYPES=\"Release;Release\"" "-DCONFIG=Release"
+    DOWNLOAD_NO_PROGRESS FALSE
+)
+
+set(BOOST_RUNTIME_LINK static)
+set(BOOST_INCLUDE_LIBRARIES
+    asio
+    assert
+    align
+    array
+
+    bind
+
+    coroutine
+    config
+    context
+    core
+    chrono
+
+    date_time
+
+    exception
+
+    function
+    filesystem
+
+    move
+
+    system
+    smart_ptr
+
+    throw_exception
+    type_traits
+
+    utility
+)
+FetchContent_MakeAvailable(Boost)
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
-set(BOOST_ENABLE_CMAKE ON)
-set(FETCHCONTENT_BASE_DIR "${CMAKE_BINARY_DIR}/_deps")
 
 set(NETWORK_SOURCES
         Network/Packet.hpp
@@ -23,6 +66,7 @@ set(NETWORK_SOURCES
         Network/data/DisconnectData.hpp
         Network/data/DeadData.hpp
         Network/data/EntitySpawnData.hpp
+        Network/data/BossStateData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -151,13 +195,6 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/SFML/SFML.git
 )
 
-FetchContent_Declare(
-        Boost
-        GIT_REPOSITORY https://github.com/boostorg/boost.git
-        GIT_TAG boost-1.80.0
-)
-FetchContent_MakeAvailable(Boost)
-
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
@@ -165,16 +202,51 @@ FetchContent_MakeAvailable(SFML)
 
 
 # Ajoutez vos sources existantes à votre exécutable
-add_executable(rtype-client ${CLIENT_SOURCES})
+add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
 # Ajoutez vos sources existantes à votre exécutable
-add_executable(rtype-server ${SERVER_SOURCES})
+add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
+
+find_package(Threads REQUIRED)
+target_link_libraries(
+    ${CLIENT_BINARY}
+    PRIVATE
+    Threads::Threads
+)
+
+target_link_libraries(
+    ${SERVER_BINARY}
+    PRIVATE
+    Threads::Threads
+)
+
+foreach(lib ${BOOST_INCLUDE_LIBRARIES})
+    target_link_libraries(
+        ${CLIENT_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_include_directories(
+        ${CLIENT_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_link_libraries(
+        ${SERVER_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_include_directories(
+        ${SERVER_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+endforeach()
 
 # Ajoutez les répertoires d'inclusion de vos composants ECS
-target_include_directories(rtype-client PRIVATE
+target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
-        ${Boost_INCLUDE_DIRS}
         ${SFML_SOURCE_DIR}/include
         client
         client/ecs
@@ -183,8 +255,7 @@ target_include_directories(rtype-client PRIVATE
 )
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
-target_include_directories(rtype-server PRIVATE
-        ${Boost_INCLUDE_DIRS}
+target_include_directories(${SERVER_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         server/ecs
@@ -193,20 +264,10 @@ target_include_directories(rtype-server PRIVATE
 )
 
 # Liens vers les bibliothèques SFML et Boost.Asio
-target_link_libraries(rtype-client
+target_link_libraries(${CLIENT_BINARY}
+        PRIVATE
         sfml-graphics
         sfml-window
         sfml-system
         sfml-audio
-        Boost::filesystem
-        Boost::array
-        Boost::asio
-        Boost::system
-)
-
-target_link_libraries(rtype-server
-        Boost::filesystem
-        Boost::array
-        Boost::asio
-        Boost::system
 )
