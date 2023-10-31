@@ -41,6 +41,7 @@ namespace ECS {
                 PLAYER,
                 ENEMY_CLASSIC,
                 PLAYER_BULLET,
+                ENNEMY_BULLET,
                 UNKNOWN
             };
 

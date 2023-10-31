@@ -55,8 +55,12 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
         ecs/components/AGameComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
+        ecs/components/EnemyBulletComponent.cpp
+        ecs/components/EnemyBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -126,6 +130,10 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/EnemyEntity.hpp
         server/ecs/models/PlayerBullet.cpp
         server/ecs/models/PlayerBullet.hpp
+        server/ecs/models/EnemyBullet.cpp
+        server/ecs/models/EnemyBullet.hpp
+        server/ecs/models/EnemyBullet.cpp
+        server/ecs/models/EnemyBullet.hpp
 )
 
 
