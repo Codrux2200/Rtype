@@ -7,14 +7,20 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "AGameComponent.hpp"
 
 namespace ECS {
-    class PlayerComponent : public AComponent {
+    class PlayerComponent : public AGameComponent {
         public:
             PlayerComponent() = default;
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+
+            void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+
+            int fireRate = 5;
+
+            int lastFire = 0;
     };
 
 } // namespace ECS

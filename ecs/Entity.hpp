@@ -41,7 +41,20 @@ namespace ECS {
                 PLAYER,
                 ENEMY_CLASSIC,
                 PLAYER_BULLET,
+                BOSS,
+                BOSS_BULLET,
                 UNKNOWN
+            };
+
+            enum BossState {
+                IDLE,           // DONE
+                DASH,           // DONE
+                MOVE,           // DONE
+                DEAD,
+                COMING,         // DONE
+                ATTACK_UP,      // DONE
+                ATTACK_DOWN,    // DONE
+                SHOOT           // DONE
             };
 
             /**
@@ -76,7 +89,7 @@ namespace ECS {
                 return components;
             }
 
-            void addComponent(const std::shared_ptr<AComponent>& component);
+            const std::shared_ptr<AComponent> &addComponent(const std::shared_ptr<AComponent>& component);
 
             [[nodiscard]] std::vector<std::shared_ptr<IComponent>> getComponents() const;
 
@@ -89,16 +102,18 @@ namespace ECS {
              * @return true if the entity can be destroyed
              * @return false if the entity can't be destroyed now, it can be used to do actions by components before destroying the entity
              */
-            virtual bool onDestroy();
+            virtual bool onDestroy(float dt);
 
             /**
              * @brief Get the Game Components objects that are int stored as cache
              */
-            std::vector<std::shared_ptr<AGameComponent>> gameComponents;
 
             void updateGameComponents();
 
+            [[nodiscard]] std::vector<std::shared_ptr<AGameComponent>> getGameComponents() const;
+
         private:
+            std::vector<std::shared_ptr<AGameComponent>> _gameComponents;
             /**
              * @brief define the id of the entity
              *
@@ -110,7 +125,6 @@ namespace ECS {
              *
              */
             std::vector<std::shared_ptr<IComponent>> _components;
-
     };
 
 }

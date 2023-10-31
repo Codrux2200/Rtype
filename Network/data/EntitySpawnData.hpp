@@ -16,6 +16,8 @@ namespace Network::data {
                 char type;
                 int x;
                 int y;
+                float vx;
+                float vy;
         };
     }
 } // namespace Network::data

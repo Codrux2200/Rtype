@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
 set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
 set(BOOST_ENABLE_CMAKE ON)
+set(FETCHCONTENT_BASE_DIR "${CMAKE_BINARY_DIR}/_deps")
 
 set(NETWORK_SOURCES
         Network/Packet.hpp
@@ -57,6 +58,10 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
+        ecs/components/BossShootComponent.cpp
+        ecs/components/BossShootComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -90,16 +95,22 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/SpriteComponent.hpp
         client/ecs/components/ShootComponent.hpp
         client/ecs/components/ShootComponent.cpp
-        client/ecs/models/ButtonEntity.cpp
-        client/ecs/models/ButtonEntity.hpp
+        client/ecs/components/BossComponent.cpp
+        client/ecs/components/BossComponent.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
+        client/ecs/models/ButtonEntity.cpp
+        client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp
         client/ecs/models/EnemyEntity.hpp
         client/ecs/models/PlayerBullet.cpp
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
+        client/ecs/models/BossEntity.cpp
+        client/ecs/models/BossEntity.hpp
+        client/ecs/models/BossShootEntity.cpp
+        client/ecs/models/BossShootEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -118,6 +129,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
         server/ecs/components/PlayerComponent.hpp
+        server/ecs/components/BossComponent.cpp
+        server/ecs/components/BossComponent.hpp
         server/ecs/CollisionSystem.cpp
         server/ecs/CollisionSystem.hpp
         server/ecs/models/PlayerEntity.cpp
@@ -126,6 +139,10 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/EnemyEntity.hpp
         server/ecs/models/PlayerBullet.cpp
         server/ecs/models/PlayerBullet.hpp
+        server/ecs/models/BossEntity.cpp
+        server/ecs/models/BossEntity.hpp
+        server/ecs/models/BossShootEntity.cpp
+        server/ecs/models/BossShootEntity.hpp
 )
 
 

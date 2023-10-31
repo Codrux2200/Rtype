@@ -19,9 +19,10 @@ namespace ECS {
         return _id;
     }
 
-    void Entity::addComponent(const std::shared_ptr<AComponent>& component)
+    const std::shared_ptr<AComponent>&  Entity::addComponent(const std::shared_ptr<AComponent>& component)
     {
         _components.push_back(component);
+        return component;
     }
 
     Entity::Entity(const Entity &entity, int id) : _id(id)
@@ -32,7 +33,7 @@ namespace ECS {
             _components.push_back(component->clone());
         }
         _id = id;
-        gameComponents = entity.gameComponents;
+        _gameComponents = entity.getGameComponents();
     }
 
     std::vector<std::shared_ptr<IComponent>> Entity::getComponents() const
@@ -40,25 +41,31 @@ namespace ECS {
         return _components;
     }
 
-    bool Entity::onDestroy()
+    bool Entity::onDestroy(float dt)
     {
         bool canBeDestroyed = true;
 
         for (auto &component : _components)
-            if (!component->onDestroy(*this, deathReason))
+            if (!component->onDestroy(*this, deathReason, dt))
                 canBeDestroyed = false;
         return canBeDestroyed;
     }
 
     void Entity::updateGameComponents()
     {
-        gameComponents.clear();
+        _gameComponents.clear();
         for (auto &component : _components) {
             auto casted = std::dynamic_pointer_cast<AGameComponent>(component);
             if (casted) {
-                gameComponents.push_back(casted);
+                _gameComponents.push_back(casted);
                 std::cout << "Added game component" << std::endl;
             }
         }
+    }
+
+    std::vector<std::shared_ptr<AGameComponent>>
+    Entity::getGameComponents() const
+    {
+        return _gameComponents;
     }
 }

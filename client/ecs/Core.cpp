@@ -5,14 +5,13 @@
 ** Core
 */
 
+#include "Core.hpp"
 #include <iostream>
 #include <thread>
-#include "Core.hpp"
-#include "ControlComponent.hpp"
-#include "PositionComponent.hpp"
 #include "AudioSystem.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
+#include "ControlComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
 #include "GameSystem.hpp"
@@ -20,11 +19,12 @@
 #include "MusicsComponent.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerEntity.hpp"
+#include "PositionComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
-#include "ButtonEntity.hpp"
-#include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "TextComponent.hpp"
+#include "VelocityComponent.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -217,8 +217,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
         }
         connection.sendPackets();
-        // remove entities to destroy
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy();
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
@@ -231,18 +230,19 @@ Network::Packet &packet, const udp::endpoint &endpoint)
 {
     auto scene = sceneManager.getScene(ECS::SceneType::GAME);
 
-    std::cout << "Handler entity spawn" << std::endl;
     std::string entityType = "entity" + std::to_string(packet.entitySpawnData.type);
     std::shared_ptr<ECS::Entity> entity = _entityFactory.createEntity(entityType, packet.entitySpawnData.id);
 
     if (entity == nullptr)
         return;
     auto positionComponent = entity->getComponent<ECS::PositionComponent>();
+    auto velocityComponent = entity->getComponent<ECS::VelocityComponent>();
 
-    if (positionComponent == nullptr)
+    if (positionComponent == nullptr || velocityComponent == nullptr)
         return;
-    positionComponent->x = packet.entitySpawnData.x;
-    positionComponent->y = packet.entitySpawnData.y;
+    positionComponent->x = static_cast<float>(packet.entitySpawnData.x);
+    positionComponent->y = static_cast<float>(packet.entitySpawnData.y);
+    velocityComponent->vx = packet.entitySpawnData.vx;
+    velocityComponent->vy = packet.entitySpawnData.vy;
     scene->addEntity(entity);
-    std::cout << "OK" << std::endl;
 }

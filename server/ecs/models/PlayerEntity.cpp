@@ -6,6 +6,8 @@
 */
 
 #include "PlayerEntity.hpp"
+#include "BossComponent.hpp"
+#include "BossShootComponent.hpp"
 #include "DeadData.hpp"
 #include "EnemyComponent.hpp"
 #include "HitboxComponent.hpp"
@@ -21,6 +23,7 @@ PlayerEntity::PlayerEntity() : Entity(0)
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&PlayerEntity::_callbackPlayerHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
     std::vector<std::pair<int, int>>{{0, 0}, {60, 40}}));
     isEnabled = false;
+    updateGameComponents();
 }
 
 void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
@@ -31,7 +34,7 @@ void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::sh
 
     Network::data::DeathReason reason;
 
-    if (other->getComponent<ECS::EnemyComponent>() != nullptr)
+    if (other->getComponent<ECS::EnemyComponent>() != nullptr || other->getComponent<ECS::BossComponent>() != nullptr || other->getComponent<ECS::BossShootComponent>() != nullptr)
         reason = Network::data::DeathReason::ENEMY;
     else
         return;

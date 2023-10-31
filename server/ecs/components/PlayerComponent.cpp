@@ -13,4 +13,11 @@ namespace ECS {
     {
         return std::make_shared<PlayerComponent>();
     }
+
+    void PlayerComponent::update(
+    std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt)
+    {
+        lastFire++;
+    }
+
 } // namespace ECS

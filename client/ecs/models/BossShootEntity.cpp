@@ -2,24 +2,25 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** PlayerBullet
+** BossShootEntity
 */
 
-#include "PlayerBullet.hpp"
+#include "BossShootEntity.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "PlayerBulletComponent.hpp"
+#include "BossShootComponent.hpp"
 #include "PositionComponent.hpp"
+#include "SFML/Audio.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 
-ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
+BossShootEntity::BossShootEntity(int id) : Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     sf::Texture bulletTexture;
-    if (!bulletTexture.loadFromFile("assets/rickBullet.png")) {
+    if (!bulletTexture.loadFromFile("assets/boss_bullet.png")) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }
@@ -27,8 +28,8 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     sf::Rect<int> bulletRect;
     bulletRect.left = 0;
     bulletRect.top = 0;
-    bulletRect.width = bulletTexture.getSize().x;
-    bulletRect.height = bulletTexture.getSize().y;
+    bulletRect.width = 500;
+    bulletRect.height = 500;
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
 
@@ -39,8 +40,8 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     }
     std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
     addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
-    addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
-    addComponent(std::make_shared<ECS::PlayerBulletComponent>());
+    addComponent(std::make_shared<ECS::ScaleComponent>(0.1f, 0.1f));
+    addComponent(std::make_shared<ECS::BossShootComponent>());
     addComponent(std::make_shared<ECS::VelocityComponent>());
     updateGameComponents();
 }

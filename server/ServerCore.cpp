@@ -7,6 +7,8 @@
 
 #include "ServerCore.hpp"
 #include <thread>
+#include "BossEntity.hpp"
+#include "BossShootComponent.hpp"
 #include "CollisionSystem.hpp"
 #include "EnemyComponent.hpp"
 #include "EnemyEntity.hpp"
@@ -14,10 +16,12 @@
 #include "GameSystem.hpp"
 #include "HitboxComponent.hpp"
 #include "PlayerBullet.hpp"
+#include "PlayerComponent.hpp"
 #include "PlayerEntity.hpp"
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
+#include "VelocityComponent.hpp"
 
 ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 {
@@ -35,12 +39,12 @@ void ECS::ServerCore::_initEntities()
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
-
-    std::cout << "At creation : x: " << enemy->getComponent<PositionComponent>()->x << "; y: " << enemy->getComponent<PositionComponent>()->y << std::endl;
+    std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
 
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
+    _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -86,7 +90,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         }
         _server.sendPackets();
 
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy();
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
 
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
         if (waitTime.count() > 0)
@@ -122,8 +126,12 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
         return;
 
     auto playerPositionComponent = playerEntity->getComponent<ECS::PositionComponent>();
+    auto playerComponent = playerEntity->getComponent<ECS::PlayerComponent>();
 
-    if (playerPositionComponent == nullptr)
+    if (playerPositionComponent == nullptr || playerComponent == nullptr)
+        return;
+
+    if (playerComponent->lastFire < playerComponent->fireRate)
         return;
 
     auto playerPosition = playerPositionComponent->getValue();
@@ -137,6 +145,8 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
 
     if (bulletPosComponent == nullptr)
         return;
+
+    playerComponent->lastFire = 0;
 
     bulletPosComponent->x = playerPosition[0] + 50;
     bulletPosComponent->y = playerPosition[1] + 50;
@@ -192,8 +202,8 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
             continue;
         std::vector<int> values = positionComponent->getValue();
 
-        data.x = positionComponent->x;
-        data.y = positionComponent->y;
+        data.x = static_cast<int>(positionComponent->x);
+        data.y = static_cast<int>(positionComponent->y);
         data.type = ECS::Entity::ENEMY_CLASSIC;
         data.id = enemy->getId();
 
@@ -326,4 +336,61 @@ const Network::Packet &/* packet */, const udp::endpoint &endpoint)
     }
 
     _server.broadcastNewLeader();
+}
+
+void ECS::ServerCore::_bossShoot()
+{
+    auto gameScene = sceneManager.getScene(ECS::SceneType::GAME);
+    auto bossEntities = gameScene->getEntitiesWithComponent<ECS::BossComponent>();
+
+    if (bossEntities.empty())
+        return;
+
+    auto bossEntity = bossEntities[0];
+
+    if (bossEntity == nullptr)
+        return;
+
+    auto bossPosComponent = bossEntity->getComponent<ECS::PositionComponent>();
+
+    if (bossPosComponent == nullptr)
+        return;
+
+    // Summon 10 boss bullets in a half circle
+    for (int i = 0; i < 10; i++) {
+        auto bulletEntity = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS_BULLET), _entityFactory.ids++);
+
+        if (bulletEntity == nullptr)
+            return;
+
+        auto bulletPosComponent = bulletEntity->getComponent<ECS::PositionComponent>();
+        auto bulletComponent = bulletEntity->getComponent<ECS::BossShootComponent>();
+        auto bulletVelocityComponent = bulletEntity->getComponent<ECS::VelocityComponent>();
+
+        if (bulletPosComponent == nullptr || bulletComponent == nullptr || bulletVelocityComponent == nullptr)
+            return;
+
+        bulletPosComponent->x = bossPosComponent->x;
+        bulletPosComponent->y = bossPosComponent->y + 200;
+
+        bulletVelocityComponent->vx = static_cast<float>(-std::cos((i * 18) * M_PI / 180) * 500);
+        bulletVelocityComponent->vy = static_cast<float>(std::sin((i * 18) * M_PI / 180) * 500);
+
+        gameScene->addEntity(bulletEntity);
+
+        Network::data::EntitySpawnData data{};
+
+        data.x = static_cast<int>(bulletPosComponent->x);
+        data.y = static_cast<int>(bulletPosComponent->y);
+        data.vx = bulletVelocityComponent->vx;
+        data.vy = bulletVelocityComponent->vy;
+        data.type = ECS::Entity::BOSS_BULLET;
+        data.id = bulletEntity->getId();
+
+        auto packetToSend = Network::PacketManager::createPacket(Network::ENTITY_SPAWN, &data);
+
+        for (const auto& cli : _server.clientManager.getClients())
+            if (cli != nullptr)
+                _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+    }
 }
