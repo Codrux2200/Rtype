@@ -13,7 +13,7 @@
 #include "ScaleComponent.hpp"
 #include "MusicsComponent.hpp"
 
-ECS::ButtonEntity::ButtonEntity(std::string path, int x, int y) : Entity(0)
+ECS::ButtonEntity::ButtonEntity(std::string &path, int x, int y) : Entity(0)
 {
     addComponent(std::make_shared<ECS::PositionComponent>(x, y));
 
