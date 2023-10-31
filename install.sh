@@ -48,11 +48,11 @@ if [[ -e /etc/os-release ]]; then
         install_pacman
     else
         echo "Distribution non prise en charge."
-        exit 1
+        exit 84
     fi
 else
     echo "Impossible de détecter la distribution."
-    exit 1
+    exit 84
 fi
 
 
@@ -81,9 +81,5 @@ elif [ "$package_manager" == "apk" ]; then
   echo "CMake est maintenant installé."
 else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
-  exit 1
+  exit 84
 fi
-
-
-cmake . .
-cmake --build . -- -j 11
