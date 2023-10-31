@@ -139,9 +139,9 @@ void ECS::Core::_initEntities()
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
-    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", 1);
-    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", 4);
-    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", 4);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", 5);
+    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", 6);
+    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", 7);
     std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", 10);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {

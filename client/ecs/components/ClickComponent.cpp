@@ -47,9 +47,11 @@ std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
     if (_callback != nullptr && _rect.contains(mousePos)){
         std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+        std::vector<float> size = scale->getFloatValue();
         scale->setFloatValue(1.5, 1.5);
     } else {
         std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+        std::vector<float> size = scale->getFloatValue();
         scale->setFloatValue(1.0, 1.0);
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && _callback != nullptr && _rect.contains(mousePos)) {
