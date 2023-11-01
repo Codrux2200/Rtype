@@ -35,27 +35,37 @@ ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
 
     createEnemy(WaveCount, EnemyCount, 800, 300);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 900, 400);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 900, 200);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 1000, 100);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 1000, 500);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 900, 300);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 1000, 300);
     EnemyCount ++;
-
     createEnemy(WaveCount, EnemyCount, 1000, 300);
     EnemyCount ++;
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
+
+    for (; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300);
+        createEnemy(WaveCount, EnemyCount, 1200, 100 + (EnemyCount * 50));
+    }
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
+
+    for (; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 300);
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 100);
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 500);
+    }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
