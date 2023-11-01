@@ -47,14 +47,15 @@ if [[ -e /etc/os-release ]]; then
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
-        echo "Distribution non prise en charge."
+        echo "$ID Distribution non prise en charge."
         exit 1
     fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macOS ne nécessite aucune installation spécifique."
 else
     echo "Impossible de détecter la distribution."
     exit 1
 fi
-
 
 
 

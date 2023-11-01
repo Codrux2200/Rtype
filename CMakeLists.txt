@@ -102,14 +102,11 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
-<<<<<<< HEAD
 
-=======
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
->>>>>>> boss
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -155,15 +152,12 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-<<<<<<< HEAD
         client/ecs/models/StaticBackgroundEntity.cpp
         client/ecs/models/StaticBackgroundEntity.hpp
-=======
         client/ecs/models/BossEntity.cpp
         client/ecs/models/BossEntity.hpp
         client/ecs/models/BossShootEntity.cpp
         client/ecs/models/BossShootEntity.hpp
->>>>>>> boss
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
