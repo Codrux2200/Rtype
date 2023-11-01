@@ -7,6 +7,7 @@
 
 #include "WaveSystem.hpp"
 #include "EnemyEntity.hpp"
+#include <iostream>
 
 
 ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
@@ -27,7 +28,8 @@ ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
 
         _waves.push_back(EnnemyCount);
         EnnemyCount = 0;
-    }
+        std::cout << "At creation : x: " << ennemy->getComponent<ECS::PositionComponent>()->x << "; y: " << ennemy->getComponent<ECS::PositionComponent>()->y << std::endl;
+        }
 
     ennemy = std::make_shared<ECS::EnemyEntity>(0);
     if (ennemy == NULL)
@@ -44,24 +46,15 @@ ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
     }
 }
 
-void ECS::WaveSystem::update(
-std::vector<std::shared_ptr<ECS::Entity>> &entitiesList, float deltaTime)
+void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
-    for (int i = 0; i < _waves.size(); i++) {
-        for (int j = 0; j < _waves[i]; j++) {
-            std::shared_ptr<ECS::Entity> enemy = _factory.createEntity(
-            "EnemyWave" + std::to_string(i + j), _factory.ids++);
-            if (enemy != nullptr) {
-                entitiesList.push_back(enemy);
-                std::shared_ptr<ECS::PositionComponent> positionComponent =
-                enemy->getComponent<ECS::PositionComponent>();
-                if (positionComponent != nullptr) {
-                    if (rand() % 2 == 0) {
-                        std::cout << "At creation : x: " << enemy->getComponent<PositionComponent>()->x << "; y: " << enemy->getComponent<PositionComponent>()->y << std::endl;
-                    }
-                }
-            }
-        }
+    // Pick a random wave
+    int waveIndex = rand() % _waves.size();
+    std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
+
+    // Spawn the wave entities
+    for (auto entity : waveEntities) {
+        getWave(waveIndex);
     }
 }
 

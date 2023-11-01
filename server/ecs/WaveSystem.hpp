@@ -11,15 +11,16 @@
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
 #include "EntityFactory.hpp"
+#include "SceneManager.hpp"
 #include "ISystem.hpp"
 #include <vector>
 
 namespace ECS {
-    class WaveSystem {
+    class WaveSystem : public ISystem {
         public:
             WaveSystem(const EntityFactory &Factory) ;
 
-            void update(std::vector<std::shared_ptr<ECS::Entity>> &entitiesList, float deltaTime);
+            void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
             std::vector<std::shared_ptr<ECS::Entity>> getWave(int i);
 
         protected:
