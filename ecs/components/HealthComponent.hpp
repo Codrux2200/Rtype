@@ -41,6 +41,9 @@ namespace ECS {
             std::vector<int> getValue() const final;
         protected:
         private:
+            /**
+             * @brief health of the entity
+             */
             int _health;
     };
 }

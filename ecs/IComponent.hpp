@@ -58,9 +58,18 @@ namespace ECS {
              */
             virtual void setValue(std::vector<int> values) = 0;
 
-            // Clone
+            /**
+             * @brief Clone the component
+             *
+             * @return a shared pointer to the cloned component
+             */
             [[nodiscard]] virtual std::shared_ptr<IComponent> clone() const = 0;
 
+            /**
+             * @brief Get the component type
+             *
+             * @return ComponentType
+             */
             [[nodiscard]] virtual ComponentType getType() const = 0;
 
             virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) = 0;
