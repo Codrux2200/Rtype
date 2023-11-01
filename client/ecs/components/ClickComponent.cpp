@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "ClickComponent.hpp"
+#include "ScaleComponent.hpp"
 
 ECS::ClickComponent::ClickComponent(sf::Rect<int> rect, ECS::eventCallback callback, sf::RenderWindow &window) : ECS::AEventComponent(), _rect(rect), _window(window), _callback(callback)
 {
@@ -44,7 +45,15 @@ std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     // Get mouse position in window
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
-
+    if (_callback != nullptr && _rect.contains(mousePos)){
+        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+        std::vector<float> size = scale->getFloatValue();
+        scale->setFloatValue(1.5, 1.5);
+    } else {
+        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+        std::vector<float> size = scale->getFloatValue();
+        scale->setFloatValue(1.0, 1.0);
+    }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && _callback != nullptr && _rect.contains(mousePos)) {
         _callback(packetsQueue, entity);
     }

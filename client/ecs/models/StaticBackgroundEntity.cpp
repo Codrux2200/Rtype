@@ -1,21 +1,24 @@
 /*
-** EPITECH PROJECT, 2023
-** Rtype
-** File description:
-** ButtonEntity
+** StaticBackgroundEntity.cpp for client in /home/saad/Rtype/client/ecs/models
+**
+** Made by Saad Berrada
+** Login   <saad.berrada@epitech.eu>
+**
+** Started on  Tue Oct 31 16:47:21 2023 Saad Berrada
+** Last update Tue Oct 31 16:47:21 2023 Saad Berrada
 */
 
+#include "StaticBackgroundEntity.hpp"
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "ButtonEntity.hpp"
 #include "PositionComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "MusicsComponent.hpp"
 
-ECS::ButtonEntity::ButtonEntity(std::string path, int x, int y) : Entity(0)
+ECS::StaticBackgroundEntity::StaticBackgroundEntity(std::string path) : Entity(0)
 {
-    addComponent(std::make_shared<ECS::PositionComponent>(x, y));
+    addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
 
     sf::Texture texture;
     if (!texture.loadFromFile(path)) {
@@ -30,6 +33,9 @@ ECS::ButtonEntity::ButtonEntity(std::string path, int x, int y) : Entity(0)
     rect.height = texture.getSize().y;
 
     addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
-    addComponent(std::make_shared<ECS::ScaleComponent>(1.0, 1.0));
-
 }
+
+ECS::StaticBackgroundEntity::~StaticBackgroundEntity()
+{
+}
+

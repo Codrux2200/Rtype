@@ -44,9 +44,26 @@ namespace RType {
              */
             void sendPacket(const Network::Packet &packet);
 
+            /*
+             * @brief The manager to serialize / deserialize packets, at emission and reception.
+             */
             Network::PacketManager packetManager;
 
+            /**
+             * @brief Get the id of the client
+             *
+             * @return short The id of the client
+             */
             short getId() const { return _id; }
+
+            /*
+             * @brief The queue of packets to send to the server
+             */
+            std::vector<Network::Packet> sendQueue;
+            /*
+             * @brief The queue of packets received from the server
+             */
+            std::vector<Network::Packet> recvQueue;
 
             void sendPackets();
             void handlePackets();
@@ -67,10 +84,25 @@ namespace RType {
             void _handlerLeader(Network::Packet &packet, const udp::endpoint &endpoint);
 
 
+            /**
+             * @brief The client's socket
+             */
             udp::socket _socket;
+            /**
+             * @brief The client's resolver
+             */
             udp::resolver _resolver;
+            /**
+             * @brief The endpoint of the server
+             */
             udp::endpoint _endpoint;
+            /**
+             * @brief The buffer used to receive packets
+             */
             boost::array<char, PACKET_SIZE> _recvBuffer {};
+            /**
+             * @brief The endpoint of the sender, when receiving a packet
+             */
             udp::endpoint _senderEndpoint;
 
             short _id = -1;

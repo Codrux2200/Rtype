@@ -155,6 +155,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/BossEntity.hpp
         client/ecs/models/BossShootEntity.cpp
         client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
