@@ -46,6 +46,81 @@ ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent3 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent3 == NULL)
+            return;
+        positionComponent3->setValue({800, 300});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent4 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent4 == NULL)
+            return;
+        positionComponent4->setValue({900, 400});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent5 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent5 == NULL)
+            return;
+        positionComponent5->setValue({900, 200});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent6 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent6 == NULL)
+            return;
+        positionComponent6->setValue({1000, 100});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent7 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent7 == NULL)
+            return;
+        positionComponent7->setValue({1000, 500});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent8 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent8 == NULL)
+            return;
+        positionComponent8->setValue({900, 300});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent9 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent9 == NULL)
+            return;
+        positionComponent9->setValue({1000, 300});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+
+    std::shared_ptr<ECS::PositionComponent> positionComponent10 =
+        ennemy->getComponent<ECS::PositionComponent>();
+        if (positionComponent10 == NULL)
+            return;
+        positionComponent10->setValue({1100, 300});
+        _factory.registerEntity(
+        ennemy, "EnemyWave" + std::to_string(WaveCount) + std::to_string(EnemyCount));
+    EnemyCount ++;
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
 }
 
 void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
