@@ -13,7 +13,7 @@
 namespace ECS {
     class PlayerBullet : public Entity {
         public:
-            PlayerBullet(int id);
+            explicit PlayerBullet(int id);
             ~PlayerBullet() = default;
 
         protected:

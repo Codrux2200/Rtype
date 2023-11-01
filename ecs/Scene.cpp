@@ -53,11 +53,13 @@ std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
     return nullptr;
 }
 
-void ECS::Scene::removeEntitiesToDestroy()
+void ECS::Scene::removeEntitiesToDestroy(float dt)
 {
     for (int i = (int) entitiesList.size() - 1; i >= 0; i--) {
+        if (entitiesList[i] == nullptr)
+            continue;
         if (entitiesList[i]->deathReason != Network::data::ALIVE) {
-            if (entitiesList[i]->onDestroy()) {
+            if (entitiesList[i]->onDestroy(dt)) {
                 entitiesList.erase(entitiesList.begin() + i);
             }
         }

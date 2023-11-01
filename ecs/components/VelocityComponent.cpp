@@ -8,27 +8,14 @@
 #include <iostream>
 #include "VelocityComponent.hpp"
 
-ECS::VelocityComponent::VelocityComponent()
-{
-    _velocity = 0;
-}
+namespace ECS {
 
-ECS::VelocityComponent::~VelocityComponent()
-{
-}
+        VelocityComponent::VelocityComponent(float vx, float vy) : vx(vx), vy(vy)
+        {
+        }
 
-void ECS::VelocityComponent::setValue(std::vector<int> values)
-{
-    if (values.size() != 1) {
-        std::cerr << "Error: setValue in VelocityComponent" << std::endl;
-        return;
-    }
-    _velocity = values[0];
-}
-
-std::vector<int> ECS::VelocityComponent::getValue() const
-{
-    std::vector<int> velocity = std::vector<int>();
-    velocity.push_back(_velocity);
-    return velocity;
+        std::shared_ptr<IComponent> VelocityComponent::clone() const
+        {
+            return std::make_shared<VelocityComponent>(vx, vy);
+        }
 }
