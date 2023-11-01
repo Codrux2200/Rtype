@@ -12,6 +12,26 @@
 #include "SpriteComponent.hpp"
 
 namespace ECS {
+
+    BossComponent::BossComponent()
+    {
+        // load and store textures
+        if (!_idleTexture.loadFromFile("assets/boss/boss2.png")) {
+            std::cerr << "Error loading boss texture" << std::endl;
+            return;
+        }
+
+        if (!_attackUpTexture.loadFromFile("assets/boss/boss_eyes_shot.png")) {
+            std::cerr << "Error loading boss texture" << std::endl;
+            return;
+        }
+
+        if (!_attackDownTexture.loadFromFile("assets/boss/boss mouth laser.png")) {
+            std::cerr << "Error loading boss texture" << std::endl;
+            return;
+        }
+    }
+
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
     {
         Network::data::BossState previousState = _state;
@@ -25,6 +45,18 @@ namespace ECS {
                 break;
             case Network::data::MOVE:
                 _moveUpdate(entity, dt);
+                break;
+            case Network::data::ATTACK_UP:
+                _attackUpUpdate(entity);
+                break;
+            case Network::data::ATTACK_DOWN:
+                _attackDownUpdate(entity);
+                break;
+            case Network::data::SHOOT:
+                _shootUpdate();
+                break;
+            case Network::data::IDLE:
+                _idleUpdate(entity);
                 break;
             default:
                 break;
@@ -50,10 +82,10 @@ namespace ECS {
 
         if (sound) {
             if (!_soundPlayed) {
-                sound->play();
+                sound->play("boss_death");
                 _soundPlayed = true;
             }
-            if (sound->isPlaying())
+            if (sound->isPlaying("boss_death"))
                 canBeDestroyed = false;
         }
 
@@ -144,16 +176,139 @@ namespace ECS {
 
     void BossComponent::_attackUpUpdate(ECS::Entity &entity)
     {
-        // TODO: Animation
+        switch (_step) {
+            case 0: {
+                _setAttackUpLoadingTexture(entity);
+                _step = 1;
+            }
+            case 1: {
+                if (_timer >= 0.9) {
+                    auto sound = entity.getComponent<SoundComponent>();
+
+                    if (sound)
+                        sound->play("boss_eyes_atk");
+                    _setAttackUpTexture(entity);
+                    _step = 2;
+                }
+                break;
+            }
+            case 2: {
+                if (_timer >= 2) {
+                    _setIdleTexture(entity);
+                    _state = Network::data::IDLE;
+                }
+            }
+        }
     }
 
     void BossComponent::_attackDownUpdate(ECS::Entity &entity)
     {
-        // TODO: Animation
+        switch (_step) {
+            case 0: {
+                _setAttackDownLoadingTexture(entity);
+                _step = 1;
+            }
+            case 1:
+                if (_timer >= 0.9) {
+                    _setAttackDownTexture(entity);
+                    _step = 2;
+                }
+                break;
+            case 2: {
+                if (_timer >= 2) {
+                    _setIdleTexture(entity);
+                    _state = Network::data::IDLE;
+                }
+            }
+        }
     }
 
     void BossComponent::_shootUpdate()
     {
         //TODO: Animation
+
+    }
+
+    void BossComponent::_idleUpdate(ECS::Entity &entity)
+    {
+        if (_step == 0) {
+            _setIdleTexture(entity);
+            _step = 1;
+        }
+    }
+
+    void BossComponent::_setIdleTexture(Entity &entity)
+    {
+        auto sprite = entity.getComponent<SpriteComponent>();
+
+        if (sprite == nullptr)
+            return;
+
+        sprite->setTexture(_idleTexture);
+        sprite->spriteGrid = sf::Vector2i(1, 1);
+        sprite->maxIterations = 0;
+        sprite->animSpeed = 0;
+        sprite->isAnimated = false;
+        sprite->setAnimationStep(0);
+    }
+
+    void BossComponent::_setAttackUpLoadingTexture(Entity &entity)
+    {
+        auto sprite = entity.getComponent<SpriteComponent>();
+
+        if (sprite == nullptr)
+            return;
+
+        sprite->setTexture(_attackUpTexture);
+        sprite->spriteGrid = sf::Vector2i(3, 1);
+        sprite->maxIterations = 2;
+        sprite->animSpeed = 0.1;
+        sprite->isAnimated = true;
+        sprite->setAnimationStep(0);
+    }
+
+    void BossComponent::_setAttackUpTexture(Entity &entity)
+    {
+        auto sprite = entity.getComponent<SpriteComponent>();
+
+        if (sprite == nullptr)
+            return;
+
+        sprite->setTexture(_attackUpTexture);
+        sprite->spriteGrid = sf::Vector2i(3, 1);
+        sprite->maxIterations = 0;
+        sprite->animSpeed = 0;
+        sprite->isAnimated = false;
+        sprite->setAnimationStep(2);
+    }
+
+    void BossComponent::_setAttackDownLoadingTexture(Entity &entity)
+    {
+        auto sprite = entity.getComponent<SpriteComponent>();
+
+        if (sprite == nullptr)
+            return;
+
+        sprite->setTexture(_attackDownTexture);
+        sprite->spriteGrid = sf::Vector2i(5, 1);
+        sprite->maxIterations = 2;
+        sprite->animSpeed = 0.1;
+        sprite->isAnimated = true;
+        sprite->setAnimationStep(0);
+    }
+
+    void BossComponent::_setAttackDownTexture(Entity &entity)
+    {
+        auto sprite = entity.getComponent<SpriteComponent>();
+
+        if (sprite == nullptr)
+            return;
+
+        sprite->setTexture(_attackDownTexture);
+        sprite->spriteGrid = sf::Vector2i(5, 1);
+        sprite->maxIterations = 0;
+        sprite->animSpeed = 0;
+        sprite->isAnimated = false;
+        sprite->setAnimationStep(4);
     }
 }

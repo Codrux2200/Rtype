@@ -8,11 +8,12 @@
 #pragma once
 
 #include "AGameComponent.hpp"
+#include "SFML/Graphics/Texture.hpp"
 
 namespace ECS {
     class BossComponent : public ECS::AGameComponent {
         public:
-            BossComponent() = default;
+            BossComponent();
             ~BossComponent() = default;
 
             void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
@@ -30,6 +31,13 @@ namespace ECS {
             void _attackUpUpdate(ECS::Entity &entity);
             void _attackDownUpdate(ECS::Entity &entity);
             void _shootUpdate();
+            void _idleUpdate(ECS::Entity &entity);
+
+            void _setIdleTexture(ECS::Entity &entity);
+            void _setAttackUpLoadingTexture(ECS::Entity &entity);
+            void _setAttackUpTexture(ECS::Entity &entity);
+            void _setAttackDownLoadingTexture(ECS::Entity &entity);
+            void _setAttackDownTexture(ECS::Entity &entity);
 
             bool _soundPlayed = false;
             Network::data::BossState _state = Network::data::COMING;
@@ -38,5 +46,9 @@ namespace ECS {
             float _speed = 100;
             float _isUp = 1;
 
+            sf::Texture _idleTexture;
+            sf::Texture _attackUpTexture;
+            sf::Texture _attackDownTexture;
+//            sf::Texture _dashTexture;
     };
 }

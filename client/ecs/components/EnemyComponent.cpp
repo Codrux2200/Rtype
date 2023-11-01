@@ -35,11 +35,11 @@ namespace ECS {
             return true;
 
         if (!_soundPlayed) {
-            sound->play();
+            sound->play("enemy_death");
             _soundPlayed = true;
         }
 
-        if (sound->isPlaying())
+        if (sound->isPlaying("enemy_death"))
             return false;
         return true;
     }

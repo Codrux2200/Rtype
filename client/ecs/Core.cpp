@@ -29,6 +29,7 @@
 #include "VelocityComponent.hpp"
 #include "BossEntity.hpp"
 #include "BossShootEntity.hpp"
+#include "SpriteComponent.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -152,10 +153,10 @@ void ECS::Core::_initEntities()
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
-     std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", _entityFactory.ids ++);
+    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", _entityFactory.ids++);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
