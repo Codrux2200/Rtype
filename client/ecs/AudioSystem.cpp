@@ -16,17 +16,14 @@ void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::v
 {
     for (auto entity : sceneManager.getCurrentScene()->entitiesList) {
         auto component = entity->getComponent<MusicsComponent>();
-        auto component2 = entity->getComponent<SoundComponent>();
+        auto soundComponent = entity->getComponent<SoundComponent>();
 
         if (component && component->isEnabled)
             if (!component->isPlaying()) {
                 component->play();
             }
-        if (component2 && component2->isEnabled) {
-            if (component2->startPlaying) {
-                component2->play();
-                component2->startPlaying = false;
-            }
+        if (soundComponent && soundComponent->isEnabled) {
+            soundComponent->update();
         }
     }
 }

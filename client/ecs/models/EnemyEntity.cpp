@@ -38,14 +38,11 @@ namespace ECS {
         std::make_shared<ECS::SpriteComponent>(enemyTexture, enemyRect));
         addComponent(std::make_shared<ECS::EnemyComponent>());
 
-        std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-        if(!soundbuffer->loadFromFile(ConvertPath::convertPath("assets/sound/death.ogg"))) {
-            std::cerr << "Error loading sound" << std::endl;
+        std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
+        if (!soundComponent->addSound("enemy_death", "assets/sound/enemy_death.ogg")) {
+            std::cerr << "Error loading enemy death sound" << std::endl;
             return;
         }
-        std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
-        std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>(sound, soundbuffer);
-        soundComponent->startPlaying = false;
         addComponent(soundComponent);
         updateGameComponents();
     }

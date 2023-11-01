@@ -33,13 +33,6 @@ BossShootEntity::BossShootEntity(int id) : Entity(id)
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
 
-    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if (!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
-        std::cerr << "Error loading sound" << std::endl;
-        return;
-    }
-    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
-    addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
     addComponent(std::make_shared<ECS::ScaleComponent>(0.1f, 0.1f));
     addComponent(std::make_shared<ECS::BossShootComponent>());
     addComponent(std::make_shared<ECS::VelocityComponent>());

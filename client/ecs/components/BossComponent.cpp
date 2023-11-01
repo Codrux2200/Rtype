@@ -82,10 +82,10 @@ namespace ECS {
 
         if (sound) {
             if (!_soundPlayed) {
-                sound->play();
+                sound->play("boss_death");
                 _soundPlayed = true;
             }
-            if (sound->isPlaying())
+            if (sound->isPlaying("boss_death"))
                 canBeDestroyed = false;
         }
 
@@ -181,12 +181,17 @@ namespace ECS {
                 _setAttackUpLoadingTexture(entity);
                 _step = 1;
             }
-            case 1:
+            case 1: {
                 if (_timer >= 0.9) {
+                    auto sound = entity.getComponent<SoundComponent>();
+
+                    if (sound)
+                        sound->play("boss_eyes_atk");
                     _setAttackUpTexture(entity);
                     _step = 2;
                 }
                 break;
+            }
             case 2: {
                 if (_timer >= 2) {
                     _setIdleTexture(entity);
