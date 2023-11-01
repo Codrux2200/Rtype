@@ -39,7 +39,7 @@ namespace ECS {
         addComponent(std::make_shared<ECS::EnemyComponent>());
 
         std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
-        if (!soundComponent->addSound("enemy_death", "assets/sound/enemy_death.ogg")) {
+        if (!soundComponent->addSound("enemy_death", "assets/sound/death.ogg")) {
             std::cerr << "Error loading enemy death sound" << std::endl;
             return;
         }
