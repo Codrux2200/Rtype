@@ -44,7 +44,6 @@ void ECS::ServerCore::_initEntities()
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0, 0, 0);
 
->>>>>>>>> Temporary merge branch 2
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
