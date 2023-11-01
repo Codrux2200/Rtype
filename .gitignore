@@ -4,6 +4,10 @@ rtype-server
 rtype-client
 .vscode
 
+Testing
+
+build.sh
+
 doxygen_warnings.log
 
 doc/html

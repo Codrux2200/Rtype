@@ -43,7 +43,6 @@ namespace ECS {
         addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
         addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
         addComponent(std::make_shared<ECS::ShootComponent>());
-
         isEnabled = false;
     }
 }

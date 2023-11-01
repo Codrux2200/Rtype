@@ -49,10 +49,12 @@ namespace ECS {
 
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 
+            void _bossShoot();
+
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
             RType::Server &_server;
-            float _deltaTime;
+            float _deltaTime = 0;
             float _horizontalSpeed = 500;
             float _verticalSpeed = 500;
     };

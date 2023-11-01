@@ -6,40 +6,49 @@
 */
 
 #include "PlayerBullet.hpp"
+#include "DeadData.hpp"
+#include "EnemyComponent.hpp"
+#include "HitboxComponent.hpp"
+#include "PacketManager.hpp"
 #include "PlayerBulletComponent.hpp"
 #include "PositionComponent.hpp"
-#include "HitboxComponent.hpp"
-#include "EnemyComponent.hpp"
-#include "DeadData.hpp"
-#include "PacketManager.hpp"
+#include "VelocityComponent.hpp"
 
-ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
-{
-    addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    addComponent(std::make_shared<ECS::PlayerBulletComponent>());
-    addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&ECS::PlayerBullet::_callbackPlayerBulletHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
-    updateGameComponents();
-}
+namespace ECS {
+    PlayerBullet::PlayerBullet(int id) : Entity(id)
+    {
+        addComponent(std::make_shared<PositionComponent>(0, 0));
+        addComponent(std::make_shared<PlayerBulletComponent>());
+        addComponent(std::make_shared<HitboxComponent>(
+        std::bind(&PlayerBullet::_callbackPlayerBulletHit, this,
+        std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
+        std::vector<std::pair<int, int>> {{0, 0}, {80, 60}}));
+        addComponent(std::make_shared<VelocityComponent>(400, 0));
+        updateGameComponents();
+    }
 
-void ECS::PlayerBullet::_callbackPlayerBulletHit(
-std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
-{
-    if (other == nullptr || self == nullptr)
-        return;
+    void PlayerBullet::_callbackPlayerBulletHit(
+    std::shared_ptr<Entity> self, std::shared_ptr<Entity> other,
+    std::vector<Network::Packet> & packets)
+    {
+        if (other == nullptr || self == nullptr)
+            return;
 
-    Network::data::DeathReason deathReason;
+        Network::data::DeathReason deathReason;
 
-    if (other->getComponent<ECS::EnemyComponent>() != nullptr)
-        deathReason = Network::data::DeathReason::ENEMY;
-    else
-        return;
+        if (other->getComponent<EnemyComponent>() != nullptr)
+            deathReason = Network::data::DeathReason::ENEMY;
+        else
+            return;
 
-    self->isEnabled = false;
-    self->deathReason = deathReason;
+        self->isEnabled = false;
+        self->deathReason = deathReason;
 
-    Network::data::DeadData deadData{self->getId(), deathReason};
-    std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
+        Network::data::DeadData deadData {self->getId(), deathReason};
+        std::unique_ptr<Network::Packet> packet =
+        Network::PacketManager::createPacket(
+        Network::PacketType::DEAD, &deadData);
 
-    packets.push_back(*packet);
+        packets.push_back(*packet);
+    }
 }

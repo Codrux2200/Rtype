@@ -66,6 +66,7 @@ namespace ECS {
             void _handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerDead(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerEntitySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;

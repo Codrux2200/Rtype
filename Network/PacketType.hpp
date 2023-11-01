@@ -80,10 +80,6 @@ namespace Network {
             HIT,
             SCORE,
             ENTITY_SPAWN,
-            ENEMY_DEAD,
-            ENEMY_MOVE,
-            ENEMY_SHOOT,
-            ENEMY_LIFE,
             MAP,
             END,
             LEADER,
@@ -92,7 +88,9 @@ namespace Network {
             MOVE_UP,
             MOVE_DOWN,
             QUIT,
-            PLAYERS_POS
+            PLAYERS_POS,
+            BOSS_STATE,
+            BOSS_LIFE
         };
     }
 } // namespace Network

@@ -72,7 +72,7 @@ namespace ECS {
                 return entities;
             }
 
-            void removeEntitiesToDestroy();
+            void removeEntitiesToDestroy(float dt);
 
         private:
             int _entityID;

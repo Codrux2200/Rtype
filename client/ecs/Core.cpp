@@ -5,14 +5,13 @@
 ** Core
 */
 
+#include "Core.hpp"
 #include <iostream>
 #include <thread>
-#include "Core.hpp"
-#include "ControlComponent.hpp"
-#include "PositionComponent.hpp"
 #include "AudioSystem.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
+#include "ControlComponent.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
 #include "GameSystem.hpp"
@@ -20,13 +19,16 @@
 #include "MusicsComponent.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerEntity.hpp"
+#include "PositionComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
-#include "ButtonEntity.hpp"
-#include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "ConvertPath.hpp"
 #include "StaticBackgroundEntity.hpp"
+#include "TextComponent.hpp"
+#include "VelocityComponent.hpp"
+#include "BossEntity.hpp"
+#include "BossShootEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -53,6 +55,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
     packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
     packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
+    packetManager.REGISTER_HANDLER(Network::PacketType::BOSS_STATE, &ECS::Core::_handlerBossState);
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -134,6 +137,16 @@ void ECS::Core::_initEntities()
     // Create player bullet
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<ECS::PlayerBullet>(0);
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
+
+    // Create boss
+    std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>(0);
+    _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::EntityType::BOSS));
+
+    // Create boss bullet
+    std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
+    _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
+
+    std::cout << "Boss entity registered: " << boss << std::endl;
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -230,8 +243,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
         }
         connection.sendPackets();
-        // remove entities to destroy
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy();
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
@@ -242,20 +254,52 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 void ECS::Core::_handlerEntitySpawn(
 Network::Packet &packet, const udp::endpoint &endpoint)
 {
-    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
-
-    std::cout << "Handler entity spawn" << std::endl;
     std::string entityType = "entity" + std::to_string(packet.entitySpawnData.type);
     std::shared_ptr<ECS::Entity> entity = _entityFactory.createEntity(entityType, packet.entitySpawnData.id);
 
-    if (entity == nullptr)
+    if (entity == nullptr) {
         return;
+    }
     auto positionComponent = entity->getComponent<ECS::PositionComponent>();
+    auto velocityComponent = entity->getComponent<ECS::VelocityComponent>();
+
+    if (positionComponent == nullptr || velocityComponent == nullptr) {
+        return;
+    }
+    positionComponent->x = (packet.entitySpawnData.x);
+    positionComponent->y = (packet.entitySpawnData.y);
+    velocityComponent->vx = packet.entitySpawnData.vx;
+    velocityComponent->vy = packet.entitySpawnData.vy;
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    std::cout << "Entity spawned: " << entityType << std::endl;
+    scene->addEntity(entity);
+}
+
+void ECS::Core::_handlerBossState(
+Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    auto boss = scene->getEntityByID(packet.bossStateData.id);
+
+    if (boss == nullptr)
+        return;
+
+    auto bossComponent = boss->getComponent<BossComponent>();
+
+    if (bossComponent == nullptr)
+        return;
+    bossComponent->setState(packet.bossStateData.state);
+
+    auto positionComponent = boss->getComponent<PositionComponent>();
 
     if (positionComponent == nullptr)
         return;
-    positionComponent->x = packet.entitySpawnData.x;
-    positionComponent->y = packet.entitySpawnData.y;
-    scene->addEntity(entity);
-    std::cout << "OK" << std::endl;
+    positionComponent->x = packet.bossStateData.x;
+    positionComponent->y = packet.bossStateData.y;
 }

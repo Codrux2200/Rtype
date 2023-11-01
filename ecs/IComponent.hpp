@@ -63,7 +63,7 @@ namespace ECS {
 
             [[nodiscard]] virtual ComponentType getType() const = 0;
 
-            virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason) = 0;
+            virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) = 0;
     };
 }
 
