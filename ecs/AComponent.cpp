@@ -23,8 +23,9 @@ ECS::ComponentType ECS::AComponent::getType() const
 {
     return _type;
 }
+
 bool ECS::AComponent::onDestroy(
-ECS::Entity &entity, Network::data::DeathReason reason)
+ECS::Entity &entity, Network::data::DeathReason reason, float dt)
 {
     return true;
 }

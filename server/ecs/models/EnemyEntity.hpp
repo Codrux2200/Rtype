@@ -13,7 +13,15 @@
 namespace ECS {
 class EnemyEntity : public ECS::Entity {
     public:
+        /**
+         * @brief Construct a new EnemyEntity object with the given id
+         * @param id
+         */
         explicit EnemyEntity(int id);
+
+        /**
+         * @brief Destroy the EnemyEntity object
+         */
         ~EnemyEntity() = default;
 
     private:

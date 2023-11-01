@@ -52,7 +52,15 @@ namespace ECS {
             std::shared_ptr<IComponent> clone() const final;
         protected:
         private:
+            /**
+             * @brief define the X scale of the entity
+             *
+             */
             float _x;
+            /**
+             * @brief define the Y scale of the entity
+             *
+             */
             float _y;
     };
 }

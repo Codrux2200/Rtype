@@ -16,12 +16,12 @@ namespace ECS {
      */
     class PositionComponent : public ECS::AComponent {
         public:
+            PositionComponent();
             /**
              * @brief Construct a new position Component object
              *
              * @param x
              * @param y
-             * @param uid
              */
             PositionComponent(float x, float y);
             /**

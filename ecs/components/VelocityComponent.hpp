@@ -5,9 +5,9 @@
 ** velocityComponent
 */
 
-#ifndef VELOCITYCOMPONENT_HPP_
-#define VELOCITYCOMPONENT_HPP_
-#include "../AComponent.hpp"
+#pragma once
+
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -19,30 +19,13 @@ namespace ECS {
             /**
              * @brief Construct a new velocity Component object
              *
-             * @param uid
              */
-            VelocityComponent();
-            /**
-             * @brief Destroy the velocity Component object
-             *
-             */
-            ~VelocityComponent();
-            /**
-             * @brief Set the velocity of the entity
-             *
-             * @param velocity
-             */
-            void setValue(std::vector<int> values) final;
-            /**
-             * @brief Get the velocity of the entity
-             *
-             * @return int
-             */
-            std::vector<int> getValue() const final;
-        protected:
-        private:
-            int _velocity;
+            VelocityComponent() = default;
+            VelocityComponent(float vx, float vy);
+
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+
+            float vx = 0;
+            float vy = 0;
     };
 }
-
-#endif /* !VELOCITYCOMPONENT_HPP_ */

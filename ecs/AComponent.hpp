@@ -34,10 +34,13 @@ namespace ECS {
 
             [[nodiscard]] ComponentType getType() const override;
 
-            bool onDestroy(Entity &entity, Network::data::DeathReason reason) override;
+            bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) override;
 
             bool isEnabled = true;
         protected:
+            /** @brief Indicates whether the component is currently active/enabled. */
+            bool _isEnabled = true;
+            /** @brief The type of this component, defaults to NOTHING. */
             ComponentType _type = ComponentType::NOTHING;
     };
 }

@@ -12,6 +12,7 @@
 ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(std::move(texture)), _sprite(_texture)
 {
     _sprite.setTextureRect(_rect);
+//    _sprite.setOrigin(sf::Vector2f(static_cast<float>(_rect.width) / 2, static_cast<float>(_rect.height) / 2));
 }
 
 ECS::SpriteComponent::~SpriteComponent()

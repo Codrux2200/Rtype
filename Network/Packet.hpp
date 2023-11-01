@@ -16,6 +16,7 @@
 #include "PacketType.hpp"
 #include "PlayersPos.hpp"
 #include "StartData.hpp"
+#include "BossStateData.hpp"
 
 /**
  * @brief Network protocol
@@ -34,24 +35,53 @@ namespace Network {
          */
         struct Packet {
             public:
-                PacketType type; ///< The type of the packet
+                /**
+                 * @brief The type of the packet to be sent (or then received)
+                 */
+                PacketType type;
 
+                /**
+                 * @brief A union is used so any of the payload types can be sent in the same form
+                 */
                 union {
-                        struct data::ConnectData
-                        connectData; ///< The data of the CONNECT packet
-                        struct data::ConnectData
-                        disconnectData; ///< The data of the DISCONNECT packet
-                        struct data::StartData
-                        startData; ///< The data of the START packet
-                        struct data::JoinData
-                        joinData; ///< The data of the JOIN packet
-                        struct data::LeaderData
-                        leaderData; ///< The data of the LEADER packet
-                        struct data::PlayersPos playersPos;
-
-                        struct data::DeadData deadData;
-
-                        struct data::EntitySpawnData entitySpawnData;
+                    /**
+                     * @brief The packet connectData is of type @ref data::ConnectData
+                     */
+                    struct data::ConnectData
+                    connectData;
+                    /**
+                     * @brief The packet disconnectData is of type @ref data::ConnectData
+                     */
+                    struct data::ConnectData
+                    disconnectData;
+                    /**
+                     * @brief The packet startData is of type @ref data::StartData
+                     */
+                    struct data::StartData
+                    startData;
+                    /**
+                     * @brief The packet joinData is of type @ref data::JoinData
+                     */
+                    struct data::JoinData
+                    joinData;
+                    /**
+                     * @brief The packet leaderData is of type @ref data::LeaderData
+                     */
+                    struct data::LeaderData
+                    leaderData;
+                    /**
+                     * @brief The packet playersPos is of type @ref data::PlayersPos
+                     */
+                    struct data::PlayersPos playersPos;
+                    /**
+                     * @brief The packet deadData is of type @ref data::DeadData
+                     */
+                    struct data::DeadData deadData;
+                    /**
+                     * @brief The packet entitySpawnData is of type @ref data::EntitySpawnData
+                     */
+                    struct data::EntitySpawnData entitySpawnData;
+                        struct data::BossStateData bossStateData;
                 };
         };
     }

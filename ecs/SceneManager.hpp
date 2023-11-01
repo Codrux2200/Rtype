@@ -61,6 +61,11 @@ namespace ECS {
              */
             SceneType getSceneType();
 
+            /**
+             * @brief Get the Current Scene object
+             *
+             * @return shared_ptr<Scene>
+             */
             std::shared_ptr<Scene> &getCurrentScene();
         protected:
         private:

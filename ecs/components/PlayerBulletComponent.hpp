@@ -19,7 +19,6 @@ namespace ECS {
 
             void update(std::vector<Network::Packet> &packets, ECS::Entity &entity, float deltaTime) override;
 
-            float speed = 400;
             int damage = 1;
     };
 }

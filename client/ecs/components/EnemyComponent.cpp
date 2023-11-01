@@ -24,7 +24,7 @@ namespace ECS {
         }
     }
 
-    bool EnemyComponent::onDestroy(Entity &entity, Network::data::DeathReason reason)
+    bool EnemyComponent::onDestroy(Entity &entity, Network::data::DeathReason reason, float dt)
     {
         if (reason != Network::data::PLAYER_BULLET)
             return true;
