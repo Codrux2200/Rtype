@@ -12,6 +12,7 @@
 #include "PlayerComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
+
 namespace ECS {
 
     BossShootEntity::BossShootEntity(int id, float vx, float vy) : Entity(id)
