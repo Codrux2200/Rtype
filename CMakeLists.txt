@@ -104,6 +104,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -130,8 +132,6 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/EnemyEntity.hpp
         server/ecs/models/PlayerBullet.cpp
         server/ecs/models/PlayerBullet.hpp
-        server/ecs/models/EnemyBullet.cpp
-        server/ecs/models/EnemyBullet.hpp
         server/ecs/models/EnemyBullet.cpp
         server/ecs/models/EnemyBullet.hpp
 )
