@@ -199,7 +199,7 @@ namespace ECS {
         switch (_step) {
             // Wait the animation by preparing the player
             case 0:
-                if (_timer >= 3) {
+                if (_timer >= 1) {
                     _step = 1;
                 }
                 break;
@@ -216,20 +216,15 @@ namespace ECS {
             }
 
             // Wait the end of the shoot
-            case 2:
+            case 2: {
                 if (_timer >= 2) {
-                    _step = 3;
-                }
-                break;
+                    auto hbComp = _getHitboxStartingAt(entity, -500, 180);
 
-            // Disable the hitbox of the laser, and go back to idle
-            case 3: {
-                auto hbComp = _getHitboxStartingAt(entity, -500, 180);
-
-                if (hbComp != nullptr) {
-                    hbComp->isEnabled = false;
+                    if (hbComp != nullptr) {
+                        hbComp->isEnabled = false;
+                    }
+                    _state = Network::data::IDLE;
                 }
-                _state = Network::data::IDLE;
                 break;
             }
         }

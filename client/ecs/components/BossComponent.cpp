@@ -198,7 +198,24 @@ namespace ECS {
 
     void BossComponent::_attackDownUpdate(ECS::Entity &entity)
     {
-        // TODO: Animation
+        switch (_step) {
+            case 0: {
+                _setAttackDownLoadingTexture(entity);
+                _step = 1;
+            }
+            case 1:
+                if (_timer >= 0.9) {
+                    _setAttackDownTexture(entity);
+                    _step = 2;
+                }
+                break;
+            case 2: {
+                if (_timer >= 2) {
+                    _setIdleTexture(entity);
+                    _state = Network::data::IDLE;
+                }
+            }
+        }
     }
 
     void BossComponent::_shootUpdate()
@@ -209,7 +226,10 @@ namespace ECS {
 
     void BossComponent::_idleUpdate(ECS::Entity &entity)
     {
-
+        if (_step == 0) {
+            _setIdleTexture(entity);
+            _step = 1;
+        }
     }
 
     void BossComponent::_setIdleTexture(Entity &entity)
