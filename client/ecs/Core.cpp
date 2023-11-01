@@ -23,13 +23,13 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ConvertPath.hpp"
+#include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
 #include "BossEntity.hpp"
 #include "BossShootEntity.hpp"
 #include "SpriteComponent.hpp"
-#include "ConvertPath.hpp"
-#include "StaticBackgroundEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
