@@ -43,7 +43,14 @@ namespace Network {
      */
     class PacketManager {
         public:
+            /**
+             * @brief Construct a new PacketManager object
+             *
+             */
             PacketManager() = default;
+            /**
+             * @brief Destroy the PacketManager object
+             */
             ~PacketManager() = default;
 
             /**
@@ -106,11 +113,27 @@ namespace Network {
              */
             void handlePacket(Packet &packet, udp::endpoint &endpoint);
 
+            /**
+             * @brief Add a packet to the receive queue. It will be handled when
+             * the PacketManager::executeRecvPacketsQueue method is called.
+             * @param packet
+             * @param endpoint
+             */
             void addPacketToRecvQueue(Packet &packet, const udp::endpoint &endpoint);
 
+            /**
+             * @brief Handle all the packets in the receive queue.
+             */
             void executeRecvPacketsQueue();
 
+            /**
+             * @brief The send queue. It contains all the packets to send.
+             */
             std::vector<Packet> sendPacketsQueue;
+            /**
+             * @brief The receive queue.
+             *
+             */
             std::vector<std::pair<udp::endpoint, Packet>> recvPacketsQueue;
         private:
             /**

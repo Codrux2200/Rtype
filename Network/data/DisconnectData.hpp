@@ -22,6 +22,9 @@ namespace Network::data {
          */
         struct ConnectData {
             public:
+                /**
+                 * @brief The id of the player that disconnected.
+                 */
                 char id;
         };
     }

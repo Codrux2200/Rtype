@@ -41,6 +41,9 @@ namespace ECS {
             std::vector<int> getValue() const final;
         protected:
         private:
+            /**
+             * @brief velocity of the entity
+             */
             int _velocity;
     };
 }

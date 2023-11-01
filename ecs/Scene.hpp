@@ -50,12 +50,34 @@ namespace ECS {
              */
             std::vector<std::shared_ptr<Entity>> entitiesList;
 
+            /**
+             * @brief add an entity to the scene
+             *
+             * @param entity
+             * @return int
+             */
             int addEntity(std::shared_ptr<Entity> entity);
 
+            /**
+             * @brief remove an entity from the scene
+             *
+             * @param entityID
+             */
             void removeEntity(int entityID);
 
+            /**
+             * @brief Get the Scene Type object
+             *
+             * @return SceneType
+             */
             [[nodiscard]] SceneType getSceneType() const;
 
+            /**
+             * @brief Get the Entity By ID object
+             *
+             * @param entityID
+             * @return std::shared_ptr<Entity>
+             */
             std::shared_ptr<Entity> getEntityByID(int entityID);
 
             template <class T>
@@ -75,7 +97,9 @@ namespace ECS {
             void removeEntitiesToDestroy();
 
         private:
+            /** @brief The ID of the entity. */
             int _entityID;
+            /** @brief The type of the scene. */
             SceneType _sceneType;
 
     };
