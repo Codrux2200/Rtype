@@ -15,13 +15,12 @@
 #include <vector>
 
 namespace ECS {
-    class WaveSystem : public ISystem {
+    class WaveSystem {
         public:
             WaveSystem(const EntityFactory &Factory) ;
-            ~WaveSystem() = default;
 
             void update(std::vector<std::shared_ptr<ECS::Entity>> &entitiesList, float deltaTime);
-            std::vector<Entity> getWave(int i);
+            std::vector<std::shared_ptr<ECS::Entity>> getWave(int i);
 
         protected:
         private:

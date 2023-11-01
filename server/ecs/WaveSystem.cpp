@@ -65,7 +65,7 @@ std::vector<std::shared_ptr<ECS::Entity>> &entitiesList, float deltaTime)
     }
 }
 
-std::vector<ECS::Entity> ECS::WaveSystem::getWave(int i)
+std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
 {
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
@@ -73,4 +73,5 @@ std::vector<ECS::Entity> ECS::WaveSystem::getWave(int i)
         result.push_back(_factory.createEntity(
         "EnemyWave" + std::to_string(i + j), _factory.ids++));
     }
+    return result;
 }
