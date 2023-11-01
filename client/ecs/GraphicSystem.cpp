@@ -41,6 +41,8 @@ void ECS::GraphicSystem::update(ECS::SceneManager &sceneManager, float deltaTime
         auto spriteComponent = entity->getComponent<ECS::SpriteComponent>();
         if (spriteComponent == nullptr || !spriteComponent->isEnabled)
             continue;
+
+        spriteComponent->updateAnimation(deltaTime);
         auto positionComponent = entity->getComponent<ECS::PositionComponent>();
         auto scaleComponent = entity->getComponent<ECS::ScaleComponent>();
         auto rotationComponent = entity->getComponent<ECS::RotationComponent>();

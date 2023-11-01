@@ -5,8 +5,7 @@
 ** SpriteComponent
 */
 
-#ifndef SPRITECOMPONENT_HPP_
-#define SPRITECOMPONENT_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "AComponent.hpp"
@@ -18,25 +17,33 @@ namespace ECS {
     */
     class SpriteComponent : public AComponent {
         public:
-            SpriteComponent(sf::Texture texture, sf::Rect<int> rect);
+            SpriteComponent(sf::Texture texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
             ~SpriteComponent();
             void setTexture(sf::Texture &texture);
-            void setMaxIteration(sf::Vector2i max_iteration);
-            void moveRect();
+            void updateAnimation(float dt);
 
             const sf::Sprite &getSprite() const;
             sf::Rect<int> &getRect();
-            sf::Vector2i getIterations() const { return _iterations; }
+
+            void nextAnimation();
+
+            void setAnimationStep(int step);
+
+            sf::Rect<int> _rect;
 
             std::shared_ptr<IComponent> clone() const override;
+
+            int maxIterations;
+            float animSpeed;
+            sf::Vector2i spriteGrid;
+            int animStep = 0;
+
+            bool isAnimated = false;
 
         private:
             sf::Texture _texture;
             sf::Sprite _sprite;
-            sf::Rect<int> _rect;
-            sf::Vector2i _maxIterations;
-            sf::Vector2i _iterations;
+            float _timer = 0;
     };
 }
 
-#endif /* !SPRITECOMPONENT_HPP_ */

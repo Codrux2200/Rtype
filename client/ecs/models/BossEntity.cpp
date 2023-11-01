@@ -22,7 +22,7 @@ BossEntity::BossEntity(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
 
     sf::Texture bossTexture;
-    if (!bossTexture.loadFromFile(ConvertPath::convertPath("assets/boss.png"))) {
+    if (!bossTexture.loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
         std::cerr << "Error loading enemy texture" << std::endl;
         return;
     }
@@ -33,7 +33,7 @@ BossEntity::BossEntity(int id) : ECS::Entity(id)
     bossRect.width = 400;
     bossRect.height = 400;
     addComponent(
-    std::make_shared<ECS::SpriteComponent>(bossTexture, bossRect));
+    std::make_shared<ECS::SpriteComponent>(bossTexture, bossRect, 1, 1, sf::Vector2i(5, 1)));
     addComponent(std::make_shared<ECS::BossComponent>());
 
     std::shared_ptr<sf::SoundBuffer> soundBuffer = std::make_shared<sf::SoundBuffer>();

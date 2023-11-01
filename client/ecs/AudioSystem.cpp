@@ -23,7 +23,7 @@ void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::v
                 component->play();
             }
         if (component2 && component2->isEnabled) {
-            if (component2->startPlaying == true) {
+            if (component2->startPlaying) {
                 component2->play();
                 component2->startPlaying = false;
             }

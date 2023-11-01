@@ -9,7 +9,7 @@
 #include <iostream>
 
 namespace ECS {
-SoundComponent::SoundComponent(const SoundComponent& other) : _sounds(other._sounds), _soundBuffer(other._soundBuffer)
+SoundComponent::SoundComponent(const SoundComponent& other) : _sounds(other._sounds), _soundBuffer(other._soundBuffer), startPlaying(other.startPlaying)
 {
 }
 
