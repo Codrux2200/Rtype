@@ -35,12 +35,8 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
-    //std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
-
-    //std::cout << "At creation : x: " << enemy->getComponent<PositionComponent>()->x << "; y: " << enemy->getComponent<PositionComponent>()->y << std::endl;
     _entityFactory.registerEntity(player, "player");
-    //_entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
 }
 
