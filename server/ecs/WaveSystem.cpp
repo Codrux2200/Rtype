@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(Factory)
+ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(_factory)
 {
     int WaveCount = 0;
     int EnemyCount = 0;
@@ -111,7 +111,7 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
 {
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
-    if (i == NULL) {
+    if (i == 0  ) {
         std::cerr << "Error: wave index is null" << std::endl;
         return result;
     }
