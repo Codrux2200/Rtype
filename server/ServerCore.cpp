@@ -21,6 +21,7 @@
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
+#include "WaveSystem.hpp"
 #include "VelocityComponent.hpp"
 #include "BossShootEntity.hpp"
 
@@ -33,18 +34,17 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
     });
     _systems.push_back(std::make_unique<ECS::CollisionSystem>());
     _systems.push_back(std::make_unique<ECS::GameSystem>());
+    _systems.push_back(std::make_unique<ECS::WaveSystem>(_entityFactory));
 }
 
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0, 0, 0);
 
     _entityFactory.registerEntity(player, "player");
-    _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::BOSS_BULLET));
@@ -140,11 +140,9 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
         return;
 
     if (playerComponent->getLastFire() < playerComponent->fireRate) {
-//        std::cout << "Player can't shoot yet: " << playerComponent->lastFire << " / " << playerComponent->fireRate << std::endl;
         return;
     }
 
-    std::cout << "Player can shoot" << std::endl;
     auto playerPosition = playerPositionComponent->getValue();
 
     auto bulletEntity = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::PLAYER_BULLET), _entityFactory.ids++);

@@ -10,6 +10,7 @@
 #include "Entity.hpp"
 #include "Packet.hpp"
 
+namespace ECS {
 class EnemyEntity : public ECS::Entity {
     public:
         /**
@@ -26,3 +27,4 @@ class EnemyEntity : public ECS::Entity {
     private:
         void _callbackEnemyHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };
+}
