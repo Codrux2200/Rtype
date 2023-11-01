@@ -57,6 +57,7 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
+
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -100,6 +101,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
