@@ -120,6 +120,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/PlayerComponent.hpp
         server/ecs/CollisionSystem.cpp
         server/ecs/CollisionSystem.hpp
+        server/ecs/WaveSystem.cpp 
+        server/ecs/WaveSystem.hpp
         server/ecs/models/PlayerEntity.cpp
         server/ecs/models/PlayerEntity.hpp
         server/ecs/models/EnemyEntity.cpp
