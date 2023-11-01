@@ -12,6 +12,7 @@
 #include "PositionComponent.hpp"
 #include "PacketManager.hpp"
 
+namespace ECS {
 EnemyEntity::EnemyEntity(int id) : Entity(id)
 {
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&EnemyEntity::_callbackEnemyHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
@@ -36,4 +37,5 @@ std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
 
         packets.push_back(*deadPacket);
     }
+}
 }
