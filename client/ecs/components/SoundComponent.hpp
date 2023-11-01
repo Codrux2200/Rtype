@@ -11,6 +11,7 @@
 #include "AComponent.hpp"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 namespace ECS {
 class SoundComponent : public AComponent {
