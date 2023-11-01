@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-ECS::WaveSystem::WaveSystem(const EntityFactory &Factory) : _factory(_factory)
+ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 {
     int WaveCount = 0;
     int EnemyCount = 0;

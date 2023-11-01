@@ -18,7 +18,7 @@
 namespace ECS {
     class WaveSystem : public ISystem {
         public:
-            WaveSystem(const EntityFactory &Factory) ;
+            WaveSystem(EntityFactory &Factory) ;
 
             void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
             std::vector<std::shared_ptr<ECS::Entity>> getWave(int i);
