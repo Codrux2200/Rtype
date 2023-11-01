@@ -29,7 +29,6 @@
 #include "VelocityComponent.hpp"
 #include "BossEntity.hpp"
 #include "BossShootEntity.hpp"
-#include "SpriteComponent.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {

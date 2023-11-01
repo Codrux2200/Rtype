@@ -5,7 +5,6 @@
 ** SpriteComponent
 */
 
-#include <iostream>
 #include "SpriteComponent.hpp"
 
 #include <utility>
@@ -57,9 +56,7 @@ void ECS::SpriteComponent::updateAnimation(float dt)
 
 void ECS::SpriteComponent::nextAnimation()
 {
-    animStep++;
-    if (animStep >= maxIterations)
-        animStep = 0;
+    animStep = (animStep + 1) % maxIterations;
     setAnimationStep(animStep);
 }
 
