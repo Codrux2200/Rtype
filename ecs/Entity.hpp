@@ -41,6 +41,8 @@ namespace ECS {
                 PLAYER,
                 ENEMY_CLASSIC,
                 PLAYER_BULLET,
+                BOSS,
+                BOSS_BULLET,
                 UNKNOWN
             };
 
@@ -84,7 +86,7 @@ namespace ECS {
                 return components;
             }
 
-            void addComponent(const std::shared_ptr<AComponent>& component);
+            const std::shared_ptr<AComponent> &addComponent(const std::shared_ptr<AComponent>& component);
 
             /**
              * @brief Retrieves all components of a specific type from the entity.
@@ -106,16 +108,18 @@ namespace ECS {
              * @return true if the entity can be destroyed
              * @return false if the entity can't be destroyed now, it can be used to do actions by components before destroying the entity
              */
-            virtual bool onDestroy();
+            virtual bool onDestroy(float dt);
 
             /**
              * @brief Get the Game Components objects that are int stored as cache
              */
-            std::vector<std::shared_ptr<AGameComponent>> gameComponents;
 
             void updateGameComponents();
 
+            [[nodiscard]] std::vector<std::shared_ptr<AGameComponent>> getGameComponents() const;
+
         private:
+            std::vector<std::shared_ptr<AGameComponent>> _gameComponents;
             /**
              * @brief define the unique id of the entity
              *
@@ -124,7 +128,6 @@ namespace ECS {
 
             /** @brief List of components attached to this entity. */
             std::vector<std::shared_ptr<IComponent>> _components;
-
     };
 
 }

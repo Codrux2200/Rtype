@@ -94,7 +94,7 @@ namespace ECS {
                 return entities;
             }
 
-            void removeEntitiesToDestroy();
+            void removeEntitiesToDestroy(float dt);
 
         private:
             /** @brief The ID of the entity. */

@@ -78,6 +78,9 @@ Network::PacketType type, void *data)
         case Network::PacketType::ENTITY_SPAWN:
             memcpy(&packet->entitySpawnData, data, sizeof(packet->entitySpawnData));
             break;
+        case Network::PacketType::BOSS_STATE:
+            memcpy(&packet->bossStateData, data, sizeof(packet->bossStateData));
+            break;
         default: break;
     }
     return packet;
@@ -101,11 +104,15 @@ void Network::PacketManager::handlePacket(Network::Packet &packet, udp::endpoint
 
 void Network::PacketManager::addPacketToRecvQueue(Network::Packet &packet, const udp::endpoint &endpoint)
 {
+    std::lock_guard<std::mutex> lock(mutex);
+
     recvPacketsQueue.emplace_back(endpoint, packet);
 }
 
 void Network::PacketManager::executeRecvPacketsQueue()
 {
+    std::lock_guard<std::mutex> lock(mutex);
+
     for (auto &req : recvPacketsQueue)
         handlePacket(req.second, req.first);
     recvPacketsQueue.clear();

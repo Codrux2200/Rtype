@@ -16,6 +16,7 @@
 #include "PacketType.hpp"
 #include "PlayersPos.hpp"
 #include "StartData.hpp"
+#include "BossStateData.hpp"
 
 /**
  * @brief Network protocol
@@ -80,6 +81,7 @@ namespace Network {
                      * @brief The packet entitySpawnData is of type @ref data::EntitySpawnData
                      */
                     struct data::EntitySpawnData entitySpawnData;
+                        struct data::BossStateData bossStateData;
                 };
         };
     }

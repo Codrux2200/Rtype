@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** Rtype
 ** File description:
-** PlayerBulletComponent
+** BossShootComponent
 */
 
 #pragma once
@@ -10,15 +10,14 @@
 #include "AGameComponent.hpp"
 
 namespace ECS {
-    class PlayerBulletComponent : public AGameComponent {
+    class BossShootComponent : public AGameComponent {
         public:
-            PlayerBulletComponent() = default;
-            ~PlayerBulletComponent() = default;
+            BossShootComponent() = default;
+            ~BossShootComponent() = default;
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
             void update(std::vector<Network::Packet> &packets, ECS::Entity &entity, float deltaTime) override;
-
-            int damage = 1;
     };
 }
+

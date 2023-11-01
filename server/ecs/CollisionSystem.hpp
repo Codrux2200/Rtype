@@ -15,7 +15,7 @@ namespace ECS {
             /**
              * @brief Construct a new CollisionSystem object
              */
-            CollisionSystem();
+            CollisionSystem() = default;
 
             /**
              * @brief Destroy the CollisionSystem object
