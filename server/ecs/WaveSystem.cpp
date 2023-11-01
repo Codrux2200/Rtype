@@ -111,7 +111,7 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
 {
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
-    if (i == 0  ) {
+    if (i == 0 ) {
         std::cerr << "Error: wave index is null" << std::endl;
         return result;
     }
