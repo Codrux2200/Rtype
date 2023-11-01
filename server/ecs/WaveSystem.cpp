@@ -111,6 +111,11 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
 {
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
+    if (i == NULL) {
+        std::cerr << "Error: wave index is null" << std::endl;
+        return result;
+    }
+
     for (int j = 0; j < _waves[i]; j++) {
         result.push_back(_factory.createEntity("EnemyWave" + std::to_string(i) + std::to_string(j), _factory.ids++));
     }

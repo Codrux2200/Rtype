@@ -26,7 +26,7 @@ namespace ECS {
 
         protected:
         private:
-            EntityFactory _factory;
+            EntityFactory &_factory;
             std::vector<int> _waves;
             float timer;
     };
