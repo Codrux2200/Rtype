@@ -47,8 +47,13 @@ if [[ -e /etc/os-release ]]; then
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
+<<<<<<< HEAD
         echo "$ID Distribution non prise en charge."
         exit 1
+=======
+        echo "Distribution non prise en charge."
+        exit 84
+>>>>>>> dev
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "macOS ne nécessite aucune installation spécifique."
@@ -84,6 +89,7 @@ else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
   exit 84
 fi
+<<<<<<< HEAD
 
 
 cmake . .
@@ -91,3 +97,5 @@ cmake . .
 chmod -R 777 _deps
 
 cmake --build . -- -j 6
+=======
+>>>>>>> dev
