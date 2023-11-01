@@ -47,14 +47,15 @@ if [[ -e /etc/os-release ]]; then
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
-        echo "Distribution non prise en charge."
-        exit 84
+        echo "$ID Distribution non prise en charge."
+        exit 1
     fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macOS ne nécessite aucune installation spécifique."
 else
     echo "Impossible de détecter la distribution."
-    exit 84
+    exit 1
 fi
-
 
 
 
@@ -81,5 +82,12 @@ elif [ "$package_manager" == "apk" ]; then
   echo "CMake est maintenant installé."
 else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
-  exit 84
+  exit 1
 fi
+
+
+cmake . .
+
+chmod -R 777 _deps
+
+cmake --build . -- -j 6
