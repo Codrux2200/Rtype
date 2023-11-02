@@ -50,6 +50,7 @@ namespace ECS {
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 
             void _bossShoot();
+            void _enemyShoot();
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;

@@ -43,7 +43,7 @@ namespace ECS {
                 PLAYER_BULLET,
                 BOSS,
                 BOSS_BULLET,
-                ENNEMY_BULLET,
+                ENEMY_BULLET,
                 UNKNOWN
             };
 

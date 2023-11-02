@@ -7,12 +7,15 @@
 
 #pragma once
 
+#include <functional>
 #include "Entity.hpp"
 #include "Packet.hpp"
 
+using EnemyShootFunction = std::function<void()>;
 class EnemyEntity : public ECS::Entity {
     public:
-        explicit EnemyEntity(int id);
+        explicit EnemyEntity(EnemyShootFunction shootFunction, int id);
+
         ~EnemyEntity() = default;
 
     private:

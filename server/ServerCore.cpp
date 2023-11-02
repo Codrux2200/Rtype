@@ -23,6 +23,8 @@
 #include "Server.hpp"
 #include "VelocityComponent.hpp"
 #include "BossShootEntity.hpp"
+#include "EnemyBullet.hpp"
+#include "EnemyBulletComponent.hpp"
 
 ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 {
@@ -38,16 +40,18 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>([this] { _enemyShoot(); }, 0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
+    std::shared_ptr<ECS::Entity> enemyBullet = std::make_shared<EnemyBullet>(0);
 
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::BOSS_BULLET));
+    _entityFactory.registerEntity(enemyBullet, "entity" + std::to_string(ECS::Entity::ENEMY_BULLET));
 }
 
 std::shared_ptr<ECS::Scene> ECS::ServerCore::_initMainMenuScene()
@@ -66,7 +70,7 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         std::cout << "Player " << player->getId() << " created" << std::endl;
         scene->addEntity(player);
     }
-    std::shared_ptr<EnemyEntity> enemy = std::make_shared<EnemyEntity>(_entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), _entityFactory.ids++);
     scene->addEntity(enemy);
     std::shared_ptr<ECS::Entity> boss = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _entityFactory.ids++);
     scene->addEntity(boss);
@@ -437,4 +441,60 @@ void ECS::ServerCore::_bossShoot()
             if (cli != nullptr)
                 _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
     }
+}
+
+void ECS::ServerCore::_enemyShoot()
+{
+    auto gameScene = sceneManager.getScene(ECS::SceneType::GAME);
+    auto enemies = gameScene->getEntitiesWithComponent<ECS::EnemyComponent>();
+
+    if (enemies.empty())
+        return;
+
+    auto enemy = enemies[0];
+
+    if (enemy == nullptr)
+        return;
+
+    auto enemyPos = enemy->getComponent<ECS::PositionComponent>();
+
+    if (enemyPos == nullptr)
+        return;
+
+    // Summon 1 bullet
+    auto bulletEntity = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_BULLET), _entityFactory.ids++);
+
+    if (bulletEntity == nullptr)
+        return;
+
+    auto bulletPosComponent = bulletEntity->getComponent<ECS::PositionComponent>();
+    auto bulletComponent = bulletEntity->getComponent<ECS::EnemyBulletComponent>();
+    auto bulletVelocityComponent = bulletEntity->getComponent<ECS::VelocityComponent>();
+
+    if (bulletPosComponent == nullptr || bulletComponent == nullptr || bulletVelocityComponent == nullptr)
+        return;
+
+    bulletPosComponent->x = enemyPos->x - 20;
+    bulletPosComponent->y = enemyPos->y;
+
+    // TODO: Magic numbers
+    bulletVelocityComponent->vx = -200;
+    bulletVelocityComponent->vy = 0;
+
+    gameScene->addEntity(bulletEntity);
+
+    Network::data::EntitySpawnData data{};
+
+    data.x = static_cast<int>(bulletPosComponent->x);
+    data.y = static_cast<int>(bulletPosComponent->y);
+    data.vx = bulletVelocityComponent->vx;
+    data.vy = bulletVelocityComponent->vy;
+    data.type = ECS::Entity::ENEMY_BULLET;
+    data.id = bulletEntity->getId();
+
+    auto packetToSend = Network::PacketManager::createPacket(Network::ENTITY_SPAWN, &data);
+
+    for (const auto& cli : _server.clientManager.getClients())
+        if (cli != nullptr)
+            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
 }

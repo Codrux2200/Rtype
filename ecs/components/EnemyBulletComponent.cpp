@@ -36,17 +36,17 @@ namespace ECS {
                 break;
         }
         if (positionComponent->x < 0 - _x_bullet_size ||
-            positionComponent->x > 1920 + _x_bullet_size ||
+            positionComponent->x > 800 + _x_bullet_size ||
             positionComponent->y < 0 - _y_bullet_size ||
-            positionComponent->y > 1080 + _y_bullet_size) {
+            positionComponent->y > 600 + _y_bullet_size) {
             entity.deathReason = Network::data::OUT_OF_BOUNDS;
         }
     }
 
     void EnemyBulletComponent::move_velocitically(const std::shared_ptr<PositionComponent>& positionComponent, float deltaTime, const std::shared_ptr<VelocityComponent>& velocityComponent)
     {
-        positionComponent->x -= velocityComponent->getValue()[0] * deltaTime;
-        positionComponent->y -= velocityComponent->getValue()[1] * deltaTime;
+        positionComponent->x += velocityComponent->vx * deltaTime;
+        positionComponent->y += velocityComponent->vy * deltaTime;
     }
 
     void EnemyBulletComponent::move_to_target(const std::shared_ptr<PositionComponent>& positionComponent, float deltaTime, const std::shared_ptr<VelocityComponent>& velocityComponent)
@@ -54,14 +54,14 @@ namespace ECS {
         if (_target.empty())
             return;
         if (positionComponent->x > _target[0])
-            positionComponent->x -= velocityComponent->getValue()[0] * deltaTime;
+            positionComponent->x -= velocityComponent->vx * deltaTime;
         else if (positionComponent->x < _target[0]) {
             _type = CLASSIC;
             return;
         }
         if (positionComponent->y > _target[1])
-            positionComponent->y -= velocityComponent->getValue()[1] * deltaTime;
+            positionComponent->y -= velocityComponent->vy * deltaTime;
         else if (positionComponent->y < _target[1])
-            positionComponent->y += velocityComponent->getValue()[1] * deltaTime;
+            positionComponent->y += velocityComponent->vy * deltaTime;
     }
 }
