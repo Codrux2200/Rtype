@@ -21,6 +21,7 @@
 #include "PlayersPos.hpp"
 #include "PositionComponent.hpp"
 #include "Server.hpp"
+#include "WaveSystem.hpp"
 #include "VelocityComponent.hpp"
 #include "BossShootEntity.hpp"
 #include "EnemyBullet.hpp"
@@ -35,6 +36,7 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
     });
     _systems.push_back(std::make_unique<ECS::CollisionSystem>());
     _systems.push_back(std::make_unique<ECS::GameSystem>());
+    _systems.push_back(std::make_unique<ECS::WaveSystem>(_entityFactory));
 }
 
 void ECS::ServerCore::_initEntities()
@@ -144,11 +146,9 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
         return;
 
     if (playerComponent->getLastFire() < playerComponent->fireRate) {
-//        std::cout << "Player can't shoot yet: " << playerComponent->lastFire << " / " << playerComponent->fireRate << std::endl;
         return;
     }
 
-    std::cout << "Player can shoot" << std::endl;
     auto playerPosition = playerPositionComponent->getValue();
 
     auto bulletEntity = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::PLAYER_BULLET), _entityFactory.ids++);

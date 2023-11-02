@@ -158,12 +158,12 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/StaticBackgroundEntity.cpp
-        client/ecs/models/StaticBackgroundEntity.hpp
         client/ecs/models/BossEntity.cpp
         client/ecs/models/BossEntity.hpp
         client/ecs/models/BossShootEntity.cpp
         client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -174,6 +174,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/Client.hpp
         server/ClientManager.cpp
         server/ClientManager.hpp
+        server/ecs/WaveSystem.cpp
+        server/ecs/WaveSystem.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
         server/ecs/components/HitboxComponent.cpp

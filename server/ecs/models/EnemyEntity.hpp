@@ -14,10 +14,18 @@
 using EnemyShootFunction = std::function<void()>;
 class EnemyEntity : public ECS::Entity {
     public:
+        /**
+         * @brief Construct a new EnemyEntity object with the given id
+         * @param id
+         */
         explicit EnemyEntity(EnemyShootFunction shootFunction, int id);
 
+        /**
+         * @brief Destroy the EnemyEntity object
+         */
         ~EnemyEntity() = default;
 
     private:
         void _callbackEnemyHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };
+

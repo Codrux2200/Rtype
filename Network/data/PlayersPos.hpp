@@ -10,7 +10,13 @@
 namespace Network::data {
     extern "C" {
         struct Position {
+                /**
+                 * @brief The x position of the player.
+                 */
                 int x;
+                /**
+                 * @brief The y position of the player.
+                 */
                 int y;
         };
         struct PlayersPos {
