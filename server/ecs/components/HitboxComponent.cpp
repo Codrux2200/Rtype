@@ -17,6 +17,11 @@ namespace ECS {
     {
     }
 
+    HitboxComponent::HitboxComponent(const HitboxComponent &other) : _hitbox(other._hitbox), _callback(other._callback)
+    {
+        this->isEnabled = other.isEnabled;
+    }
+
     void HitboxComponent::setHitbox(const std::vector<std::pair<int, int>> &hitbox)
     {
         _hitbox = hitbox;
@@ -29,7 +34,7 @@ namespace ECS {
 
     std::shared_ptr<IComponent> HitboxComponent::clone() const
     {
-        return std::make_shared<HitboxComponent>(_callback, _hitbox);
+        return std::make_shared<HitboxComponent>(*this);
     }
 
     void HitboxComponent::executeCallback(std::shared_ptr<Entity> self, std::shared_ptr<Entity> entity, std::vector<Network::Packet> &packetsQueue) const

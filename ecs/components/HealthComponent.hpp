@@ -23,6 +23,8 @@ namespace ECS {
              */
             explicit HealthComponent(int health);
 
+            std::shared_ptr<IComponent> clone() const override;
+
             /**
              * @brief health of the entity
              */
