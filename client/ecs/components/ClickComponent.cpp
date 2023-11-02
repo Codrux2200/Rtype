@@ -5,9 +5,10 @@
 ** ClickComponent
 */
 
-#include <iostream>
 #include "ClickComponent.hpp"
+#include <iostream>
 #include "ScaleComponent.hpp"
+#include "SpriteComponent.hpp"
 
 ECS::ClickComponent::ClickComponent(sf::Rect<int> rect, ECS::eventCallback callback, sf::RenderWindow &window) : ECS::AEventComponent(), _rect(rect), _window(window), _callback(callback)
 {
@@ -40,22 +41,23 @@ std::shared_ptr<ECS::IComponent> ECS::ClickComponent::clone() const
 {
     return std::make_shared<ClickComponent>(_rect, _callback, _window);
 }
-void ECS::ClickComponent::execute(
+bool ECS::ClickComponent::execute(
 std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     // Get mouse position in window
     sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
     if (_callback != nullptr && _rect.contains(mousePos)){
-        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
-        std::vector<float> size = scale->getFloatValue();
-        scale->setFloatValue(1.5, 1.5);
+//        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+//        std::vector<float> size = scale->getFloatValue();
+//        scale->setFloatValue(1.5, 1.5);
     } else {
-        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
-        std::vector<float> size = scale->getFloatValue();
-        scale->setFloatValue(1.0, 1.0);
+//        std::shared_ptr<ECS::ScaleComponent> scale = entity.getComponent<ECS::ScaleComponent>();
+//        std::vector<float> size = scale->getFloatValue();
+//        scale->setFloatValue(1.0, 1.0);
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && _callback != nullptr && _rect.contains(mousePos)) {
-        _callback(packetsQueue, entity);
+        return _callback(packetsQueue, entity);
     }
+    return false;
 }
 

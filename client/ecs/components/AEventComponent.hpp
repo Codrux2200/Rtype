@@ -16,6 +16,6 @@
 namespace ECS {
     class AEventComponent : public AComponent {
         public:
-            virtual void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) = 0;
+            virtual bool execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) = 0;
     };
 }

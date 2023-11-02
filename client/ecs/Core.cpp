@@ -246,6 +246,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
         std::vector<int> pos = position->getValue();
         rect.left = pos.at(0);
         rect.top = pos.at(1);
+        rect.width = 300;
+        rect.height = 300;
     } else {
         rect.left = 100;
         rect.top = 0;
@@ -254,22 +256,23 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     std::shared_ptr<ECS::ScaleComponent> scale = buttonQuit->getComponent<ECS::ScaleComponent>();
 
     if (scale) {
-        std::vector<float> scaleValue = scale->getFloatValue();
-        rect.width = sprite->getRect().width * scaleValue.at(0);
-        rect.height = sprite->getRect().height * scaleValue.at(1);
+        scale->x = 0.03f;
+        scale->y = 0.03f;
     } else {
         rect.width = sprite->getRect().width;
         rect.height = sprite->getRect().height;
     }
 
-    buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_endGameCallback, this, std::placeholders::_1, std::placeholders::_2), _window));
+    buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect,
+    [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
+        return true;
+    }, _window));
     buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Game_Over.ogg"));
     scene->addEntity(buttonQuit);
-
     return scene;
 }
 
-void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+bool ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;
 
@@ -277,12 +280,7 @@ void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, E
     startData.mapId = 0;
     std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::START, &startData);
     packetsQueue.push_back(*packet);
-}
-
-void ECS::Core::_endGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
-{
-    std::cout << "End game callback" << std::endl;
-    sceneManager.shouldClose = true;
+    return false;
 }
 
 void ECS::Core::mainLoop(RType::Connection &connection)
@@ -292,9 +290,12 @@ void ECS::Core::mainLoop(RType::Connection &connection)
     float deltaTime;
     std::chrono::milliseconds waitTime;
 
+    SceneType sceneType;
+
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
+        sceneType = sceneManager.getSceneType();
         connection.handlePackets();
         for (auto &system : _systems) {
             if (system == nullptr)
@@ -304,11 +305,38 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         connection.sendPackets();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
+        if (sceneType != sceneManager.getSceneType()) {
+            for (const auto& entity : sceneManager.getScene(sceneType)->entitiesList) {
+                if (entity == nullptr)
+                    continue;
+
+                auto musicComponent = entity->getComponent<MusicsComponent>();
+                auto soundComponent = entity->getComponent<SoundComponent>();
+
+                if (musicComponent != nullptr)
+                    musicComponent->stop();
+                if (soundComponent != nullptr)
+                    soundComponent->stopAll();
+            }
+        }
 
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
         
+    }
+
+    for (const auto& entity : sceneManager.getCurrentScene()->entitiesList) {
+        if (entity == nullptr)
+            continue;
+
+        auto musicComponent = entity->getComponent<MusicsComponent>();
+        auto soundComponent = entity->getComponent<SoundComponent>();
+
+        if (musicComponent != nullptr)
+            musicComponent->stop();
+        if (soundComponent != nullptr)
+            soundComponent->stopAll();
     }
 }
 

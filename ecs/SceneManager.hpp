@@ -67,6 +67,8 @@ namespace ECS {
              * @return shared_ptr<Scene>
              */
             std::shared_ptr<Scene> &getCurrentScene();
+
+            std::map<SceneType, std::shared_ptr<Scene>> &getScenes();
         protected:
         private:
             /**

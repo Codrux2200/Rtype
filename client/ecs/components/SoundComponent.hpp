@@ -17,7 +17,7 @@ namespace ECS {
 class SoundComponent : public AComponent {
     public:
         SoundComponent() = default;
-        ~SoundComponent() = default;
+        ~SoundComponent();
         SoundComponent(const SoundComponent& other);
 
         void play(const std::string& name);
