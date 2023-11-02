@@ -9,8 +9,7 @@
 
 namespace ECS {
     EnemyBulletComponent::EnemyBulletComponent(
-        int x_bullet_size, int y_bullet_size, EnemyBulletComponent::shoot_type type
-    ) : _x_bullet_size(x_bullet_size), _type(type) {};
+EnemyBulletComponent::EnemyBulletComponent(int x_bullet_size, int y_bullet_size, EnemyBulletComponent::shoot_type type) : _x_bullet_size(x_bullet_size), _y_bullet_size(y_bullet_size), _type(type), _target({0, 0}) {};
 
     std::shared_ptr<IComponent> EnemyBulletComponent::clone() const
     {
