@@ -8,8 +8,7 @@
 #include "EnemyBulletComponent.hpp"
 
 namespace ECS {
-    EnemyBulletComponent::EnemyBulletComponent(
-EnemyBulletComponent::EnemyBulletComponent(int x_bullet_size, int y_bullet_size, EnemyBulletComponent::shoot_type type) : _x_bullet_size(x_bullet_size), _y_bullet_size(y_bullet_size), _type(type), _target({0, 0}) {};
+    EnemyBulletComponent::EnemyBulletComponent(int x_bullet_size, int y_bullet_size, EnemyBulletComponent::shoot_type type) : _x_bullet_size(x_bullet_size), _y_bullet_size(y_bullet_size), _type(type), _target({0, 0}) {};
 
     std::shared_ptr<IComponent> EnemyBulletComponent::clone() const
     {
@@ -22,8 +21,8 @@ EnemyBulletComponent::EnemyBulletComponent(int x_bullet_size, int y_bullet_size,
         auto positionComponent = entity.getComponent<PositionComponent>();
         auto velocityComponent = entity.getComponent<VelocityComponent>();
 
-+       if (velocityComponent == nullptr)
-+           return;
+        if (velocityComponent == nullptr)
+            return;
 
         if (positionComponent == nullptr)
             return;
