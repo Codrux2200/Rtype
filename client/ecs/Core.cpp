@@ -146,6 +146,10 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
 
+    // Create boss bullet
+    std::shared_ptr<ECS::Entity> enemyBullet = std::make_shared<BossShootEntity>(0);
+    _entityFactory.registerEntity(enemyBullet, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_BULLET));
+
     std::cout << "Boss entity registered: " << boss << std::endl;
 }
 
