@@ -220,6 +220,13 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
     return scene;
 }
 
+std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
+{
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::END);
+
+    return scene;
+}
+
 void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;

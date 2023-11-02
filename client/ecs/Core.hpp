@@ -54,6 +54,7 @@ namespace ECS {
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
+            std::shared_ptr<ECS::Scene> _initEndScene();
 
             void _initEntities();
 
