@@ -37,6 +37,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     _initEntities();
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
     if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
         std::cout << "Error: scene is null" << std::endl;
         return;
@@ -112,8 +113,11 @@ void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpo
     entity->deathReason = packet.deadData.reason;
 
     if (packet.deadData.id == _playerId) {
+        sceneManager.setCurrentScene(SceneType::ENDGAME);
         std::cout << "Player is dead" << std::endl;
     }
+
+
 }
 
 void ECS::Core::_initEntities()
@@ -128,6 +132,8 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(button, "buttonStart");
     std::shared_ptr<ECS::Entity> buttonStop = std::make_shared<ECS::ButtonEntity>("assets/options.png", 0 , 200);
     _entityFactory.registerEntity(buttonStop, "buttonStop");
+    std::shared_ptr<ECS::Entity> buttonQuit = std::make_shared<ECS::ButtonEntity>("assets/quit.png", 0, 100);
+    _entityFactory.registerEntity(buttonQuit, "buttonQuit");
     std::shared_ptr<ECS::Entity> text = std::make_shared<ECS::Entity>(1);
     text->addComponent(std::make_shared<ECS::TextComponent>("bonjour"));
     _entityFactory.registerEntity(text, "text");
@@ -213,6 +219,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::GAME);
 
+
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
@@ -222,7 +229,42 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
 {
-    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::END);
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::ENDGAME);
+    std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+    std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
+    if (sprite == nullptr) {
+        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        return scene;
+    }
+    scene->addEntity(background);
+    std::shared_ptr<ECS::PositionComponent> position = buttonQuit->getComponent<ECS::PositionComponent>();
+
+    sf::Rect<int> rect;
+
+    if (position) {
+        std::vector<int> pos = position->getValue();
+        rect.left = pos.at(0);
+        rect.top = pos.at(1);
+    } else {
+        rect.left = 100;
+        rect.top = 0;
+    }
+
+    std::shared_ptr<ECS::ScaleComponent> scale = buttonQuit->getComponent<ECS::ScaleComponent>();
+
+    if (scale) {
+        std::vector<float> scaleValue = scale->getFloatValue();
+        rect.width = sprite->getRect().width * scaleValue.at(0);
+        rect.height = sprite->getRect().height * scaleValue.at(1);
+    } else {
+        rect.width = sprite->getRect().width;
+        rect.height = sprite->getRect().height;
+    }
+
+    buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_endGameCallback, this, std::placeholders::_1, std::placeholders::_2), _window));
+    buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Game_Over.ogg"));
+    scene->addEntity(buttonQuit);
 
     return scene;
 }
@@ -235,6 +277,12 @@ void ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, E
     startData.mapId = 0;
     std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::START, &startData);
     packetsQueue.push_back(*packet);
+}
+
+void ECS::Core::_endGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
+{
+    std::cout << "End game callback" << std::endl;
+    sceneManager.shouldClose = true;
 }
 
 void ECS::Core::mainLoop(RType::Connection &connection)
@@ -256,9 +304,11 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         connection.sendPackets();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
+
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
+        
     }
 }
 
