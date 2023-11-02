@@ -112,6 +112,8 @@ set(ECS_SOURCES
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
+        ecs/components/HealthComponent.cpp
+        ecs/components/HealthComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -173,6 +175,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/Client.hpp
         server/ClientManager.cpp
         server/ClientManager.hpp
+        server/ecs/WaveSystem.cpp
+        server/ecs/WaveSystem.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
         server/ecs/components/HitboxComponent.cpp

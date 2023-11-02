@@ -22,7 +22,7 @@ namespace ECS {
 
             bool onDestroy(ECS::Entity &entity, Network::data::DeathReason reason, float dt) override;
 
-            void setState(Network::data::BossState state);
+            void setState(Network::data::BossState state, int isUp);
 
         private:
             void _comingUpdate(ECS::Entity &entity, float dt);
@@ -43,7 +43,7 @@ namespace ECS {
             Network::data::BossState _state = Network::data::COMING;
             float _timer = 0;
             int _step = 0;
-            float _speed = 100;
+            float _speed = 300;
             float _isUp = 1;
 
             sf::Texture _idleTexture;

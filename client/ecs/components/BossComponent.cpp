@@ -101,11 +101,12 @@ namespace ECS {
         return canBeDestroyed;
     }
 
-    void BossComponent::setState(Network::data::BossState state)
+    void BossComponent::setState(Network::data::BossState state, int isUp)
     {
         _timer = 0;
         _step = 0;
         _state = state;
+        _isUp = isUp;
     }
 
     void BossComponent::_comingUpdate(ECS::Entity &entity, float dt)
@@ -120,7 +121,6 @@ namespace ECS {
             positionComponent->x = 500;
             _state = Network::data::IDLE;
         }
-        std::cout << "Coming" << std::endl;
     }
 
     void BossComponent::_dashUpdate(ECS::Entity &entity, float dt)
@@ -144,7 +144,7 @@ namespace ECS {
                 }
                 break;
             case 2:
-                positionComponent->x += dt * _speed;
+                positionComponent->x += dt * _speed / 2;
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;

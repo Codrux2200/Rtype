@@ -38,7 +38,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
-        std::cout << "Error: scene is null" << std::endl;
+        std::cerr << "Error: scene is null" << std::endl;
         return;
     }
     sceneManager = SceneManager(scenes);
@@ -145,8 +145,6 @@ void ECS::Core::_initEntities()
     // Create boss bullet
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
-
-    std::cout << "Boss entity registered: " << boss << std::endl;
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -294,7 +292,7 @@ Network::Packet &packet, const udp::endpoint &endpoint)
 
     if (bossComponent == nullptr)
         return;
-    bossComponent->setState(packet.bossStateData.state);
+    bossComponent->setState(packet.bossStateData.state, packet.bossStateData.isUp);
 
     auto positionComponent = boss->getComponent<PositionComponent>();
 

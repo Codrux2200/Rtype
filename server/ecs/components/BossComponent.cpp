@@ -40,6 +40,7 @@ namespace ECS {
             case Network::data::MOVE:
                 _moveUpdate(entity, dt);
                 break;
+
             case Network::data::ATTACK_UP:
                 _attackUpUpdate(entity);
                 break;
@@ -54,11 +55,11 @@ namespace ECS {
         if (previousState != _state) {
             _timer = 0;
             _step = 0;
-            // TODO: send state to clients
             Network::data::BossStateData data = {
                 .id = entity.getId(),
                 .x = static_cast<int>(entity.getComponent<PositionComponent>()->x),
                 .y = static_cast<int>(entity.getComponent<PositionComponent>()->y),
+                .isUp = static_cast<int>(_isUp),
                 .state = _state
             };
 
@@ -131,7 +132,7 @@ namespace ECS {
                 }
                 break;
             case 2:
-                positionComponent->x += dt * _speed;
+                positionComponent->x += dt * _speed / 2;
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;

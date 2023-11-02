@@ -26,5 +26,9 @@ namespace ECS {
 
         positionComponent->x += velocityComponent->vx * deltaTime;
         positionComponent->y += velocityComponent->vy * deltaTime;
+
+        if (positionComponent->x > 800 + 100 || positionComponent->x < -100 || positionComponent->y > 600 + 100 || positionComponent->y < -100) {
+            entity.deathReason = Network::data::OUT_OF_BOUNDS;
+        }
     }
 }
