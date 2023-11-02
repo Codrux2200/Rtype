@@ -22,6 +22,9 @@ EnemyBulletComponent::EnemyBulletComponent(int x_bullet_size, int y_bullet_size,
         auto positionComponent = entity.getComponent<PositionComponent>();
         auto velocityComponent = entity.getComponent<VelocityComponent>();
 
++       if (velocityComponent == nullptr)
++           return;
+
         if (positionComponent == nullptr)
             return;
 
