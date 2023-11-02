@@ -7,15 +7,17 @@
 
 #pragma once
 
+#include <functional>
 #include "AGameComponent.hpp"
 
 namespace ECS {
+    using EnemyShootFunction = std::function<void()>;
     class EnemyComponent : public ECS::AGameComponent {
         public:
             /**
              * @brief Construct a new EnemyComponent object
              */
-            EnemyComponent();
+            explicit EnemyComponent(EnemyShootFunction shootFunction);
             /**
              * @brief Destroy the EnemyComponent object
              */
@@ -41,5 +43,8 @@ namespace ECS {
              * @brief The default speed of the enemy
              */
             float _speed = 100;
+            float timer = 0;
+            float rate = 1;
+            EnemyShootFunction _shootFunction;
     };
 }

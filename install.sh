@@ -88,6 +88,4 @@ fi
 
 cmake . .
 
-chmod -R 777 _deps
-
 cmake --build . -- -j 6

@@ -16,6 +16,7 @@
 #include "PlayerComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "EnemyBulletComponent.hpp"
 
 PlayerEntity::PlayerEntity() : Entity(0)
 {
@@ -35,7 +36,10 @@ void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::sh
 
     Network::data::DeathReason reason;
 
-    if (other->getComponent<ECS::EnemyComponent>() != nullptr || other->getComponent<ECS::BossShootComponent>() != nullptr)
+    if (other->getComponent<ECS::EnemyComponent>() != nullptr ||
+        other->getComponent<ECS::BossShootComponent>() != nullptr ||
+        other->getComponent<ECS::EnemyBulletComponent>() != nullptr
+    )
         reason = Network::data::DeathReason::ENEMY;
     else
         return;

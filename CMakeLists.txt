@@ -11,14 +11,14 @@ set(SERVER_BINARY "rtype-server")
 # -- Fetch Boost
 include(FetchContent)
 FetchContent_Declare(
-        Boost
-        URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
-        DOWNLOAD_NAME "boost_1_83_0.tar.gz"
-        DOWNLOAD_NO_PROGRESS TRUE
-        CMAKE_ARGS
+    Boost
+    URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+    DOWNLOAD_NAME "boost_1_83_0.tar.gz"
+    DOWNLOAD_NO_PROGRESS TRUE
+    CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=Release
         -DCONFIG=Release
-        DOWNLOAD_EXTRACT_TIMESTAMP ON
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 
 set(BOOST_RUNTIME_LINK static)
@@ -103,12 +103,16 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
         ecs/components/AGameComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
+        ecs/components/EnemyBulletComponent.cpp
+        ecs/components/EnemyBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -194,6 +198,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/BossEntity.hpp
         server/ecs/models/BossShootEntity.cpp
         server/ecs/models/BossShootEntity.hpp
+        server/ecs/models/EnemyBullet.cpp
+        server/ecs/models/EnemyBullet.hpp
 )
 
 

@@ -14,8 +14,9 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 {
     int WaveCount = 0;
     int EnemyCount = 0;
-    std::shared_ptr<ECS::Entity> ennemy = std::make_shared<ECS::EnemyEntity>(0);
-    if (ennemy == NULL)
+
+    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
+    if (enemy == nullptr)
         return;
     for ( ; EnemyCount < 6; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 200);
@@ -23,8 +24,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
-    ennemy = std::make_shared<ECS::EnemyEntity>(0);
-    if (ennemy == NULL)
+    enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
+    if (enemy == nullptr)
         return;
     for (; EnemyCount < 6; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 100));
@@ -72,12 +73,13 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 }
 
 void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<ECS::EnemyEntity>(0);
-    if (enemy == NULL)
+    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
+
+    if (enemy == nullptr)
         return;
     std::shared_ptr<ECS::PositionComponent> positionComponent =
         enemy->getComponent<ECS::PositionComponent>();
-    if (positionComponent == NULL)
+    if (positionComponent == nullptr)
         return;
     positionComponent->setValue({x, y});
     _factory.registerEntity(
@@ -91,12 +93,12 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     if (timer < 5)
         return;
     timer = 0;
-    int waveIndex = rand() % _waves.size();
+    int waveIndex = std::rand() % _waves.size();
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
 
     // Spawn the wave entities
     for (auto entity : waveEntities) {
-        Network::data::EntitySpawnData data;
+        Network::data::EntitySpawnData data{};
         data.id = entity->getId();
         data.type = ECS::Entity::ENEMY_CLASSIC;
         data.x = entity->getComponent<ECS::PositionComponent>()->x;
@@ -111,7 +113,7 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
 {
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
-    if (i >= _waves.size() ) {
+    if (i >= _waves.size()) {
         std::cerr << "Error: wave index is null" << std::endl;
         return result;
     }
