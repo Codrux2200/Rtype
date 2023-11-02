@@ -11,7 +11,7 @@
 #include "AGameComponent.hpp"
 
 namespace ECS {
-    using EnemyShootFunction = std::function<void()>;
+    using EnemyShootFunction = std::function<void(int, int)>;
     class EnemyComponent : public ECS::AGameComponent {
         public:
             /**
