@@ -17,7 +17,7 @@ namespace ECS {
              * @brief Construct a new PlayerBullet object with the given id
              * @param id
              */
-            PlayerBullet(int id);
+            explicit PlayerBullet(int id);
             /**
              * @brief Destroy the PlayerBullet object
              */

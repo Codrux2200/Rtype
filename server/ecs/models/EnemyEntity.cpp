@@ -11,14 +11,15 @@
 #include "PlayerBulletComponent.hpp"
 #include "PositionComponent.hpp"
 #include "PacketManager.hpp"
+#include "EnemyBulletComponent.hpp"
 
-EnemyEntity::EnemyEntity(int id) : Entity(id)
+EnemyEntity::EnemyEntity(EnemyShootFunction shootFunction, int id) : Entity(id)
 {
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&EnemyEntity::_callbackEnemyHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
     std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
+    addComponent(std::make_shared<ECS::PositionComponent>(700, 200));
+    addComponent(std::make_shared<ECS::EnemyComponent>(shootFunction));
 
-    addComponent(std::make_shared<ECS::PositionComponent>(500, 200));
-    addComponent(std::make_shared<ECS::EnemyComponent>());
     updateGameComponents();
 }
 

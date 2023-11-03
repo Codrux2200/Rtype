@@ -5,13 +5,18 @@
 ** SpriteComponent
 */
 
+#include <iostream>
 #include "SpriteComponent.hpp"
 
 #include <utility>
 
-ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect) : _rect(rect), _texture(std::move(texture)), _sprite(_texture)
+ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect, int maxIterations, float animSpeed, sf::Vector2i spriteGrid)
+    : _rect(rect), _texture(std::move(texture)), _sprite(_texture),
+      maxIterations(maxIterations), animSpeed(animSpeed),
+      spriteGrid(spriteGrid)
 {
     _sprite.setTextureRect(_rect);
+//    _sprite.setOrigin(sf::Vector2f(static_cast<float>(_rect.width) / 2, static_cast<float>(_rect.height) / 2));
 }
 
 ECS::SpriteComponent::~SpriteComponent()
@@ -20,7 +25,8 @@ ECS::SpriteComponent::~SpriteComponent()
 
 void ECS::SpriteComponent::setTexture(sf::Texture &texture)
 {
-    _sprite.setTexture(texture);
+    _texture = texture;
+    _sprite.setTexture(_texture);
 }
 
 const sf::Sprite &ECS::SpriteComponent::getSprite() const
@@ -30,7 +36,7 @@ const sf::Sprite &ECS::SpriteComponent::getSprite() const
 
 std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
 {
-    return std::make_shared<ECS::SpriteComponent>(_texture, _rect);
+    return std::make_shared<ECS::SpriteComponent>(_texture, _rect, maxIterations, animSpeed, spriteGrid);
 }
 
 sf::Rect<int> &ECS::SpriteComponent::getRect()
@@ -38,21 +44,29 @@ sf::Rect<int> &ECS::SpriteComponent::getRect()
     return _rect;
 }
 
-void ECS::SpriteComponent::setMaxIteration(sf::Vector2i max_iteration)
+void ECS::SpriteComponent::updateAnimation(float dt)
 {
-    _maxIterations = max_iteration;
+    if (!isAnimated)
+        return;
+    _timer += dt;
+    if (_timer >= animSpeed) {
+        _timer = 0;
+        nextAnimation();
+    }
 }
 
-void ECS::SpriteComponent::moveRect()
+void ECS::SpriteComponent::nextAnimation()
 {
-    _iterations.x++;
-    if (_iterations.x >= _maxIterations.x) {
-        _iterations.x = 0; _iterations.y++;
-        if (_iterations.y >= _maxIterations.y) {
-            _iterations.y = 0;
-        }
-    }
-    _rect.left = _iterations.x * _rect.width;
-    _rect.top = _iterations.y * _rect.height;
+    animStep++;
+    if (animStep >= maxIterations)
+        animStep = 0;
+    setAnimationStep(animStep);
+}
+
+void ECS::SpriteComponent::setAnimationStep(int step)
+{
+    animStep = step;
+    _rect.left = step % spriteGrid.x * _rect.width;
+    _rect.top = (step / spriteGrid.x) * _rect.height;
     _sprite.setTextureRect(_rect);
 }

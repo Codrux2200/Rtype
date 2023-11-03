@@ -13,6 +13,7 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "VelocityComponent.hpp"
 
 ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
 {
@@ -31,14 +32,15 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
 
-    std::shared_ptr<sf::SoundBuffer> soundbuffer = std::make_shared<sf::SoundBuffer>();
-    if (!soundbuffer->loadFromFile("assets/sound/laser.ogg")) {
-        std::cerr << "Error loading sound" << std::endl;
+    std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
+    if (!soundComponent->addSound("bullet", "assets/sound/laser.ogg")) {
+        std::cerr << "Error loading bullet sound" << std::endl;
         return;
     }
-    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>(*soundbuffer);
-    addComponent(std::make_shared<ECS::SoundComponent>(sound, soundbuffer));
+    soundComponent->setToBePlayed("bullet", true);
+    addComponent(soundComponent);
     addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
     addComponent(std::make_shared<ECS::PlayerBulletComponent>());
+    addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
     updateGameComponents();
 }

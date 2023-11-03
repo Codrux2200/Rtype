@@ -5,30 +5,42 @@
 ** MusicComponent
 */
 
-#ifndef SOUNDCOMPONENT_HPP_
-#define SOUNDCOMPONENT_HPP_
+#pragma once
 
 #include <SFML/Audio.hpp>
 #include "AComponent.hpp"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 namespace ECS {
 class SoundComponent : public AComponent {
     public:
-        SoundComponent(const SoundComponent& other);
-        SoundComponent(std::shared_ptr<sf::Sound> sound, std::shared_ptr<sf::SoundBuffer> soundBuffer);
+        SoundComponent() = default;
         ~SoundComponent() = default;
-        void play();
-        bool isPlaying() const;
-        bool startPlaying = true;
+        SoundComponent(const SoundComponent& other);
+
+        void play(const std::string& name);
+        bool isPlaying(const std::string& name) const;
+        [[nodiscard]] bool addSound(const std::string& name, std::string path);
         [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+        void setVolume(std::string name, float volume);
+        void setLoop(std::string name, bool loop);
+        void stop(std::string name);
+        void stopAll();
+        float getVolume(std::string name);
+        void setToBePlayed(std::string name, bool toBePlayed);
+
+        void update();
 
     protected:
     private:
-        std::shared_ptr<sf::SoundBuffer> _soundBuffer;
-        std::shared_ptr<sf::Sound> _sounds;
+        struct Sound {
+            std::shared_ptr<sf::Sound> sound;
+            std::shared_ptr<sf::SoundBuffer> soundBuffer;
+            bool hasToBePlayed = false;
+        };
+        std::unordered_map<std::string, Sound> _sounds;
     };
 }
 
-#endif /* !SOUNDCOMPONENT_HPP_ */

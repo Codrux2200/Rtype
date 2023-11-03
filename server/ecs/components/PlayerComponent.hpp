@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "AComponent.hpp"
+#include "AGameComponent.hpp"
 
 namespace ECS {
-    class PlayerComponent : public AComponent {
+    class PlayerComponent : public AGameComponent {
         public:
             /**
              * @brief Construct a new PlayerComponent object
@@ -22,6 +22,17 @@ namespace ECS {
              * @return std::shared_ptr<IComponent> The newly cloned PlayerComponent
              */
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+
+            void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+
+            int fireRate = 5;
+
+            [[nodiscard]] int getLastFire() const;
+
+            void resetLastFire();
+
+        private:
+            int _lastFire = 5;
     };
 
 } // namespace ECS

@@ -107,6 +107,9 @@ namespace ECS {
              */
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 
+            void _bossShoot();
+            void _enemyShoot();
+
             /**
              * @brief The server's ECS systems queue
              */
@@ -122,7 +125,7 @@ namespace ECS {
             /**
              * @brief The delta time between two frames, also known as the tick time
              */
-            float _deltaTime;
+            float _deltaTime = 0;
             /**
              * @brief The horizontal default speed of the entities
              */

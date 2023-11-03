@@ -31,6 +31,8 @@ namespace Network::data {
                  * @brief The y position of the player.
                  */
                 int y;
+                float vx;
+                float vy;
         };
     }
 } // namespace Network::data

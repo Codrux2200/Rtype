@@ -3,6 +3,11 @@
 rtype-server
 rtype-client
 .vscode
+coverage
+
+Testing
+
+build.sh
 
 doxygen_warnings.log
 

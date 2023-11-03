@@ -13,12 +13,12 @@
 #include "ScaleComponent.hpp"
 #include "MusicsComponent.hpp"
 
-ECS::ButtonEntity::ButtonEntity() : Entity(0)
+ECS::ButtonEntity::ButtonEntity(std::string path, int x, int y) : Entity(0)
 {
-    addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
+    addComponent(std::make_shared<ECS::PositionComponent>(x, y));
 
     sf::Texture texture;
-    if (!texture.loadFromFile("assets/start.png")) {
+    if (!texture.loadFromFile(path)) {
         std::cerr << "Error loading button texture" << std::endl;
         return;
     }
@@ -29,10 +29,7 @@ ECS::ButtonEntity::ButtonEntity() : Entity(0)
     rect.width = texture.getSize().x;
     rect.height = texture.getSize().y;
 
-
-
-
     addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
-    addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
+    addComponent(std::make_shared<ECS::ScaleComponent>(1.0, 1.0));
 
 }

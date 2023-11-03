@@ -1,14 +1,61 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.15)
 project(RType)
-include(FetchContent)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CLIENT_BINARY "rtype-client")
+set(SERVER_BINARY "rtype-server")
+
+# -- Fetch Boost
+include(FetchContent)
+FetchContent_Declare(
+    Boost
+    URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+    DOWNLOAD_NAME "boost_1_83_0.tar.gz"
+    DOWNLOAD_NO_PROGRESS TRUE
+    CMAKE_ARGS
+        -DCMAKE_BUILD_TYPE=Release
+        -DCONFIG=Release
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
+)
+
+set(BOOST_RUNTIME_LINK static)
+set(BOOST_INCLUDE_LIBRARIES
+    asio
+    assert
+    align
+    array
+
+    bind
+
+    coroutine
+    config
+    context
+    core
+    chrono
+
+    date_time
+
+    exception
+
+    function
+    filesystem
+
+    move
+
+    system
+    smart_ptr
+
+    throw_exception
+    type_traits
+
+    utility
+)
+FetchContent_MakeAvailable(Boost)
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-set(BOOST_INCLUDE_LIBRARIES thread filesystem system asio)
-set(BOOST_ENABLE_CMAKE ON)
 
 set(NETWORK_SOURCES
         Network/Packet.hpp
@@ -22,6 +69,7 @@ set(NETWORK_SOURCES
         Network/data/DisconnectData.hpp
         Network/data/DeadData.hpp
         Network/data/EntitySpawnData.hpp
+        Network/data/BossStateData.hpp
 )
 
 set(NETWORK_INCLUDE
@@ -55,8 +103,16 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
         ecs/components/AGameComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
+        ecs/components/BossShootComponent.cpp
+        ecs/components/BossShootComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
+        ecs/components/EnemyBulletComponent.cpp
+        ecs/components/EnemyBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -90,16 +146,24 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/SpriteComponent.hpp
         client/ecs/components/ShootComponent.hpp
         client/ecs/components/ShootComponent.cpp
-        client/ecs/models/ButtonEntity.cpp
-        client/ecs/models/ButtonEntity.hpp
+        client/ecs/components/BossComponent.cpp
+        client/ecs/components/BossComponent.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
+        client/ecs/models/ButtonEntity.cpp
+        client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp
         client/ecs/models/EnemyEntity.hpp
         client/ecs/models/PlayerBullet.cpp
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
+        client/ecs/models/BossEntity.cpp
+        client/ecs/models/BossEntity.hpp
+        client/ecs/models/BossShootEntity.cpp
+        client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -110,6 +174,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/Client.hpp
         server/ClientManager.cpp
         server/ClientManager.hpp
+        server/ecs/WaveSystem.cpp
+        server/ecs/WaveSystem.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
         server/ecs/components/HitboxComponent.cpp
@@ -118,6 +184,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
         server/ecs/components/PlayerComponent.hpp
+        server/ecs/components/BossComponent.cpp
+        server/ecs/components/BossComponent.hpp
         server/ecs/CollisionSystem.cpp
         server/ecs/CollisionSystem.hpp
         server/ecs/models/PlayerEntity.cpp
@@ -126,6 +194,12 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/EnemyEntity.hpp
         server/ecs/models/PlayerBullet.cpp
         server/ecs/models/PlayerBullet.hpp
+        server/ecs/models/BossEntity.cpp
+        server/ecs/models/BossEntity.hpp
+        server/ecs/models/BossShootEntity.cpp
+        server/ecs/models/BossShootEntity.hpp
+        server/ecs/models/EnemyBullet.cpp
+        server/ecs/models/EnemyBullet.hpp
 )
 
 
@@ -134,13 +208,6 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/SFML/SFML.git
 )
 
-FetchContent_Declare(
-        Boost
-        GIT_REPOSITORY https://github.com/boostorg/boost.git
-        GIT_TAG boost-1.80.0
-)
-FetchContent_MakeAvailable(Boost)
-
 # Print SFML Include and Lib directories
 message(STATUS "SFML Include: ${SFML_SOURCE_DIR}/include")
 
@@ -148,16 +215,51 @@ FetchContent_MakeAvailable(SFML)
 
 
 # Ajoutez vos sources existantes à votre exécutable
-add_executable(rtype-client ${CLIENT_SOURCES})
+add_executable(${CLIENT_BINARY} ${CLIENT_SOURCES})
 
 # Ajoutez vos sources existantes à votre exécutable
-add_executable(rtype-server ${SERVER_SOURCES})
+add_executable(${SERVER_BINARY} ${SERVER_SOURCES})
+
+find_package(Threads REQUIRED)
+target_link_libraries(
+    ${CLIENT_BINARY}
+    PRIVATE
+    Threads::Threads
+)
+
+target_link_libraries(
+    ${SERVER_BINARY}
+    PRIVATE
+    Threads::Threads
+)
+
+foreach(lib ${BOOST_INCLUDE_LIBRARIES})
+    target_link_libraries(
+        ${CLIENT_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_include_directories(
+        ${CLIENT_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_link_libraries(
+        ${SERVER_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+    target_include_directories(
+        ${SERVER_BINARY}
+        PRIVATE
+        Boost::${lib}
+    )
+endforeach()
 
 # Ajoutez les répertoires d'inclusion de vos composants ECS
-target_include_directories(rtype-client PRIVATE
+target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
-        ${Boost_INCLUDE_DIRS}
         ${SFML_SOURCE_DIR}/include
         client
         client/ecs
@@ -166,8 +268,7 @@ target_include_directories(rtype-client PRIVATE
 )
 
 # Ajoutez les sous-modules SFML et Boost.Asio comme sous-répertoires
-target_include_directories(rtype-server PRIVATE
-        ${Boost_INCLUDE_DIRS}
+target_include_directories(${SERVER_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         server/ecs
@@ -176,20 +277,10 @@ target_include_directories(rtype-server PRIVATE
 )
 
 # Liens vers les bibliothèques SFML et Boost.Asio
-target_link_libraries(rtype-client
+target_link_libraries(${CLIENT_BINARY}
+        PRIVATE
         sfml-graphics
         sfml-window
         sfml-system
         sfml-audio
-        Boost::filesystem
-        Boost::array
-        Boost::asio
-        Boost::system
-)
-
-target_link_libraries(rtype-server
-        Boost::filesystem
-        Boost::array
-        Boost::asio
-        Boost::system
 )

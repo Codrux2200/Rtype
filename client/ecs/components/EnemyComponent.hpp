@@ -38,7 +38,7 @@ namespace ECS {
 
             void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
 
-            bool onDestroy(Entity &entity, Network::data::DeathReason reason) override;
+            bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) override;
 
         private:
             int _speed = 100;

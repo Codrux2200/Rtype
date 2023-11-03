@@ -1,0 +1,54 @@
+/*
+** EPITECH PROJECT, 2023
+** Rtype
+** File description:
+** BossComponent
+*/
+
+#pragma once
+
+#include "AGameComponent.hpp"
+#include "SFML/Graphics/Texture.hpp"
+
+namespace ECS {
+    class BossComponent : public ECS::AGameComponent {
+        public:
+            BossComponent();
+            ~BossComponent() = default;
+
+            void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+
+            [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
+
+            bool onDestroy(ECS::Entity &entity, Network::data::DeathReason reason, float dt) override;
+
+            void setState(Network::data::BossState state);
+
+        private:
+            void _comingUpdate(ECS::Entity &entity, float dt);
+            void _dashUpdate(ECS::Entity &entity, float dt);
+            void _moveUpdate(ECS::Entity &entity, float dt);
+            void _attackUpUpdate(ECS::Entity &entity);
+            void _attackDownUpdate(ECS::Entity &entity);
+            void _shootUpdate();
+            void _idleUpdate(ECS::Entity &entity);
+
+            void _setIdleTexture(ECS::Entity &entity);
+            void _setAttackUpLoadingTexture(ECS::Entity &entity);
+            void _setAttackUpTexture(ECS::Entity &entity);
+            void _setAttackDownLoadingTexture(ECS::Entity &entity);
+            void _setAttackDownTexture(ECS::Entity &entity);
+
+            bool _soundPlayed = false;
+            Network::data::BossState _state = Network::data::COMING;
+            float _timer = 0;
+            int _step = 0;
+            float _speed = 100;
+            float _isUp = 1;
+
+            sf::Texture _idleTexture;
+            sf::Texture _attackUpTexture;
+            sf::Texture _attackDownTexture;
+//            sf::Texture _dashTexture;
+    };
+}
