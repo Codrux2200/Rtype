@@ -9,6 +9,9 @@
 
 #include "Entity.hpp"
 
+/**
+ * @brief BossShoot Entity
+ */
 class BossShootEntity : public ECS::Entity {
     public:
         explicit BossShootEntity(int id);
