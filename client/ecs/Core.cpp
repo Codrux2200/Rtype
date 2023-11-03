@@ -38,7 +38,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
-    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
+    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr || scenes.at(SceneType::ENDGAME) == nullptr) {
         std::cout << "Error: scene is null" << std::endl;
         return;
     }
@@ -232,6 +232,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::ENDGAME);
     std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
     std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+
     std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
@@ -301,6 +302,8 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             if (system == nullptr)
                 continue;
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
+            if (sceneManager.shouldClose)
+                std::cout << "Should close: " << sceneManager.shouldClose << std::endl;
         }
         connection.sendPackets();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
@@ -323,7 +326,6 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
-        
     }
 
     for (const auto& entity : sceneManager.getCurrentScene()->entitiesList) {
