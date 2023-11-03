@@ -10,6 +10,7 @@
 #include <thread>
 #include "AudioSystem.hpp"
 #include "Boss/BossEyesLaserEntity.hpp"
+#include "Boss/BossMouthLaserEntity.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
 #include "ControlComponent.hpp"
@@ -159,6 +160,9 @@ void ECS::Core::_initEntities()
 
     std::shared_ptr<ECS::Entity> bossLaser = std::make_shared<BossEyesLaserEntity>(0);
     _entityFactory.registerEntity(bossLaser, "bossEyesLaser");
+
+    std::shared_ptr<ECS::Entity> bossMouthLaser = std::make_shared<BossMouthLaserEntity>(0);
+    _entityFactory.registerEntity(bossMouthLaser, "bossMouthLaser");
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()

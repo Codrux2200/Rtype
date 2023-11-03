@@ -157,6 +157,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/TextComponent.hpp
         client/ecs/components/BossLaserEyeComponent.cpp
         client/ecs/components/BossLaserEyeComponent.hpp
+        client/ecs/components/BossLaserMouthComponent.cpp
+        client/ecs/components/BossLaserMouthComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp
@@ -171,6 +173,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/Boss/BossShootEntity.hpp
         client/ecs/models/Boss/BossEyesLaserEntity.cpp
         client/ecs/models/Boss/BossEyesLaserEntity.hpp
+        client/ecs/models/Boss/BossMouthLaserEntity.cpp
+        client/ecs/models/Boss/BossMouthLaserEntity.hpp
         client/ecs/models/StaticBackgroundEntity.cpp
         client/ecs/models/StaticBackgroundEntity.hpp
 )

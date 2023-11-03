@@ -230,12 +230,17 @@ namespace ECS {
                 _setAttackDownLoadingTexture(entity);
                 _step = 1;
             }
-            case 1:
+            case 1: {
                 if (_timer >= 0.9) {
+                    auto position = entity.getComponent<PositionComponent>();
+
+                    if (position)
+                        _laserGenerator("bossMouthLaser", position->x, position->y + 190);
                     _setAttackDownTexture(entity);
                     _step = 2;
                 }
                 break;
+            }
             case 2: {
                 if (_timer >= 2) {
                     _setIdleTexture(entity);

@@ -88,7 +88,7 @@ namespace ECS {
         if (_timer >= 3) {
 //            int random = std::rand() % 5;
 
-            int random = 0;
+            int random = 1;
             switch (random) {
                 case 0:
                     _state = Network::data::ATTACK_UP;
