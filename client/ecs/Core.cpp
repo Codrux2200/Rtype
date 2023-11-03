@@ -111,7 +111,6 @@ void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpo
     auto entity = scene->getEntityByID(packet.deadData.id);
     if (entity == nullptr)
         return;
-    entity->isEnabled = false;
     entity->deathReason = packet.deadData.reason;
 
     if (packet.deadData.id == _playerId) {
@@ -329,7 +328,6 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
-        
     }
 
     for (const auto& entity : sceneManager.getCurrentScene()->entitiesList) {

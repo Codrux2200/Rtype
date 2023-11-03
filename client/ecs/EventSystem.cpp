@@ -23,7 +23,7 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
 
     auto &actualScene = sceneManager.getCurrentScene();
 
-    bool shouldClose = false;
+    bool shouldClose = sceneManager.shouldClose;
 
     for (const auto& entity : actualScene->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)

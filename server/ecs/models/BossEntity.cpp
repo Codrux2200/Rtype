@@ -17,16 +17,16 @@ BossEntity::BossEntity(const ECS::bossShootFunction& shootFunction, int id) : EC
 {
     addComponent(std::make_shared<ECS::PositionComponent>(1100, 0));
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&BossEntity::_callbackBossHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{0, 0}, {360, 360}}));
+    std::vector<std::pair<int, int>>{{100, 0}, {360, 310}}));
 
     // Boss laser hitbox up
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&BossEntity::_callbackBossLaserHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{-500, 0}, {360, 180}}))
+    std::vector<std::pair<int, int>>{{-500, 87}, {360, 151}}))
         ->isEnabled = false;
 
     // Boss laser hitbox down
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&BossEntity::_callbackBossLaserHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{-500, 180}, {360, 360}}))
+    std::vector<std::pair<int, int>>{{-500, 190}, {360, 281}}))
         ->isEnabled = false;
 
     addComponent(std::make_shared<ECS::PositionComponent>(1160, 120));

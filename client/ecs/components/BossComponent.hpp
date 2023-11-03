@@ -42,7 +42,7 @@ namespace ECS {
             void _setAttackDownLoadingTexture(ECS::Entity &entity);
             void _setAttackDownTexture(ECS::Entity &entity);
 
-            bool _soundPlayed = false;
+            bool _deathInitialized = false;
             Network::data::BossState _state = Network::data::COMING;
             float _timer = 0;
             int _step = 0;
@@ -54,6 +54,7 @@ namespace ECS {
             std::shared_ptr<sf::Texture> _idleTexture;
             std::shared_ptr<sf::Texture> _attackUpTexture;
             std::shared_ptr<sf::Texture> _attackDownTexture;
+            std::shared_ptr<sf::Texture> _deathTexture;
 //            sf::Texture _dashTexture;
     };
 }

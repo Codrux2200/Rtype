@@ -38,7 +38,8 @@ void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::sh
 
     if (other->getComponent<ECS::EnemyComponent>() != nullptr ||
         other->getComponent<ECS::BossShootComponent>() != nullptr ||
-        other->getComponent<ECS::EnemyBulletComponent>() != nullptr
+        other->getComponent<ECS::EnemyBulletComponent>() != nullptr ||
+        other->getComponent<ECS::BossComponent>() != nullptr
     )
         reason = Network::data::DeathReason::ENEMY;
     else
