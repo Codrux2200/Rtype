@@ -15,21 +15,38 @@ namespace ECS {
 
     BossComponent::BossComponent()
     {
+        _idleTexture = std::make_shared<sf::Texture>();
+        _attackUpTexture = std::make_shared<sf::Texture>();
+        _attackDownTexture = std::make_shared<sf::Texture>();
+
         // load and store textures
-        if (!_idleTexture.loadFromFile("assets/boss/boss2.png")) {
+        if (!_idleTexture->loadFromFile("assets/boss/boss2.png")) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
 
-        if (!_attackUpTexture.loadFromFile("assets/boss/boss_eyes_shot.png")) {
+        if (!_attackUpTexture->loadFromFile("assets/boss/boss_eyes_shot.png")) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
 
-        if (!_attackDownTexture.loadFromFile("assets/boss/boss mouth laser.png")) {
+        if (!_attackDownTexture->loadFromFile("assets/boss/boss mouth laser.png")) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
+    }
+
+    BossComponent::BossComponent(const BossComponent &other)
+    {
+        _idleTexture = other._idleTexture;
+        _attackUpTexture = other._attackUpTexture;
+        _attackDownTexture = other._attackDownTexture;
+        _state = other._state;
+        _timer = other._timer;
+        _step = other._step;
+        _speed = other._speed;
+        _isUp = other._isUp;
+        _soundPlayed = other._soundPlayed;
     }
 
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)

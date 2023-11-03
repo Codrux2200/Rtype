@@ -14,6 +14,7 @@ namespace ECS {
     class BossComponent : public ECS::AGameComponent {
         public:
             BossComponent();
+            BossComponent(const BossComponent &other);
             ~BossComponent() = default;
 
             void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
@@ -46,9 +47,9 @@ namespace ECS {
             float _speed = 300;
             float _isUp = 1;
 
-            sf::Texture _idleTexture;
-            sf::Texture _attackUpTexture;
-            sf::Texture _attackDownTexture;
+            std::shared_ptr<sf::Texture> _idleTexture;
+            std::shared_ptr<sf::Texture> _attackUpTexture;
+            std::shared_ptr<sf::Texture> _attackDownTexture;
 //            sf::Texture _dashTexture;
     };
 }

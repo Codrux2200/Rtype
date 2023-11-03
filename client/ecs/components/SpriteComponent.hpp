@@ -17,12 +17,12 @@ namespace ECS {
     */
     class SpriteComponent : public AComponent {
         public:
-            SpriteComponent(sf::Texture texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
+            SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
             ~SpriteComponent();
-            void setTexture(sf::Texture &texture);
+            void setTexture(std::shared_ptr<sf::Texture> &texture);
             void updateAnimation(float dt);
 
-            const sf::Sprite getSprite() const;
+            sf::Sprite getSprite() const;
             sf::Rect<int> &getRect();
 
             void nextAnimation();
@@ -41,7 +41,7 @@ namespace ECS {
             bool isAnimated = false;
 
         private:
-            sf::Texture _texture;
+            std::shared_ptr<sf::Texture> _texture;
             sf::Sprite _sprite;
             float _timer = 0;
     };

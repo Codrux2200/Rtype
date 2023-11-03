@@ -18,8 +18,8 @@
 ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    sf::Texture bulletTexture;
-    if (!bulletTexture.loadFromFile("assets/rickBullet.png")) {
+    std::shared_ptr<sf::Texture> bulletTexture = std::make_shared<sf::Texture>();
+    if (!bulletTexture->loadFromFile("assets/rickBullet.png")) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }
@@ -27,8 +27,8 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     sf::Rect<int> bulletRect;
     bulletRect.left = 0;
     bulletRect.top = 0;
-    bulletRect.width = bulletTexture.getSize().x;
-    bulletRect.height = bulletTexture.getSize().y;
+    bulletRect.width = bulletTexture->getSize().x;
+    bulletRect.height = bulletTexture->getSize().y;
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
 

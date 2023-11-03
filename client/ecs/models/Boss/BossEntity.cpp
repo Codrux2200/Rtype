@@ -20,8 +20,8 @@ BossEntity::BossEntity(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::ScaleComponent>(0.9f, 0.9f));
     addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
 
-    sf::Texture bossTexture;
-    if (!bossTexture.loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
+    std::shared_ptr<sf::Texture> bossTexture = std::make_shared<sf::Texture>();
+    if (!bossTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
         std::cerr << "Error loading enemy texture" << std::endl;
         return;
     }

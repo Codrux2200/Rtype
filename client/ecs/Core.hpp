@@ -69,6 +69,9 @@ namespace ECS {
             void _handlerEntitySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
 
+            void _createBossEyesLaser(int y);
+            void _createBossMouthLaser(int y);
+
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
             sf::Vector2u _modeSize;

@@ -12,6 +12,7 @@
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
 #include "ControlComponent.hpp"
+#include "ConvertPath.hpp"
 #include "EnemyEntity.hpp"
 #include "EventSystem.hpp"
 #include "GameSystem.hpp"
@@ -23,12 +24,11 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
-#include "BossEntity.hpp"
-#include "BossShootEntity.hpp"
-#include "ConvertPath.hpp"
-#include "StaticBackgroundEntity.hpp"
+#include "ecs/models/Boss/BossEntity.hpp"
+#include "ecs/models/Boss/BossShootEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -391,4 +391,23 @@ Network::Packet &packet, const udp::endpoint &endpoint)
         return;
     positionComponent->x = packet.bossStateData.x;
     positionComponent->y = packet.bossStateData.y;
+}
+
+void ECS::Core::_createBossMouthLaser(int y)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    std::shared_ptr<ECS::Entity> bossBullet = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET), _entityFactory.ids++);
+    auto positionComponent = bossBullet->getComponent<PositionComponent>();
+    auto velocityComponent = bossBullet->getComponent<VelocityComponent>();
+
+    if (positionComponent == nullptr || velocityComponent == nullptr)
+        return;
+    positionComponent->x = 800;
+    positionComponent->y = y;
+    velocityComponent->vx = -500;
+    velocityComponent->vy = 0;
+    scene->addEntity(bossBullet);
 }

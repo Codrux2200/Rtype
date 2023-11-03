@@ -163,10 +163,12 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/BossEntity.cpp
-        client/ecs/models/BossEntity.hpp
-        client/ecs/models/BossShootEntity.cpp
-        client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEntity.cpp
+        client/ecs/models/Boss/BossEntity.hpp
+        client/ecs/models/Boss/BossShootEntity.cpp
+        client/ecs/models/Boss/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEyesLaserEntity.cpp
+        client/ecs/models/Boss/BossEyesLaserEntity.hpp
         client/ecs/models/StaticBackgroundEntity.cpp
         client/ecs/models/StaticBackgroundEntity.hpp
 )

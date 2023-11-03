@@ -9,8 +9,8 @@
 
 #include <utility>
 
-ECS::SpriteComponent::SpriteComponent(sf::Texture texture, sf::Rect<int> rect, int maxIterations, float animSpeed, sf::Vector2i spriteGrid)
-    : _rect(rect), _texture(std::move(texture)), _sprite(_texture),
+ECS::SpriteComponent::SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations, float animSpeed, sf::Vector2i spriteGrid)
+    : _rect(rect), _texture(std::move(texture)), _sprite(*_texture),
       maxIterations(maxIterations), animSpeed(animSpeed),
       spriteGrid(spriteGrid)
 {
@@ -22,13 +22,13 @@ ECS::SpriteComponent::~SpriteComponent()
 {
 }
 
-void ECS::SpriteComponent::setTexture(sf::Texture &texture)
+void ECS::SpriteComponent::setTexture(std::shared_ptr<sf::Texture> &texture)
 {
     _texture = texture;
-    _sprite.setTexture(_texture);
+    _sprite.setTexture(*_texture);
 }
 
-const sf::Sprite ECS::SpriteComponent::getSprite() const
+sf::Sprite ECS::SpriteComponent::getSprite() const
 {
     return _sprite;
 }
