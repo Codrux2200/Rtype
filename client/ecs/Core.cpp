@@ -56,6 +56,11 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
     packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
     packetManager.REGISTER_HANDLER(Network::PacketType::BOSS_STATE, &ECS::Core::_handlerBossState);
+    packetManager.REGISTER_HANDLER(Network::PacketType::SCORE, &ECS::Core::_handlerScore);
+}
+
+void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint){
+    std::cout<< packet.scoreData.Score <<std::endl;
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)

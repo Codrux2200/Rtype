@@ -94,13 +94,14 @@ namespace ECS {
                 return entities;
             }
 
-            void removeEntitiesToDestroy(float dt);
+            int removeEntitiesToDestroy(float dt);
 
         private:
             /** @brief The ID of the entity. */
             int _entityID;
             /** @brief The type of the scene. */
             SceneType _sceneType;
+            int _score;
 
     };
 }
