@@ -31,7 +31,7 @@ namespace ECS {
         }
         if (timer > rate && _shootFunction != nullptr) {
             timer = 0;
-            _shootFunction();
+            _shootFunction(positionComponent->x, positionComponent->y - 10);
             std::cout << "ennemy shoot" << std::endl;
         }
     }
