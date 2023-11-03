@@ -5,8 +5,11 @@
 ** ServerCore
 */
 
-#include "ServerCore.hpp"
+#define _USE_MATH_DEFINES
+
 #include <thread>
+#include <cmath>
+#include "ServerCore.hpp"
 #include "BossEntity.hpp"
 #include "BossShootComponent.hpp"
 #include "CollisionSystem.hpp"
