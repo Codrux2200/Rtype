@@ -22,7 +22,7 @@ namespace ECS {
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final;
+            bool execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final;
 
     };
 }

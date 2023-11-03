@@ -54,10 +54,11 @@ namespace ECS {
         private:
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
             std::shared_ptr<ECS::Scene> _initGameScene();
+            std::shared_ptr<ECS::Scene> _initEndScene();
 
             void _initEntities();
 
-            static void _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
+            static bool _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
 
             void _initHandlers(Network::PacketManager &packetManager);
 

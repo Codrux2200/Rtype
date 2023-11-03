@@ -15,7 +15,7 @@
 #include "PacketManager.hpp"
 
 namespace ECS {
-    using eventCallback = std::function<void(std::vector<Network::Packet> &, ECS::Entity &)>;
+    using eventCallback = std::function<bool(std::vector<Network::Packet> &, ECS::Entity &)>;
     class ClickComponent : public AEventComponent {
         public:
             ClickComponent(sf::Rect<int> rect, eventCallback callback, sf::RenderWindow &window);
@@ -25,7 +25,7 @@ namespace ECS {
 
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final ;
+            bool execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final ;
 
         private:
             sf::Rect<int> _rect;

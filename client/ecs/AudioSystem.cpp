@@ -14,6 +14,7 @@ namespace ECS {
 
 void AudioSystem::update(SceneManager &sceneManager, float /*deltaTime*/, std::vector<Network::Packet> &/*packetQueue*/)
 {
+
     for (auto entity : sceneManager.getCurrentScene()->entitiesList) {
         auto component = entity->getComponent<MusicsComponent>();
         auto soundComponent = entity->getComponent<SoundComponent>();

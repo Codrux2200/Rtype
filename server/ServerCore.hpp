@@ -108,6 +108,7 @@ namespace ECS {
             void _tryMovePlayer(const udp::endpoint &endpoint, float x, float y);
 
             void _bossShoot();
+            void _enemyShoot();
 
             /**
              * @brief The server's ECS systems queue
