@@ -17,7 +17,7 @@ namespace ECS {
             /**
              * @brief Construct a new EnemyComponent object
              */
-            explicit EnemyComponent(EnemyShootFunction shootFunction);
+            explicit EnemyComponent(EnemyShootFunction shootFunction, ECS::Entity::EntityType);
             /**
              * @brief Destroy the EnemyComponent object
              */
@@ -43,8 +43,9 @@ namespace ECS {
              * @brief The default speed of the enemy
              */
             float _speed = 100;
-            float timer = 0;
-            float rate = 1;
+            float _timer = 0;
+            float _rate = 1;
+            ECS::Entity::EntityType _type;
             EnemyShootFunction _shootFunction;
     };
 }

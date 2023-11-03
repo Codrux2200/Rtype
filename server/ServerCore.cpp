@@ -15,7 +15,6 @@
 #include "EnemyEntity.hpp"
 #include "EntitySpawnData.hpp"
 #include "GameSystem.hpp"
-#include "HitboxComponent.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerComponent.hpp"
 #include "PlayerEntity.hpp"
@@ -43,8 +42,8 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0);
-    std::shared_ptr<ECS::Entity> enemyVeloce = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0);
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0, ECS::Entity::ENEMY_CLASSIC);
+    std::shared_ptr<ECS::Entity> enemyVeloce = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0, ECS::Entity::ENEMY_VELOCE);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);

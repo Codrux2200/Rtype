@@ -18,84 +18,84 @@ namespace ECS
         // Adjust the speed values as needed
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[0].loadFromFile(ConvertPath::convertPath("assets/background/6Background.png"))) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(20.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[1].loadFromFile(ConvertPath::convertPath("assets/background/6Background.png"))) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(20.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[2].loadFromFile("assets/background/5Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(40.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[3].loadFromFile("assets/background/5Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(40.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[4].loadFromFile("assets/background/4Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(40.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[5].loadFromFile("assets/background/4Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(40.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[6].loadFromFile("assets/background/3Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(80.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[7].loadFromFile("assets/background/3Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(80.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[8].loadFromFile("assets/background/2Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(100.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[9].loadFromFile("assets/background/2Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(100.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[10].loadFromFile("assets/background/1Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(120.0f);
 
         backgroundTextures.push_back(sf::Texture());
         if (!backgroundTextures[11].loadFromFile("assets/background/1Background.png")) {
-            std::cout << "Error loading background texture" << std::endl;
+            std::cerr << "Error loading background texture" << std::endl;
             return;
         }
         backgroundSpeeds.push_back(120.0f);

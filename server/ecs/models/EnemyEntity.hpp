@@ -18,7 +18,7 @@ class EnemyEntity : public ECS::Entity {
          * @brief Construct a new EnemyEntity object with the given id
          * @param id
          */
-        explicit EnemyEntity(EnemyShootFunction shootFunction, int id);
+        explicit EnemyEntity(EnemyShootFunction shootFunction, int id, ECS::Entity::EntityType type);
 
         /**
          * @brief Destroy the EnemyEntity object

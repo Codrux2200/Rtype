@@ -20,7 +20,7 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     sf::Texture bulletTexture;
     if (!bulletTexture.loadFromFile("assets/rickBullet.png")) {
-        std::cout << "Error loading enemy texture" << std::endl;
+        std::cout << "Error loading player bullet texture" << std::endl;
         return;
     }
 

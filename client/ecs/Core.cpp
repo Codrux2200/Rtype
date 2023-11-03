@@ -38,7 +38,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
-        std::cout << "Error: scene is null" << std::endl;
+        std::cerr << "Error: scene is null" << std::endl;
         return;
     }
     sceneManager = SceneManager(scenes);
@@ -131,9 +131,15 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> text = std::make_shared<ECS::Entity>(1);
     text->addComponent(std::make_shared<ECS::TextComponent>("bonjour"));
     _entityFactory.registerEntity(text, "text");
+
     // Create enemy
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0);
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(0, ECS::Entity::EntityType::ENEMY_CLASSIC);
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_CLASSIC));
+
+    // Create a VELOCE enemy
+     std::shared_ptr<ECS::Entity> enemy_veloce = std::make_shared<EnemyEntity>(0, ECS::Entity::EntityType::ENEMY_VELOCE);
+    _entityFactory.registerEntity(enemy_veloce, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_VELOCE));
+
     // Create player bullet
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<ECS::PlayerBullet>(0);
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
@@ -146,7 +152,7 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
 
-    // Create boss bullet
+    // Create enemy bullet TODO: if you want BOSS specific bullet, create it
     std::shared_ptr<ECS::Entity> enemyBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(enemyBullet, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_BULLET));
 
@@ -162,12 +168,12 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
     std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", _entityFactory.ids++);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
-        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        std::cerr << "Error: sprite button is null at main menu initialization" << std::endl;
         return scene;
     }
     std::shared_ptr<ECS::SpriteComponent> spriteStop = buttonStop->getComponent<ECS::SpriteComponent>();
     if (spriteStop == nullptr) {
-        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        std::cerr << "Error: sprite button is null at main menu initialization" << std::endl;
         return scene;
     }
     std::shared_ptr<ECS::TextComponent> textComponent = text->getComponent<ECS::TextComponent>();

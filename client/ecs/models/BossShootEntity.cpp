@@ -21,7 +21,7 @@ BossShootEntity::BossShootEntity(int id) : Entity(id)
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     sf::Texture bulletTexture;
     if (!bulletTexture.loadFromFile("assets/boss/boss_bullet.png")) {
-        std::cout << "Error loading enemy texture" << std::endl;
+        std::cout << "Error loading boss bullet texture" << std::endl;
         return;
     }
 

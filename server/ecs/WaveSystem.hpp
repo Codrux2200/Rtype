@@ -27,7 +27,7 @@ namespace ECS {
         protected:
         private:
             EntityFactory &_factory;
-            std::vector<int> _waves;
+            std::vector<std::tuple<int, ECS::Entity::EntityType>> _waves;
             float timer = 0;
     };
 }

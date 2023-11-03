@@ -13,7 +13,7 @@
 namespace ECS {
     class EnemyEntity : public Entity {
         public:
-            EnemyEntity(int id);
+            EnemyEntity(int id, ECS::Entity::EntityType type);
             ~EnemyEntity() = default;
     };
 }

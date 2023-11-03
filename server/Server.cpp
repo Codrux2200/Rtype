@@ -98,7 +98,7 @@ std::unique_ptr<Network::Packet> &packet)
     for (int i = 0; i < NAME_LENGTH && (packet->joinData.name[i] || i == 0);
          i++) {
         if (packet->joinData.name[i] < 32 || packet->joinData.name[i] > 126) {
-            std::cout << "Invalid name" << std::endl;
+            std::cerr << "Invalid name" << std::endl;
             return nullptr;
         }
     }

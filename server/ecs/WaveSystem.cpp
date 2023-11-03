@@ -20,7 +20,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     for ( ; EnemyCount < 6; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 200);
         }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
     enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
@@ -29,7 +30,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     for (; EnemyCount < 6; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 100));
     }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
 
@@ -49,7 +51,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 1000, 300);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
 
@@ -57,7 +60,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300);
         createEnemy(WaveCount, EnemyCount, 1200, 100 + (EnemyCount * 50));
     }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 
@@ -66,7 +69,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 100);
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 500);
     }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 
@@ -76,12 +79,13 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_VELOCE));
     EnemyCount = 0;
     WaveCount++;
 }
 
-void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y, ECS::Entity::EntityType type) {
+void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y, ECS::Entity::EntityType type)
+{
     std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(type), 0);
 
     if (enemy == nullptr)
@@ -104,12 +108,13 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     timer = 0;
     int waveIndex = std::rand() % _waves.size();
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
+    ECS::Entity::EntityType type = std::get<1>(_waves[waveIndex]);
 
     // Spawn the wave entities
     for (auto entity : waveEntities) {
         Network::data::EntitySpawnData data{};
         data.id = entity->getId();
-        data.type = ECS::Entity::ENEMY_CLASSIC;
+        data.type = type;
         data.x = entity->getComponent<ECS::PositionComponent>()->x;
         data.y = entity->getComponent<ECS::PositionComponent>()->y;
         std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
@@ -123,11 +128,11 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
     if (i >= _waves.size()) {
-        std::cerr << "Error: wave index is null" << std::endl;
+        std::cerr << "Error: wave index is invalid" << std::endl;
         return result;
     }
 
-    for (int j = 0; j < _waves[i]; j++) {
+    for (int j = 0; j < std::get<0>(_waves[i]); j++) {
         result.push_back(_factory.createEntity("EnemyWave" + std::to_string(i) + std::to_string(j), _factory.ids++));
     }
     return result;
