@@ -9,7 +9,6 @@
 #include "EnemyEntity.hpp"
 #include <iostream>
 
-
 ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 {
     int WaveCount = 0;
@@ -70,10 +69,20 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
+
+    createEnemy(WaveCount, EnemyCount, 800, 200, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
 }
 
-void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
-    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
+void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y, ECS::Entity::EntityType type) {
+    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(type), 0);
 
     if (enemy == nullptr)
         return;

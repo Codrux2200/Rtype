@@ -4,9 +4,10 @@
 ** File description:
 ** ServerCore
 */
-
-#include "ServerCore.hpp"
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <thread>
+#include "ServerCore.hpp"
 #include "BossEntity.hpp"
 #include "BossShootComponent.hpp"
 #include "CollisionSystem.hpp"
@@ -43,6 +44,7 @@ void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
     std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0);
+    std::shared_ptr<ECS::Entity> enemyVeloce = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
@@ -50,6 +52,7 @@ void ECS::ServerCore::_initEntities()
 
     _entityFactory.registerEntity(player, "player");
     _entityFactory.registerEntity(enemy, "entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC));
+    _entityFactory.registerEntity(enemyVeloce, "entity" + std::to_string(ECS::Entity::ENEMY_VELOCE));
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::PLAYER_BULLET));
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::BOSS));
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::BOSS_BULLET));
@@ -74,6 +77,8 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
     }
     std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), _entityFactory.ids++);
     scene->addEntity(enemy);
+    std::shared_ptr<ECS::Entity> enemy_veloce = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_VELOCE), _entityFactory.ids++);
+    scene->addEntity(enemy_veloce);
     std::shared_ptr<ECS::Entity> boss = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _entityFactory.ids++);
     scene->addEntity(boss);
     return scene;
@@ -421,8 +426,8 @@ void ECS::ServerCore::_bossShoot()
         bulletPosComponent->x = bossPosComponent->x;
         bulletPosComponent->y = bossPosComponent->y + 200;
 
-        bulletVelocityComponent->vx = static_cast<float>(-std::cos((i * 18) * M_PI / 180) * 500);
-        bulletVelocityComponent->vy = static_cast<float>(std::sin((i * 18) * M_PI / 180) * 500);
+        bulletVelocityComponent->vx = static_cast<float>(-std::cos((i * 18) * 3.14 / 180) * 500);
+        bulletVelocityComponent->vy = static_cast<float>(std::sin((i * 18) * 3.14 / 180) * 500);
 
         gameScene->addEntity(bulletEntity);
 

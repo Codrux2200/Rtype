@@ -22,7 +22,7 @@ namespace ECS {
 
             void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
             std::vector<std::shared_ptr<ECS::Entity>> getWave(int i);
-            void createEnemy(int WaveCount, int EnemyCount, int x, int y);
+            void createEnemy(int WaveCount, int EnemyCount, int x, int y, ECS::Entity::EntityType type = ECS::Entity::ENEMY_CLASSIC);
 
         protected:
         private:
