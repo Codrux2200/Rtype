@@ -11,6 +11,6 @@
 
 class BossShootEntity : public ECS::Entity {
     public:
-        BossShootEntity(int id);
+        explicit BossShootEntity(int id);
         ~BossShootEntity() = default;
 };

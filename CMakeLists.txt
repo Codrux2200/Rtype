@@ -13,9 +13,12 @@ include(FetchContent)
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+    DOWNLOAD_NAME "boost_1_83_0.tar.gz"
+    DOWNLOAD_NO_PROGRESS TRUE
+    CMAKE_ARGS
+        -DCMAKE_BUILD_TYPE=Release
+        -DCONFIG=Release
     DOWNLOAD_EXTRACT_TIMESTAMP ON
-    CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release" "-DCMAKE_CONFIGURATION_TYPES=\"Release;Release\"" "-DCONFIG=Release"
-    DOWNLOAD_NO_PROGRESS FALSE
 )
 
 set(BOOST_RUNTIME_LINK static)
@@ -100,13 +103,16 @@ set(ECS_SOURCES
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
         ecs/components/AGameComponent.hpp
+        ecs/components/VelocityComponent.cpp
+        ecs/components/VelocityComponent.hpp
         ecs/components/PlayerBulletComponent.cpp
         ecs/components/PlayerBulletComponent.hpp
-
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
+        ecs/components/EnemyBulletComponent.cpp
+        ecs/components/EnemyBulletComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -152,12 +158,12 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/StaticBackgroundEntity.cpp
-        client/ecs/models/StaticBackgroundEntity.hpp
         client/ecs/models/BossEntity.cpp
         client/ecs/models/BossEntity.hpp
         client/ecs/models/BossShootEntity.cpp
         client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/StaticBackgroundEntity.cpp
+        client/ecs/models/StaticBackgroundEntity.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -168,6 +174,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/Client.hpp
         server/ClientManager.cpp
         server/ClientManager.hpp
+        server/ecs/WaveSystem.cpp
+        server/ecs/WaveSystem.hpp
         server/ServerCore.cpp
         server/ServerCore.hpp
         server/ecs/components/HitboxComponent.cpp
@@ -190,6 +198,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/models/BossEntity.hpp
         server/ecs/models/BossShootEntity.cpp
         server/ecs/models/BossShootEntity.hpp
+        server/ecs/models/EnemyBullet.cpp
+        server/ecs/models/EnemyBullet.hpp
 )
 
 

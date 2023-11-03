@@ -29,9 +29,6 @@ ECS::ButtonEntity::ButtonEntity(std::string path, int x, int y) : Entity(0)
     rect.width = texture.getSize().x;
     rect.height = texture.getSize().y;
 
-
-
-
     addComponent(std::make_shared<ECS::SpriteComponent>(texture, rect));
     addComponent(std::make_shared<ECS::ScaleComponent>(1.0, 1.0));
 

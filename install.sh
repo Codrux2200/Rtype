@@ -48,13 +48,13 @@ if [[ -e /etc/os-release ]]; then
         install_pacman
     else
         echo "$ID Distribution non prise en charge."
-        exit 1
+        exit 84
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "macOS ne nécessite aucune installation spécifique."
 else
     echo "Impossible de détecter la distribution."
-    exit 1
+    exit 84
 fi
 
 
@@ -82,12 +82,10 @@ elif [ "$package_manager" == "apk" ]; then
   echo "CMake est maintenant installé."
 else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
-  exit 1
+  exit 84
 fi
 
 
 cmake . .
-
-chmod -R 777 _deps
 
 cmake --build . -- -j 6

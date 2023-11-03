@@ -23,12 +23,12 @@
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
-#include "ConvertPath.hpp"
-#include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
 #include "BossEntity.hpp"
 #include "BossShootEntity.hpp"
+#include "ConvertPath.hpp"
+#include "StaticBackgroundEntity.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -146,16 +146,20 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
 
+    // Create boss bullet
+    std::shared_ptr<ECS::Entity> enemyBullet = std::make_shared<BossShootEntity>(0);
+    _entityFactory.registerEntity(enemyBullet, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_BULLET));
+
     std::cout << "Boss entity registered: " << boss << std::endl;
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::MAIN_MENU);
-     std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", _entityFactory.ids ++);
-    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", _entityFactory.ids ++);
+    std::shared_ptr<ECS::Entity> button = _entityFactory.createEntity("buttonStart", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> buttonStop = _entityFactory.createEntity("buttonStop", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("text", _entityFactory.ids++);
     std::shared_ptr<ECS::SpriteComponent> sprite = button->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
