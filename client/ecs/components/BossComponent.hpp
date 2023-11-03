@@ -10,10 +10,12 @@
 #include "AGameComponent.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
+using bossLaserGenerator = std::function<void(const std::string &, float, float)>;
+
 namespace ECS {
     class BossComponent : public ECS::AGameComponent {
         public:
-            BossComponent();
+            explicit BossComponent(bossLaserGenerator laserGenerator);
             BossComponent(const BossComponent &other);
             ~BossComponent() = default;
 
@@ -46,6 +48,8 @@ namespace ECS {
             int _step = 0;
             float _speed = 300;
             float _isUp = 1;
+
+            bossLaserGenerator _laserGenerator;
 
             std::shared_ptr<sf::Texture> _idleTexture;
             std::shared_ptr<sf::Texture> _attackUpTexture;

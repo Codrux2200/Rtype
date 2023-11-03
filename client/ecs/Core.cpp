@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thread>
 #include "AudioSystem.hpp"
+#include "Boss/BossEyesLaserEntity.hpp"
 #include "ButtonEntity.hpp"
 #include "ClickComponent.hpp"
 #include "ControlComponent.hpp"
@@ -145,18 +146,19 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(playerBullet, "entity" + std::to_string(ECS::Entity::EntityType::PLAYER_BULLET));
 
     // Create boss
-    std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>(0);
+    std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this](auto && PH1, auto && PH2, auto && PH3) { _createBossLaser(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2), std::forward<decltype(PH3)>(PH3)); }, 0);
     _entityFactory.registerEntity(boss, "entity" + std::to_string(ECS::Entity::EntityType::BOSS));
 
     // Create boss bullet
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(bossBullet, "entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET));
 
-    // Create boss bullet
+    // Create enemy bullet
     std::shared_ptr<ECS::Entity> enemyBullet = std::make_shared<BossShootEntity>(0);
     _entityFactory.registerEntity(enemyBullet, "entity" + std::to_string(ECS::Entity::EntityType::ENEMY_BULLET));
 
-    std::cout << "Boss entity registered: " << boss << std::endl;
+    std::shared_ptr<ECS::Entity> bossLaser = std::make_shared<BossEyesLaserEntity>(0);
+    _entityFactory.registerEntity(bossLaser, "bossEyesLaser");
 }
 
 std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
@@ -393,21 +395,22 @@ Network::Packet &packet, const udp::endpoint &endpoint)
     positionComponent->y = packet.bossStateData.y;
 }
 
-void ECS::Core::_createBossMouthLaser(int y)
+void ECS::Core::_createBossLaser(const std::string& entityName, float x, float y)
 {
     auto scene = sceneManager.getScene(ECS::SceneType::GAME);
 
     if (scene == nullptr)
         return;
-    std::shared_ptr<ECS::Entity> bossBullet = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::EntityType::BOSS_BULLET), _entityFactory.ids++);
-    auto positionComponent = bossBullet->getComponent<PositionComponent>();
-    auto velocityComponent = bossBullet->getComponent<VelocityComponent>();
+    std::shared_ptr<ECS::Entity> laser = _entityFactory.createEntity(entityName, _entityFactory.ids++);
 
-    if (positionComponent == nullptr || velocityComponent == nullptr)
+    if (laser == nullptr)
         return;
-    positionComponent->x = 800;
+    auto positionComponent = laser->getComponent<PositionComponent>();
+    auto spriteComponent = laser->getComponent<SpriteComponent>();
+
+    if (positionComponent == nullptr || spriteComponent == nullptr)
+        return;
+    positionComponent->x = x - static_cast<float>(spriteComponent->getRect().width);
     positionComponent->y = y;
-    velocityComponent->vx = -500;
-    velocityComponent->vy = 0;
-    scene->addEntity(bossBullet);
+    scene->addEntity(laser);
 }

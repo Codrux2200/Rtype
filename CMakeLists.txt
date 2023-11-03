@@ -155,6 +155,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/BossComponent.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
+        client/ecs/components/BossLaserEyeComponent.cpp
+        client/ecs/components/BossLaserEyeComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp

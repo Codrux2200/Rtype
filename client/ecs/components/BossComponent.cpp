@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <utility>
 #include "BossComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SoundComponent.hpp"
@@ -13,7 +14,7 @@
 
 namespace ECS {
 
-    BossComponent::BossComponent()
+    BossComponent::BossComponent(bossLaserGenerator laserGenerator) : _laserGenerator(std::move(laserGenerator))
     {
         _idleTexture = std::make_shared<sf::Texture>();
         _attackUpTexture = std::make_shared<sf::Texture>();
@@ -37,7 +38,7 @@ namespace ECS {
     }
 
     BossComponent::BossComponent(const BossComponent &other)
-    {
+     : AGameComponent(other) {
         _idleTexture = other._idleTexture;
         _attackUpTexture = other._attackUpTexture;
         _attackDownTexture = other._attackDownTexture;
@@ -47,6 +48,7 @@ namespace ECS {
         _speed = other._speed;
         _isUp = other._isUp;
         _soundPlayed = other._soundPlayed;
+        _laserGenerator = other._laserGenerator;
     }
 
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
@@ -87,7 +89,7 @@ namespace ECS {
 
     std::shared_ptr<IComponent> BossComponent::clone() const
     {
-        return std::make_shared<BossComponent>();
+        return std::make_shared<BossComponent>(*this);
     }
 
     bool BossComponent::onDestroy(
@@ -201,9 +203,12 @@ namespace ECS {
             case 1: {
                 if (_timer >= 0.9) {
                     auto sound = entity.getComponent<SoundComponent>();
+                    auto position = entity.getComponent<PositionComponent>();
 
                     if (sound)
                         sound->play("boss_eyes_atk");
+                    if (position)
+                        _laserGenerator("bossEyesLaser", position->x + 70, position->y + 86.5f);
                     _setAttackUpTexture(entity);
                     _step = 2;
                 }

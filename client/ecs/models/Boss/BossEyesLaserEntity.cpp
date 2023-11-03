@@ -11,19 +11,19 @@
 #include "ScaleComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "BossLaserEyeComponent.hpp"
 
 BossEyesLaserEntity::BossEyesLaserEntity(int id) : ECS::Entity(id)
 {
-    addComponent(std::make_shared<ECS::PositionComponent>());
-    addComponent(std::make_shared<ECS::ScaleComponent>(0.9f, 0.9f));
-    addComponent(std::make_shared<ECS::VelocityComponent>());
-
     std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
     if (!texture->loadFromFile("assets/boss/laser_eyes.png")) {
         std::cerr << "Error loading boss laser texture" << std::endl;
         return;
     }
-
+    addComponent(std::make_shared<ECS::PositionComponent>());
+    addComponent(std::make_shared<ECS::ScaleComponent>(0.9f, 0.9f));
+    addComponent(std::make_shared<ECS::VelocityComponent>());
+    addComponent(std::make_shared<ECS::BossLaserEyeComponent>());
     sf::Rect<int> rect;
 
     rect.left = 0;

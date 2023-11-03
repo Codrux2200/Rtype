@@ -86,9 +86,9 @@ namespace ECS {
     void BossComponent::_idleUpdate()
     {
         if (_timer >= 3) {
-            int random = std::rand() % 5;
+//            int random = std::rand() % 5;
 
-//            int random = 3;
+            int random = 0;
             switch (random) {
                 case 0:
                     _state = Network::data::ATTACK_UP;

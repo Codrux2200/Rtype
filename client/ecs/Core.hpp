@@ -5,8 +5,8 @@
 ** Core
 */
 
-#ifndef CORE_HPP_
-#define CORE_HPP_
+#pragma once
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -69,8 +69,7 @@ namespace ECS {
             void _handlerEntitySpawn(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
 
-            void _createBossEyesLaser(int y);
-            void _createBossMouthLaser(int y);
+            void _createBossLaser(const std::string& entityName, float x, float y);
 
             std::vector<std::unique_ptr<ECS::ISystem>> _systems;
             EntityFactory _entityFactory;
@@ -80,5 +79,3 @@ namespace ECS {
             short _playerId = -1;
 	};
 }
-
-#endif /* !CORE_HPP_ */
