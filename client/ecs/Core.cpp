@@ -158,7 +158,7 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(button, "buttonStart");
     std::shared_ptr<ECS::Entity> buttonStop = std::make_shared<ECS::ButtonEntity>("assets/options.png", 0 , 200);
     _entityFactory.registerEntity(buttonStop, "buttonStop");
-    std::shared_ptr<ECS::Entity> buttonQuit = std::make_shared<ECS::ButtonEntity>("assets/quit.png", 0, 100);
+    std::shared_ptr<ECS::Entity> buttonQuit = std::make_shared<ECS::ButtonEntity>("assets/quit.png", 300, 300);
     _entityFactory.registerEntity(buttonQuit, "buttonQuit");
     std::shared_ptr<ECS::Entity> text = std::make_shared<ECS::Entity>(1);
     text->addComponent(std::make_shared<ECS::TextComponent>("bonjour"));
@@ -297,15 +297,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
         rect.top = 0;
     }
 
-    std::shared_ptr<ECS::ScaleComponent> scale = buttonQuit->getComponent<ECS::ScaleComponent>();
-
-    if (scale) {
-        scale->x = 0.03f;
-        scale->y = 0.03f;
-    } else {
-        rect.width = sprite->getRect().width;
-        rect.height = sprite->getRect().height;
-    }
+    rect.width = sprite->getRect().width;
+    rect.height = sprite->getRect().height;
 
     buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect,
     [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
