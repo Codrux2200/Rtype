@@ -17,8 +17,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     std::shared_ptr<ECS::Entity> ennemy = std::make_shared<ECS::EnemyEntity>(0);
     if (ennemy == NULL)
         return;
-    for ( ; EnemyCount < 6; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 200);
+    for ( ; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200);
         }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
@@ -26,8 +26,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     ennemy = std::make_shared<ECS::EnemyEntity>(0);
     if (ennemy == NULL)
         return;
-    for (; EnemyCount < 6; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 100));
+    for (; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50));
     }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
@@ -65,7 +65,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
-    createEnemy(WaveCount, EnemyCount, 800, 590);
+    createEnemy(WaveCount, EnemyCount, 800, 580);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 550);
     EnemyCount ++;
@@ -101,11 +101,17 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 200);
     EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1000, 550);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1000, 150);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1100, 500);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1100, 50);
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
 
-    
 }
 
 void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
@@ -128,7 +134,7 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     // Pick a random wave
 
     timer += deltaTime;
-    if (timer < 5)
+    if (timer < 3)
         return;
     timer = 0;
     int waveIndex = rand() % _waves.size();
