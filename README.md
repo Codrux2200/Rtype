@@ -81,7 +81,7 @@ in the second one:
 ## Authors
 
 - [Leo Maman](https://github.com/mangasteak)
-- [Raphael Mercier](https://github.com/raphaelMrci)
+- [Raphael Mercié](https://github.com/raphaelMrci)
 - [Saad Berrada](https://github.com/Codrux2200)
 - [Christophe Chhor](https://github.com/christophechr)
 - [Stephane Corbière](https://github.com/STCB)

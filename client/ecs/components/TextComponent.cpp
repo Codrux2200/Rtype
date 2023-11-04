@@ -47,6 +47,10 @@ namespace ECS{
         return _text;
     }
 
+    std::string TextComponent::getString(){
+        return _text.getString();
+    }
+
     void TextComponent::setPosition(int x, int y){
         sf::Vector2<float> vecteur(x, y);
         _text.setPosition(vecteur);

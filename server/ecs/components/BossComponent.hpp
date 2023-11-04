@@ -35,7 +35,7 @@ namespace ECS {
 
             Network::data::BossState _state = Network::data::BossState::COMING;
             float _timer = 0;
-            float _speed = 100;
+            float _speed = 300;
             int _step = 0;
             float _isUp = 1;
             bossShootFunction _shootFunction;

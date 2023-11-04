@@ -15,8 +15,10 @@ namespace Network::data {
             PLAYER_BULLET,
             ENEMY_BULLET,
             ENEMY,
+            BOSS,
             OUT_OF_BOUNDS,
             UNKNOWN,
+            TIMEOUT,
             ALIVE
         };
 

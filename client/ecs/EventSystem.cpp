@@ -5,6 +5,7 @@
 ** EventSystem
 */
 
+#include <iostream>
 #include "EventSystem.hpp"
 #include "ControlComponent.hpp"
 
@@ -16,21 +17,26 @@ void ECS::EventSystem::update(SceneManager &sceneManager, float deltaTime, std::
 {
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
-            _window.close();
             sceneManager.shouldClose = true;
         }
     }
 
     auto &actualScene = sceneManager.getCurrentScene();
 
-    for (auto entity : actualScene->entitiesList) {
+    bool shouldClose = sceneManager.shouldClose;
+
+    for (const auto& entity : actualScene->entitiesList) {
         if (entity == nullptr || !entity->isEnabled)
             continue;
         std::vector<std::shared_ptr<ECS::AEventComponent>> eventComponent = entity->getComponents<ECS::AEventComponent>();
 
-        for (auto component : eventComponent) {
-            if (component != nullptr)
-                component->execute(packetQueue, *entity, deltaTime);
+        for (const auto& component : eventComponent) {
+            if (component != nullptr) {
+
+                if (component->execute(packetQueue, *entity, deltaTime))
+                    shouldClose = true;
+            }
         }
     }
+    sceneManager.shouldClose = shouldClose;
 }

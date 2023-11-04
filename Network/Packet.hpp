@@ -17,7 +17,7 @@
 #include "PlayersPos.hpp"
 #include "StartData.hpp"
 #include "BossStateData.hpp"
-
+#include "ScoreData.hpp"
 /**
  * @brief Network protocol
  */
@@ -64,6 +64,7 @@ namespace Network {
                      */
                     struct data::JoinData
                     joinData;
+                    struct data::ScoreData scoreData;
                     /**
                      * @brief The packet leaderData is of type @ref data::LeaderData
                      */

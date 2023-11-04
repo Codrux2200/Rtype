@@ -23,7 +23,7 @@ namespace ECS {
         addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
         // addComponent(std::make_shared<ECS::RotationComponent>(270.0f));
 
-        sf::Texture enemyTexture;
+        std::shared_ptr<sf::Texture> enemyTexture = std::make_shared<sf::Texture>();
         std::string texturePath;
         switch (type) {
             case ECS::Entity::ENEMY_CLASSIC:
@@ -37,7 +37,7 @@ namespace ECS {
                 break;
         }
 
-        if (!enemyTexture.loadFromFile(ConvertPath::convertPath(texturePath))) {
+        if (!enemyTexture->loadFromFile(ConvertPath::convertPath(texturePath))) {
             std::cerr << "Error loading enemy texture" << std::endl;
             return;
         }
@@ -45,8 +45,8 @@ namespace ECS {
         sf::Rect<int> enemyRect;
         enemyRect.left = 0;
         enemyRect.top = 0;
-        enemyRect.width = enemyTexture.getSize().x;
-        enemyRect.height = enemyTexture.getSize().y;
+        enemyRect.width = enemyTexture->getSize().x;
+        enemyRect.height = enemyTexture->getSize().y;
         addComponent(
         std::make_shared<ECS::SpriteComponent>(enemyTexture, enemyRect));
         addComponent(std::make_shared<ECS::EnemyComponent>());

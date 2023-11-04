@@ -18,23 +18,27 @@
 ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    sf::Texture bulletTexture;
-    if (!bulletTexture.loadFromFile("assets/rickBullet.png")) {
-        std::cout << "Error loading player bullet texture" << std::endl;
+    std::shared_ptr<sf::Texture> bulletTexture = std::make_shared<sf::Texture>();
+    if (!bulletTexture->loadFromFile("assets/rickBullet.png")) {
+        std::cerr << "Error loading player bullet texture" << std::endl;
         return;
     }
 
     sf::Rect<int> bulletRect;
     bulletRect.left = 0;
     bulletRect.top = 0;
-    bulletRect.width = bulletTexture.getSize().x;
-    bulletRect.height = bulletTexture.getSize().y;
+    bulletRect.width = bulletTexture->getSize().x;
+    bulletRect.height = bulletTexture->getSize().y;
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
 
     std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
     if (!soundComponent->addSound("bullet", "assets/sound/laser.ogg")) {
         std::cerr << "Error loading bullet sound" << std::endl;
+        return;
+    }
+    if (!soundComponent->addSound("BossHit", "assets/sound/damage.ogg")) {
+        std::cerr << "Error loading BossHit sound" << std::endl;
         return;
     }
     soundComponent->setToBePlayed("bullet", true);

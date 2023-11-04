@@ -60,6 +60,9 @@ Network::PacketType type, void *data)
             memcpy(
             &packet->disconnectData, data, sizeof(packet->disconnectData));
             break;
+        case Network::PacketType::SCORE:
+            memcpy(&packet->scoreData, data, sizeof(packet->scoreData));
+            break;
         case Network::PacketType::START:
             memcpy(&packet->startData, data, sizeof(packet->startData));
             break;

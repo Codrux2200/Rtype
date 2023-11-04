@@ -43,8 +43,16 @@ namespace ECS {
              * @brief The default speed of the enemy
              */
             float _speed = 100;
+            /**
+             * @brief randomize the shoot rate of the enemy
+            */
+            float _random = std::rand() % 3;
             float _timer = 0;
-            float _rate = 1;
+
+            /**
+             * @brief The rate of the enemy shoot
+             */
+            float _rate = 1 + _random;
             ECS::Entity::EntityType _type;
             EnemyShootFunction _shootFunction;
     };
