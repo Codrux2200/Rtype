@@ -29,6 +29,7 @@
 #include "BossShootEntity.hpp"
 #include "ConvertPath.hpp"
 #include "StaticBackgroundEntity.hpp"
+#include "ScoreBoardComponent.hpp"
 
 ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
 {
@@ -61,9 +62,10 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 
 void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint){
     _score = packet.scoreData.Score;
-    for (auto entity : sceneManager.getCurrentScene()->entitiesList){
-        if (entity->getComponent<ECS::TextComponent>() != nullptr && entity->getComponent<ECS::TextComponent>()->getString().find("Score") != std::string::npos) {
-            entity->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
+    std::vector<std::shared_ptr<ECS::Entity>> entitys = sceneManager.getCurrentScene()->getEntitiesWithComponent<ECS::ScoreBoardComponent>();
+    if (entitys.size() > 0){
+        if (entitys[0]->getComponent<ECS::TextComponent>() != nullptr && entitys[0]->getComponent<ECS::TextComponent>()->getString().find("Score") != std::string::npos) {
+            entitys[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
         }
     }
 }
@@ -136,6 +138,7 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(back, "background");
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
+    score->addComponent(std::make_shared<ScoreBoardComponent>());
     _entityFactory.registerEntity(score, "score");
     std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>("assets/startgame.png", 0, 300);
     _entityFactory.registerEntity(button, "buttonStart");

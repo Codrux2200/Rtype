@@ -12,7 +12,6 @@
 #include "PositionComponent.hpp"
 #include "PacketManager.hpp"
 #include "EnemyBulletComponent.hpp"
-#include <iostream>
 
 EnemyEntity::EnemyEntity(EnemyShootFunction shootFunction, int id) : Entity(id)
 {
