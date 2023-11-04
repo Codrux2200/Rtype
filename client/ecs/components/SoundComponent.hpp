@@ -20,7 +20,7 @@ namespace ECS {
 class SoundComponent : public AComponent {
     public:
         SoundComponent() = default;
-        ~SoundComponent() = default;
+        ~SoundComponent();
         /**
          * @brief Construct a new Sound Component object
          *

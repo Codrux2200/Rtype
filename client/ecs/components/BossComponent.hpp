@@ -10,6 +10,8 @@
 #include "AGameComponent.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
+using bossLaserGenerator = std::function<void(const std::string &, float, float)>;
+
 namespace ECS {
     /**
      * @brief Boss Component
@@ -20,7 +22,8 @@ namespace ECS {
              * @brief Construct a new Boss Component object
              * 
              */
-            BossComponent();
+            explicit BossComponent(bossLaserGenerator laserGenerator);
+            BossComponent(const BossComponent &other);
             ~BossComponent() = default;
 
             /**
@@ -53,7 +56,7 @@ namespace ECS {
              * 
              * @param state the state
             */
-            void setState(Network::data::BossState state);
+            void setState(Network::data::BossState state, int isUp);
 
         private:
             /**
@@ -133,15 +136,7 @@ namespace ECS {
             */
             void _setAttackDownTexture(ECS::Entity &entity);
 
-            /**
-             * @brief boolean to know if the sound is played
-             * 
-            */
-            bool _soundPlayed = false;
-            /**
-             * @brief the boss state
-             * 
-            */
+            bool _deathInitialized = false;
             Network::data::BossState _state = Network::data::COMING;
             /**
              * @brief the boss timer
@@ -157,28 +152,31 @@ namespace ECS {
              * @brief the boss speed
              * 
             */
-            float _speed = 100;
+            float _speed = 300;
             /**
              * @brief the boss direction
              * 
             */
             float _isUp = 1;
 
+            bossLaserGenerator _laserGenerator;
+
             /**
              * @brief the boss idle texture
              * 
             */ 
-            sf::Texture _idleTexture;
+            std::shared_ptr<sf::Texture> _idleTexture;
             /**
              * @brief the boss attack up texture
              * 
             */
-            sf::Texture _attackUpTexture;
+            std::shared_ptr<sf::Texture> _attackUpTexture;
             /**
              * @brief the boss attack down texture
              * 
             */
-            sf::Texture _attackDownTexture;
+            std::shared_ptr<sf::Texture> _attackDownTexture;
+            std::shared_ptr<sf::Texture> _deathTexture;
 //            sf::Texture _dashTexture;
     };
 }

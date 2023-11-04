@@ -1,10 +1,10 @@
 Language: Cpp
-ColumnLimit: 80
+ColumnLimit: 120
 ReflowComments: true
 AlignAfterOpenBracket: DontAlign
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-IndentWrappedFunctionNames: false
+IndentWrappedFunctionNames: true
 AccessModifierOffset: 0
 IndentAccessModifiers: true
 BinPackArguments: true

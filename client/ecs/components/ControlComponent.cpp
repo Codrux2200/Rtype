@@ -18,7 +18,7 @@ std::shared_ptr<ECS::IComponent> ECS::ControlComponent::clone() const
     return std::make_shared<ECS::ControlComponent>();
 }
 
-void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
+bool ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     std::unique_ptr<Network::Packet> packet;
 
@@ -38,6 +38,7 @@ void ECS::ControlComponent::execute(std::vector<Network::Packet> &packetsQueue, 
         packet = Network::PacketManager::createPacket(Network::PacketType::MOVE_RIGHT);
         packetsQueue.push_back(*packet);
     }
+    return false;
 }
 
 std::vector<int> ECS::ControlComponent::getValue() const

@@ -8,6 +8,7 @@
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SoundComponent.hpp"
+#include "SpriteComponent.hpp"
 
 namespace ECS {
     std::shared_ptr<IComponent> EnemyComponent::clone() const
@@ -37,6 +38,10 @@ namespace ECS {
         if (!_soundPlayed) {
             sound->play("enemy_death");
             _soundPlayed = true;
+            auto sprite = entity.getComponent<SpriteComponent>();
+
+            if (sprite)
+                sprite->isEnabled = false;
         }
 
         if (sound->isPlaying("enemy_death"))

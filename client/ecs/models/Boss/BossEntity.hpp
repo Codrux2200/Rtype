@@ -16,6 +16,6 @@
  */
 class BossEntity : public ECS::Entity {
     public:
-        explicit BossEntity(int id);
+        explicit BossEntity(const bossLaserGenerator& laserGenerator, int id = 0);
         ~BossEntity() = default;
 };

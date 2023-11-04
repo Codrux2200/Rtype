@@ -51,7 +51,7 @@ namespace ECS {
              * @param entity the entity
              * @param dt the delta time
              */
-            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final;
+            bool execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) final;
 
     };
 }

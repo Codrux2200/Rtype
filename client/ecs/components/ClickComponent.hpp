@@ -15,10 +15,10 @@
 #include "PacketManager.hpp"
 
 namespace ECS {
+    using eventCallback = std::function<bool(std::vector<Network::Packet> &, ECS::Entity &)>;
     /**
      * @brief Click Component
      */
-    using eventCallback = std::function<void(std::vector<Network::Packet> &, ECS::Entity &)>;
     class ClickComponent : public AEventComponent {
         public:
             /**
@@ -57,7 +57,7 @@ namespace ECS {
              * @param entity the entity
              * @param dt the delta time
              */
-            void execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final ;
+            bool execute(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt) final ;
 
         private:
             /**

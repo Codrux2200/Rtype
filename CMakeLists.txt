@@ -21,6 +21,8 @@ FetchContent_Declare(
     DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 
+FetchContent_MakeAvailable(Boost)
+
 set(BOOST_RUNTIME_LINK static)
 set(BOOST_INCLUDE_LIBRARIES
     asio
@@ -111,6 +113,8 @@ set(ECS_SOURCES
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
+        ecs/components/HealthComponent.cpp
+        ecs/components/HealthComponent.hpp
         ecs/components/EnemyBulletComponent.cpp
         ecs/components/EnemyBulletComponent.hpp
 )
@@ -150,6 +154,10 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/BossComponent.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
+        client/ecs/components/BossLaserEyeComponent.cpp
+        client/ecs/components/BossLaserEyeComponent.hpp
+        client/ecs/components/BossLaserMouthComponent.cpp
+        client/ecs/components/BossLaserMouthComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp
@@ -158,10 +166,14 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/BossEntity.cpp
-        client/ecs/models/BossEntity.hpp
-        client/ecs/models/BossShootEntity.cpp
-        client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEntity.cpp
+        client/ecs/models/Boss/BossEntity.hpp
+        client/ecs/models/Boss/BossShootEntity.cpp
+        client/ecs/models/Boss/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEyesLaserEntity.cpp
+        client/ecs/models/Boss/BossEyesLaserEntity.hpp
+        client/ecs/models/Boss/BossMouthLaserEntity.cpp
+        client/ecs/models/Boss/BossMouthLaserEntity.hpp
         client/ecs/models/StaticBackgroundEntity.cpp
         client/ecs/models/StaticBackgroundEntity.hpp
         client/ecs/components/ScoreBoardComponent.cpp

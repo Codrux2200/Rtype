@@ -13,11 +13,11 @@ namespace Network::data {
         enum BossState {
             IDLE,           // DONE
             DASH,           // DONE
-            MOVE,           // DONE
             COMING,         // DONE
             ATTACK_UP,      // DONE
             ATTACK_DOWN,    // DONE
-            SHOOT           // DONE
+            SHOOT,           // DONE
+            MOVE
         };
 
         struct BossStateData {
@@ -25,6 +25,7 @@ namespace Network::data {
                 int id;
                 int x;
                 int y;
+                int isUp;
                 BossState state;
         };
     }

@@ -8,7 +8,7 @@
 #include "ShootComponent.hpp"
 #include "PacketManager.hpp"
 
-void ECS::ShootComponent::execute(
+bool ECS::ShootComponent::execute(
 std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -16,6 +16,7 @@ std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
         std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::SHOOT);
         packetsQueue.push_back(*packet);
     }
+    return false;
 }
 
 std::shared_ptr<ECS::IComponent> ECS::ShootComponent::clone() const

@@ -26,14 +26,14 @@ namespace ECS {
              * @param animSpeed the animation speed
              * @param spriteGrid the sprite grid
              */
-            SpriteComponent(sf::Texture texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
+            SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
             ~SpriteComponent();
             /**
              * @brief Set the Texture object to the sprite
              *
              * @param texture the texture
              */
-            void setTexture(sf::Texture &texture);
+            void setTexture(std::shared_ptr<sf::Texture> &texture);
             /**
              * @brief Update the animation of the sprite
              *
@@ -102,7 +102,7 @@ namespace ECS {
             /**
              * @brief the texture
              */
-            sf::Texture _texture;
+            std::shared_ptr<sf::Texture> _texture;
             /**
              * @brief the sprite
              */

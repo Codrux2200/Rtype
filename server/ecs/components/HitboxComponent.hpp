@@ -24,6 +24,8 @@ namespace ECS {
              */
             HitboxComponent(hitboxCallback callback);
 
+            HitboxComponent(const HitboxComponent &other);
+
             /**
              * @brief Construct a new HitboxComponent object
              * @param callback The callback to call when the entity collides with another entity

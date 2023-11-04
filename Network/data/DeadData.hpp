@@ -17,6 +17,7 @@ namespace Network::data {
             ENEMY,
             OUT_OF_BOUNDS,
             UNKNOWN,
+            TIMEOUT,
             ALIVE
         };
 

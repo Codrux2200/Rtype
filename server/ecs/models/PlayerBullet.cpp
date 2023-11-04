@@ -6,6 +6,7 @@
 */
 
 #include "PlayerBullet.hpp"
+#include "BossComponent.hpp"
 #include "DeadData.hpp"
 #include "EnemyComponent.hpp"
 #include "HitboxComponent.hpp"
@@ -36,7 +37,8 @@ namespace ECS {
 
         Network::data::DeathReason deathReason;
 
-        if (other->getComponent<EnemyComponent>() != nullptr)
+        if (other->getComponent<EnemyComponent>() != nullptr ||
+        other->getComponent<BossComponent>() != nullptr)
             deathReason = Network::data::DeathReason::ENEMY;
         else
             return;
