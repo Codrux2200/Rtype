@@ -6,11 +6,11 @@
 */
 
 #include "BossShootEntity.hpp"
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "BossShootComponent.hpp"
 #include "PositionComponent.hpp"
 #include "SFML/Audio.hpp"
+#include "SFML/Graphics.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
@@ -19,8 +19,8 @@
 BossShootEntity::BossShootEntity(int id) : Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-    sf::Texture bulletTexture;
-    if (!bulletTexture.loadFromFile("assets/boss/boss_bullet.png")) {
+    std::shared_ptr<sf::Texture> bulletTexture = std::make_shared<sf::Texture>();
+    if (!bulletTexture->loadFromFile("assets/boss/boss_bullet.png")) {
         std::cout << "Error loading enemy texture" << std::endl;
         return;
     }

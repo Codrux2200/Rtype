@@ -42,7 +42,7 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
 void ECS::ServerCore::_initEntities()
 {
     std::shared_ptr<ECS::Entity> player = std::make_shared<PlayerEntity>();
-    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>([this] { _enemyShoot(); }, 0);
+    std::shared_ptr<ECS::Entity> enemy = std::make_shared<EnemyEntity>(std::bind(&ECS::ServerCore::_enemyShoot, this, std::placeholders::_1, std::placeholders::_2), 0);
     std::shared_ptr<ECS::Entity> playerBullet = std::make_shared<PlayerBullet>(0);
     std::shared_ptr<ECS::Entity> boss = std::make_shared<BossEntity>([this] { _bossShoot(); }, 0);
     std::shared_ptr<ECS::Entity> bossBullet = std::make_shared<BossShootEntity>(0);
@@ -102,8 +102,15 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         }
         _server.sendPackets();
 
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
-
+        int score = sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
+        Network::data::ScoreData Score{};
+        Score.Score = score;
+        auto packetToSend = Network::PacketManager::createPacket(Network::SCORE, &Score);
+        for (const auto& cli : _server.clientManager.getClients()) {
+            if (cli == nullptr)
+                continue;
+            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+        }
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(waitTime);
@@ -133,7 +140,6 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
     }
 
     auto scene = sceneManager.getScene(SceneType::GAME);
-
     auto playerEntity = scene->getEntityByID(clientID);
 
     if (playerEntity == nullptr)
@@ -158,12 +164,10 @@ void ECS::ServerCore::_handlerShoot(const Network::Packet &packet, const udp::en
 
     auto bulletPosComponent = bulletEntity->getComponent<ECS::PositionComponent>();
     auto velocityComponent = bulletEntity->getComponent<ECS::VelocityComponent>();
-
     if (bulletPosComponent == nullptr || velocityComponent == nullptr)
         return;
 
     playerComponent->resetLastFire();
-
     bulletPosComponent->x = playerPosition[0] + 50;
     bulletPosComponent->y = playerPosition[1] + 50;
 
@@ -443,22 +447,12 @@ void ECS::ServerCore::_bossShoot()
     }
 }
 
-void ECS::ServerCore::_enemyShoot()
+void ECS::ServerCore::_enemyShoot(int x, int y)
 {
     auto gameScene = sceneManager.getScene(ECS::SceneType::GAME);
     auto enemies = gameScene->getEntitiesWithComponent<ECS::EnemyComponent>();
 
     if (enemies.empty())
-        return;
-
-    auto enemy = enemies[0];
-
-    if (enemy == nullptr)
-        return;
-
-    auto enemyPos = enemy->getComponent<ECS::PositionComponent>();
-
-    if (enemyPos == nullptr)
         return;
 
     // Summon 1 bullet
@@ -474,10 +468,9 @@ void ECS::ServerCore::_enemyShoot()
     if (bulletPosComponent == nullptr || bulletComponent == nullptr || bulletVelocityComponent == nullptr)
         return;
 
-    bulletPosComponent->x = enemyPos->x - 20;
-    bulletPosComponent->y = enemyPos->y;
+    bulletPosComponent->x = x - 20;
+    bulletPosComponent->y = y;
 
-    // TODO: Magic numbers
     bulletVelocityComponent->vx = -200;
     bulletVelocityComponent->vy = 0;
 

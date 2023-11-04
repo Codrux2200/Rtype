@@ -11,7 +11,7 @@
 #include "AGameComponent.hpp"
 
 namespace ECS {
-    using EnemyShootFunction = std::function<void()>;
+    using EnemyShootFunction = std::function<void(int, int)>;
     class EnemyComponent : public ECS::AGameComponent {
         public:
             /**
@@ -43,8 +43,16 @@ namespace ECS {
              * @brief The default speed of the enemy
              */
             float _speed = 100;
+            /**
+             * @brief randomize the shoot rate of the enemy
+            */
+            float random = std::rand() % 3;
             float timer = 0;
-            float rate = 1;
+
+            /**
+             * @brief The rate of the enemy shoot
+             */
+            float rate = 1 + random;
             EnemyShootFunction _shootFunction;
     };
 }

@@ -25,7 +25,7 @@ namespace ECS {
 
             void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
 
-            int fireRate = 5;
+            int fireRate = 10;
 
             [[nodiscard]] int getLastFire() const;
 

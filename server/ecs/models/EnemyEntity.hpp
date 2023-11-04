@@ -11,7 +11,7 @@
 #include "Entity.hpp"
 #include "Packet.hpp"
 
-using EnemyShootFunction = std::function<void()>;
+using EnemyShootFunction = std::function<void(int, int)>;
 class EnemyEntity : public ECS::Entity {
     public:
         /**
