@@ -29,8 +29,6 @@
 #include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
-#include "BossEntity.hpp"
-#include "BossShootEntity.hpp"
 #include "ConvertPath.hpp"
 #include "StaticBackgroundEntity.hpp"
 #include "ScoreBoardComponent.hpp"
