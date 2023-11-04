@@ -15,20 +15,77 @@
 #include "AComponent.hpp"
 
 namespace ECS{
+    /**
+     * @brief Text Component
+     */
     class TextComponent : public AComponent{
         public:
+            /**
+             * @brief Construct a new Text Component object
+             * 
+             * @param text the text
+             */
             TextComponent(std::string text);
             ~TextComponent();
+            
+            /**
+             * @brief Set the text
+             * 
+             * @param text the text
+             */
             void setText(std::string text);
+            /**
+             * @brief Get the text
+             * 
+             * @return sf::Text the text
+             */
             sf::Text getText();
+            /**
+             * @brief Clone the component
+             * 
+             * @return std::shared_ptr<IComponent> the component
+             */
             std::shared_ptr<IComponent> clone() const override;
+            /**
+             * @brief Set the Color object
+             * 
+             * @param color the color
+             */
             void setColor(sf::Color color);
+            /**
+             * @brief Set the Font object
+             * 
+             * @param font the font
+             */
             void setFont(sf::Font);
+            /**
+             * @brief Set the Position object
+             * 
+             * @param x the x position
+             * @param y the y position
+             */
             void setPosition(int x, int y);
+        
         protected:
+            /**
+             * @brief the color
+             * 
+             */
             sf::Color _color;
+            /**
+             * @brief the font
+             * 
+             */
             sf::Font _font;
+            /**
+             * @brief the position
+             * 
+             */
             sf::Text _text;
+            /**
+             * @brief the string
+             * 
+             */
             std::string _string;
         private:
     };

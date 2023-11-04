@@ -11,6 +11,9 @@
 #include "Packet.hpp"
 #include "BossComponent.hpp"
 
+/**
+ * @brief Boss Entity
+ */
 class BossEntity : public ECS::Entity {
     public:
         explicit BossEntity(const bossLaserGenerator& laserGenerator, int id = 0);
