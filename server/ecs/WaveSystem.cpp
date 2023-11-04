@@ -28,7 +28,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     if (enemy == nullptr)
         return;
     for (; EnemyCount < 8; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50));
+        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50 + std::rand() % 10));
     }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
@@ -109,6 +109,18 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     createEnemy(WaveCount, EnemyCount, 1100, 500);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 1100, 50);
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
+
+    createEnemy(WaveCount, EnemyCount, 800, 20);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 50);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 20);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 50);
+    EnemyCount ++;
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;

@@ -42,9 +42,10 @@ namespace ECS {
             /**
              * @brief The default speed of the enemy
              */
+            float random = std::rand() % 3;
             float _speed = 100;
             float timer = 0;
-            float rate = 1;
+            float rate = 1 + random;
             EnemyShootFunction _shootFunction;
     };
 }
