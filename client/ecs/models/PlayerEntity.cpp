@@ -40,7 +40,7 @@ namespace ECS {
         addComponent(soundComponent);
         addComponent(std::make_shared<ECS::SpriteComponent>(playerTexture, playerRect, 2, 0.1f, sf::Vector2i(2, 1), true));
         addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
-        addComponent(std::make_shared<ECS::ScaleComponent>(0.12f, 0.12f));
+        addComponent(std::make_shared<ECS::ScaleComponent>(0.16f, 0.16f));
         addComponent(std::make_shared<ECS::ShootComponent>());
         isEnabled = false;
     }
