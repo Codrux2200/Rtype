@@ -26,7 +26,7 @@ namespace ECS {
              * @param animSpeed the animation speed
              * @param spriteGrid the sprite grid
              */
-            SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1));
+            SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations = 0, float animSpeed = 10, sf::Vector2i spriteGrid = sf::Vector2i(1, 1), bool isAnimated = false);
             ~SpriteComponent();
             /**
              * @brief Set the Texture object to the sprite

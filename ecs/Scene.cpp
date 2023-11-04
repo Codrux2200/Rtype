@@ -45,6 +45,8 @@ std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
 {
     auto it = std::find_if(entitiesList.begin(), entitiesList.end(),
     [entityID](const std::shared_ptr<Entity>& entity) {
+        if (!entity)
+            return false;
         return entity->getId() == entityID;
     });
 

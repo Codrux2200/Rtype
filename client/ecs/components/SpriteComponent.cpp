@@ -9,10 +9,10 @@
 
 #include <utility>
 
-ECS::SpriteComponent::SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations, float animSpeed, sf::Vector2i spriteGrid)
+ECS::SpriteComponent::SpriteComponent(std::shared_ptr<sf::Texture> texture, sf::Rect<int> rect, int maxIterations, float animSpeed, sf::Vector2i spriteGrid, bool isAnimated)
     : _rect(rect), _texture(std::move(texture)), _sprite(*_texture),
       maxIterations(maxIterations), animSpeed(animSpeed),
-      spriteGrid(spriteGrid)
+      spriteGrid(spriteGrid), isAnimated(isAnimated)
 {
     _sprite.setTextureRect(_rect);
 //    _sprite.setOrigin(sf::Vector2f(static_cast<float>(_rect.width) / 2, static_cast<float>(_rect.height) / 2));
@@ -35,7 +35,7 @@ const sf::Sprite &ECS::SpriteComponent::getSprite() const
 
 std::shared_ptr<ECS::IComponent> ECS::SpriteComponent::clone() const
 {
-    return std::make_shared<ECS::SpriteComponent>(_texture, _rect, maxIterations, animSpeed, spriteGrid);
+    return std::make_shared<ECS::SpriteComponent>(_texture, _rect, maxIterations, animSpeed, spriteGrid, isAnimated);
 }
 
 sf::Rect<int> &ECS::SpriteComponent::getRect()
