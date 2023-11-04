@@ -116,6 +116,8 @@ set(ECS_SOURCES
         ecs/components/HealthComponent.hpp
         ecs/components/EnemyBulletComponent.cpp
         ecs/components/EnemyBulletComponent.hpp
+        ecs/components/EnemyComponent.cpp
+        ecs/components/EnemyComponent.hpp
 )
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -142,8 +144,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/SoundComponent.hpp
         client/ecs/components/ClickComponent.cpp
         client/ecs/components/ClickComponent.hpp
-        client/ecs/components/EnemyComponent.cpp
-        client/ecs/components/EnemyComponent.hpp
+        client/ecs/components/EnemyDeathComponent.cpp
+        client/ecs/components/EnemyDeathComponent.hpp
         client/ecs/components/AEventComponent.hpp
         client/ecs/components/ControlComponent.cpp
         client/ecs/components/ControlComponent.hpp
@@ -195,8 +197,6 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ServerCore.hpp
         server/ecs/components/HitboxComponent.cpp
         server/ecs/components/HitboxComponent.hpp
-        server/ecs/components/EnemyComponent.cpp
-        server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
         server/ecs/components/PlayerBulletComponent.cpp
         server/ecs/components/PlayerBulletComponent.hpp

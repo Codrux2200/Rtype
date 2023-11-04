@@ -74,12 +74,13 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         std::cout << "Player " << player->getId() << " created" << std::endl;
         scene->addEntity(player);
     }
-    std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), _entityFactory.ids++);
-    scene->addEntity(enemy);
-    std::shared_ptr<ECS::Entity> enemy_veloce = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_VELOCE), _entityFactory.ids++);
-    scene->addEntity(enemy_veloce);
-    std::shared_ptr<ECS::Entity> boss = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _entityFactory.ids++);
-    scene->addEntity(boss);
+    // Hardcoded shit
+//    std::shared_ptr<ECS::Entity> enemy = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), _entityFactory.ids++);
+//    scene->addEntity(enemy);
+//    std::shared_ptr<ECS::Entity> enemy_veloce = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_VELOCE), _entityFactory.ids++);
+//    scene->addEntity(enemy_veloce);
+//    std::shared_ptr<ECS::Entity> boss = _entityFactory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _entityFactory.ids++);
+//    scene->addEntity(boss);
     return scene;
 }
 
@@ -225,7 +226,7 @@ void ECS::ServerCore::_handlerStartGame(Network::Packet &packet, const udp::endp
 
         data.x = static_cast<int>(positionComponent->x);
         data.y = static_cast<int>(positionComponent->y);
-        data.type = ECS::Entity::ENEMY_CLASSIC;
+        data.type = enemy->getComponent<EnemyComponent>()->getEnemyType();
         data.id = enemy->getId();
 
         std::cout << "Sending enemy spawn packet" << std::endl;

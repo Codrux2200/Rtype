@@ -15,13 +15,14 @@ namespace ECS {
     {
         switch (type) {
             case ECS::Entity::ENEMY_CLASSIC:
-                _speed = 100;
-                _rate = 3;
+                _xspeed = 100;
+                _rate = 2 + _random;
                 _timer = 0;
                 break;
             case ECS::Entity::ENEMY_VELOCE:
-                _speed = 200; // Why don't we see it ?
-                _rate = 1;
+                _xspeed = 500;
+                _yspeed = 100;
+                _rate = 0.5;
                 _timer = 0;
                 break;
             default:
@@ -43,11 +44,15 @@ namespace ECS {
         _timer += deltaTime;
 
         switch (_type) {
-            case ECS::Entity::ENEMY_CLASSIC:
-                positionComponent->x -= _speed * deltaTime;
-                break;
+            case ECS::Entity::ENEMY_CLASSIC: positionComponent->x -= _xspeed * deltaTime; break;
             case ECS::Entity::ENEMY_VELOCE:
-                positionComponent->y += std::sin(positionComponent->x / 100) * 10;
+                if (positionComponent->y > 400 && _yspeed > 0) {
+                    std::cout << "Switching VELOCE Y" << std::endl;
+                    _yspeed = -100;
+                } else if (positionComponent->y < 150 && _yspeed < 0)
+                    _yspeed = 100;
+                positionComponent->y += _yspeed * deltaTime;
+                positionComponent->x -= _xspeed * deltaTime;
                 break;
             default:
                 break;

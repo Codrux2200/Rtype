@@ -37,22 +37,29 @@ namespace ECS {
              * @param deltaTime
              */
             void update(std::vector<Network::Packet> &packets, ECS::Entity &entity, float deltaTime) override;
+
+            [[nodiscard]] ECS::Entity::EntityType getEnemyType() const { return _type; }
+
         private:
 
             /**
-             * @brief The default speed of the enemy
+             * @brief The default x axis speed of the enemy
              */
-            float _speed = 100;
+            float _xspeed = 0;
+            /**
+             * @brief The default y axis speed of the enemy
+             */
+            float _yspeed = 0;
             /**
              * @brief randomize the shoot rate of the enemy
             */
-            float _random = std::rand() % 3;
+            float _random = 0;
             float _timer = 0;
 
             /**
              * @brief The rate of the enemy shoot
              */
-            float _rate = 1 + _random;
+            float _rate = 10;
             ECS::Entity::EntityType _type;
             EnemyShootFunction _shootFunction;
     };

@@ -13,22 +13,23 @@
 
 namespace ECS {
     /**
-     * @brief Enemy component
+     * @brief Enemy death component
      *
+     * Provides a behavior on enemy death, such as playing a sound
      */
-    class EnemyComponent : public AGameComponent {
+    class EnemyDeathComponent : public AGameComponent {
         public:
             /**
-             * @brief Construct a new enemy Component object
+             * @brief Construct a new enemy death Component object
              *
              * @param uid
              */
-            EnemyComponent() = default;
+            EnemyDeathComponent() = default;
             /**
-             * @brief Destroy the enemy Component object
+             * @brief Destroy the enemy DeathComponent object
              *
              */
-            ~EnemyComponent() = default;
+            ~EnemyDeathComponent() = default;
             /**
              * @brief clone the component
              *
@@ -36,7 +37,7 @@ namespace ECS {
              */
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
 
-            void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+            void update(std::vector<Network::Packet> &packets, ECS::Entity &entity, float deltaTime) override;
 
             bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) override;
 

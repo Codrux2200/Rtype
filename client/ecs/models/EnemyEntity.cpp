@@ -7,9 +7,10 @@
 
 #include "EnemyEntity.hpp"
 #include <iostream>
-#include "EnemyComponent.hpp"
-#include "PositionComponent.hpp"
 #include "ConvertPath.hpp"
+#include "EnemyComponent.hpp"
+#include "EnemyDeathComponent.hpp"
+#include "PositionComponent.hpp"
 #include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
@@ -49,7 +50,8 @@ namespace ECS {
         enemyRect.height = enemyTexture->getSize().y;
         addComponent(
         std::make_shared<ECS::SpriteComponent>(enemyTexture, enemyRect));
-        addComponent(std::make_shared<ECS::EnemyComponent>());
+        addComponent(std::make_shared<ECS::EnemyDeathComponent>());
+        addComponent(std::make_shared<ECS::EnemyComponent>(nullptr, type));
 
         std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
 

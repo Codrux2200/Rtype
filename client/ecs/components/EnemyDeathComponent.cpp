@@ -5,27 +5,17 @@
 ** EnemyComponent
 */
 
-#include "EnemyComponent.hpp"
-#include "PositionComponent.hpp"
+#include "EnemyDeathComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
 
 namespace ECS {
-    std::shared_ptr<IComponent> EnemyComponent::clone() const
+    std::shared_ptr<IComponent> EnemyDeathComponent::clone() const
     {
-        return std::make_shared<EnemyComponent>();
+        return std::make_shared<EnemyDeathComponent>();
     }
 
-    void EnemyComponent::update(std::vector<Network::Packet> &packetsQueue, Entity &entity, float dt)
-    {
-        auto position = entity.getComponent<PositionComponent>();
-        position->x -= _speed * dt;
-        if (position->x < 0) {
-            entity.deathReason = Network::data::OUT_OF_BOUNDS;
-        }
-    }
-
-    bool EnemyComponent::onDestroy(Entity &entity, Network::data::DeathReason reason, float dt)
+    bool EnemyDeathComponent::onDestroy(Entity &entity, Network::data::DeathReason reason, float dt)
     {
         if (reason != Network::data::PLAYER_BULLET)
             return true;
@@ -47,5 +37,8 @@ namespace ECS {
         if (sound->isPlaying("enemy_death"))
             return false;
         return true;
+    }
+    void EnemyDeathComponent::update(std::vector<Network::Packet> &packets, Entity &entity, float deltaTime)
+    {
     }
 }
