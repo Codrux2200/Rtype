@@ -105,6 +105,7 @@ set(ECS_SOURCES
         ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
+        ecs/components/AGameComponent.cpp
         ecs/components/AGameComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp

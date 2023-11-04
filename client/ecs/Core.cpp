@@ -43,6 +43,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WINGAME, _initWinScene()));
     if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr || scenes.at(SceneType::ENDGAME) == nullptr) {
         std::cerr << "Error: scene is null" << std::endl;
         return;
@@ -149,6 +150,7 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> back = std::make_shared<ECS::StaticBackgroundEntity>("assets/back.png");
     _entityFactory.registerEntity(back, "background");
     std::shared_ptr<ECS::Entity> endBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/endback.png");
+    std::shared_ptr<ECS::Entity> winBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/winback.jpg");
     _entityFactory.registerEntity(endBackground, "endBackground");
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
@@ -307,6 +309,47 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Game_Over.ogg"));
     scene->addEntity(buttonQuit);
     return scene;
+}
+
+std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
+{
+    {
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::WIN);
+    std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("WinBackground", _entityFactory.ids++);
+
+    std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
+    if (sprite == nullptr) {
+        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        return scene;
+    }
+    scene->addEntity(background);
+    std::shared_ptr<ECS::PositionComponent> position = buttonQuit->getComponent<ECS::PositionComponent>();
+
+    sf::Rect<int> rect;
+
+    if (position) {
+        std::vector<int> pos = position->getValue();
+        rect.left = pos.at(0);
+        rect.top = pos.at(1);
+        rect.width = 300;
+        rect.height = 300;
+    } else {
+        rect.left = 100;
+        rect.top = 0;
+    }
+
+    rect.width = sprite->getRect().width;
+    rect.height = sprite->getRect().height;
+
+    buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect,
+    [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
+        return true;
+    }, _window));
+    buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Victory_Rick.ogg"));
+    scene->addEntity(buttonQuit);
+    return scene;
+}
 }
 
 bool ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)

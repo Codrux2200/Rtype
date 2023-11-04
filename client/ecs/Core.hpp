@@ -64,7 +64,18 @@ namespace ECS {
              * @return std::shared_ptr<ECS::Scene>
              */
             std::shared_ptr<ECS::Scene> _initGameScene();
+            /**
+             * @brief init the death scene
+             *
+             * @return std::shared_ptr<ECS::Scene>
+             */
             std::shared_ptr<ECS::Scene> _initEndScene();
+            /**
+             * @brief init the win scene
+             *
+             * @return std::shared_ptr<ECS::Scene>
+             */
+            std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
 
             /**
              * @brief init the entities
@@ -80,7 +91,6 @@ namespace ECS {
              * @param dt the delta time
              */
             static bool _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
-
             /**
              * @brief init the handlers
              *

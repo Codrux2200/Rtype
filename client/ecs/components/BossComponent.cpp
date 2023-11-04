@@ -14,6 +14,7 @@
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
 
+
 namespace ECS {
 
     BossComponent::BossComponent(bossLaserGenerator laserGenerator) : _laserGenerator(std::move(laserGenerator))
@@ -152,6 +153,9 @@ namespace ECS {
             auto position = entity.getComponent<PositionComponent>();
 
             position->y += dt * 50;
+        }
+        if (canBeDestroyed) {
+            _sceneChange = SceneType::WIN;
         }
 
         return canBeDestroyed;
@@ -374,5 +378,10 @@ namespace ECS {
         sprite->animSpeed = 0;
         sprite->isAnimated = false;
         sprite->setAnimationStep(4);
+    }
+
+    SceneType BossComponent::getSceneChange()
+    {
+        return _sceneChange;
     }
 }

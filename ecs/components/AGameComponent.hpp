@@ -16,5 +16,6 @@ namespace ECS {
     class AGameComponent : public AComponent {
         public:
             virtual void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) = 0;
+            virtual SceneType getSceneChange();
     };
 }
