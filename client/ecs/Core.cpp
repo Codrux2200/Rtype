@@ -64,9 +64,7 @@ void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endp
     _score = packet.scoreData.Score;
     std::vector<std::shared_ptr<ECS::Entity>> entitys = sceneManager.getCurrentScene()->getEntitiesWithComponent<ECS::ScoreBoardComponent>();
     if (entitys.size() > 0){
-        if (entitys[0]->getComponent<ECS::TextComponent>() != nullptr && entitys[0]->getComponent<ECS::TextComponent>()->getString().find("Score") != std::string::npos) {
-            entitys[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
-        }
+        entitys[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
     }
 }
 

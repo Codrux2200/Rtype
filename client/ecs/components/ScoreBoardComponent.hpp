@@ -15,7 +15,7 @@ namespace ECS{
     class ScoreBoardComponent : public AComponent{
         public:
             ScoreBoardComponent();
-            ~ScoreBoardComponent();
+            ~ScoreBoardComponent() = default;
             std::shared_ptr<IComponent> clone() const override;
         protected:
         private:

@@ -13,10 +13,6 @@ namespace ECS{
     {
     }
 
-    ScoreBoardComponent::~ScoreBoardComponent()
-    {
-    }
-
     std::shared_ptr<IComponent> ScoreBoardComponent::clone() const {
         return std::make_shared<ScoreBoardComponent>();
     }
