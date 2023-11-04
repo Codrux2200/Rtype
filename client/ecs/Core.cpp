@@ -352,7 +352,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
     [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
         return true;
     }, _window));
-    buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Victory_Rick.ogg"));
+    buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Win.ogg"));
     scene->addEntity(buttonQuit);
     return scene;
 }
