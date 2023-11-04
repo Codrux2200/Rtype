@@ -5,31 +5,60 @@
 ** BossComponent
 */
 
-#include <iostream>
 #include "BossComponent.hpp"
+#include <iostream>
+#include <utility>
+#include "ConvertPath.hpp"
 #include "PositionComponent.hpp"
+#include "ScaleComponent.hpp"
 #include "SoundComponent.hpp"
 #include "SpriteComponent.hpp"
 
 namespace ECS {
 
-    BossComponent::BossComponent()
+    BossComponent::BossComponent(bossLaserGenerator laserGenerator) : _laserGenerator(std::move(laserGenerator))
     {
-        // load and store textures
-        if (!_idleTexture.loadFromFile("assets/boss/boss2.png")) {
+        _idleTexture = std::make_shared<sf::Texture>();
+        _attackUpTexture = std::make_shared<sf::Texture>();
+        _attackDownTexture = std::make_shared<sf::Texture>();
+        _deathTexture = std::make_shared<sf::Texture>();
+
+        if (!_idleTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
 
-        if (!_attackUpTexture.loadFromFile("assets/boss/boss_eyes_shot.png")) {
+        if (!_attackUpTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss_eyes_shot.png"))) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
 
-        if (!_attackDownTexture.loadFromFile("assets/boss/boss mouth laser.png")) {
+        if (!_attackDownTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss mouth laser.png"))) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
         }
+
+        if (!_deathTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss_death.png"))) {
+            std::cerr << "Error loading boss texture" << std::endl;
+            return;
+        } else {
+            std::cout << "##### BOSS DEATH TEXTURE INITIALIZED SUCCESSFULLY #####" << std::endl;
+        }
+    }
+
+    BossComponent::BossComponent(const BossComponent &other)
+     : AGameComponent(other) {
+        _idleTexture = other._idleTexture;
+        _attackUpTexture = other._attackUpTexture;
+        _attackDownTexture = other._attackDownTexture;
+        _deathTexture = other._deathTexture;
+        _state = other._state;
+        _timer = other._timer;
+        _step = other._step;
+        _speed = other._speed;
+        _isUp = other._isUp;
+        _deathInitialized = other._deathInitialized;
+        _laserGenerator = other._laserGenerator;
     }
 
     void BossComponent::update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt)
@@ -70,42 +99,70 @@ namespace ECS {
 
     std::shared_ptr<IComponent> BossComponent::clone() const
     {
-        return std::make_shared<BossComponent>();
+        return std::make_shared<BossComponent>(*this);
     }
 
     bool BossComponent::onDestroy(
     Entity &entity, Network::data::DeathReason reason, float dt)
     {
+        bool canBeDestroyed = true;
         auto sound = entity.getComponent<SoundComponent>();
         auto sprite = entity.getComponent<SpriteComponent>();
-        bool canBeDestroyed = true;
 
-        if (sound) {
-            if (!_soundPlayed) {
-                sound->play("boss_death");
-                _soundPlayed = true;
+        if (!_deathInitialized) {
+            isEnabled = false;
+
+            auto position = entity.getComponent<PositionComponent>();
+
+            if (position) {
+                position->x -= 209;
+                position->y -= 296;
             }
-            if (sound->isPlaying("boss_death"))
-                canBeDestroyed = false;
+
+            if (sound) {
+                sound->play("boss_death");
+            }
+
+            sprite->setTexture(_deathTexture);
+            sprite->spriteGrid = sf::Vector2i(9, 1);
+            sprite->maxIterations = 9;
+            sprite->animSpeed = 0.3f;
+            sprite->isAnimated = true;
+            sprite->_rect.width = 805;
+            sprite->_rect.height = 720;
+            sprite->setAnimationStep(0);
+
+            auto scale = entity.getComponent<ScaleComponent>();
+
+            if (scale) {
+                scale->x = 0.9f;
+                scale->y = 0.9f;
+            }
+
+            _deathInitialized = true;
         }
 
-//        if (sprite) {
-//            if (!_spriteChanged) {
-//                sprite->sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
-//                _spriteChanged = true;
-//            }
-//            if (sprite->sprite.getTextureRect().width != 0)
-//                canBeDestroyed = false;
-//        }
+        if (sound && sound->isPlaying("boss_death")) {
+            canBeDestroyed = false;
+        }
+
+        if (sprite && sprite->animStep == 8) {
+            sprite->isAnimated = false;
+            sprite->setAnimationStep(8);
+            auto position = entity.getComponent<PositionComponent>();
+
+            position->y += dt * 50;
+        }
 
         return canBeDestroyed;
     }
 
-    void BossComponent::setState(Network::data::BossState state)
+    void BossComponent::setState(Network::data::BossState state, int isUp)
     {
         _timer = 0;
         _step = 0;
         _state = state;
+        _isUp = isUp;
     }
 
     void BossComponent::_comingUpdate(ECS::Entity &entity, float dt)
@@ -120,7 +177,6 @@ namespace ECS {
             positionComponent->x = 500;
             _state = Network::data::IDLE;
         }
-        std::cout << "Coming" << std::endl;
     }
 
     void BossComponent::_dashUpdate(ECS::Entity &entity, float dt)
@@ -144,7 +200,7 @@ namespace ECS {
                 }
                 break;
             case 2:
-                positionComponent->x += dt * _speed;
+                positionComponent->x += dt * _speed / 2;
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;
@@ -184,9 +240,12 @@ namespace ECS {
             case 1: {
                 if (_timer >= 0.9) {
                     auto sound = entity.getComponent<SoundComponent>();
+                    auto position = entity.getComponent<PositionComponent>();
 
                     if (sound)
                         sound->play("boss_eyes_atk");
+                    if (position)
+                        _laserGenerator("bossEyesLaser", position->x + 70, position->y + 86.5f);
                     _setAttackUpTexture(entity);
                     _step = 2;
                 }
@@ -208,12 +267,17 @@ namespace ECS {
                 _setAttackDownLoadingTexture(entity);
                 _step = 1;
             }
-            case 1:
+            case 1: {
                 if (_timer >= 0.9) {
+                    auto position = entity.getComponent<PositionComponent>();
+
+                    if (position)
+                        _laserGenerator("bossMouthLaser", position->x, position->y + 190);
                     _setAttackDownTexture(entity);
                     _step = 2;
                 }
                 break;
+            }
             case 2: {
                 if (_timer >= 2) {
                     _setIdleTexture(entity);

@@ -14,6 +14,9 @@
 #include <string>
 
 namespace ECS{
+    /**
+     * @brief Static Background Entity
+     */
     class StaticBackgroundEntity : public Entity{
         public:
             StaticBackgroundEntity(std::string path);

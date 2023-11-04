@@ -24,7 +24,7 @@ PlayerEntity::PlayerEntity() : Entity(0)
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&PlayerEntity::_callbackPlayerHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{0, 0}, {60, 40}}));
+    std::vector<std::pair<int, int>>{{22, 14}, {60, 40}}));
     isEnabled = false;
     updateGameComponents();
 }
@@ -38,7 +38,8 @@ void PlayerEntity::_callbackPlayerHit(std::shared_ptr<ECS::Entity> self, std::sh
 
     if (other->getComponent<ECS::EnemyComponent>() != nullptr ||
         other->getComponent<ECS::BossShootComponent>() != nullptr ||
-        other->getComponent<ECS::EnemyBulletComponent>() != nullptr
+        other->getComponent<ECS::EnemyBulletComponent>() != nullptr ||
+        other->getComponent<ECS::BossComponent>() != nullptr
     )
         reason = Network::data::DeathReason::ENEMY;
     else

@@ -41,3 +41,8 @@ ECS::SceneType ECS::SceneManager::getSceneType()
 {
     return _currentScene;
 }
+
+std::map<ECS::SceneType, std::shared_ptr<ECS::Scene>> &ECS::SceneManager::getScenes()
+{
+    return _scenes;
+}

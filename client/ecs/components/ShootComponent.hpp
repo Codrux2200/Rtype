@@ -30,8 +30,18 @@ namespace ECS {
             ShootComponent() = default;
             ~ShootComponent() = default;
 
-            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+            /**
+             * @brief Execute the event
+             * 
+             * @param packetsQueue the packets queue
+             * @param entity the entity
+             * @param dt the delta time
+            */
+            bool execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
 
+            /**
+             * @brief Clone the component
+            */
             [[nodiscard]] std::shared_ptr<IComponent> clone() const override;
     };
 }

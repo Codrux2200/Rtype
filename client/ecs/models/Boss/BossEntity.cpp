@@ -14,14 +14,14 @@
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 
-BossEntity::BossEntity(int id) : ECS::Entity(id)
+BossEntity::BossEntity(const bossLaserGenerator& laserGenerator, int id) : ECS::Entity(id)
 {
     addComponent(std::make_shared<ECS::PositionComponent>());
     addComponent(std::make_shared<ECS::ScaleComponent>(0.9f, 0.9f));
     addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
 
-    sf::Texture bossTexture;
-    if (!bossTexture.loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
+    std::shared_ptr<sf::Texture> bossTexture = std::make_shared<sf::Texture>();
+    if (!bossTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
         std::cerr << "Error loading enemy texture" << std::endl;
         return;
     }
@@ -33,7 +33,7 @@ BossEntity::BossEntity(int id) : ECS::Entity(id)
     bossRect.height = 400;
     addComponent(
     std::make_shared<ECS::SpriteComponent>(bossTexture, bossRect, 1, 1, sf::Vector2i(5, 1)));
-    addComponent(std::make_shared<ECS::BossComponent>());
+    addComponent(std::make_shared<ECS::BossComponent>(laserGenerator));
 
     std::shared_ptr<ECS::SoundComponent> soundComponent = std::make_shared<ECS::SoundComponent>();
     if (!soundComponent->addSound("boss_death", "assets/sound/boss_death.ogg")) {

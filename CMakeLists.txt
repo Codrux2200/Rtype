@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(RType)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -10,6 +10,9 @@ set(SERVER_BINARY "rtype-server")
 
 # -- Fetch Boost
 include(FetchContent)
+
+find_package(ICU 61.0 COMPONENTS uc i18n REQUIRED)
+
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
@@ -105,12 +108,12 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
-        ecs/components/PlayerBulletComponent.cpp
-        ecs/components/PlayerBulletComponent.hpp
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
+        ecs/components/HealthComponent.cpp
+        ecs/components/HealthComponent.hpp
         ecs/components/EnemyBulletComponent.cpp
         ecs/components/EnemyBulletComponent.hpp
 )
@@ -131,6 +134,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/GraphicSystem.hpp
         client/ecs/components/BackgroundComponent.cpp
         client/ecs/components/BackgroundComponent.hpp
+        client/ecs/components/PlayerBulletComponent.cpp
+        client/ecs/components/PlayerBulletComponent.hpp
         client/ecs/components/MusicsComponent.cpp
         client/ecs/components/MusicsComponent.hpp
         client/ecs/components/SoundComponent.cpp
@@ -150,6 +155,10 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/components/BossComponent.hpp
         client/ecs/components/TextComponent.cpp
         client/ecs/components/TextComponent.hpp
+        client/ecs/components/BossLaserEyeComponent.cpp
+        client/ecs/components/BossLaserEyeComponent.hpp
+        client/ecs/components/BossLaserMouthComponent.cpp
+        client/ecs/components/BossLaserMouthComponent.hpp
         client/ecs/models/ButtonEntity.cpp
         client/ecs/models/ButtonEntity.hpp
         client/ecs/models/EnemyEntity.cpp
@@ -158,12 +167,18 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/models/PlayerBullet.hpp
         client/ecs/models/PlayerEntity.cpp
         client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/BossEntity.cpp
-        client/ecs/models/BossEntity.hpp
-        client/ecs/models/BossShootEntity.cpp
-        client/ecs/models/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEntity.cpp
+        client/ecs/models/Boss/BossEntity.hpp
+        client/ecs/models/Boss/BossShootEntity.cpp
+        client/ecs/models/Boss/BossShootEntity.hpp
+        client/ecs/models/Boss/BossEyesLaserEntity.cpp
+        client/ecs/models/Boss/BossEyesLaserEntity.hpp
+        client/ecs/models/Boss/BossMouthLaserEntity.cpp
+        client/ecs/models/Boss/BossMouthLaserEntity.hpp
         client/ecs/models/StaticBackgroundEntity.cpp
         client/ecs/models/StaticBackgroundEntity.hpp
+        client/ecs/components/ScoreBoardComponent.cpp
+        client/ecs/components/ScoreBoardComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -183,6 +198,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.cpp
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
+        server/ecs/components/PlayerBulletComponent.cpp
+        server/ecs/components/PlayerBulletComponent.hpp
         server/ecs/components/PlayerComponent.hpp
         server/ecs/components/BossComponent.cpp
         server/ecs/components/BossComponent.hpp
@@ -224,13 +241,17 @@ find_package(Threads REQUIRED)
 target_link_libraries(
     ${CLIENT_BINARY}
     PRIVATE
-    Threads::Threads
+        ICU::uc
+        ICU::i18n
+        Threads::Threads
 )
 
 target_link_libraries(
     ${SERVER_BINARY}
     PRIVATE
-    Threads::Threads
+        ICU::uc
+        ICU::i18n
+        Threads::Threads
 )
 
 foreach(lib ${BOOST_INCLUDE_LIBRARIES})
@@ -261,6 +282,7 @@ target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         ${SFML_SOURCE_DIR}/include
+        _deps/icu-src
         client
         client/ecs
         client/ecs/components
