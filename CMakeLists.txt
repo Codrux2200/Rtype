@@ -11,8 +11,6 @@ set(SERVER_BINARY "rtype-server")
 # -- Fetch Boost
 include(FetchContent)
 
-find_package(ICU 61.0 COMPONENTS uc i18n REQUIRED)
-
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
@@ -241,16 +239,12 @@ find_package(Threads REQUIRED)
 target_link_libraries(
     ${CLIENT_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
 target_link_libraries(
     ${SERVER_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
@@ -282,7 +276,6 @@ target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         ${SFML_SOURCE_DIR}/include
-        _deps/icu-src
         client
         client/ecs
         client/ecs/components
