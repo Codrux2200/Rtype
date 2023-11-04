@@ -45,7 +45,8 @@ Network::PacketType type, void *data)
     type != Network::PacketType::MOVE_LEFT &&
     type != Network::PacketType::MOVE_RIGHT &&
     type != Network::PacketType::SHOOT &&
-    type != Network::PacketType::QUIT)
+    type != Network::PacketType::QUIT &&
+    type != Network::PacketType::I_AM_HERE)
         throw std::runtime_error("Data is null");
 
     std::unique_ptr<Network::Packet> packet = std::make_unique<Network::Packet>();

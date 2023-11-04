@@ -25,6 +25,8 @@ void RType::Server::_loadPacketHandlers()
 {
     packetManager.REGISTER_HANDLER(
     Network::PacketType::QUIT, &Server::_handlerQuit);
+    packetManager.REGISTER_HANDLER(
+    Network::PacketType::I_AM_HERE, &Server::_handlerIAmHere);
 }
 
 void RType::Server::_handlerQuit(Network::Packet & packet, const udp::endpoint &endpoint){
@@ -235,4 +237,9 @@ void RType::Server::sendPackets()
         broadcast(packet);
     }
     packetManager.sendPacketsQueue.clear();
+}
+
+void RType::Server::_handlerIAmHere(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    // Nothing to do here
 }
