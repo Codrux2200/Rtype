@@ -262,7 +262,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         sprite->setTexture(texture);
         scene->addEntity(player);
     }
-    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", -1);
     _scoreId = _entityFactory.ids;
     scene->addEntity(text);
     return scene;
