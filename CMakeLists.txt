@@ -11,8 +11,6 @@ set(SERVER_BINARY "rtype-server")
 # -- Fetch Boost
 include(FetchContent)
 
-find_package(ICU 61.0 COMPONENTS uc i18n REQUIRED)
-
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
@@ -108,8 +106,6 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
-        ecs/components/PlayerBulletComponent.cpp
-        ecs/components/PlayerBulletComponent.hpp
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
@@ -138,6 +134,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/GraphicSystem.hpp
         client/ecs/components/BackgroundComponent.cpp
         client/ecs/components/BackgroundComponent.hpp
+        client/ecs/components/PlayerBulletComponent.cpp
+        client/ecs/components/PlayerBulletComponent.hpp
         client/ecs/components/MusicsComponent.cpp
         client/ecs/components/MusicsComponent.hpp
         client/ecs/components/SoundComponent.cpp
@@ -200,6 +198,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.cpp
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
+        server/ecs/components/PlayerBulletComponent.cpp
+        server/ecs/components/PlayerBulletComponent.hpp
         server/ecs/components/PlayerComponent.hpp
         server/ecs/components/BossComponent.cpp
         server/ecs/components/BossComponent.hpp
@@ -241,16 +241,12 @@ find_package(Threads REQUIRED)
 target_link_libraries(
     ${CLIENT_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
 target_link_libraries(
     ${SERVER_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
@@ -282,7 +278,6 @@ target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         ${SFML_SOURCE_DIR}/include
-        _deps/icu-src
         client
         client/ecs
         client/ecs/components
