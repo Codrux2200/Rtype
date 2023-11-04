@@ -11,11 +11,6 @@ set(SERVER_BINARY "rtype-server")
 # -- Fetch Boost
 include(FetchContent)
 
-if(APPLE)
-    find_package(ICU REQUIRED COMPONENTS uc i18n)    
-endif(APPLE)
-
-
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
