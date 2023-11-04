@@ -9,6 +9,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <set>
 
 // clang-format off
 #include "PacketManager.hpp"
@@ -39,14 +40,17 @@ const char *bytes, std::size_t bytes_size)
 std::unique_ptr<Network::Packet> Network::PacketManager::createPacket(
 Network::PacketType type, void *data)
 {
-    if (data == nullptr &&
-    type != Network::PacketType::MOVE_UP &&
-    type != Network::PacketType::MOVE_DOWN &&
-    type != Network::PacketType::MOVE_LEFT &&
-    type != Network::PacketType::MOVE_RIGHT &&
-    type != Network::PacketType::SHOOT &&
-    type != Network::PacketType::QUIT &&
-    type != Network::PacketType::I_AM_HERE)
+    std::set<Network::PacketType> typesAllowedNullData = {
+    Network::PacketType::MOVE_UP,
+    Network::PacketType::MOVE_DOWN,
+    Network::PacketType::MOVE_LEFT,
+    Network::PacketType::MOVE_RIGHT,
+    Network::PacketType::SHOOT,
+    Network::PacketType::QUIT,
+    Network::PacketType::I_AM_HERE
+    };
+
+    if (data == nullptr && typesAllowedNullData.find(type) == typesAllowedNullData.end())
         throw std::runtime_error("Data is null");
 
     std::unique_ptr<Network::Packet> packet = std::make_unique<Network::Packet>();
