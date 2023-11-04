@@ -96,8 +96,13 @@ void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint 
 
     for (int i = 0; i < MAX_PLAYERS; i++) {
         auto player = scene->getEntityByID(i);
+
+        if (player == nullptr)
+            continue;
         auto positionComponent = player->getComponent<PositionComponent>();
 
+        if (positionComponent == nullptr)
+            continue;
         positionComponent->x = packet.playersPos.positions[i].x;
         positionComponent->y = packet.playersPos.positions[i].y;
     }
