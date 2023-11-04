@@ -63,6 +63,7 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
     packetManager.REGISTER_HANDLER(Network::PacketType::BOSS_STATE, &ECS::Core::_handlerBossState);
     packetManager.REGISTER_HANDLER(Network::PacketType::SCORE, &ECS::Core::_handlerScore);
+    packetManager.REGISTER_HANDLER(Network::PacketType::DISCONNECT, &ECS::Core::_handlerDisconnect);
 }
 
 void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint){
@@ -343,24 +344,30 @@ void ECS::Core::mainLoop(RType::Connection &connection)
                 continue;
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
         }
-        connection.sendPackets();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
         if (sceneType != sceneManager.getSceneType()) {
             for (const auto& entity : sceneManager.getScene(sceneType)->entitiesList) {
-                if (entity == nullptr)
+                if (entity == nullptr) {
                     continue;
+                }
 
                 auto musicComponent = entity->getComponent<MusicsComponent>();
                 auto soundComponent = entity->getComponent<SoundComponent>();
 
-                if (musicComponent != nullptr)
+                if (musicComponent != nullptr) {
                     musicComponent->stop();
-                if (soundComponent != nullptr)
+                }
+                if (soundComponent != nullptr) {
                     soundComponent->stopAll();
+                }
             }
         }
-
+        if (sceneManager.shouldClose) {
+            std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::QUIT, nullptr);
+            connection.packetManager.sendPacketsQueue.push_back(*packet);
+        }
+        connection.sendPackets();
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
@@ -451,4 +458,22 @@ void ECS::Core::_createBossLaser(const std::string& entityName, float x, float y
     positionComponent->x = x - static_cast<float>(spriteComponent->getRect().width);
     positionComponent->y = y;
     scene->addEntity(laser);
+}
+
+void ECS::Core::_handlerDisconnect(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    auto scene = sceneManager.getScene(ECS::SceneType::GAME);
+
+    if (scene == nullptr)
+        return;
+    auto entity = scene->getEntityByID(packet.disconnectData.id);
+
+    if (entity == nullptr)
+        return;
+    entity->deathReason = Network::data::DeathReason::TIMEOUT;
+
+    if (packet.disconnectData.id == _playerId) {
+        sceneManager.setCurrentScene(SceneType::ENDGAME);
+        std::cout << "Player is disconnected" << std::endl;
+    }
 }

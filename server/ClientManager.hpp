@@ -11,6 +11,7 @@
 #include <memory>
 #include "Client.hpp"
 #include "ConnectData.hpp"
+#include "Packet.hpp"
 
 namespace RType {
 
@@ -73,7 +74,7 @@ namespace RType {
              * @brief Unregister and disconnects all inactive clients.
              * Will replace the leader if the leader is inactive.
              */
-            bool cleanupInactiveClients(void);
+            bool cleanupInactiveClients(std::vector<Network::Packet> &packets);
 
             /**
              * @brief Set a new leader
