@@ -107,8 +107,6 @@ set(ECS_SOURCES
         ecs/components/AGameComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
-        ecs/components/PlayerBulletComponent.cpp
-        ecs/components/PlayerBulletComponent.hpp
         ecs/components/BossShootComponent.cpp
         ecs/components/BossShootComponent.hpp
         ecs/components/VelocityComponent.cpp
@@ -135,6 +133,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/ecs/GraphicSystem.hpp
         client/ecs/components/BackgroundComponent.cpp
         client/ecs/components/BackgroundComponent.hpp
+        client/ecs/components/PlayerBulletComponent.cpp
+        client/ecs/components/PlayerBulletComponent.hpp
         client/ecs/components/MusicsComponent.cpp
         client/ecs/components/MusicsComponent.hpp
         client/ecs/components/SoundComponent.cpp
@@ -197,6 +197,8 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         server/ecs/components/EnemyComponent.cpp
         server/ecs/components/EnemyComponent.hpp
         server/ecs/components/PlayerComponent.cpp
+        server/ecs/components/PlayerBulletComponent.cpp
+        server/ecs/components/PlayerBulletComponent.hpp
         server/ecs/components/PlayerComponent.hpp
         server/ecs/components/BossComponent.cpp
         server/ecs/components/BossComponent.hpp

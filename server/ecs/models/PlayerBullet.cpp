@@ -37,9 +37,10 @@ namespace ECS {
 
         Network::data::DeathReason deathReason;
 
-        if (other->getComponent<EnemyComponent>() != nullptr ||
-        other->getComponent<BossComponent>() != nullptr)
+        if (other->getComponent<EnemyComponent>() != nullptr)
             deathReason = Network::data::DeathReason::ENEMY;
+        else if (other->getComponent<BossComponent>() != nullptr)
+            deathReason = Network::data::DeathReason::BOSS;
         else
             return;
 
