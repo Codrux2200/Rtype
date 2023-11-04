@@ -18,8 +18,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
-    for ( ; EnemyCount < 6; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 200);
+    for ( ; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200);
         }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
@@ -27,8 +27,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
-    for (; EnemyCount < 6; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 100));
+    for (; EnemyCount < 8; EnemyCount++) {
+        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50));
     }
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
@@ -54,22 +54,65 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
-    for (; EnemyCount < 8; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300);
-        createEnemy(WaveCount, EnemyCount, 1200, 100 + (EnemyCount * 50));
-    }
+    createEnemy(WaveCount, EnemyCount, 800, 10);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 50);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 850, 150);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 250);
+    EnemyCount ++;
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
 
-    for (; EnemyCount < 8; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 300);
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 100);
-        createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 100), 500);
-    }
+    createEnemy(WaveCount, EnemyCount, 800, 580);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 550);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 850, 450);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 350);
+    EnemyCount ++;
     _waves.push_back(EnemyCount);
     EnemyCount = 0;
     WaveCount++;
+
+    createEnemy(WaveCount, EnemyCount, 800, 200);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 850, 300);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 400);
+    EnemyCount ++;
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
+
+    createEnemy(WaveCount, EnemyCount, 800, 300);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 850, 350);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 850, 250);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 400);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 900, 200);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 400);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800, 200);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1000, 550);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1000, 150);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1100, 500);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 1100, 50);
+    _waves.push_back(EnemyCount);
+    EnemyCount = 0;
+    WaveCount++;
+
 }
 
 void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
@@ -88,9 +131,12 @@ void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
 
 void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
+    if (sceneManager.getCurrentScene()->getSceneType() != ECS::SceneType::GAME)
+        return;
     // Pick a random wave
+
     timer += deltaTime;
-    if (timer < 5)
+    if (timer < 3)
         return;
     timer = 0;
     int waveIndex = std::rand() % _waves.size();
