@@ -7,16 +7,17 @@
 
 #pragma once
 
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <map>
-#include <vector>
 #include <memory>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include "ISystem.hpp"
-#include "SceneManager.hpp"
+#include <vector>
 #include "Connection.hpp"
 #include "EntityFactory.hpp"
+#include "ISystem.hpp"
+#include "SceneManager.hpp"
+#include "WindowManager.hpp"
 
 namespace ECS {
 	/**
@@ -29,7 +30,7 @@ namespace ECS {
              * @brief Construct a new Core object
              *
              */
-            explicit Core(const std::string &player);
+            explicit Core(std::string player);
             /**
              * @brief Destroy the Core object
              *
@@ -51,14 +52,18 @@ namespace ECS {
              */
             void mainLoop(RType::Connection &connection);
 
+            void tryToConnect(RType::Connection &connection, boost::asio::io_service &io_service);
+
         private:
+
+            bool _isInit = false;
             /**
              * @brief init the main menu scene
              *
              * @return std::shared_ptr<ECS::Scene>
              */
             std::shared_ptr<ECS::Scene> _initMainMenuScene();
-            /**
+        /**
              * @brief init the game scene
              *
              * @return std::shared_ptr<ECS::Scene>
@@ -133,7 +138,12 @@ namespace ECS {
             void _handlerScore(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerDisconnect(Network::Packet &packet, const udp::endpoint &endpoint);
 
+            void _initSystems();
+
             void _createBossLaser(const std::string& entityName, float x, float y);
+
+
+            std::unique_ptr<WindowManager> _windowManager = nullptr;
 
             /**
              * @brief The systems
@@ -143,16 +153,10 @@ namespace ECS {
              * @brief The entity factory
             */
             EntityFactory _entityFactory;
-            /**
-             * @brief The size of the window
-            */
-            sf::Vector2u _modeSize;
-            /**
-             * @brief The window
-            */
-            sf::RenderWindow _window;
-            int _scoreId = 0;
-            int _score;
+            int _score = 0;
             short _playerId = -1;
+            std::string _playerName;
+
+            std::shared_ptr<boost::asio::steady_timer> tryConnectTimer;
 	};
 }

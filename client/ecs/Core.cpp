@@ -8,6 +8,7 @@
 #include "Core.hpp"
 #include <iostream>
 #include <thread>
+#include <utility>
 #include "AudioSystem.hpp"
 #include "Boss/BossEyesLaserEntity.hpp"
 #include "Boss/BossMouthLaserEntity.hpp"
@@ -29,29 +30,13 @@
 #include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
-#include "ConvertPath.hpp"
-#include "StaticBackgroundEntity.hpp"
 #include "ScoreBoardComponent.hpp"
-#include "ecs/models/Boss/BossEntity.hpp"
-#include "ecs/models/Boss/BossShootEntity.hpp"
+#include "Boss/BossEntity.hpp"
+#include "Boss/BossShootEntity.hpp"
 
-ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::VideoMode(_modeSize, 32), "RType & Morty - " + player)
+ECS::Core::Core(std::string player) : _playerName(std::move(player)), _isInit(false)
 {
-    std::map<SceneType, std::shared_ptr<Scene>> scenes;
-
     _initEntities();
-    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
-    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
-    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
-    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
-        std::cerr << "Error: scene is null" << std::endl;
-        return;
-    }
-    sceneManager = SceneManager(scenes);
-    _systems.push_back(std::make_unique<GraphicSystem>(_window));
-    _systems.push_back(std::make_unique<EventSystem>(_window));
-    _systems.push_back(std::make_unique<AudioSystem>());
-    _systems.push_back(std::make_unique<GameSystem>());
 }
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
@@ -66,11 +51,12 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::DISCONNECT, &ECS::Core::_handlerDisconnect);
 }
 
-void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint){
+void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint)
+{
     _score = packet.scoreData.Score;
-    std::vector<std::shared_ptr<ECS::Entity>> entitys = sceneManager.getCurrentScene()->getEntitiesWithComponent<ECS::ScoreBoardComponent>();
-    if (entitys.size() > 0){
-        entitys[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
+    std::vector<std::shared_ptr<ECS::Entity>> entities = sceneManager.getCurrentScene()->getEntitiesWithComponent<ECS::ScoreBoardComponent>();
+    if (entities.size() > 0){
+        entities[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
     }
 }
 
@@ -86,6 +72,10 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
 
 void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
+    if (!_isInit) {
+        _isInit = true;
+        _initSystems();
+    }
     std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
 
     _playerId = packet.connectData.id;
@@ -235,7 +225,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initMainMenuScene()
         rect.height = sprite->getRect().height;
     }
 
-    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _window));
+    button->addComponent(std::make_shared<ECS::ClickComponent>(rect, std::bind(&_startGameCallback, std::placeholders::_1, std::placeholders::_2), _windowManager->getWindow()));
     button->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Main_Menu.ogg"));
 
 
@@ -264,7 +254,6 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         scene->addEntity(player);
     }
     std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", _entityFactory.ids++);
-    _scoreId = _entityFactory.ids;
     scene->addEntity(text);
     return scene;
 }
@@ -308,7 +297,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect,
     [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
         return true;
-    }, _window));
+    }, _windowManager->getWindow()));
     buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Game_Over.ogg"));
     scene->addEntity(buttonQuit);
     return scene;
@@ -335,10 +324,13 @@ void ECS::Core::mainLoop(RType::Connection &connection)
     SceneType sceneType;
 
     _initHandlers(connection.packetManager);
+
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
         sceneType = sceneManager.getSceneType();
         connection.handlePackets();
+        if (!_isInit)
+            continue;
         for (auto &system : _systems) {
             if (system == nullptr)
                 continue;
@@ -476,4 +468,43 @@ void ECS::Core::_handlerDisconnect(Network::Packet &packet, const udp::endpoint 
         sceneManager.setCurrentScene(SceneType::ENDGAME);
         std::cout << "Player is disconnected" << std::endl;
     }
+}
+
+void ECS::Core::_initSystems()
+{
+    _windowManager = std::make_unique<WindowManager>("RType & Morty" + _playerName, 800, 600);
+
+    std::map<SceneType, std::shared_ptr<Scene>> scenes;
+
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
+    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
+        std::cerr << "Error: scene is null" << std::endl;
+        return;
+    }
+    sceneManager = SceneManager(scenes);
+    _systems.push_back(std::make_unique<GraphicSystem>(_windowManager->getWindow()));
+    _systems.push_back(std::make_unique<EventSystem>(_windowManager->getWindow()));
+    _systems.push_back(std::make_unique<AudioSystem>());
+    _systems.push_back(std::make_unique<GameSystem>());
+}
+
+void ECS::Core::tryToConnect(RType::Connection &connection, boost::asio::io_service &io_service)
+{
+    tryConnectTimer =
+    std::make_shared<boost::asio::steady_timer>(io_service);
+
+    tryConnectTimer->expires_from_now(
+    std::chrono::seconds(5));
+
+    tryConnectTimer->async_wait(
+    [&](const boost::system::error_code &error) {
+        if (!error) {
+            if (!_isInit) {
+                connection.tryConnect();
+                tryToConnect(connection, io_service);
+            }
+        }
+    });
 }

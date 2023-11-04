@@ -68,6 +68,8 @@ namespace RType {
             void sendPackets();
             void handlePackets();
 
+            void tryConnect();
+
         private:
             /**
              * @brief Listen for incoming packets from the server
@@ -106,5 +108,7 @@ namespace RType {
             udp::endpoint _senderEndpoint;
 
             short _id = -1;
+
+            std::string _name;
     };
 } // namespace RType

@@ -5,8 +5,8 @@
 ** Connection
 */
 
-#include "Connection.hpp"
 #include <iostream>
+#include "Connection.hpp"
 
 RType::Connection::Connection(boost::asio::io_service &io_service,
 const std::string &host, const std::string &port, const std::string &name)
@@ -14,21 +14,11 @@ const std::string &host, const std::string &port, const std::string &name)
 {
     _endpoint = *_resolver.resolve(udp::v4(), host, port).begin();
     _socket.open(udp::v4());
-    std::cout << "Connected to " << host << ":" << port << std::endl;
-    struct Network::data::JoinData joinData;
-
-    std::memset(&joinData.name, 0, sizeof(char) * NAME_LENGTH);
-
-    for (int i = 0; i < NAME_LENGTH && i < (int) name.size(); i++)
-        joinData.name[i] = name[i];
-
-    std::unique_ptr<Network::Packet> packet =
-    Network::PacketManager::createPacket(Network::PacketType::JOIN, &joinData);
+    _name = name;
 
     _initHandlers();
 
     _listen();
-    sendPacket(*packet);
 }
 
 RType::Connection::~Connection()
@@ -96,4 +86,22 @@ void RType::Connection::handlePackets()
         packetManager.handlePacket(packet.second, packet.first);
     }
     packetManager.recvPacketsQueue.clear();
+}
+
+void RType::Connection::tryConnect()
+{
+
+    std::cout << "Trying to connect to " << _endpoint.address().to_string() << ":" << _endpoint.port() << std::endl;
+    struct Network::data::JoinData joinData{};
+
+    std::memset(&joinData.name, 0, sizeof(char) * NAME_LENGTH);
+
+    for (int i = 0; i < NAME_LENGTH && i < (int) _name.size(); i++)
+        joinData.name[i] = _name[i];
+
+    std::unique_ptr<Network::Packet> packet =
+    Network::PacketManager::createPacket(Network::PacketType::JOIN, &joinData);
+
+    sendPacket(*packet);
+
 }

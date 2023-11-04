@@ -126,6 +126,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/Connection.hpp
         client/ConvertPath.cpp
         client/ConvertPath.hpp
+        client/ecs/WindowManager.cpp
+        client/ecs/WindowManager.hpp
         client/ecs/Core.hpp
         client/ecs/Core.cpp
         client/ecs/EventSystem.cpp
