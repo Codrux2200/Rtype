@@ -15,6 +15,11 @@ namespace ECS {
      */
     class PlayerBullet : public Entity {
         public:
+            /**
+             * @brief Construct a new PlayerBullet object
+             *
+             * @param id the id of the player bullet
+             */
             PlayerBullet(int id);
             ~PlayerBullet() = default;
     };
