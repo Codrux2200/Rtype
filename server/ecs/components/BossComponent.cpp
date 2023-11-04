@@ -40,6 +40,7 @@ namespace ECS {
             case Network::data::MOVE:
                 _moveUpdate(entity, dt);
                 break;
+
             case Network::data::ATTACK_UP:
                 _attackUpUpdate(entity);
                 break;
@@ -54,11 +55,11 @@ namespace ECS {
         if (previousState != _state) {
             _timer = 0;
             _step = 0;
-            // TODO: send state to clients
             Network::data::BossStateData data = {
                 .id = entity.getId(),
                 .x = static_cast<int>(entity.getComponent<PositionComponent>()->x),
                 .y = static_cast<int>(entity.getComponent<PositionComponent>()->y),
+                .isUp = static_cast<int>(_isUp),
                 .state = _state
             };
 
@@ -87,7 +88,7 @@ namespace ECS {
         if (_timer >= 3) {
             int random = std::rand() % 5;
 
-//            int random = 3;
+//            int random = 0;
             switch (random) {
                 case 0:
                     _state = Network::data::ATTACK_UP;
@@ -131,7 +132,7 @@ namespace ECS {
                 }
                 break;
             case 2:
-                positionComponent->x += dt * _speed;
+                positionComponent->x += dt * _speed / 2;
 
                 if (positionComponent->x > 500) {
                     positionComponent->x = 500;
@@ -171,7 +172,7 @@ namespace ECS {
 
             // Enable the hitbox of the laser
             case 1: {
-                auto hbComp = _getHitboxStartingAt(entity, -500, 0);
+                auto hbComp = _getHitboxStartingAt(entity, -500, 87);
 
                 if (hbComp != nullptr)
                     hbComp->isEnabled = true;
@@ -182,8 +183,8 @@ namespace ECS {
 
             // Wait the end of the shoot
             case 2: {
-                if (_timer >= 2) {
-                    auto hbComp = _getHitboxStartingAt(entity, -500, 0);
+                if (_timer >= 1) {
+                    auto hbComp = _getHitboxStartingAt(entity, -500, 87);
 
                     if (hbComp != nullptr) {
                         hbComp->isEnabled = false;
@@ -206,10 +207,11 @@ namespace ECS {
 
             // Enable the hitbox of the laser
             case 1: {
-                auto hbComp = _getHitboxStartingAt(entity, -500, 180);
+                auto hbComp = _getHitboxStartingAt(entity, -500, 190);
 
-                if (hbComp != nullptr)
+                if (hbComp != nullptr) {
                     hbComp->isEnabled = true;
+                }
                 _step = 2;
                 _timer = 0;
                 break;
@@ -218,7 +220,7 @@ namespace ECS {
             // Wait the end of the shoot
             case 2: {
                 if (_timer >= 2) {
-                    auto hbComp = _getHitboxStartingAt(entity, -500, 180);
+                    auto hbComp = _getHitboxStartingAt(entity, -500, 190);
 
                     if (hbComp != nullptr) {
                         hbComp->isEnabled = false;

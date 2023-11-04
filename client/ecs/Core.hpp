@@ -5,8 +5,8 @@
 ** Core
 */
 
-#ifndef CORE_HPP_
-#define CORE_HPP_
+#pragma once
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -64,6 +64,7 @@ namespace ECS {
              * @return std::shared_ptr<ECS::Scene>
              */
             std::shared_ptr<ECS::Scene> _initGameScene();
+            std::shared_ptr<ECS::Scene> _initEndScene();
 
             /**
              * @brief init the entities
@@ -78,7 +79,7 @@ namespace ECS {
              * @param entity the entity
              * @param dt the delta time
              */
-            static void _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
+            static bool _startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity);
 
             /**
              * @brief init the handlers
@@ -130,6 +131,8 @@ namespace ECS {
              */
             void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
 
+            void _createBossLaser(const std::string& entityName, float x, float y);
+
             /**
              * @brief The systems
             */
@@ -150,5 +153,3 @@ namespace ECS {
             short _playerId = -1;
 	};
 }
-
-#endif /* !CORE_HPP_ */

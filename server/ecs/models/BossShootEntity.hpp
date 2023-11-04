@@ -16,7 +16,7 @@ namespace ECS {
             explicit BossShootEntity(int id, float vx = 0, float vy = 0);
             ~BossShootEntity() = default;
 
-            void _callbackBossShootHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
         private:
+            void _callbackBossShootHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
     };
 }

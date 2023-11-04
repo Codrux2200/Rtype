@@ -14,6 +14,15 @@ namespace ECS {
     {
     }
 
+    SoundComponent::~SoundComponent()
+    {
+        for (auto &sound : _sounds) {
+            // destroy sound before soundBuffer
+            sound.second.sound.reset();
+            sound.second.soundBuffer.reset();
+        }
+    }
+
     void SoundComponent::play(const std::string& name)
     {
         if (_sounds.find(name) == _sounds.end()) {

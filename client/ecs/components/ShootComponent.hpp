@@ -37,7 +37,7 @@ namespace ECS {
              * @param entity the entity
              * @param dt the delta time
             */
-            void execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+            bool execute(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
 
             /**
              * @brief Clone the component
