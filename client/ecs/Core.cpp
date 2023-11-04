@@ -43,7 +43,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
-    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
+    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr || scenes.at(SceneType::ENDGAME) == nullptr) {
         std::cerr << "Error: scene is null" << std::endl;
         return;
     }
@@ -146,6 +146,8 @@ void ECS::Core::_initEntities()
     // Create button
     std::shared_ptr<ECS::Entity> back = std::make_shared<ECS::StaticBackgroundEntity>("assets/back.png");
     _entityFactory.registerEntity(back, "background");
+    std::shared_ptr<ECS::Entity> endBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/endback.png");
+    _entityFactory.registerEntity(endBackground, "endBackground");
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
     score->addComponent(std::make_shared<ScoreBoardComponent>());
@@ -260,7 +262,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::ENDGAME);
     std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
-    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("endBackground", _entityFactory.ids++);
+
     std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
@@ -330,6 +333,8 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             if (system == nullptr)
                 continue;
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
+            if (sceneManager.shouldClose)
+                std::cout << "Should close: " << sceneManager.shouldClose << std::endl;
         }
         connection.sendPackets();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
