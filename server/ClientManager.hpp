@@ -15,6 +15,8 @@
 
 namespace RType {
 
+    class Server;
+
     /**
      * @brief A ClientManager is a class that manages the clients connected to
      * the server.
@@ -74,7 +76,7 @@ namespace RType {
              * @brief Unregister and disconnects all inactive clients.
              * Will replace the leader if the leader is inactive.
              */
-            bool cleanupInactiveClients(std::vector<Network::Packet> &packets);
+            bool cleanupInactiveClients(RType::Server &server);
 
             /**
              * @brief Set a new leader

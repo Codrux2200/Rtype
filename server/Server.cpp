@@ -153,7 +153,7 @@ void RType::Server::broadcast(const Network::Packet &packet)
             std::unique_ptr<Network::Packet> disconnectPacket =
             Network::PacketManager::createPacket(Network::PacketType::DISCONNECT,
             &disconnectData);
-            packetManager.sendPacketsQueue.push_back(*disconnectPacket);
+            broadcast(*disconnectPacket);
             bool isLeader = client->isLeader();
             clientManager.unregisterClient(client->getEndpoint());
             if (isLeader) {
@@ -203,7 +203,7 @@ void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
     _clientCleanupTimer->async_wait(
     [this, &ioService](const boost::system::error_code &ec) {
         if (!ec) {
-            if (this->clientManager.cleanupInactiveClients(packetManager.sendPacketsQueue)) {
+            if (this->clientManager.cleanupInactiveClients(*this)) {
                 if (this->clientManager.getLeader() == nullptr) {
                     this->clientManager.setNewLeader();
                     this->broadcastNewLeader();
