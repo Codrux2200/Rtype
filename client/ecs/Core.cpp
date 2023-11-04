@@ -29,6 +29,9 @@
 #include "StaticBackgroundEntity.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "ConvertPath.hpp"
+#include "StaticBackgroundEntity.hpp"
+#include "ScoreBoardComponent.hpp"
 #include "ecs/models/Boss/BossEntity.hpp"
 #include "ecs/models/Boss/BossShootEntity.hpp"
 
@@ -59,6 +62,15 @@ void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
     packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
     packetManager.REGISTER_HANDLER(Network::PacketType::ENTITY_SPAWN, &ECS::Core::_handlerEntitySpawn);
     packetManager.REGISTER_HANDLER(Network::PacketType::BOSS_STATE, &ECS::Core::_handlerBossState);
+    packetManager.REGISTER_HANDLER(Network::PacketType::SCORE, &ECS::Core::_handlerScore);
+}
+
+void ECS::Core::_handlerScore(Network::Packet &packet, const udp::endpoint &endpoint){
+    _score = packet.scoreData.Score;
+    std::vector<std::shared_ptr<ECS::Entity>> entitys = sceneManager.getCurrentScene()->getEntitiesWithComponent<ECS::ScoreBoardComponent>();
+    if (entitys.size() > 0){
+        entitys[0]->getComponent<ECS::TextComponent>()->setText("Score " + std::to_string(_score));
+    }
 }
 
 void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -134,6 +146,10 @@ void ECS::Core::_initEntities()
     // Create button
     std::shared_ptr<ECS::Entity> back = std::make_shared<ECS::StaticBackgroundEntity>("assets/back.png");
     _entityFactory.registerEntity(back, "background");
+    std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
+    score->addComponent(std::make_shared<TextComponent>("Score :"));
+    score->addComponent(std::make_shared<ScoreBoardComponent>());
+    _entityFactory.registerEntity(score, "score");
     std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>("assets/startgame.png", 0, 300);
     _entityFactory.registerEntity(button, "buttonStart");
     std::shared_ptr<ECS::Entity> buttonStop = std::make_shared<ECS::ButtonEntity>("assets/options.png", 0 , 200);
@@ -234,6 +250,9 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
         scene->addEntity(player);
     }
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", _entityFactory.ids++);
+    _scoreId = _entityFactory.ids;
+    scene->addEntity(text);
     return scene;
 }
 

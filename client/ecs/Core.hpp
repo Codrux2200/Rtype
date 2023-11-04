@@ -130,7 +130,7 @@ namespace ECS {
              * @param endpoint the endpoint
              */
             void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
-
+            void _handlerScore(Network::Packet &packet, const udp::endpoint &endpoint);
             void _createBossLaser(const std::string& entityName, float x, float y);
 
             /**
@@ -149,7 +149,8 @@ namespace ECS {
              * @brief The window
             */
             sf::RenderWindow _window;
-
+            int _scoreId = 0;
+            int _score;
             short _playerId = -1;
 	};
 }

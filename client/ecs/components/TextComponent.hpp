@@ -40,6 +40,7 @@ namespace ECS{
              * @return sf::Text the text
              */
             sf::Text getText();
+            std::string getString();
             /**
              * @brief Clone the component
              * 
