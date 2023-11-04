@@ -6,7 +6,6 @@
 */
 
 #include "AGameComponent.hpp"
-#include "Scene.hpp"
 
 namespace ECS {
 

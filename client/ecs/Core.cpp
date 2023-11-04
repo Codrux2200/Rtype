@@ -43,7 +43,7 @@ ECS::Core::Core(const std::string &player) : _modeSize(800,600), _window(sf::Vid
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
-    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WINGAME, _initWinScene()));
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WIN, _initWinScene()));
     if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr || scenes.at(SceneType::ENDGAME) == nullptr) {
         std::cerr << "Error: scene is null" << std::endl;
         return;

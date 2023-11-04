@@ -75,7 +75,7 @@ namespace ECS {
              *
              * @return std::shared_ptr<ECS::Scene>
              */
-            std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
+            std::shared_ptr<Scene> _initWinScene();
 
             /**
              * @brief init the entities
