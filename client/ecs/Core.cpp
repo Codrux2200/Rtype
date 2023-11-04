@@ -124,6 +124,8 @@ void ECS::Core::_handlerDead(Network::Packet &packet, const udp::endpoint &endpo
 {
     auto scene = sceneManager.getScene(ECS::SceneType::GAME);
 
+    if (scene == nullptr)
+        return;
     std::cout << "Handler dead" << std::endl;
     auto entity = scene->getEntityByID(packet.deadData.id);
     if (entity == nullptr)
@@ -250,9 +252,19 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initGameScene()
 
     for (int i = 0; i < 4; i++) {
         std::shared_ptr<ECS::Entity> player = _entityFactory.createEntity("player", i);
+
+        auto sprite = player->getComponent<ECS::SpriteComponent>();
+
+        std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
+
+        if (!texture->loadFromFile(ConvertPath::convertPath("assets/ship " + std::to_string(i + 1) + ".png"))) {
+            std::cerr << "Error: cannot load texture" << std::endl;
+            return scene;
+        }
+        sprite->setTexture(texture);
         scene->addEntity(player);
     }
-    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> text = _entityFactory.createEntity("score", -1);
     _scoreId = _entityFactory.ids;
     scene->addEntity(text);
     return scene;

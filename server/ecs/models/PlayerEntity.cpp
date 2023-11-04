@@ -24,7 +24,7 @@ PlayerEntity::PlayerEntity() : Entity(0)
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     addComponent(std::make_shared<ECS::VelocityComponent>(0, 0));
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&PlayerEntity::_callbackPlayerHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{0, 0}, {60, 40}}));
+    std::vector<std::pair<int, int>>{{22, 14}, {60, 40}}));
     isEnabled = false;
     updateGameComponents();
 }
