@@ -153,6 +153,7 @@ void ECS::Core::_initEntities()
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
     score->addComponent(std::make_shared<ScoreBoardComponent>());
+    score->addComponent(std::make_shared<PositionComponent>());
     _entityFactory.registerEntity(score, "score");
     std::shared_ptr<ECS::Entity> button = std::make_shared<ECS::ButtonEntity>("assets/startgame.png", 0, 300);
     _entityFactory.registerEntity(button, "buttonStart");
@@ -275,7 +276,10 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::ENDGAME);
     std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
     std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("endBackground", _entityFactory.ids++);
-
+    std::shared_ptr<ECS::Entity> Score = _entityFactory.createEntity("score", -2);
+    Score->getComponent<ECS::TextComponent>()->setText("Score : " + std::to_string(_score));
+    Score->getComponent<ECS::TextComponent>()->setPosition(800/2 - 50, 600 / 2);
+    Score->getComponent<ECS::TextComponent>()->setColor(sf::Color::White);
     std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
         std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
@@ -304,7 +308,9 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
         return true;
     }, _window));
+
     buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Game_Over.ogg"));
+    scene->addEntity(Score);
     scene->addEntity(buttonQuit);
     return scene;
 }
