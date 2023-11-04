@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <functional>
 #include "AGameComponent.hpp"
 #include "SFML/Graphics/Texture.hpp"
 
