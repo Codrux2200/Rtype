@@ -146,6 +146,8 @@ void ECS::Core::_initEntities()
     // Create button
     std::shared_ptr<ECS::Entity> back = std::make_shared<ECS::StaticBackgroundEntity>("assets/back.png");
     _entityFactory.registerEntity(back, "background");
+    std::shared_ptr<ECS::Entity> endBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/endback.png");
+    _entityFactory.registerEntity(endBackground, "endBackground");
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
     score->addComponent(std::make_shared<ScoreBoardComponent>());
@@ -260,7 +262,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::ENDGAME);
     std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
-    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("background", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("endBackground", _entityFactory.ids++);
 
     std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
