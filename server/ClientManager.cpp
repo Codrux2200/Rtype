@@ -85,7 +85,7 @@ bool RType::ClientManager::cleanupInactiveClients(RType::Server &server)
         auto lastActivity = _clients[i]->getLastActivity();
         auto diff =
         std::chrono::duration_cast<std::chrono::seconds>(now - lastActivity);
-        if (diff.count() > 5) {
+        if (diff.count() > 30) {
             std::cout << "Client " << _clients[i]->getName() << " disconnected"
                       << std::endl;
             Network::data::DisconnectData disconnectData{};
