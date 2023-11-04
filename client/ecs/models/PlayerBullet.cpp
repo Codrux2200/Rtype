@@ -37,6 +37,10 @@ ECS::PlayerBullet::PlayerBullet(int id) : ECS::Entity(id)
         std::cerr << "Error loading bullet sound" << std::endl;
         return;
     }
+    if (!soundComponent->addSound("BossHit", "assets/sound/damage.ogg")) {
+        std::cerr << "Error loading BossHit sound" << std::endl;
+        return;
+    }
     soundComponent->setToBePlayed("bullet", true);
     addComponent(soundComponent);
     addComponent(std::make_shared<ECS::ScaleComponent>(0.5f, 0.5f));
