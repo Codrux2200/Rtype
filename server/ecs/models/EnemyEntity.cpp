@@ -12,6 +12,7 @@
 #include "PositionComponent.hpp"
 #include "PacketManager.hpp"
 #include "EnemyBulletComponent.hpp"
+#include <iostream>
 
 EnemyEntity::EnemyEntity(EnemyShootFunction shootFunction, int id) : Entity(id)
 {
@@ -19,7 +20,6 @@ EnemyEntity::EnemyEntity(EnemyShootFunction shootFunction, int id) : Entity(id)
     std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
     addComponent(std::make_shared<ECS::PositionComponent>(700, 200));
     addComponent(std::make_shared<ECS::EnemyComponent>(shootFunction));
-
     updateGameComponents();
 }
 
@@ -31,10 +31,8 @@ std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets)
     if (other->getComponent<ECS::PlayerBulletComponent>() != nullptr) {
         self->isEnabled = false;
         self->deathReason = Network::data::DeathReason::PLAYER_BULLET;
-
         Network::data::DeadData deadData {self->getId(), Network::data::DeathReason::PLAYER_BULLET};
         std::shared_ptr<Network::Packet> deadPacket = Network::PacketManager::createPacket(Network::PacketType::DEAD, &deadData);
-
         packets.push_back(*deadPacket);
     }
 }

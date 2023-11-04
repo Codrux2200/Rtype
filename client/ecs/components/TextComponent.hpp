@@ -21,6 +21,7 @@ namespace ECS{
             ~TextComponent();
             void setText(std::string text);
             sf::Text getText();
+            std::string getString();
             std::shared_ptr<IComponent> clone() const override;
             void setColor(sf::Color color);
             void setFont(sf::Font);

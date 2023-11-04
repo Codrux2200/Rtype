@@ -6,7 +6,6 @@
 */
 
 #include "HitboxComponent.hpp"
-
 #include <utility>
 
 namespace ECS {

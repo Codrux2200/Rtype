@@ -72,7 +72,8 @@ namespace ECS {
             EntityFactory _entityFactory;
             sf::Vector2u _modeSize;
             sf::RenderWindow _window;
-
+            int _scoreId = 0;
+            int _score;
             short _playerId = -1;
 	};
 }

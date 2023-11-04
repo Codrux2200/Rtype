@@ -13,7 +13,6 @@
 #include "PlayerBulletComponent.hpp"
 #include "PositionComponent.hpp"
 #include "VelocityComponent.hpp"
-
 namespace ECS {
     PlayerBullet::PlayerBullet(int id) : Entity(id)
     {
