@@ -9,7 +9,6 @@ set(CLIENT_BINARY "rtype-client")
 set(SERVER_BINARY "rtype-server")
 
 # -- Fetch Boost
-# -- Fetch Boost
 include(FetchContent)
 FetchContent_Declare(
     Boost

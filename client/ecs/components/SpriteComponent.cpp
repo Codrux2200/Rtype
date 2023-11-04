@@ -28,7 +28,7 @@ void ECS::SpriteComponent::setTexture(std::shared_ptr<sf::Texture> &texture)
     _sprite.setTexture(*_texture);
 }
 
-sf::Sprite ECS::SpriteComponent::getSprite() const
+const sf::Sprite &ECS::SpriteComponent::getSprite() const
 {
     return _sprite;
 }

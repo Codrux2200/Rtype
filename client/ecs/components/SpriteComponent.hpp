@@ -22,7 +22,7 @@ namespace ECS {
             void setTexture(std::shared_ptr<sf::Texture> &texture);
             void updateAnimation(float dt);
 
-            sf::Sprite getSprite() const;
+            const sf::Sprite &getSprite() const;
             sf::Rect<int> &getRect();
 
             void nextAnimation();

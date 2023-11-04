@@ -211,9 +211,6 @@ namespace ECS {
 
                 if (hbComp != nullptr) {
                     hbComp->isEnabled = true;
-                    std::cout << "Enabling hitbox" << std::endl;
-                } else {
-                    std::cerr << "Hitbox not found" << std::endl;
                 }
                 _step = 2;
                 _timer = 0;

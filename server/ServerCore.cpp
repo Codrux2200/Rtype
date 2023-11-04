@@ -467,7 +467,6 @@ void ECS::ServerCore::_enemyShoot(int x, int y)
     bulletPosComponent->x = x - 20;
     bulletPosComponent->y = y;
 
-    // TODO: Magic numbers
     bulletVelocityComponent->vx = -200;
     bulletVelocityComponent->vy = 0;
 
