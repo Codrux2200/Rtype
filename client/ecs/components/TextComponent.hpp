@@ -40,15 +40,12 @@ namespace ECS{
              * @return sf::Text the text
              */
             sf::Text getText();
-<<<<<<< HEAD
             std::string getString();
-=======
             /**
              * @brief Clone the component
              * 
              * @return std::shared_ptr<IComponent> the component
              */
->>>>>>> origin/dev
             std::shared_ptr<IComponent> clone() const override;
             /**
              * @brief Set the Color object
