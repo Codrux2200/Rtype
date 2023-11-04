@@ -131,6 +131,8 @@ namespace ECS {
              */
             void _handlerBossState(Network::Packet &packet, const udp::endpoint &endpoint);
             void _handlerScore(Network::Packet &packet, const udp::endpoint &endpoint);
+            void _handlerDisconnect(Network::Packet &packet, const udp::endpoint &endpoint);
+
             void _createBossLaser(const std::string& entityName, float x, float y);
 
             /**

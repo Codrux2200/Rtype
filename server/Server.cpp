@@ -6,6 +6,7 @@
 */
 
 #include "Server.hpp"
+#include "DisconnectData.hpp"
 #include "LeaderData.hpp"
 
 RType::Server::Server(boost::asio::io_service &io_service, short port)
@@ -146,6 +147,13 @@ void RType::Server::broadcast(const Network::Packet &packet)
             // disconnected
             std::cout << "Client disconnected: " << client->getName()
                       << std::endl;
+            Network::data::DisconnectData disconnectData{};
+            disconnectData.id = i;
+
+            std::unique_ptr<Network::Packet> disconnectPacket =
+            Network::PacketManager::createPacket(Network::PacketType::DISCONNECT,
+            &disconnectData);
+            broadcast(*disconnectPacket);
             bool isLeader = client->isLeader();
             clientManager.unregisterClient(client->getEndpoint());
             if (isLeader) {
@@ -195,7 +203,7 @@ void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
     _clientCleanupTimer->async_wait(
     [this, &ioService](const boost::system::error_code &ec) {
         if (!ec) {
-            if (this->clientManager.cleanupInactiveClients()) {
+            if (this->clientManager.cleanupInactiveClients(*this)) {
                 if (this->clientManager.getLeader() == nullptr) {
                     this->clientManager.setNewLeader();
                     this->broadcastNewLeader();

@@ -164,10 +164,10 @@ namespace RType {
             /**
              * @brief Global server timeout variable, defining the time before a client is considered inactive
              */
-            static constexpr int CLIENT_TIMEOUT_SECONDS = 180000;
+            static constexpr int CLIENT_TIMEOUT_SECONDS = 30;
             /**
              * @brief Global server cleanup interval variable, defining the interval between each cleanup, used by the cleanup timer
              */
-            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 10000;
+            static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 15;
     };
 } // namespace RType
