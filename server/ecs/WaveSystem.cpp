@@ -86,7 +86,10 @@ void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
 
 void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
+    if (sceneManager.getCurrentScene()->getSceneType() != ECS::SceneType::GAME)
+        return;
     // Pick a random wave
+
     timer += deltaTime;
     if (timer < 5)
         return;
