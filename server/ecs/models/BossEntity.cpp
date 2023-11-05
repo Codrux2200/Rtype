@@ -31,7 +31,7 @@ BossEntity::BossEntity(const ECS::bossShootFunction& shootFunction, int id) : EC
 
     addComponent(std::make_shared<ECS::PositionComponent>(1160, 120));
     addComponent(std::make_shared<ECS::BossComponent>(shootFunction));
-    addComponent(std::make_shared<ECS::HealthComponent>(3));
+    addComponent(std::make_shared<ECS::HealthComponent>(300));
     updateGameComponents();
 }
 

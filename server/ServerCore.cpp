@@ -5,8 +5,11 @@
 ** ServerCore
 */
 
-#include "ServerCore.hpp"
+#define _USE_MATH_DEFINES
+
 #include <thread>
+#include <cmath>
+#include "ServerCore.hpp"
 #include "BossEntity.hpp"
 #include "BossShootComponent.hpp"
 #include "CollisionSystem.hpp"
@@ -92,16 +95,20 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
         _deltaTime = frameDuration.count();
         lastFrameTime = std::chrono::high_resolution_clock::now();
-        int score = sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
 
-        Network::data::ScoreData Score{};
-        Score.Score = score;
-        auto packetToSend = Network::PacketManager::createPacket(Network::SCORE, &Score);
-        for (const auto& cli : _server.clientManager.getClients()) {
-            if (cli == nullptr)
-                continue;
-            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+        if (sceneManager.getSceneType() == ECS::SceneType::GAME || sceneManager.getSceneType() == ECS::SceneType::WIN) {
+            int score = sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
+
+            Network::data::ScoreData Score {};
+            Score.Score = score;
+            auto packetToSend = Network::PacketManager::createPacket(Network::SCORE, &Score);
+            for (const auto &cli : _server.clientManager.getClients()) {
+                if (cli == nullptr)
+                    continue;
+                _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+            }
         }
+
         _server.packetManager.executeRecvPacketsQueue();
         for (auto &system : _systems) {
             if (system == nullptr)

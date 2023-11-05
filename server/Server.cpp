@@ -6,6 +6,7 @@
 */
 
 #include "Server.hpp"
+#include "DisconnectData.hpp"
 #include "LeaderData.hpp"
 
 RType::Server::Server(boost::asio::io_service &io_service, short port)
@@ -24,6 +25,8 @@ void RType::Server::_loadPacketHandlers()
 {
     packetManager.REGISTER_HANDLER(
     Network::PacketType::QUIT, &Server::_handlerQuit);
+    packetManager.REGISTER_HANDLER(
+    Network::PacketType::I_AM_HERE, &Server::_handlerIAmHere);
 }
 
 void RType::Server::_handlerQuit(Network::Packet & packet, const udp::endpoint &endpoint){
@@ -146,6 +149,13 @@ void RType::Server::broadcast(const Network::Packet &packet)
             // disconnected
             std::cout << "Client disconnected: " << client->getName()
                       << std::endl;
+            Network::data::DisconnectData disconnectData{};
+            disconnectData.id = i;
+
+            std::unique_ptr<Network::Packet> disconnectPacket =
+            Network::PacketManager::createPacket(Network::PacketType::DISCONNECT,
+            &disconnectData);
+            broadcast(*disconnectPacket);
             bool isLeader = client->isLeader();
             clientManager.unregisterClient(client->getEndpoint());
             if (isLeader) {
@@ -195,7 +205,7 @@ void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
     _clientCleanupTimer->async_wait(
     [this, &ioService](const boost::system::error_code &ec) {
         if (!ec) {
-            if (this->clientManager.cleanupInactiveClients()) {
+            if (this->clientManager.cleanupInactiveClients(*this)) {
                 if (this->clientManager.getLeader() == nullptr) {
                     this->clientManager.setNewLeader();
                     this->broadcastNewLeader();
@@ -227,4 +237,9 @@ void RType::Server::sendPackets()
         broadcast(packet);
     }
     packetManager.sendPacketsQueue.clear();
+}
+
+void RType::Server::_handlerIAmHere(Network::Packet &packet, const udp::endpoint &endpoint)
+{
+    // Nothing to do here
 }

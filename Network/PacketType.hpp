@@ -104,7 +104,8 @@ namespace Network {
             QUIT,
             PLAYERS_POS,
             BOSS_STATE,
-            BOSS_LIFE
+            BOSS_LIFE,
+            I_AM_HERE
         };
     }
 } // namespace Network

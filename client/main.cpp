@@ -28,14 +28,15 @@ int main(int ac, char **av)
         return 84;
     }
 
-    // Wait for the server to be ready before connecting by waiting 2 secs
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-
     boost::asio::io_service io_service;
     RType::Connection connection(io_service, av[1], av[2], av[3]);
     ECS::Core core(av[3]);
 
+
     std::thread t([&]() { io_service.run(); });
+
+    connection.tryConnect();
+    core.tryToConnect(connection, io_service);
 
     core.mainLoop(connection);
     io_service.stop();
