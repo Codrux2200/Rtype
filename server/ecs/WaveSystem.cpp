@@ -31,7 +31,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     if (enemy == nullptr)
         return;
     for (; EnemyCount < 8; EnemyCount++) {
-        createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50 + std::rand() % 10));
+        createEnemy(WaveCount, EnemyCount, 800, 50 + (EnemyCount * 50 + std::rand() % 10));
     }
     _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
 

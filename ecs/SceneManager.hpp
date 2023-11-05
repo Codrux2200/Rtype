@@ -80,6 +80,6 @@ namespace ECS {
              * @brief stock the current Scene from a SceneType key
              *
              */
-            SceneType _currentScene;
+            SceneType _currentScene = SceneType::MAIN_MENU;
     };
 }

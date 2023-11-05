@@ -29,17 +29,16 @@ void RType::Server::_loadPacketHandlers()
     Network::PacketType::I_AM_HERE, &Server::_handlerIAmHere);
 }
 
-void RType::Server::_handlerQuit(Network::Packet & packet, const udp::endpoint &endpoint){
+void RType::Server::_handlerQuit(Network::Packet &packet, const udp::endpoint &endpoint) {
+    Network::data::DisconnectData data{};
+    data.id = clientManager.getClientId(endpoint);
+    auto _packet = Network::PacketManager::createPacket(Network::PacketType::DISCONNECT, &data);
     clientManager.unregisterClient(endpoint);
+    broadcast(*_packet);
     if (clientManager.getLeader() == nullptr) {
         clientManager.setNewLeader();
         broadcastNewLeader();
     }
-    char remoteClient = clientManager.getClientId(endpoint);
-    auto _packet = Network::PacketManager::createPacket(
-    Network::PacketType::DISCONNECT,
-    &remoteClient);
-    broadcast(*_packet);
 }
 
 void RType::Server::_startReceive()
@@ -137,35 +136,8 @@ void RType::Server::broadcast(const Network::Packet &packet)
         auto client = clientManager.getClientById(i);
         if (client == nullptr)
             continue;
-        auto lastActivityTime = client->getLastActivity();
-        auto currentTime = std::chrono::steady_clock::now();
-        auto timeSinceLastActivity =
-        std::chrono::duration_cast<std::chrono::seconds>(
-        currentTime - lastActivityTime)
-        .count();
-
-        if (timeSinceLastActivity > CLIENT_TIMEOUT_SECONDS) {
-            // Client has not sent data for a while, consider it
-            // disconnected
-            std::cout << "Client disconnected: " << client->getName()
-                      << std::endl;
-            Network::data::DisconnectData disconnectData{};
-            disconnectData.id = i;
-
-            std::unique_ptr<Network::Packet> disconnectPacket =
-            Network::PacketManager::createPacket(Network::PacketType::DISCONNECT,
-            &disconnectData);
-            broadcast(*disconnectPacket);
-            bool isLeader = client->isLeader();
-            clientManager.unregisterClient(client->getEndpoint());
-            if (isLeader) {
-                clientManager.setNewLeader();
-                broadcastNewLeader();
-            }
-        } else {
-            _sendMessageToClient(
-            const_cast<Network::Packet &>(packet), client->getEndpoint());
-        }
+        _sendMessageToClient(
+        const_cast<Network::Packet &>(packet), client->getEndpoint());
     }
 }
 

@@ -72,6 +72,7 @@ void RType::ClientManager::unregisterClient(const udp::endpoint &endpoint)
             return;
         }
     }
+    std::cerr << "Client not found" << std::endl;
 }
 
 bool RType::ClientManager::cleanupInactiveClients(RType::Server &server)
