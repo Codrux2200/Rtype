@@ -68,6 +68,8 @@ namespace RType {
             void sendPackets();
             void handlePackets();
 
+            void tryConnect();
+
         private:
             /**
              * @brief Listen for incoming packets from the server
@@ -106,5 +108,13 @@ namespace RType {
             udp::endpoint _senderEndpoint;
 
             short _id = -1;
+
+            std::string _name;
+
+            std::chrono::time_point<std::chrono::system_clock> _lastPacketSent = std::chrono::system_clock::now();
+
+            void _stayConnected(boost::asio::io_service &io_service);
+
+            std::shared_ptr<boost::asio::steady_timer> _stayConnectedTimer;
     };
 } // namespace RType

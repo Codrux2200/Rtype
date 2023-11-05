@@ -139,6 +139,8 @@ namespace RType {
              */
             void _handlerQuit(Network::Packet &packet, const udp::endpoint &endpoint);
 
+            void _handlerIAmHere(Network::Packet &packet, const udp::endpoint &endpoint);
+
             /**
              * @brief Global first socket
              */
