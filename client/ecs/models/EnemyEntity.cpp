@@ -22,7 +22,7 @@ namespace ECS {
         std::shared_ptr<sf::Texture> enemyTexture = std::make_shared<sf::Texture>();
         std::string texturePath;
 
-        float scale = 1;
+        float scale = 0.8f;
 
         switch (type) {
             case ECS::Entity::ENEMY_CLASSIC:
@@ -30,7 +30,7 @@ namespace ECS {
                 break;
             case ECS::Entity::ENEMY_VELOCE:
                 texturePath = "assets/enemy1.png";
-                scale = 0.8f;
+                scale = 1;
                 break;
             default:
                 texturePath = "assets/enemy2.png";

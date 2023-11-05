@@ -23,7 +23,7 @@ namespace ECS {
         addComponent(std::make_shared<HitboxComponent>(
         std::bind(&PlayerBullet::_callbackPlayerBulletHit, this,
         std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-        std::vector<std::pair<int, int>> {{0, 0}, {80, 60}}));
+        std::vector<std::pair<int, int>> {{0, 0}, {50, 17}}));
         addComponent(std::make_shared<VelocityComponent>(400, 0));
         updateGameComponents();
     }

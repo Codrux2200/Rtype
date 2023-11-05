@@ -31,9 +31,9 @@ BossShootEntity::BossShootEntity(int id) : Entity(id)
     bulletRect.width = 500;
     bulletRect.height = 500;
     addComponent(
-    std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect));
+    std::make_shared<ECS::SpriteComponent>(bulletTexture, bulletRect, 9, 0.1f, sf::Vector2i(9, 1), true));
 
-    addComponent(std::make_shared<ECS::ScaleComponent>(0.1f, 0.1f));
+    addComponent(std::make_shared<ECS::ScaleComponent>(0.11f, 0.11f));
     addComponent(std::make_shared<ECS::BossShootComponent>());
     addComponent(std::make_shared<ECS::VelocityComponent>());
     updateGameComponents();

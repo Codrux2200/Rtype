@@ -119,7 +119,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     createEnemy(WaveCount, EnemyCount, 1100, 500);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 1100, 50);
-    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_VELOCE));
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 

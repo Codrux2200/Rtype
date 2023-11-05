@@ -16,7 +16,7 @@
 EnemyEntity::EnemyEntity(EnemyShootFunction shootFunction, int id, ECS::Entity::EntityType type) : Entity(id)
 {
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&EnemyEntity::_callbackEnemyHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-    std::vector<std::pair<int, int>>{{5, 10}, {75, 50}}));
+    std::vector<std::pair<int, int>>{{5, 5}, {75, 75}}));
     addComponent(std::make_shared<ECS::PositionComponent>(700, 200));
     addComponent(std::make_shared<ECS::EnemyComponent>(shootFunction, type));
     updateGameComponents();
