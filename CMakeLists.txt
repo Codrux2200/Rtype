@@ -302,3 +302,31 @@ target_link_libraries(${CLIENT_BINARY}
         sfml-system
         sfml-audio
 )
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
+# set the startup project for the "play" button in MSVC
+set_property (DIRECTORY PROPERTY VS_STARTUP_PROJECT ${SERVER_BINARY})
+# Experience shows that explicit package naming can help make it easier to sort
+# out potential ABI related issues before they start, while helping you
+# track a build to a specific GIT SHA
+install (TARGETS ${CLIENT_BINARY} ${SERVER_BINARY}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION _deps ARCHIVE DESTINATION _deps
+)
+include(InstallRequiredSystemLibraries)
+set (CPACK_PACKAGE_NAME "RTYPE")
+if (NOT DEFINED CPACK_PACKAGE_VERSION)
+    set (CPACK_PACKAGE_VERSION ${CMAKE_PROJECT_VERSION})
+endif()
+set(CPACK_PACKAGE_FILE_NAME
+        "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+)
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "RTYPE")
+set (CPACK_PACKAGE_CONTACT "Rick Sanchez")
+if (WIN32)
+    set (CPACK_GENERATOR "NSIS64")
+else()
+    set (CPACK_GENERATOR "DEB;RPM")
+endif()
+install(DIRECTORY "§{CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+include (CPack)
