@@ -376,15 +376,18 @@ bool ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, E
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
     // Delta time
-    sf::Clock clock;
+    auto lastFrameTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> frameDuration{};
+    std::chrono::milliseconds waitTime{};
     float deltaTime;
-    std::chrono::milliseconds waitTime;
 
     SceneType sceneType;
 
     _initHandlers(connection.packetManager);
     while(!sceneManager.shouldClose) {
-        deltaTime = clock.restart().asSeconds();
+        frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
+        deltaTime = frameDuration.count();
+        lastFrameTime = std::chrono::high_resolution_clock::now();
         sceneType = sceneManager.getSceneType();
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
         connection.handlePackets();
@@ -392,8 +395,6 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             if (system == nullptr)
                 continue;
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
-            if (sceneManager.shouldClose)
-                std::cout << "Should close: " << sceneManager.shouldClose << std::endl;
         }
         connection.sendPackets();
 
@@ -412,9 +413,9 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             }
         }
 
-        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
+        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
         if (waitTime.count() > 0)
-            std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
+            std::this_thread::sleep_for(waitTime);
     }
 
     for (const auto& entity : sceneManager.getCurrentScene()->entitiesList) {

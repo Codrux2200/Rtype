@@ -50,7 +50,6 @@ void BossEntity::_callbackBossHit(std::shared_ptr<ECS::Entity> self, std::shared
         // TODO: Send health update packet
 
         if (healthComponent->health <= 0) {
-            self->isEnabled = false;
             self->deathReason = Network::data::DeathReason::PLAYER_BULLET;
 
             Network::data::DeadData deadData {self->getId(), Network::data::DeathReason::PLAYER_BULLET};
