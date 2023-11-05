@@ -69,6 +69,21 @@ namespace ECS {
         }
     }
 
+    bool BossComponent::onDestroy(Entity &entity, Network::data::DeathReason reason, float dt)
+    {
+        if (!_deathInitialized) {
+            _deathInitialized = true;
+            _sceneType = SceneType::WIN;
+            return false;
+        }
+        return true;
+    }
+
+    SceneType BossComponent::getSceneChange()
+    {
+        return _sceneType;
+    }
+
     void BossComponent::_comingUpdate(ECS::Entity &entity, float dt)
     {
         auto positionComponent = entity.getComponent<PositionComponent>();

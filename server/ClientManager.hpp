@@ -11,8 +11,11 @@
 #include <memory>
 #include "Client.hpp"
 #include "ConnectData.hpp"
+#include "Packet.hpp"
 
 namespace RType {
+
+    class Server;
 
     /**
      * @brief A ClientManager is a class that manages the clients connected to
@@ -73,7 +76,7 @@ namespace RType {
              * @brief Unregister and disconnects all inactive clients.
              * Will replace the leader if the leader is inactive.
              */
-            bool cleanupInactiveClients(void);
+            bool cleanupInactiveClients(RType::Server &server);
 
             /**
              * @brief Set a new leader

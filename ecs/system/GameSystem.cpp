@@ -20,9 +20,15 @@ void ECS::GameSystem::update(SceneManager &sceneManager, float deltaTime, std::v
             continue;
 
         for (const auto& component : entity->getGameComponents()) {
-            if (component != nullptr && component->isEnabled) {
+            if (component == nullptr)
+                continue;
+            if (component->isEnabled) {
                 component->update(packetQueue, *entity, deltaTime);
+            }
+            if (component->getSceneChange() != SceneType::GAME) {
+                sceneManager.setCurrentScene(component->getSceneChange());
             }
         }
     }
+
 }

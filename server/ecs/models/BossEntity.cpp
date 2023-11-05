@@ -31,7 +31,7 @@ BossEntity::BossEntity(const ECS::bossShootFunction& shootFunction, int id) : EC
 
     addComponent(std::make_shared<ECS::PositionComponent>(1160, 120));
     addComponent(std::make_shared<ECS::BossComponent>(shootFunction));
-    addComponent(std::make_shared<ECS::HealthComponent>(100));
+    addComponent(std::make_shared<ECS::HealthComponent>(300));
     updateGameComponents();
 }
 
@@ -50,7 +50,6 @@ void BossEntity::_callbackBossHit(std::shared_ptr<ECS::Entity> self, std::shared
         // TODO: Send health update packet
 
         if (healthComponent->health <= 0) {
-            self->isEnabled = false;
             self->deathReason = Network::data::DeathReason::PLAYER_BULLET;
 
             Network::data::DeadData deadData {self->getId(), Network::data::DeathReason::PLAYER_BULLET};

@@ -11,8 +11,6 @@ set(SERVER_BINARY "rtype-server")
 # -- Fetch Boost
 include(FetchContent)
 
-find_package(ICU 61.0 COMPONENTS uc i18n REQUIRED)
-
 FetchContent_Declare(
     Boost
     URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
@@ -105,6 +103,7 @@ set(ECS_SOURCES
         ecs/components/RotationComponent.hpp
         ecs/components/ScaleComponent.cpp
         ecs/components/ScaleComponent.hpp
+        ecs/components/AGameComponent.cpp
         ecs/components/AGameComponent.hpp
         ecs/components/VelocityComponent.cpp
         ecs/components/VelocityComponent.hpp
@@ -126,6 +125,8 @@ set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/Connection.hpp
         client/ConvertPath.cpp
         client/ConvertPath.hpp
+        client/ecs/WindowManager.cpp
+        client/ecs/WindowManager.hpp
         client/ecs/Core.hpp
         client/ecs/Core.cpp
         client/ecs/EventSystem.cpp
@@ -241,16 +242,12 @@ find_package(Threads REQUIRED)
 target_link_libraries(
     ${CLIENT_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
 target_link_libraries(
     ${SERVER_BINARY}
     PRIVATE
-        ICU::uc
-        ICU::i18n
         Threads::Threads
 )
 
@@ -282,7 +279,6 @@ target_include_directories(${CLIENT_BINARY} PRIVATE
         ${ECS_INCLUDE}
         ${NETWORK_INCLUDE}
         ${SFML_SOURCE_DIR}/include
-        _deps/icu-src
         client
         client/ecs
         client/ecs/components

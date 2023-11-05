@@ -14,6 +14,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     int WaveCount = 0;
     int EnemyCount = 0;
 
+    // Wave 0
     std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
@@ -24,6 +25,8 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 
     EnemyCount = 0;
     WaveCount++;
+
+    // Wave 1
     enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
@@ -35,6 +38,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 2
     createEnemy(WaveCount, EnemyCount, 800, 300);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 900, 400);
@@ -56,6 +60,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 3
     createEnemy(WaveCount, EnemyCount, 800, 10);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 50);
@@ -68,6 +73,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 4
     createEnemy(WaveCount, EnemyCount, 800, 580);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 550);
@@ -80,16 +86,18 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
-    createEnemy(WaveCount, EnemyCount, 800, 200);
+    // Wave 5
+    createEnemy(WaveCount, EnemyCount, 800, 200, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    createEnemy(WaveCount, EnemyCount, 850, 300);
+    createEnemy(WaveCount, EnemyCount, 850, 300, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    createEnemy(WaveCount, EnemyCount, 800, 400);
+    createEnemy(WaveCount, EnemyCount, 800, 400, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
     _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_VELOCE));
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 6
     createEnemy(WaveCount, EnemyCount, 800, 300);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 850, 350);
@@ -115,6 +123,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 7
     createEnemy(WaveCount, EnemyCount, 800, 20);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 50);
@@ -127,6 +136,7 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 8
     createEnemy(WaveCount, EnemyCount, 800, 200, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300, ECS::Entity::ENEMY_VELOCE);
@@ -156,7 +166,7 @@ void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y, E
 
 void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
-    if (sceneManager.getCurrentScene()->getSceneType() != ECS::SceneType::GAME)
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
     // Pick a random wave
 
@@ -168,6 +178,8 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
     ECS::Entity::EntityType type = std::get<1>(_waves[waveIndex]);
 
+    auto scene = sceneManager.getCurrentScene();
+
     // Spawn the wave entities
     for (auto entity : waveEntities) {
         Network::data::EntitySpawnData data{};
@@ -177,7 +189,7 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
         data.y = entity->getComponent<ECS::PositionComponent>()->y;
         std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
         packetQueue.push_back(*packet);
-        sceneManager.getCurrentScene()->addEntity(entity);
+        scene->addEntity(entity);
     }
 }
 

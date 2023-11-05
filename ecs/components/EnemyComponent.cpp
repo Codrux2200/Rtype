@@ -7,11 +7,12 @@
 
 #include <complex>
 #include <iostream>
+#include <utility>
 #include "EnemyComponent.hpp"
 #include "PositionComponent.hpp"
 
 namespace ECS {
-    EnemyComponent::EnemyComponent(EnemyShootFunction shootFunction, ECS::Entity::EntityType type) : _shootFunction(shootFunction), _type(type)
+    EnemyComponent::EnemyComponent(EnemyShootFunction shootFunction, ECS::Entity::EntityType type) : _shootFunction(std::move(shootFunction)), _type(type)
     {
         switch (type) {
             case ECS::Entity::ENEMY_CLASSIC:
@@ -65,7 +66,7 @@ namespace ECS {
         if (_timer > _rate && _shootFunction != nullptr) {
             _timer = 0;
             _shootFunction(positionComponent->x, positionComponent->y - 10);
-            std::cout << "ennemy shoot" << std::endl;
+            std::cout << "enemy shoot" << std::endl;
         }
     }
 }
