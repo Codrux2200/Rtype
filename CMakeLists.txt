@@ -121,67 +121,67 @@ set(ECS_SOURCES
 
 set(CLIENT_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
         client/main.cpp
-        client/Connection.cpp
-        client/Connection.hpp
-        client/ConvertPath.cpp
-        client/ConvertPath.hpp
-        client/ecs/WindowManager.cpp
-        client/ecs/WindowManager.hpp
-        client/ecs/Core.hpp
-        client/ecs/Core.cpp
-        client/ecs/EventSystem.cpp
-        client/ecs/EventSystem.hpp
-        client/ecs/GraphicSystem.cpp
-        client/ecs/AudioSystem.cpp
-        client/ecs/AudioSystem.hpp
-        client/ecs/GraphicSystem.hpp
-        client/ecs/components/BackgroundComponent.cpp
-        client/ecs/components/BackgroundComponent.hpp
-        client/ecs/components/PlayerBulletComponent.cpp
-        client/ecs/components/PlayerBulletComponent.hpp
+        # client/Connection.cpp
+        # client/Connection.hpp
+        # client/ConvertPath.cpp
+        # client/ConvertPath.hpp
+        # client/ecs/WindowManager.cpp
+        # client/ecs/WindowManager.hpp
+        # client/ecs/Core.hpp
+        # client/ecs/Core.cpp
+        # client/ecs/EventSystem.cpp
+        # client/ecs/EventSystem.hpp
+        # client/ecs/GraphicSystem.cpp
+        # client/ecs/AudioSystem.cpp
+        # client/ecs/AudioSystem.hpp
+        # client/ecs/GraphicSystem.hpp
+        # client/ecs/components/BackgroundComponent.cpp
+        # client/ecs/components/BackgroundComponent.hpp
+        # client/ecs/components/PlayerBulletComponent.cpp
+        # client/ecs/components/PlayerBulletComponent.hpp
         client/ecs/components/MusicsComponent.cpp
         client/ecs/components/MusicsComponent.hpp
-        client/ecs/components/SoundComponent.cpp
-        client/ecs/components/SoundComponent.hpp
-        client/ecs/components/ClickComponent.cpp
-        client/ecs/components/ClickComponent.hpp
-        client/ecs/components/EnemyDeathComponent.cpp
-        client/ecs/components/EnemyDeathComponent.hpp
-        client/ecs/components/AEventComponent.hpp
-        client/ecs/components/ControlComponent.cpp
-        client/ecs/components/ControlComponent.hpp
-        client/ecs/components/SpriteComponent.cpp
-        client/ecs/components/SpriteComponent.hpp
-        client/ecs/components/ShootComponent.hpp
-        client/ecs/components/ShootComponent.cpp
-        client/ecs/components/BossComponent.cpp
-        client/ecs/components/BossComponent.hpp
-        client/ecs/components/TextComponent.cpp
-        client/ecs/components/TextComponent.hpp
-        client/ecs/components/BossLaserEyeComponent.cpp
-        client/ecs/components/BossLaserEyeComponent.hpp
-        client/ecs/components/BossLaserMouthComponent.cpp
-        client/ecs/components/BossLaserMouthComponent.hpp
-        client/ecs/models/ButtonEntity.cpp
-        client/ecs/models/ButtonEntity.hpp
-        client/ecs/models/EnemyEntity.cpp
-        client/ecs/models/EnemyEntity.hpp
-        client/ecs/models/PlayerBullet.cpp
-        client/ecs/models/PlayerBullet.hpp
-        client/ecs/models/PlayerEntity.cpp
-        client/ecs/models/PlayerEntity.hpp
-        client/ecs/models/Boss/BossEntity.cpp
-        client/ecs/models/Boss/BossEntity.hpp
-        client/ecs/models/Boss/BossShootEntity.cpp
-        client/ecs/models/Boss/BossShootEntity.hpp
-        client/ecs/models/Boss/BossEyesLaserEntity.cpp
-        client/ecs/models/Boss/BossEyesLaserEntity.hpp
-        client/ecs/models/Boss/BossMouthLaserEntity.cpp
-        client/ecs/models/Boss/BossMouthLaserEntity.hpp
-        client/ecs/models/StaticBackgroundEntity.cpp
-        client/ecs/models/StaticBackgroundEntity.hpp
-        client/ecs/components/ScoreBoardComponent.cpp
-        client/ecs/components/ScoreBoardComponent.hpp
+        # client/ecs/components/SoundComponent.cpp
+        # client/ecs/components/SoundComponent.hpp
+        # client/ecs/components/ClickComponent.cpp
+        # client/ecs/components/ClickComponent.hpp
+        # client/ecs/components/EnemyDeathComponent.cpp
+        # client/ecs/components/EnemyDeathComponent.hpp
+        # client/ecs/components/AEventComponent.hpp
+        # client/ecs/components/ControlComponent.cpp
+        # client/ecs/components/ControlComponent.hpp
+        # client/ecs/components/SpriteComponent.cpp
+        # client/ecs/components/SpriteComponent.hpp
+        # client/ecs/components/ShootComponent.hpp
+        # client/ecs/components/ShootComponent.cpp
+        # client/ecs/components/BossComponent.cpp
+        # client/ecs/components/BossComponent.hpp
+        # client/ecs/components/TextComponent.cpp
+        # client/ecs/components/TextComponent.hpp
+        # client/ecs/components/BossLaserEyeComponent.cpp
+        # client/ecs/components/BossLaserEyeComponent.hpp
+        # client/ecs/components/BossLaserMouthComponent.cpp
+        # client/ecs/components/BossLaserMouthComponent.hpp
+        # client/ecs/models/ButtonEntity.cpp
+        # client/ecs/models/ButtonEntity.hpp
+        # client/ecs/models/EnemyEntity.cpp
+        # client/ecs/models/EnemyEntity.hpp
+        # client/ecs/models/PlayerBullet.cpp
+        # client/ecs/models/PlayerBullet.hpp
+        # client/ecs/models/PlayerEntity.cpp
+        # client/ecs/models/PlayerEntity.hpp
+        # client/ecs/models/Boss/BossEntity.cpp
+        # client/ecs/models/Boss/BossEntity.hpp
+        # client/ecs/models/Boss/BossShootEntity.cpp
+        # client/ecs/models/Boss/BossShootEntity.hpp
+        # client/ecs/models/Boss/BossEyesLaserEntity.cpp
+        # client/ecs/models/Boss/BossEyesLaserEntity.hpp
+        # client/ecs/models/Boss/BossMouthLaserEntity.cpp
+        # client/ecs/models/Boss/BossMouthLaserEntity.hpp
+        # client/ecs/models/StaticBackgroundEntity.cpp
+        # client/ecs/models/StaticBackgroundEntity.hpp
+        # client/ecs/components/ScoreBoardComponent.cpp
+        # client/ecs/components/ScoreBoardComponent.hpp
 )
 
 set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
@@ -224,6 +224,7 @@ set(SERVER_SOURCES ${NETWORK_SOURCES} ${ECS_SOURCES}
 FetchContent_Declare(
         SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 2.6.0
 )
 
 # Print SFML Include and Lib directories
@@ -302,31 +303,3 @@ target_link_libraries(${CLIENT_BINARY}
         sfml-system
         sfml-audio
 )
-
-file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
-# set the startup project for the "play" button in MSVC
-set_property (DIRECTORY PROPERTY VS_STARTUP_PROJECT ${SERVER_BINARY})
-# Experience shows that explicit package naming can help make it easier to sort
-# out potential ABI related issues before they start, while helping you
-# track a build to a specific GIT SHA
-install (TARGETS ${CLIENT_BINARY} ${SERVER_BINARY}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION _deps ARCHIVE DESTINATION _deps
-)
-include(InstallRequiredSystemLibraries)
-set (CPACK_PACKAGE_NAME "RTYPE")
-if (NOT DEFINED CPACK_PACKAGE_VERSION)
-    set (CPACK_PACKAGE_VERSION ${CMAKE_PROJECT_VERSION})
-endif()
-set(CPACK_PACKAGE_FILE_NAME
-        "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
-)
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "RTYPE")
-set (CPACK_PACKAGE_CONTACT "Rick Sanchez")
-if (WIN32)
-    set (CPACK_GENERATOR "NSIS64")
-else()
-    set (CPACK_GENERATOR "DEB;RPM")
-endif()
-install(DIRECTORY "§{CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-include (CPack)
