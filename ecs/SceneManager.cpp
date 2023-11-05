@@ -34,9 +34,9 @@ void ECS::SceneManager::setCurrentScene(SceneType sceneType)
     _currentScene = sceneType;
 }
 
-void ECS::SceneManager::setScene(SceneType sceneType, Scene scene)
+void ECS::SceneManager::setScene(SceneType sceneType, std::shared_ptr<Scene> scene)
 {
-    _scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(sceneType, std::make_shared<Scene>(scene)));
+    _scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(sceneType, scene));
 }
 
 ECS::SceneType ECS::SceneManager::getSceneType()

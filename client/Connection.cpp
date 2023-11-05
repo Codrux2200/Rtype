@@ -52,15 +52,16 @@ void RType::Connection::_initHandlers()
 void RType::Connection::_listen()
 {
     _socket.async_receive_from(boost::asio::buffer(_recvBuffer),
-    _senderEndpoint,
+    _endpoint,
     [&](const boost::system::error_code &error, std::size_t bytes_received) {
-        if (!error) {
+        std::cout << "Received " << bytes_received << " bytes" << std::endl; 
+        if (!error && bytes_received == 36) {
             packetManager.mutex.lock();
 
             std::unique_ptr<Network::Packet> packet = Network::PacketManager::bytesToPacket(
                 _recvBuffer.data(), bytes_received);
             packetManager.recvPacketsQueue.emplace_back(
-                _senderEndpoint, *packet);
+                _endpoint, *packet);
 
             packetManager.mutex.unlock();
         } else {

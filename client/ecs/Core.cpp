@@ -72,6 +72,7 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
 
 void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
+    std::cout << "Connect handler" << std::endl;
     if (!_isInit) {
         _isInit = true;
         _initSystems();
@@ -91,6 +92,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
   
     player->addComponent(std::make_shared<ECS::ControlComponent>());
     player->addComponent(std::make_shared<ECS::MusicsComponent>(ConvertPath::convertPath("assets/sound/music.ogg")));
+    std::cout << "End connect handler " << std::endl;
 }
 
 void ECS::Core::_handlerPlayersPos(Network::Packet &packet, const udp::endpoint &endpoint)
@@ -387,7 +389,9 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         connection.handlePackets();
         if (!_isInit)
             continue;
+        std::cout << "get the scene type " << std::endl;
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
+        std::cout << "remove entities to destroy" << std::endl;
         for (auto &system : _systems) {
             if (system == nullptr)
                 continue;
@@ -529,6 +533,7 @@ void ECS::Core::_handlerDisconnect(Network::Packet &packet, const udp::endpoint 
 
 void ECS::Core::_initSystems()
 {
+    std::cout << "Init systems" << std::endl;
     _windowManager = std::make_unique<WindowManager>("RType & Morty" + _playerName, 800, 600);
 
     std::map<SceneType, std::shared_ptr<Scene>> scenes;
@@ -539,12 +544,13 @@ void ECS::Core::_initSystems()
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WIN, _initWinScene()));
 
     for (auto &scene : scenes) {
-        sceneManager.setScene(scene.first, *scene.second);
+        sceneManager.setScene(scene.first, scene.second);
     }
     _systems.push_back(std::make_unique<GraphicSystem>(_windowManager->getWindow()));
     _systems.push_back(std::make_unique<EventSystem>(_windowManager->getWindow()));
     _systems.push_back(std::make_unique<AudioSystem>());
     _systems.push_back(std::make_unique<GameSystem>());
+    std::cout << "Systems initialized" << std::endl;
 }
 
 void ECS::Core::tryToConnect(RType::Connection &connection, boost::asio::io_service &io_service)

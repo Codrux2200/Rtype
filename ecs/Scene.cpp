@@ -57,6 +57,9 @@ std::shared_ptr<ECS::Entity> ECS::Scene::getEntityByID(int entityID)
 
 int ECS::Scene::removeEntitiesToDestroy(float dt)
 {
+    std::cout << "Removing entities to destroy" << std::endl;
+    if (entitiesList.size() <= 0)
+        return _score;
     for (int i = (int) entitiesList.size() - 1; i >= 0; i--) {
         if (entitiesList[i] == nullptr)
             continue;
@@ -69,5 +72,6 @@ int ECS::Scene::removeEntitiesToDestroy(float dt)
             }
         }
     }
+    std::cout << "Removed entities to destroy" << std::endl;
     return _score;
 }

@@ -40,7 +40,7 @@ namespace ECS {
              * @param sceneType
              * @param scene
              */
-            void setScene(SceneType sceneType, Scene scene);
+            void setScene(SceneType sceneType, std::shared_ptr<Scene> scene);
             /**
              * @brief a boolean to know if the window should close
              *
