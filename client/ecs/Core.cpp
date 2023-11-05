@@ -537,7 +537,10 @@ void ECS::Core::_initSystems()
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WIN, _initWinScene()));
-    sceneManager = SceneManager(scenes);
+
+    for (auto &scene : scenes) {
+        sceneManager.setScene(scene.first, *scene.second);
+    }
     _systems.push_back(std::make_unique<GraphicSystem>(_windowManager->getWindow()));
     _systems.push_back(std::make_unique<EventSystem>(_windowManager->getWindow()));
     _systems.push_back(std::make_unique<AudioSystem>());
