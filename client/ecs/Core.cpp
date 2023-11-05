@@ -151,9 +151,8 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(back, "background");
     std::shared_ptr<ECS::Entity> endBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/endback.png");
     _entityFactory.registerEntity(endBackground, "endBackground");
-    std::shared_ptr<ECS::Entity> winBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/winback.jpg");
+    std::shared_ptr<ECS::Entity> winBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/winBack.jpg");
     _entityFactory.registerEntity(winBackground, "WinBackground");
-
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
     score->addComponent(std::make_shared<ScoreBoardComponent>());
@@ -322,8 +321,8 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
 std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
 {
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::WIN);
-    std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
     std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("WinBackground", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
     std::shared_ptr<ECS::Entity> Score = _entityFactory.createEntity("score", -2);
     Score->getComponent<ECS::TextComponent>()->setText("Score : " + std::to_string(_score));
     Score->getComponent<ECS::TextComponent>()->setPosition(800/2 - 50, 600 / 2);
