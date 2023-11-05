@@ -91,7 +91,7 @@ void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &en
         }
     }
     // Add player Component to the player entity
-    std::shared_ptr<ECS::Entity> player = sceneManager.getScene(SceneType::GAME)->entitiesList.at(_playerId);
+    std::shared_ptr<ECS::Entity> player = scene->entitiesList.at(_playerId);
   
     player->addComponent(std::make_shared<ECS::ControlComponent>());
     player->addComponent(std::make_shared<ECS::MusicsComponent>(ConvertPath::convertPath("assets/sound/music.ogg")));
