@@ -143,7 +143,7 @@ void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
 
 void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue)
 {
-    if (sceneManager.getCurrentScene()->getSceneType() != ECS::SceneType::GAME)
+    if (sceneManager.getSceneType() != ECS::SceneType::GAME)
         return;
     // Pick a random wave
 
@@ -154,6 +154,8 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     int waveIndex = std::rand() % _waves.size();
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
 
+    auto scene = sceneManager.getCurrentScene();
+
     // Spawn the wave entities
     for (auto entity : waveEntities) {
         Network::data::EntitySpawnData data{};
@@ -163,7 +165,7 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
         data.y = entity->getComponent<ECS::PositionComponent>()->y;
         std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
         packetQueue.push_back(*packet);
-        sceneManager.getCurrentScene()->addEntity(entity);
+        scene->addEntity(entity);
     }
 }
 

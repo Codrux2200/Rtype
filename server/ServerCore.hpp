@@ -54,6 +54,8 @@ namespace ECS {
              */
             std::shared_ptr<ECS::Scene> _initGameScene();
 
+            std::shared_ptr<ECS::Scene> _initWinScene();
+
             /**
              * @brief Initialize the entities
              */

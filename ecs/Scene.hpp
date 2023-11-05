@@ -24,6 +24,7 @@ namespace ECS {
         GAME,
         HELP,
         ENDGAME,
+        WIN,
         DEATH,
         PAUSE
     };

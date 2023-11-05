@@ -10,6 +10,7 @@
 #include <functional>
 #include "AGameComponent.hpp"
 #include "SFML/Graphics/Texture.hpp"
+#include "Scene.hpp"
 
 using bossLaserGenerator = std::function<void(const std::string &, float, float)>;
 
@@ -35,6 +36,11 @@ namespace ECS {
              * @param dt the delta time
             */
             void update(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity, float dt) override;
+
+            /**
+             * @brief get the scene change
+            */
+            SceneType getSceneChange() override;
 
             /**
              * @brief clone the component
@@ -178,6 +184,8 @@ namespace ECS {
             */
             std::shared_ptr<sf::Texture> _attackDownTexture;
             std::shared_ptr<sf::Texture> _deathTexture;
+            SceneType _sceneChange = SceneType::GAME;
 //            sf::Texture _dashTexture;
+
     };
 }

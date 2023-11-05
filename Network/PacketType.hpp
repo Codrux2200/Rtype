@@ -66,6 +66,20 @@ namespace Network {
             START,
 
             /**
+             * @brief WIN packet
+             *
+             * It will receive WIN from a client to switch to the win scene
+             *
+             * The data contained in the @ref Network::data::WINData "data"
+             * must be the map to be used.
+             *
+             * after the win the server will
+             * send back a packet to all the players to tell them that the game
+             * is win
+             */
+            WIN,
+
+            /**
              * @brief Sent by server to all the clients when a player is dead.
              *
              */

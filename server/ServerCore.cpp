@@ -35,7 +35,8 @@ ECS::ServerCore::ServerCore(RType::Server &server) : _server(server)
     _initEntities();
     sceneManager = SceneManager({
         {SceneType::MAIN_MENU, _initMainMenuScene()},
-        {SceneType::GAME, _initGameScene()}
+        {SceneType::GAME, _initGameScene()},
+        {SceneType::WIN, _initWinScene()}
     });
     _systems.push_back(std::make_unique<ECS::CollisionSystem>());
     _systems.push_back(std::make_unique<ECS::GameSystem>());
@@ -85,7 +86,6 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
 [[noreturn]] void ECS::ServerCore::mainLoop()
 {
     // Initialize variables for delta time calculation.
-    std::chrono::high_resolution_clock clock;
     auto lastFrameTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> frameDuration{};
     std::chrono::milliseconds waitTime{};
@@ -96,6 +96,19 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         _deltaTime = frameDuration.count();
         lastFrameTime = std::chrono::high_resolution_clock::now();
 
+        if (sceneManager.getSceneType() == ECS::SceneType::GAME || sceneManager.getSceneType() == ECS::SceneType::WIN) {
+            int score = sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
+
+            Network::data::ScoreData Score {};
+            Score.Score = score;
+            auto packetToSend = Network::PacketManager::createPacket(Network::SCORE, &Score);
+            for (const auto &cli : _server.clientManager.getClients()) {
+                if (cli == nullptr)
+                    continue;
+                _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+            }
+        }
+
         _server.packetManager.executeRecvPacketsQueue();
         for (auto &system : _systems) {
             if (system == nullptr)
@@ -105,15 +118,6 @@ std::shared_ptr<ECS::Scene> ECS::ServerCore::_initGameScene()
         }
         _server.sendPackets();
 
-        int score = sceneManager.getCurrentScene()->removeEntitiesToDestroy(_deltaTime);
-        Network::data::ScoreData Score{};
-        Score.Score = score;
-        auto packetToSend = Network::PacketManager::createPacket(Network::SCORE, &Score);
-        for (const auto& cli : _server.clientManager.getClients()) {
-            if (cli == nullptr)
-                continue;
-            _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
-        }
         waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
         if (waitTime.count() > 0)
             std::this_thread::sleep_for(waitTime);
@@ -493,4 +497,9 @@ void ECS::ServerCore::_enemyShoot(int x, int y)
     for (const auto& cli : _server.clientManager.getClients())
         if (cli != nullptr)
             _server.sendPacketsQueue.emplace_back(cli, *packetToSend);
+}
+
+std::shared_ptr<ECS::Scene> ECS::ServerCore::_initWinScene()
+{
+    return std::make_shared<ECS::Scene>(SceneType::WIN);
 }

@@ -141,6 +141,8 @@ void ECS::Core::_initEntities()
     _entityFactory.registerEntity(back, "background");
     std::shared_ptr<ECS::Entity> endBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/endback.png");
     _entityFactory.registerEntity(endBackground, "endBackground");
+    std::shared_ptr<ECS::Entity> winBackground = std::make_shared<ECS::StaticBackgroundEntity>("assets/winBack.jpg");
+    _entityFactory.registerEntity(winBackground, "WinBackground");
     std::shared_ptr<ECS::Entity> score = std::make_shared<ECS::Entity>(1);
     score->addComponent(std::make_shared<TextComponent>("Score :"));
     score->addComponent(std::make_shared<ScoreBoardComponent>());
@@ -304,6 +306,50 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initEndScene()
     return scene;
 }
 
+std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
+{
+    std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::WIN);
+    std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("WinBackground", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> Score = _entityFactory.createEntity("score", -2);
+    Score->getComponent<ECS::TextComponent>()->setText("Score : " + std::to_string(_score));
+    Score->getComponent<ECS::TextComponent>()->setPosition(800/2 - 50, 600 / 2);
+    Score->getComponent<ECS::TextComponent>()->setColor(sf::Color::Black);
+
+    std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
+    if (sprite == nullptr) {
+        std::cout << "Error: sprite button is null at main menu initialization" << std::endl;
+        return scene;
+    }
+    scene->addEntity(background);
+    std::shared_ptr<ECS::PositionComponent> position = buttonQuit->getComponent<ECS::PositionComponent>();
+
+    sf::Rect<int> rect;
+
+    if (position) {
+        std::vector<int> pos = position->getValue();
+        rect.left = pos.at(0);
+        rect.top = pos.at(1);
+        rect.width = 300;
+        rect.height = 300;
+    } else {
+        rect.left = 100;
+        rect.top = 0;
+    }
+
+    rect.width = sprite->getRect().width;
+    rect.height = sprite->getRect().height;
+
+    buttonQuit->addComponent(std::make_shared<ECS::ClickComponent>(rect,
+    [](std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity) {
+        return true;
+    }, _windowManager->getWindow()));
+    buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Win.ogg"));
+    scene->addEntity(Score);
+    scene->addEntity(buttonQuit);
+    return scene;
+}
+
 bool ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, ECS::Entity &entity)
 {
     std::cout << "Start game callback" << std::endl;
@@ -318,28 +364,30 @@ bool ECS::Core::_startGameCallback(std::vector<Network::Packet> &packetsQueue, E
 void ECS::Core::mainLoop(RType::Connection &connection)
 {
     // Delta time
-    sf::Clock clock;
+    auto lastFrameTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> frameDuration{};
+    std::chrono::milliseconds waitTime{};
     float deltaTime;
-    std::chrono::milliseconds waitTime;
 
     SceneType sceneType;
 
     _initHandlers(connection.packetManager);
 
     while(!sceneManager.shouldClose) {
-        deltaTime = clock.restart().asSeconds();
+        frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
+        deltaTime = frameDuration.count();
+        lastFrameTime = std::chrono::high_resolution_clock::now();
         sceneType = sceneManager.getSceneType();
         connection.handlePackets();
         if (!_isInit)
             continue;
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
         for (auto &system : _systems) {
             if (system == nullptr)
                 continue;
             system->update(sceneManager, deltaTime, connection.packetManager.sendPacketsQueue);
-            if (sceneManager.shouldClose)
-                std::cout << "Should close: " << sceneManager.shouldClose << std::endl;
         }
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
+        connection.sendPackets();
 
         if (sceneType != sceneManager.getSceneType()) {
             for (const auto& entity : sceneManager.getScene(sceneType)->entitiesList) {
@@ -362,10 +410,10 @@ void ECS::Core::mainLoop(RType::Connection &connection)
             std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::QUIT, nullptr);
             connection.packetManager.sendPacketsQueue.push_back(*packet);
         }
-        connection.sendPackets();
-        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - clock.getElapsedTime().asMilliseconds());
+
+        waitTime = std::chrono::milliseconds(TICK_TIME_MILLIS - std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastFrameTime).count());
         if (waitTime.count() > 0)
-            std::this_thread::sleep_for(std::chrono::milliseconds(waitTime));
+            std::this_thread::sleep_for(waitTime);
     }
 
     for (const auto& entity : sceneManager.getCurrentScene()->entitiesList) {
@@ -482,10 +530,7 @@ void ECS::Core::_initSystems()
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::MAIN_MENU, _initMainMenuScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::GAME, _initGameScene()));
     scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::ENDGAME, _initEndScene()));
-    if (scenes.at(SceneType::MAIN_MENU) == nullptr || scenes.at(SceneType::GAME) == nullptr) {
-        std::cerr << "Error: scene is null" << std::endl;
-        return;
-    }
+    scenes.insert(std::pair<SceneType, std::shared_ptr<Scene>>(SceneType::WIN, _initWinScene()));
     sceneManager = SceneManager(scenes);
     _systems.push_back(std::make_unique<GraphicSystem>(_windowManager->getWindow()));
     _systems.push_back(std::make_unique<EventSystem>(_windowManager->getWindow()));

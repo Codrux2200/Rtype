@@ -47,7 +47,8 @@ Network::PacketType type, void *data)
     Network::PacketType::MOVE_RIGHT,
     Network::PacketType::SHOOT,
     Network::PacketType::QUIT,
-    Network::PacketType::I_AM_HERE
+    Network::PacketType::I_AM_HERE,
+    Network::PacketType::WIN
     };
 
     if (data == nullptr && typesAllowedNullData.find(type) == typesAllowedNullData.end())
