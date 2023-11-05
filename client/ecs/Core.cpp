@@ -324,6 +324,10 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
     std::shared_ptr<ECS::Scene> scene = std::make_shared<ECS::Scene>(ECS::SceneType::WIN);
     std::shared_ptr<ECS::Entity> buttonQuit = _entityFactory.createEntity("buttonQuit", _entityFactory.ids++);
     std::shared_ptr<ECS::Entity> background = _entityFactory.createEntity("WinBackground", _entityFactory.ids++);
+    std::shared_ptr<ECS::Entity> Score = _entityFactory.createEntity("score", -2);
+    Score->getComponent<ECS::TextComponent>()->setText("Score : " + std::to_string(_score));
+    Score->getComponent<ECS::TextComponent>()->setPosition(800/2 - 50, 600 / 2);
+    Score->getComponent<ECS::TextComponent>()->setColor(sf::Color::Black);
 
     std::shared_ptr<ECS::SpriteComponent> sprite = buttonQuit->getComponent<ECS::SpriteComponent>();
     if (sprite == nullptr) {
@@ -354,6 +358,7 @@ std::shared_ptr<ECS::Scene> ECS::Core::_initWinScene()
         return true;
     }, _window));
     buttonQuit->addComponent(std::make_shared<ECS::MusicsComponent>("assets/sound/Win.ogg"));
+    scene->addEntity(Score);
     scene->addEntity(buttonQuit);
     return scene;
 }
