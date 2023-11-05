@@ -18,7 +18,7 @@ class EnemyEntity : public ECS::Entity {
          * @brief Construct a new EnemyEntity object with the given id
          * @param id
          */
-        explicit EnemyEntity(EnemyShootFunction shootFunction, int id);
+        explicit EnemyEntity(EnemyShootFunction shootFunction, int id, ECS::Entity::EntityType type);
 
         /**
          * @brief Destroy the EnemyEntity object
@@ -28,4 +28,3 @@ class EnemyEntity : public ECS::Entity {
     private:
         void _callbackEnemyHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };
-

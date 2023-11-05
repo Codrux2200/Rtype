@@ -18,7 +18,7 @@ ECS::EnemyBullet::EnemyBullet(int id) : ECS::Entity(id)
     addComponent(std::make_shared<ECS::PositionComponent>(0, 0));
     addComponent(std::make_shared<ECS::EnemyBulletComponent>());
     addComponent(std::make_shared<ECS::HitboxComponent>(std::bind(&ECS::EnemyBullet::_callbackEnemyBulletHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-        std::vector<std::pair<int, int>>{{0, 0}, {80, 60}}));
+        std::vector<std::pair<int, int>>{{28, 33}, {44, 50}}));
     addComponent(std::make_shared<ECS::VelocityComponent>(-300, 0));
     updateGameComponents();
 }

@@ -168,7 +168,7 @@ namespace RType {
              */
             static constexpr int CLIENT_TIMEOUT_SECONDS = 30;
             /**
-             * @brief Global server cleanup interval variable, defining the interval between each cleanup, used by the cleanup timer
+             * @brief Global server cleanup interval variable, defining the interval between each cleanup, used by the cleanup _timer
              */
             static constexpr int CLIENT_CLEANUP_INTERVAL_SECONDS = 15;
     };

@@ -40,6 +40,7 @@ namespace ECS {
             enum EntityType {
                 PLAYER,
                 ENEMY_CLASSIC,
+                ENEMY_VELOCE,
                 PLAYER_BULLET,
                 BOSS,
                 BOSS_BULLET,

@@ -22,13 +22,15 @@ namespace ECS {
 
             void update(SceneManager &sceneManager, float deltaTime, std::vector<Network::Packet> &packetQueue) override;
             std::vector<std::shared_ptr<ECS::Entity>> getWave(int i);
-            void createEnemy(int WaveCount, int EnemyCount, int x, int y);
+            void createEnemy(int WaveCount, int EnemyCount, int x, int y, ECS::Entity::EntityType type = ECS::Entity::ENEMY_CLASSIC);
 
         protected:
         private:
             EntityFactory &_factory;
-            std::vector<int> _waves;
-            float timer = 0;
+            std::vector<std::tuple<int, ECS::Entity::EntityType>> _waves;
+            float _timer = 0;
+            int _masterTimer = 0;
+            bool _isBossSpawned = false;
     };
 }
 

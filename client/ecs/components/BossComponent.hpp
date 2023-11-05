@@ -146,7 +146,7 @@ namespace ECS {
             bool _deathInitialized = false;
             Network::data::BossState _state = Network::data::COMING;
             /**
-             * @brief the boss timer
+             * @brief the boss _timer
              * 
             */
             float _timer = 0;

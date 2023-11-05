@@ -9,31 +9,36 @@
 #include "EnemyEntity.hpp"
 #include <iostream>
 
-
 ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
 {
     int WaveCount = 0;
     int EnemyCount = 0;
 
+    // Wave 0
     std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
     for ( ; EnemyCount < 8; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200);
         }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
+
+    // Wave 1
     enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
     if (enemy == nullptr)
         return;
     for (; EnemyCount < 8; EnemyCount++) {
         createEnemy(WaveCount, EnemyCount, 800, 300 + (EnemyCount * 50 + std::rand() % 10));
     }
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 2
     createEnemy(WaveCount, EnemyCount, 800, 300);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 900, 400);
@@ -50,10 +55,12 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 1000, 300);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 3
     createEnemy(WaveCount, EnemyCount, 800, 10);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 50);
@@ -62,10 +69,11 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 900, 250);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 4
     createEnemy(WaveCount, EnemyCount, 800, 580);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 550);
@@ -74,20 +82,22 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 900, 350);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 
-    createEnemy(WaveCount, EnemyCount, 800, 200);
+    // Wave 5
+    createEnemy(WaveCount, EnemyCount, 800, 200, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    createEnemy(WaveCount, EnemyCount, 850, 300);
+    createEnemy(WaveCount, EnemyCount, 850, 300, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    createEnemy(WaveCount, EnemyCount, 800, 400);
+    createEnemy(WaveCount, EnemyCount, 800, 400, ECS::Entity::ENEMY_VELOCE);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_VELOCE));
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 6
     createEnemy(WaveCount, EnemyCount, 800, 300);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 850, 350);
@@ -109,10 +119,11 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     createEnemy(WaveCount, EnemyCount, 1100, 500);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 1100, 50);
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
     EnemyCount = 0;
     WaveCount++;
 
+    // Wave 7
     createEnemy(WaveCount, EnemyCount, 800, 20);
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 800, 50);
@@ -121,14 +132,26 @@ ECS::WaveSystem::WaveSystem(EntityFactory &Factory) : _factory(Factory)
     EnemyCount ++;
     createEnemy(WaveCount, EnemyCount, 900, 50);
     EnemyCount ++;
-    _waves.push_back(EnemyCount);
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_CLASSIC));
+    EnemyCount = 0;
+    WaveCount++;
+
+    // Wave 8
+    createEnemy(WaveCount, EnemyCount, 800, 200, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 300, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    createEnemy(WaveCount, EnemyCount, 800 + (EnemyCount * 50), 200, ECS::Entity::ENEMY_VELOCE);
+    EnemyCount ++;
+    _waves.push_back(std::tuple<int, ECS::Entity::EntityType>(EnemyCount, ECS::Entity::ENEMY_VELOCE));
     EnemyCount = 0;
     WaveCount++;
 
 }
 
-void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y) {
-    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(ECS::Entity::ENEMY_CLASSIC), 0);
+void ECS::WaveSystem::createEnemy(int waveCount, int enemyCount, int x, int y, ECS::Entity::EntityType type)
+{
+    std::shared_ptr<ECS::Entity> enemy = _factory.createEntity("entity" + std::to_string(type), 0);
 
     if (enemy == nullptr)
         return;
@@ -147,12 +170,37 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
         return;
     // Pick a random wave
 
-    timer += deltaTime;
-    if (timer < 3)
+    _timer += deltaTime;
+    if (_timer < 3)
         return;
-    timer = 0;
+    _timer = 0;
+    _masterTimer++;
+
+    if (!_isBossSpawned && _masterTimer >= 20) {
+        // Create a boss
+        std::shared_ptr<ECS::Entity> boss = _factory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _factory.ids++);
+        if (boss == nullptr)
+            return;
+        std::shared_ptr<ECS::PositionComponent> positionComponent =
+            boss->getComponent<ECS::PositionComponent>();
+        if (positionComponent == nullptr)
+            return;
+        positionComponent->x = 1100;
+        positionComponent->y = 300;
+
+        Network::data::EntitySpawnData data{};
+        data.id = boss->getId();
+        data.type = ECS::Entity::BOSS;
+        data.x = positionComponent->x;
+        data.y = positionComponent->y;
+        std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
+        packetQueue.push_back(*packet);
+        sceneManager.getCurrentScene()->addEntity(boss);
+        _isBossSpawned = true;
+    }
     int waveIndex = std::rand() % _waves.size();
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
+    ECS::Entity::EntityType type = std::get<1>(_waves[waveIndex]);
 
     auto scene = sceneManager.getCurrentScene();
 
@@ -160,7 +208,7 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
     for (auto entity : waveEntities) {
         Network::data::EntitySpawnData data{};
         data.id = entity->getId();
-        data.type = ECS::Entity::ENEMY_CLASSIC;
+        data.type = type;
         data.x = entity->getComponent<ECS::PositionComponent>()->x;
         data.y = entity->getComponent<ECS::PositionComponent>()->y;
         std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
@@ -174,11 +222,11 @@ std::vector<std::shared_ptr<ECS::Entity>> ECS::WaveSystem::getWave(int i)
     std::vector<std::shared_ptr<ECS::Entity>> result;
 
     if (i >= _waves.size()) {
-        std::cerr << "Error: wave index is null" << std::endl;
+        std::cerr << "Error: wave index is invalid" << std::endl;
         return result;
     }
 
-    for (int j = 0; j < _waves[i]; j++) {
+    for (int j = 0; j < std::get<0>(_waves[i]); j++) {
         result.push_back(_factory.createEntity("EnemyWave" + std::to_string(i) + std::to_string(j), _factory.ids++));
     }
     return result;

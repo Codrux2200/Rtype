@@ -22,7 +22,7 @@ BossEntity::BossEntity(const bossLaserGenerator& laserGenerator, int id) : ECS::
 
     std::shared_ptr<sf::Texture> bossTexture = std::make_shared<sf::Texture>();
     if (!bossTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss2.png"))) {
-        std::cerr << "Error loading enemy texture" << std::endl;
+        std::cerr << "Error loading BOSS texture" << std::endl;
         return;
     }
 

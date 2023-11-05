@@ -20,8 +20,10 @@ namespace ECS {
              * @brief Construct a new Enemy Entity object
              *
              * @param id the id of the enemy
+             * @param type the entity type corresponding
+             * to the enemy type
              */
-            EnemyEntity(int id);
+            EnemyEntity(int id, ECS::Entity::EntityType type);
             ~EnemyEntity() = default;
     };
 }

@@ -101,7 +101,7 @@ std::unique_ptr<Network::Packet> &packet)
     for (int i = 0; i < NAME_LENGTH && (packet->joinData.name[i] || i == 0);
          i++) {
         if (packet->joinData.name[i] < 32 || packet->joinData.name[i] > 126) {
-            std::cout << "Invalid name" << std::endl;
+            std::cerr << "Invalid name" << std::endl;
             return nullptr;
         }
     }
@@ -194,7 +194,7 @@ boost::system::error_code error, std::size_t bytesTransferred)
 
 void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
 {
-    // This timer will periodically check for inactive clients and
+    // This _timer will periodically check for inactive clients and
     // remove them
     _clientCleanupTimer =
     std::make_shared<boost::asio::steady_timer>(ioService);
