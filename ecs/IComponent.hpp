@@ -8,8 +8,9 @@
 #ifndef ICOMPONENT_HPP_
 #define ICOMPONENT_HPP_
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include "DeadData.hpp"
 
 namespace ECS {
     /**
@@ -18,6 +19,7 @@ namespace ECS {
      */
     enum ComponentType
     {
+        NOTHING = -1,
         /**
          * @brief Sprite component
          *
@@ -33,7 +35,11 @@ namespace ECS {
          *
         */
         AUDIBLE = 2,
+
+
     };
+
+    class Entity;
 
     class IComponent {
         public:
@@ -42,7 +48,7 @@ namespace ECS {
              *
              * @return the value asked
              */
-            virtual std::vector<int> getValue() const = 0;
+            [[nodiscard]] virtual std::vector<int> getValue() const = 0;
             /**
              * @brief Set the Value object
              *
@@ -52,14 +58,21 @@ namespace ECS {
              */
             virtual void setValue(std::vector<int> values) = 0;
 
-            // Clone
-            virtual std::shared_ptr<IComponent> clone() const = 0;
+            /**
+             * @brief Clone the component
+             *
+             * @return a shared pointer to the cloned component
+             */
+            [[nodiscard]] virtual std::shared_ptr<IComponent> clone() const = 0;
 
-            virtual void setEnabled(bool enabled) = 0;
+            /**
+             * @brief Get the component type
+             *
+             * @return ComponentType
+             */
+            [[nodiscard]] virtual ComponentType getType() const = 0;
 
-            virtual bool isEnabled() const = 0;
-
-            virtual ComponentType getType() const = 0;
+            virtual bool onDestroy(Entity &entity, Network::data::DeathReason reason, float dt) = 0;
     };
 }
 

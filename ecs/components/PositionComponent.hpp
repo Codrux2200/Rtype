@@ -16,12 +16,12 @@ namespace ECS {
      */
     class PositionComponent : public ECS::AComponent {
         public:
+            PositionComponent();
             /**
              * @brief Construct a new position Component object
              *
              * @param x
              * @param y
-             * @param uid
              */
             PositionComponent(float x, float y);
             /**
@@ -52,18 +52,18 @@ namespace ECS {
             void move(float x, float y);
 
             std::shared_ptr<IComponent> clone() const override;
+            float x;
+            float y;
         protected:
         private:
             /**
              * @brief define the x position of the entity
              *
              */
-            float _x;
             /**
              * @brief define the y position of the entity
              *
              */
-            float _y;
     };
 }
 

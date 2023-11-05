@@ -66,6 +66,20 @@ namespace Network {
             START,
 
             /**
+             * @brief WIN packet
+             *
+             * It will receive WIN from a client to switch to the win scene
+             *
+             * The data contained in the @ref Network::data::WINData "data"
+             * must be the map to be used.
+             *
+             * after the win the server will
+             * send back a packet to all the players to tell them that the game
+             * is win
+             */
+            WIN,
+
+            /**
              * @brief Sent by server to all the clients when a player is dead.
              *
              */
@@ -79,11 +93,7 @@ namespace Network {
             SHOOT,
             HIT,
             SCORE,
-            ENEMY_SPAWN,
-            ENEMY_DEAD,
-            ENEMY_MOVE,
-            ENEMY_SHOOT,
-            ENEMY_LIFE,
+            ENTITY_SPAWN,
             MAP,
             END,
             LEADER,
@@ -91,7 +101,11 @@ namespace Network {
             MOVE_RIGHT,
             MOVE_UP,
             MOVE_DOWN,
-            QUIT
+            QUIT,
+            PLAYERS_POS,
+            BOSS_STATE,
+            BOSS_LIFE,
+            I_AM_HERE
         };
     }
 } // namespace Network

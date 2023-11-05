@@ -23,6 +23,10 @@ Epitech 2025 end year project
 
 The project is a rtype game with the possibility to connect multiple players and let them interact with each other in one same game.
 
+<details>
+<summary>Gameplay spoiler</summary>
+![Gameplay](/doc_images/ExtractGameplay.png)
+</details>
 
 # Server
 
@@ -31,11 +35,10 @@ Using [Boost/Asio](https://www.boost.org/doc/libs/1_83_0/doc/html/boost_asio.htm
 
 ```for exemple a a client thread will send movement information to the server socket who will be sending back the actualized position of this client to the other ones```
 
-
-
 ## Client
 
 The client part is where the gameloop mostly run, it's goal is too init and load all the graphic before the server take and update them.
+
 ## Prerequisites
 
 Requirements for the software and other tools to build, test and push
@@ -43,14 +46,14 @@ Requirements for the software and other tools to build, test and push
 - Visual Studio (Windows)
 - GCC (Linux)
 
-## Installing
+## Installing the dependancies
 
 On Linux:
 - simply run install.sh with this :```sudo ./install.sh```
 
 On Windows:
 
-- run this the Install_windows.bat : ```$>Install_windows.bat```
+- run this the install.bat : ```$>install.bat```
 
 ## Usage
 
@@ -58,15 +61,15 @@ On Linux:
 - run : ```./build.sh```
 
 On Windows :
-- run : ``` $> Build_Windows.bat```
+- run : ``` $> build.bat```
 
-after building you will have to run two terminal
+after building you will have to run at least two terminal,
 
 in the first one:
-- run : ```./server/bin/rtype_server(.exe) [port]``` without ```./``` on cmd.
+- run : ```./rtype_server(.exe) [port]``` without ```./``` on cmd terminal.
 
 in the second one:
-- run : ``` ./client/bin/rtype_client(.exe) [ip] [port] [pseudonyme]``` without ```./``` on cmd.
+- run : ``` ./rtype_client(.exe) [ip] [port] [pseudonyme]``` without ```./``` on cmd terminal.
 
 ## Tech Stack
 
@@ -78,7 +81,7 @@ in the second one:
 ## Authors
 
 - [Leo Maman](https://github.com/mangasteak)
-- [Raphael Mercier](https://github.com/raphaelMrci)
+- [Raphael Mercié](https://github.com/raphaelMrci)
 - [Saad Berrada](https://github.com/Codrux2200)
-- [Christophe Chors](https://github.com/christophechr)
+- [Christophe Chhor](https://github.com/christophechr)
 - [Stephane Corbière](https://github.com/STCB)

@@ -19,11 +19,12 @@ namespace ECS {
      *
      */
     enum SceneType{
-        NONE,
+        NONE = -1,
         MAIN_MENU,
         GAME,
         HELP,
         ENDGAME,
+        WIN,
         DEATH,
         PAUSE
     };
@@ -38,7 +39,7 @@ namespace ECS {
              *
              * @param sceneType
              */
-            Scene(SceneType sceneType);
+            explicit Scene(SceneType sceneType);
             /**
              * @brief Destroy the Scene object
              *
@@ -50,15 +51,58 @@ namespace ECS {
              */
             std::vector<std::shared_ptr<Entity>> entitiesList;
 
+            /**
+             * @brief add an entity to the scene
+             *
+             * @param entity
+             * @return int
+             */
             int addEntity(std::shared_ptr<Entity> entity);
 
+            /**
+             * @brief remove an entity from the scene
+             *
+             * @param entityID
+             */
             void removeEntity(int entityID);
 
-            SceneType getSceneType() const;
+            /**
+             * @brief Get the Scene Type object
+             *
+             * @return SceneType
+             */
+            [[nodiscard]] SceneType getSceneType() const;
+
+            /**
+             * @brief Get the Entity By ID object
+             *
+             * @param entityID
+             * @return std::shared_ptr<Entity>
+             */
+            std::shared_ptr<Entity> getEntityByID(int entityID);
+
+            template <class T>
+            std::vector<std::shared_ptr<Entity>> getEntitiesWithComponent()
+            {
+                std::vector<std::shared_ptr<Entity>> entities;
+
+                for (auto &entity : entitiesList) {
+                    if (entity == nullptr)
+                        continue;
+                    if (entity->getComponent<T>())
+                        entities.push_back(entity);
+                }
+                return entities;
+            }
+
+            int removeEntitiesToDestroy(float dt);
 
         private:
+            /** @brief The ID of the entity. */
             int _entityID;
+            /** @brief The type of the scene. */
             SceneType _sceneType;
+            int _score;
 
     };
 }

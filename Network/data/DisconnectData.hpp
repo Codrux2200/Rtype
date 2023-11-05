@@ -20,8 +20,11 @@ namespace Network::data {
          * @see Network::Packet::connectData
          * @see Network::Packet::disconnectData
          */
-        struct ConnectData {
+        struct DisconnectData {
             public:
+                /**
+                 * @brief The id of the player that disconnected.
+                 */
                 char id;
         };
     }

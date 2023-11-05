@@ -3,8 +3,13 @@
 rtype-server
 rtype-client
 .vscode
+coverage
+
+Testing
 
 doxygen_warnings.log
+
+doc/html
 
 # Prerequisites
 *.d

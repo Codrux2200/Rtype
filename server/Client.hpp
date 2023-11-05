@@ -11,8 +11,6 @@
 #include <chrono>
 #include <iostream>
 
-#include "Client.hpp"
-
 using boost::asio::ip::udp;
 
 namespace RType {
@@ -25,28 +23,72 @@ namespace RType {
      */
     class Client {
         public:
+            /**
+             * @brief Construct a new Client object
+             *
+             * @param endpoint The network endpoint of the client
+             * @param name The name of the client
+             */
             Client(const udp::endpoint &endpoint, const std::string &name)
                 : _last_activity(std::chrono::steady_clock::now()),
                   _endpoint(endpoint), _name(name) {};
+
+            /**
+             * @brief Destroy the Client object
+             */
             ~Client()
             {
                 std::cout << "Client " << _endpoint << " destroyed"
                           << std::endl;
             };
 
+            /**
+             * @brief Get the endpoint of the client
+             *
+             * @return const udp::endpoint& The endpoint of the client
+             */
             const udp::endpoint &getEndpoint() const;
 
+            /**
+             * @brief Get the time of the last activity of the client
+             *
+             * @return const std::chrono::steady_clock::time_point& The time of
+             * the last activity of the client
+             */
             const std::chrono::steady_clock::time_point &
             getLastActivity() const;
 
+            /**
+             * @brief Set the time of the last activity of the client
+             *
+             * @param time The time of the last activity of the client
+             */
             void setLastActivity(std::chrono::steady_clock::time_point time);
 
+            /**
+             * @brief Get the name of the client
+             *
+             * @return const std::string& The name of the client
+             */
             const std::string &getName() const;
 
+            /**
+             * @brief Set the name of the client
+             *
+             * @param name The name of the client
+             */
             void setLeader(bool lead);
 
+            /**
+             * @brief Get the leader of the client
+             *
+             * @return const bool& The leader of the client
+             */
             bool isLeader(void) const;
 
+            /**
+             * @brief Equality operator
+             */
             bool operator==(const Client &rhs) const;
 
         private:

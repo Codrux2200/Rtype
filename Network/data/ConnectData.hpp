@@ -27,6 +27,12 @@ namespace Network::data {
          */
         struct ConnectData {
             public:
+                /** @brief The id of the player.
+                 * The first player to connect will be the leader.
+                 * It will be the only one to be able to start the game.
+                 * If it disconnects, the next player to connect will be the
+                 * leader
+                 */
                 char id;
                 /** @brief Players connected.
                  * The first player to connect will be the leader.

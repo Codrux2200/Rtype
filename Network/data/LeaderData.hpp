@@ -12,7 +12,11 @@ namespace Network::data {
     {
         struct LeaderData {
             public:
-                char leaderId;
+                /**
+                 * @brief The id of the leader player.
+                 * Only the leader player can start the game.
+                 */
+                int leaderId;
         };
     }
 } // namespace Network::data

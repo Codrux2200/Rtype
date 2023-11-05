@@ -7,7 +7,9 @@
 
 #include "SceneManager.hpp"
 
-ECS::SceneManager::SceneManager(std::map<SceneType, std::shared_ptr<Scene>> scenes) : _scenes(scenes)
+#include <utility>
+
+ECS::SceneManager::SceneManager(std::map<SceneType, std::shared_ptr<Scene>> scenes) : _scenes(std::move(scenes))
 {
     _currentScene = SceneType::MAIN_MENU;
     shouldClose = false;
@@ -40,4 +42,9 @@ void ECS::SceneManager::setScene(SceneType sceneType, Scene scene)
 ECS::SceneType ECS::SceneManager::getSceneType()
 {
     return _currentScene;
+}
+
+std::map<ECS::SceneType, std::shared_ptr<ECS::Scene>> &ECS::SceneManager::getScenes()
+{
+    return _scenes;
 }

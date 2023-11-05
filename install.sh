@@ -32,8 +32,8 @@ install_yum() {
 }
 
 install_pacman() {
-    sudo pacman -S g++
-    sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev
+    sudo pacman -S g++ --noconfirm
+    sudo pacman -S mesa lib32-mesa wine-staging winetricks gdiplus freetype2 openal flac libvorbis libvorbisfile libvorbisenc libogg wine-mono wine-gecko libudev --noconfirm
 
 }
 
@@ -47,14 +47,15 @@ if [[ -e /etc/os-release ]]; then
     elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
         install_pacman
     else
-        echo "Distribution non prise en charge."
-        exit 1
+        echo "$ID Distribution non prise en charge."
+        exit 84
     fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macOS ne nécessite aucune installation spécifique."
 else
     echo "Impossible de détecter la distribution."
-    exit 1
+    exit 84
 fi
-
 
 
 
@@ -73,7 +74,7 @@ elif [ "$package_manager" == "brew" ]; then
   echo "CMake est maintenant installé."
 elif [ "$package_manager" == "pacman" ]; then
   echo "Pacman détecté, installation de CMake..."
-  sudo pacman -Sy cmake
+  sudo pacman -Sy cmake --noconfirm
   echo "CMake est maintenant installé."
 elif [ "$package_manager" == "apk" ]; then
   echo "APK détecté, installation de CMake..."
@@ -81,9 +82,10 @@ elif [ "$package_manager" == "apk" ]; then
   echo "CMake est maintenant installé."
 else
   echo "Aucun gestionnaire de paquets pris en charge n'a été détecté. Veuillez installer CMake manuellement."
-  exit 1
+  exit 84
 fi
 
 
 cmake . .
+
 cmake --build . -- -j 6

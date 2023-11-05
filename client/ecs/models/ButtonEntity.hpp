@@ -7,13 +7,24 @@
 
 #pragma once
 
-namespace ECS {
-    class ButtonEntity {
-        public:
-            ButtonEntity();
-            ~ButtonEntity();
+#include "Entity.hpp"
+#include <string>
 
-        protected:
-        private:
+namespace ECS {
+    /**
+     * @brief Button Entity
+     */
+    class ButtonEntity : public Entity {
+        public:
+            /**
+             * @brief Construct a new Button Entity object
+             *
+             * @param path the path of the button
+             * @param x the x position
+             * @param y the y position
+             */
+            ButtonEntity(std::string path, int x, int y);
+            ~ButtonEntity() = default;
+
     };
 }

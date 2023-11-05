@@ -5,8 +5,7 @@
 ** SceneManager
 */
 
-#ifndef SCENEMANAGER_HPP_
-#define SCENEMANAGER_HPP_
+#pragma once
 #include <map>
 #include "Scene.hpp"
 
@@ -62,7 +61,14 @@ namespace ECS {
              */
             SceneType getSceneType();
 
+            /**
+             * @brief Get the Current Scene object
+             *
+             * @return shared_ptr<Scene>
+             */
             std::shared_ptr<Scene> &getCurrentScene();
+
+            std::map<SceneType, std::shared_ptr<Scene>> &getScenes();
         protected:
         private:
             /**
@@ -74,9 +80,6 @@ namespace ECS {
              * @brief stock the current Scene from a SceneType key
              *
              */
-            SceneType _currentScene;
-
+            SceneType _currentScene = SceneType::MAIN_MENU;
     };
 }
-
-#endif /* !SCENEMANAGER_HPP_ */

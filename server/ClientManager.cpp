@@ -6,6 +6,9 @@
 */
 
 #include "ClientManager.hpp"
+#include "DisconnectData.hpp"
+#include "PacketManager.hpp"
+#include "Server.hpp"
 
 RType::ClientManager::ClientManager()
 {
@@ -69,9 +72,10 @@ void RType::ClientManager::unregisterClient(const udp::endpoint &endpoint)
             return;
         }
     }
+    std::cerr << "Client not found" << std::endl;
 }
 
-bool RType::ClientManager::cleanupInactiveClients(void)
+bool RType::ClientManager::cleanupInactiveClients(RType::Server &server)
 {
     bool isLeaderLoggedOut = false;
 
@@ -82,9 +86,15 @@ bool RType::ClientManager::cleanupInactiveClients(void)
         auto lastActivity = _clients[i]->getLastActivity();
         auto diff =
         std::chrono::duration_cast<std::chrono::seconds>(now - lastActivity);
-        if (diff.count() > 5) {
+        if (diff.count() > 30) {
             std::cout << "Client " << _clients[i]->getName() << " disconnected"
                       << std::endl;
+            Network::data::DisconnectData disconnectData{};
+            disconnectData.id = i;
+            std::unique_ptr<Network::Packet> disconnectPacket =
+            Network::PacketManager::createPacket(Network::PacketType::DISCONNECT,
+            &disconnectData);
+            server.broadcast(*disconnectPacket);
             if (_clients[i]->isLeader())
                 isLeaderLoggedOut = true;
             _clients[i] = nullptr;

@@ -5,9 +5,9 @@
 ** healthComponent
 */
 
-#ifndef HEALTHCOMPONENT_HPP_
-#define HEALTHCOMPONENT_HPP_
-#include "../AComponent.hpp"
+#pragma once
+
+#include "AComponent.hpp"
 
 namespace ECS {
     /**
@@ -16,33 +16,18 @@ namespace ECS {
      */
     class HealthComponent : public ECS::AComponent {
         public:
-            /**
+        /**
              * @brief Construct a new health Component object
              *
              * @param health
              */
-            HealthComponent(int health);
+            explicit HealthComponent(int health);
+
+            std::shared_ptr<IComponent> clone() const override;
+
             /**
-             * @brief Destroy the health Component object
-             *
+             * @brief health of the entity
              */
-            ~HealthComponent();
-            /**
-             * @brief Set the health of the entity
-             *
-             * @param health
-             */
-            void setValue(std::vector<int> values) final;
-            /**
-             * @brief Get the health of the entity
-             *
-             * @return std::vector<int>
-             */
-            std::vector<int> getValue() const final;
-        protected:
-        private:
-            int _health;
+            int health;
     };
 }
-
-#endif /* !HEALTHCOMPONENT_HPP_ */
