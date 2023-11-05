@@ -194,7 +194,7 @@ boost::system::error_code error, std::size_t bytesTransferred)
 
 void RType::Server::_startClientCleanupTimer(boost::asio::io_service &ioService)
 {
-    // This timer will periodically check for inactive clients and
+    // This _timer will periodically check for inactive clients and
     // remove them
     _clientCleanupTimer =
     std::make_shared<boost::asio::steady_timer>(ioService);

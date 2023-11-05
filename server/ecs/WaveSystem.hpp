@@ -28,7 +28,9 @@ namespace ECS {
         private:
             EntityFactory &_factory;
             std::vector<std::tuple<int, ECS::Entity::EntityType>> _waves;
-            float timer = 0;
+            float _timer = 0;
+            int _masterTimer = 0;
+            bool _isBossSpawned = false;
     };
 }
 

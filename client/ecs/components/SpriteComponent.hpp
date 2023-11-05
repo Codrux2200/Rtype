@@ -108,7 +108,7 @@ namespace ECS {
              */
             sf::Sprite _sprite;
             /**
-             * @brief the timer
+             * @brief the _timer
             */
             float _timer = 0;
     };

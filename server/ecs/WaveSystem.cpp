@@ -170,10 +170,34 @@ void ECS::WaveSystem::update(SceneManager &sceneManager, float deltaTime, std::v
         return;
     // Pick a random wave
 
-    timer += deltaTime;
-    if (timer < 3)
+    _timer += deltaTime;
+    if (_timer < 3)
         return;
-    timer = 0;
+    _timer = 0;
+    _masterTimer++;
+
+    if (!_isBossSpawned && _masterTimer >= 20) {
+        // Create a boss
+        std::shared_ptr<ECS::Entity> boss = _factory.createEntity("entity" + std::to_string(ECS::Entity::BOSS), _factory.ids++);
+        if (boss == nullptr)
+            return;
+        std::shared_ptr<ECS::PositionComponent> positionComponent =
+            boss->getComponent<ECS::PositionComponent>();
+        if (positionComponent == nullptr)
+            return;
+        positionComponent->x = 1100;
+        positionComponent->y = 300;
+
+        Network::data::EntitySpawnData data{};
+        data.id = boss->getId();
+        data.type = ECS::Entity::BOSS;
+        data.x = positionComponent->x;
+        data.y = positionComponent->y;
+        std::unique_ptr<Network::Packet> packet = Network::PacketManager::createPacket(Network::PacketType::ENTITY_SPAWN, &data);
+        packetQueue.push_back(*packet);
+        sceneManager.getCurrentScene()->addEntity(boss);
+        _isBossSpawned = true;
+    }
     int waveIndex = std::rand() % _waves.size();
     std::vector<std::shared_ptr<ECS::Entity>> waveEntities = getWave(waveIndex);
     ECS::Entity::EntityType type = std::get<1>(_waves[waveIndex]);
