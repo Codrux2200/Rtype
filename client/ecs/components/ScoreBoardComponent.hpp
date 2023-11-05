@@ -12,10 +12,22 @@
 #include "AComponent.hpp"
 
 namespace ECS{
+    /**
+     * @brief ScoreBoard Component
+     */
     class ScoreBoardComponent : public AComponent{
         public:
+            /**
+             * @brief Construct a new ScoreBoard Component object
+             *
+             */ 
             ScoreBoardComponent();
             ~ScoreBoardComponent() = default;
+            
+            /**
+             * @brief Clone the component
+             *
+             */ 
             std::shared_ptr<IComponent> clone() const override;
         protected:
         private:

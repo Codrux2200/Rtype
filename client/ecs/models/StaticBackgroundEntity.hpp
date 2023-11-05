@@ -19,6 +19,11 @@ namespace ECS{
      */
     class StaticBackgroundEntity : public Entity{
         public:
+            /**
+             * @brief Construct a new Static Background Entity object
+             * 
+             * @param path the path of the background
+             */
             StaticBackgroundEntity(std::string path);
             ~StaticBackgroundEntity();
 

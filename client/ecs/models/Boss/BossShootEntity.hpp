@@ -14,6 +14,11 @@
  */
 class BossShootEntity : public ECS::Entity {
     public:
+        /**
+         * @brief Construct a new Boss Shoot Entity object
+         *
+         * @param id the id
+         */
         explicit BossShootEntity(int id);
         ~BossShootEntity() = default;
 };

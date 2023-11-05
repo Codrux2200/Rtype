@@ -13,10 +13,18 @@
 namespace ECS {
     class EnemyBullet : public Entity {
         public:
+            /**
+             * @brief Construct a new EnemyBullet object
+             *
+             * @param id the id of the entity
+             */
             EnemyBullet(int id);
             ~EnemyBullet() = default;
 
         protected:
+            /**
+             * @brief the enemy bullet hit callback
+             */
             void _callbackEnemyBulletHit(std::shared_ptr<ECS::Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
     };
 }

@@ -26,5 +26,6 @@ class EnemyEntity : public ECS::Entity {
         ~EnemyEntity() = default;
 
     private:
+        
         void _callbackEnemyHit(std::shared_ptr<Entity> self, std::shared_ptr<ECS::Entity> other, std::vector<Network::Packet> &packets);
 };
