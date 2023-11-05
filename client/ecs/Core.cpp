@@ -41,7 +41,11 @@ ECS::Core::Core(std::string player) : _playerName(std::move(player)), _isInit(fa
 
 void ECS::Core::_initHandlers(Network::PacketManager &packetManager)
 {
-    packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
+    static bool isInit = false;
+
+    if (isInit)
+        return;
+    isInit = true;
     packetManager.REGISTER_HANDLER(Network::PacketType::START, &ECS::Core::_handlerStartGame);
     packetManager.REGISTER_HANDLER(Network::PacketType::PLAYERS_POS, &ECS::Core::_handlerPlayersPos);
     packetManager.REGISTER_HANDLER(Network::PacketType::DEAD, &ECS::Core::_handlerDead);
@@ -73,8 +77,8 @@ void ECS::Core::_handlerStartGame(Network::Packet &packet, const udp::endpoint &
 void ECS::Core::_handlerConnect(Network::Packet &packet, const udp::endpoint &endpoint)
 {
     if (!_isInit) {
-        _isInit = true;
         _initSystems();
+        _isInit = true;
     }
     std::shared_ptr<ECS::Scene> scene = sceneManager.getScene(SceneType::GAME);
 
@@ -377,7 +381,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
 
     SceneType sceneType;
 
-    _initHandlers(connection.packetManager);
+    connection.packetManager.REGISTER_HANDLER(Network::PacketType::CONNECT, &ECS::Core::_handlerConnect);
 
     while(!sceneManager.shouldClose) {
         frameDuration = std::chrono::high_resolution_clock::now() - lastFrameTime;
@@ -387,6 +391,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
         connection.handlePackets();
         if (!_isInit)
             continue;
+        _initHandlers(connection.packetManager);
         sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
         for (auto &system : _systems) {
             if (system == nullptr)
