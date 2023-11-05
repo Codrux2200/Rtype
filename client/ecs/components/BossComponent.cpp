@@ -42,8 +42,6 @@ namespace ECS {
         if (!_deathTexture->loadFromFile(ConvertPath::convertPath("assets/boss/boss_death.png"))) {
             std::cerr << "Error loading boss texture" << std::endl;
             return;
-        } else {
-            std::cout << "##### BOSS DEATH TEXTURE INITIALIZED SUCCESSFULLY #####" << std::endl;
         }
     }
 
@@ -111,6 +109,7 @@ namespace ECS {
         auto sprite = entity.getComponent<SpriteComponent>();
 
         if (!_deathInitialized) {
+            _step = 0;
             isEnabled = false;
 
             auto position = entity.getComponent<PositionComponent>();
@@ -154,11 +153,16 @@ namespace ECS {
 
             position->y += dt * 50;
         }
-        if (canBeDestroyed) {
+
+        if (canBeDestroyed && _step == 1)
+            return true;
+
+        if (canBeDestroyed && _step == 0) {
             _sceneChange = SceneType::WIN;
+            _step = 1;
         }
 
-        return canBeDestroyed;
+        return false;
     }
 
     void BossComponent::setState(Network::data::BossState state, int isUp)

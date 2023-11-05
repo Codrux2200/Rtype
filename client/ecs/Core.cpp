@@ -387,6 +387,7 @@ void ECS::Core::mainLoop(RType::Connection &connection)
     while(!sceneManager.shouldClose) {
         deltaTime = clock.restart().asSeconds();
         sceneType = sceneManager.getSceneType();
+        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
         connection.handlePackets();
         for (auto &system : _systems) {
             if (system == nullptr)
@@ -396,7 +397,6 @@ void ECS::Core::mainLoop(RType::Connection &connection)
                 std::cout << "Should close: " << sceneManager.shouldClose << std::endl;
         }
         connection.sendPackets();
-        sceneManager.getCurrentScene()->removeEntitiesToDestroy(deltaTime);
 
         if (sceneType != sceneManager.getSceneType()) {
             for (const auto& entity : sceneManager.getScene(sceneType)->entitiesList) {
