@@ -45,7 +45,7 @@ namespace ECS {
              * @brief a boolean to know if the window should close
              *
              */
-            bool shouldClose;
+            bool shouldClose = false;
 
             /**
              * @brief Set the Current Scene object
